@@ -1,0 +1,39 @@
+version: "3.9"
+
+services:
+  app:
+    image: go_india:8.0
+    build: .
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./images:/var/www/html/appTest/images
+    env_file: 
+      - ./database/india/.env
+
+  app1:
+    image: go_gambia:8.0
+    build: .
+    ports:
+      - "8081:8080"
+    volumes:
+      - ./images:/var/www/html/appTest/images
+    env_file: 
+      - ./database/gambia/.env
+
+  app2:
+    image: go_tanzania:8.0
+    build: .
+    ports:
+      - "8082:8080"
+    volumes:
+      - ./images:/var/www/html/appTest/images
+    env_file: 
+      - ./database/tanzania/.env        
+
+  apache:
+    image: httpd:2.4
+    volumes:
+      - ./images:/var/www/html/appTest/images
+    ports:
+      - "80:80"
