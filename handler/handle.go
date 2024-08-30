@@ -483,7 +483,7 @@ func HandleFunc() {
 		t3.GetChangeRole(w, r, db)
 	}))
 	// -------------------Endpoint for adding data to QAF--------------------------------
-	apiRouter.Handle("/getProjectData", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
+	apiRouter.HandleFunc("/getProjectData", (func(w http.ResponseWriter, r *http.Request) {
 		t3.GetProjectData(w, r, db)
 	}))
 	// -------------------Endpoint for adding Bus--------------------------------

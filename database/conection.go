@@ -13,15 +13,16 @@ func Connect() *sql.DB {
 	// if err != nil {
 	// 	fmt.Println(err)
 	// }
-	dbUrl := "bdms_staff_admin:sfhakjfhyiqundfgs3765827635@tcp(buzzwomendatabase-new.cixgcssswxvx.ap-south-1.rds.amazonaws.com:3306)/bdms_staff"
+	//dbUrl := "bdms_staff_admin:sfhakjfhyiqundfgs3765827635@tcp(buzzwomendatabase-new.cixgcssswxvx.ap-south-1.rds.amazonaws.com:3306)/bdms_staff"
 	// Define the maximum number of allowed connections
+	dbUrl := "root:root@tcp(localhost:3306)/bdms_staff"
+
 	maxConnections := 100000
 	// Create a new MySQL connection pool
 	fmt.Println(dbUrl)
 	db, err := sql.Open("mysql", dbUrl)
 	if err != nil {
 		log.Fatal(err)
-
 	}
 	// Set the maximum number of open connections
 

@@ -148,9 +148,10 @@ func GetProjectData(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
     LEFT JOIN funder ON prj.funderID = funder.funderID
     LEFT JOIN bus ON prj.busID = bus.id
     WHERE prj.id = %s
-    GROUP BY prj_emp.emp_id
-    ORDER BY projectName
-`, fields, request.Project_id)
+   
+    ORDER BY projectName`, fields, request.Project_id)
+
+		fmt.Println("query 1", query)
 		rows, err := DB.Query(query)
 		if err != nil {
 			w.WriteHeader(http.StatusBadRequest)

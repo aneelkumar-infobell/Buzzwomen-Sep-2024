@@ -136,6 +136,7 @@ func GetGFSessionsNew(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 			}
 			projID, err := strconv.Atoi(data.ProjectID)
 			if err != nil {
+				fmt.Println("err", err)
 				w.WriteHeader(http.StatusBadRequest)
 				json.NewEncoder(w).Encode(map[string]interface{}{"Message": err, "Status Code": "400 Bad Request"})
 				return
@@ -164,7 +165,7 @@ func GetGFSessionsNew(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 			}
 			total_pages := math.Ceil(float64(total_rows) / float64(no_of_records))
 			_ = total_pages
-			fields = "DISTINCT primary_id as gf_session_id, name as gf_session_name, tb_id, DATE_FORMAT(date, '%d-%m-%Y %h:%i %p') as plan_date, status"
+			fields = "DISTINCT primary_id as gf_session_id, name as gf_session_name, COALESCE(tb_id,0), DATE_FORMAT(date, '%d-%m-%Y %h:%i %p') as plan_date, status"
 			query = fmt.Sprintf("SELECT %s, date FROM tbl_poa WHERE project_id IN (%s) AND type = '2' %s %s %s ORDER BY date DESC", fields, result, condition, where, searchFilter)
 
 			type data struct {
@@ -174,6 +175,7 @@ func GetGFSessionsNew(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 				PlanDate      string `json:"plan_date"`
 				Status        string `json:"status"`
 			}
+
 			finalRows, err1 := DB.Query(query)
 			if err1 != nil {
 				log.Println(err)
@@ -190,6 +192,7 @@ func GetGFSessionsNew(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 				obj.GFSessionID = strconv.Itoa(gf_session_id)
 				obj.TBID = strconv.Itoa(tb_id)
 				if err != nil {
+					fmt.Println("errrrrr", err)
 					w.WriteHeader(http.StatusBadRequest)
 					json.NewEncoder(w).Encode(map[string]interface{}{"Message": err, "Status Code": "400 Bad Request"})
 					return
