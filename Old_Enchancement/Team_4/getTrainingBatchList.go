@@ -97,7 +97,6 @@ func GetBatchlist(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 				w.WriteHeader(http.StatusBadRequest)
 				json.NewEncoder(w).Encode(map[string]interface{}{"status": "Bad Request", "message": err.Error()})
 				return
-
 			}
 			flagZerolist = append(flagZerolist, obj)
 

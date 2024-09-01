@@ -7,11 +7,6 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/go-co-op/gocron"
-	jwt "github.com/golang-jwt/jwt"
-	"github.com/gorilla/mux"
-	"github.com/rs/cors"
-
 	a "buzzstaff-go/New_Enchancement/Attendence"
 	d "buzzstaff-go/New_Enchancement/Dashboard"
 	gp "buzzstaff-go/New_Enchancement/GP/Dashboard"
@@ -28,8 +23,14 @@ import (
 	t3 "buzzstaff-go/Old_Enchancement/Team_3"
 	t4 "buzzstaff-go/Old_Enchancement/Team_4"
 	t5 "buzzstaff-go/Old_Enchancement/Team_5"
+	sep "buzzstaff-go/Sep_Enhancement/NagarikaProgram"
 	dbs "buzzstaff-go/database"
 	c "buzzstaff-go/job"
+
+	"github.com/go-co-op/gocron"
+	jwt "github.com/golang-jwt/jwt"
+	"github.com/gorilla/mux"
+	"github.com/rs/cors"
 )
 
 var mySigningKey = []byte("BuzzStaff")
@@ -102,6 +103,11 @@ func HandleFunc() {
 	s2.StartAsync()
 
 	//-------------------Endpoint for adding data to QAF---------------------------------------
+
+	apiRouter.HandleFunc("/addnagarikaprogram", (func(w http.ResponseWriter, r *http.Request) {
+		sep.Addnagarikasurvey(w, r, db)
+	}))
+
 	apiRouter.Handle("/addQualityAssessmentForm", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		q.AddQualityAssessmentForm(w, r, db)
 	}))

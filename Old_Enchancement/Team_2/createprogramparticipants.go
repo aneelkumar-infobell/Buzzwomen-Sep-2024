@@ -138,6 +138,7 @@ func CreateProgramParticipant(w http.ResponseWriter, r *http.Request, DB *sql.DB
 				return
 			}
 		}
+
 		fmt.Println("projectid", projectid)
 		var query string
 		if request.Type != "" {

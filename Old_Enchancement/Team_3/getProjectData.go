@@ -113,7 +113,7 @@ func GetProjectData(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
     IFNULL(DATE_FORMAT(prj.endDate, "%d-%m-%Y"), "") as endDate,
     ` + target + `,
     prj_emp.emp_id,
-    prj_emp.role_id,
+    MAX(prj_emp.role_id) as role_id,
     IFNULL(prj.operations_manager, "") as operations_manager_id,
     IFNULL(CONCAT(emp_a.first_name, " ", emp_a.last_name), "") as operations_manager_name,
     IFNULL(prj.gfl_id, "") as gfl_id,
@@ -148,7 +148,7 @@ func GetProjectData(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
     LEFT JOIN funder ON prj.funderID = funder.funderID
     LEFT JOIN bus ON prj.busID = bus.id
     WHERE prj.id = %s
-   
+   GROUP BY prj_emp.emp_id
     ORDER BY projectName`, fields, request.Project_id)
 
 		fmt.Println("query 1", query)
