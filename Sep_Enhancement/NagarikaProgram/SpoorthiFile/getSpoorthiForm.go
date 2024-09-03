@@ -1,0 +1,229 @@
+package spoorthifile
+
+import (
+	"database/sql"
+	"encoding/json"
+	"fmt"
+	"io/ioutil"
+	"net/http"
+
+	_ "github.com/go-sql-driver/mysql"
+)
+
+type BuzzSpoorthiProgramBaseline struct {
+	PartcipantID int `json:"partcipantId"`
+}
+
+type ParticipantData struct {
+	ID                                              string `json:"id"`
+	ParticipantID                                   int    `json:"participantId"`
+	EmailAddress                                    string `json:"email_address"`
+	GelathiID                                       string `json:"gelathiId"`
+	EntryDate                                       string `json:"entry_date"`
+	SpoorthiSessionNumber                           string `json:"spoorthi_session_number"`
+	ListDownYourSkills                              string `json:"list_down_your_skills"`
+	SkillsToOvercomeMyChallenges                    string `json:"skills_to_overcome_my_challenges"`
+	UsedSkillsResourcesCombatChallenge              string `json:"used_skills_resources_combat_challenge"`
+	ListenParagraph                                 string `json:"listen_paragraph"`
+	SummarizeMainPointsParagraph                    string `json:"summarize_main_points_paragraph"`
+	AskTwoQuestionsHelpYouUnderstand                string `json:"ask_two_questions_help_you_understand"`
+	ThreeInfrastructureOfYourVillage                string `json:"three_infrastructure_of_your_village"`
+	KnowTheNeedOfMyCommunity                        string `json:"know_the_need_of_my_community"`
+	TogetherCommunityMembersCommunityInfrastructure string `json:"together_community_members_community_infrastructure"`
+	WithOtherCommunityInfrastructure                string `json:"with_other_community_infrastructure"`
+	BringSomeoneTogether                            string `json:"bring_someone_together"`
+	BroughtPeopleTogetherIncident                   string `json:"brought_people_together_incident"`
+	ConflictWithAnyoneAskPosition                   string `json:"conflict_with_anyone_ask_position"`
+	ConflictMattersInterestMine                     string `json:"conflict_matters_interest_mine"`
+	TherePujaAtMyHouse                              string `json:"there_puja_at_my_house"`
+	Module1                                         any    `json:"module1"`
+	Module2                                         any    `json:"module2"`
+	Module3                                         any    `json:"module3"`
+	Module4                                         any    `json:"module4"`
+	Module5                                         any    `json:"module5"`
+	District                                        string `json:"district"`
+	Taluk                                           string `json:"taluk"`
+	GramPanchayat                                   string `json:"gram_panchayat"`
+	VillageName                                     string `json:"village_name"`
+	TotalAdultsNoOfMemberHousehold                  int    `json:"total_adults_no_of_member_household"`
+	TotalChildrenNoOfMemberHousehold                int    `json:"total_children_no_of_member_household"`
+	House                                           string `json:"house"`
+	RationCard                                      string `json:"ration_card"`
+	CastCategory                                    string `json:"cast_category"`
+	MotherTongue                                    string `json:"mother_tongue"`
+	Religion                                        string `json:"religion"`
+	Age                                             int    `json:"age"`
+	MaterialStatus                                  string `json:"material_status"`
+	Education                                       string `json:"education"`
+	PhoneNumber                                     string `json:"phone_number"`
+	CurrentEconomicActivityPrimaryOccupation        string `json:"current_economic_activity_primary_occupation"`
+	SecondaryOccupationHousehold                    string `json:"secondary_occupation_household"`
+	WomensOccupation                                string `json:"womens_occupation"`
+	SkillsMotivation                                string `json:"skills_motivation"`
+	ThreeReasonsBecomeGelathi                       string `json:"three_reasons_become_gelathi"`
+	GoalsAchieveAsGelathi                           string `json:"goals_achieve_as_gelathi"`
+	GoalsAsLeaderNextYear                           string `json:"goals_as_leader_next_year"`
+	GoalsForTenYears                                string `json:"goals_for_ten_years"`
+	Community                                       string `json:"community"`
+	SupportFeelings                                 string `json:"support_feelings"`
+	MeetingsDayFeelings                             string `json:"meetings_day_feelings"`
+	DealWithAngrySituation                          string `json:"deal_with_angry_situation"`
+	ImpatientWithUnclearComm                        string `json:"impatient_with_unclear_comm"`
+	SayYesWhenUnsureOfInstructions                  string `json:"say_yes_when_unsure_of_instructions"`
+	Confidence                                      string `json:"confidence"`
+	PersistedWhenOthersQuit                         string `json:"persisted_when_others_quit"`
+	NarrateInstance                                 string `json:"narrate_instance"`
+	GoalPersistenceInstance                         string `json:"goal_persistence_instance"`
+	TaskResponse                                    string `json:"task_response"`
+	ChallengeReaction                               string `json:"challenge_reaction"`
+	ConflictManagement                              string `json:"conflict_management"`
+	ConflictHandling                                string `json:"conflict_handling"`
+	SolutionAgreeableToOthers                       string `json:"solution_agreeable_to_others"`
+	SenseOfSisterhood                               string `json:"sense_of_sisterhood"`
+	QualitiesOfGoodGelathi                          string `json:"qualities_of_good_gelathi"`
+	MembersEmotionalBond                            string `json:"members_emotional_bond"`
+	MembersDiscussPersonalIssues                    string `json:"members_discuss_personal_issues"`
+	CopingMechanismsWhenSad                         string `json:"coping_mechanisms_when_sad"`
+	PossessLeadershipSkills                         string `json:"possess_leadership_skills"`
+	LeadershipSkillsReasonYes                       string `json:"leadership_skills_reason_yes"`
+	LeadershipSkillsReasonNo                        string `json:"leadership_skills_reason_no"`
+	LeadershipSkills                                string `json:"leadership_skills"`
+	CommunityMembersTakesSeriously                  string `json:"community_members_takes_seriously"`
+	TakesFeedbackFromCommunityMembers               string `json:"takes_feedback_from_community_members"`
+	FeedbackFromCommunityMembers                    string `json:"feedback_from_community_members"`
+	GoalsAsGelathi                                  string `json:"goals_as_gelathi"`
+	WillingToTakePartLocalElections                 string `json:"willing_to_take_part_local_elections"`
+}
+
+// var data []Querydata
+
+func GetBuzzSpoorthiProgramBaseline(w http.ResponseWriter, r *http.Request, db *sql.DB) {
+	w.Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization,application/json,Token")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
+	w.Header().Set("Access-Control-Allow-Credentials", "true")
+
+	data, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		json.NewEncoder(w).Encode(map[string]interface{}{"message": "Failed to read body", "success": false, "error": err.Error()})
+		return
+	}
+
+	defer r.Body.Close()
+
+	var req BuzzSpoorthiProgramBaseline
+	err = json.Unmarshal(data, &req)
+	if err != nil {
+		json.NewEncoder(w).Encode(map[string]interface{}{"code": http.StatusBadRequest, "message": "Failed to unmarshal", "success": false, "error": err.Error()})
+		return
+	}
+	fmt.Println("inside")
+	var query string
+	if req.PartcipantID != 0 {
+		query = fmt.Sprintf("SELECT * FROM SpoorthiBaselineQuestionnaire WHERE partcipantId = %d", req.PartcipantID)
+		rows, err := db.Query(query)
+
+		if err != nil {
+			json.NewEncoder(w).Encode(map[string]interface{}{"code": http.StatusInternalServerError, "message": "Database Query Error", "success": false, "error": err.Error()})
+			return
+		}
+		defer rows.Close()
+		fmt.Println("inside1")
+
+		var response []ParticipantData
+
+		for rows.Next() {
+			var queryData ParticipantData
+
+			err := rows.Scan(
+				&queryData.ID,
+				&queryData.ParticipantID,
+				&queryData.EmailAddress,
+				&queryData.GelathiID,
+				&queryData.EntryDate,
+				&queryData.SpoorthiSessionNumber,
+				&queryData.ListDownYourSkills,
+				&queryData.SkillsToOvercomeMyChallenges,
+				&queryData.UsedSkillsResourcesCombatChallenge,
+				&queryData.ListenParagraph,
+				&queryData.SummarizeMainPointsParagraph,
+				&queryData.AskTwoQuestionsHelpYouUnderstand,
+				&queryData.ThreeInfrastructureOfYourVillage,
+				&queryData.KnowTheNeedOfMyCommunity,
+				&queryData.TogetherCommunityMembersCommunityInfrastructure,
+				&queryData.WithOtherCommunityInfrastructure,
+				&queryData.BringSomeoneTogether,
+				&queryData.BroughtPeopleTogetherIncident,
+				&queryData.ConflictWithAnyoneAskPosition,
+				&queryData.ConflictMattersInterestMine,
+				&queryData.TherePujaAtMyHouse,
+				&queryData.Module1,
+				&queryData.Module2,
+				&queryData.Module3,
+				&queryData.Module4,
+				&queryData.Module5,
+				&queryData.District,
+				&queryData.Taluk,
+				&queryData.GramPanchayat,
+				&queryData.VillageName,
+				&queryData.TotalAdultsNoOfMemberHousehold,
+				&queryData.TotalChildrenNoOfMemberHousehold,
+				&queryData.House,
+				&queryData.RationCard,
+				&queryData.CastCategory,
+				&queryData.MotherTongue,
+				&queryData.Religion,
+				&queryData.Age,
+				&queryData.MaterialStatus,
+				&queryData.Education,
+				&queryData.PhoneNumber,
+				&queryData.CurrentEconomicActivityPrimaryOccupation,
+				&queryData.SecondaryOccupationHousehold,
+				&queryData.WomensOccupation,
+				&queryData.SkillsMotivation,
+				&queryData.ThreeReasonsBecomeGelathi,
+				&queryData.GoalsAchieveAsGelathi,
+				&queryData.GoalsAsLeaderNextYear,
+				&queryData.GoalsForTenYears,
+				&queryData.Community,
+				&queryData.SupportFeelings,
+				&queryData.MeetingsDayFeelings,
+				&queryData.DealWithAngrySituation,
+				&queryData.ImpatientWithUnclearComm,
+				&queryData.SayYesWhenUnsureOfInstructions,
+				&queryData.Confidence,
+				&queryData.PersistedWhenOthersQuit,
+				&queryData.NarrateInstance,
+				&queryData.GoalPersistenceInstance,
+				&queryData.TaskResponse,
+				&queryData.ChallengeReaction,
+				&queryData.ConflictManagement,
+				&queryData.ConflictHandling,
+				&queryData.SolutionAgreeableToOthers,
+				&queryData.SenseOfSisterhood,
+				&queryData.QualitiesOfGoodGelathi,
+				&queryData.MembersEmotionalBond,
+				&queryData.MembersDiscussPersonalIssues,
+				&queryData.CopingMechanismsWhenSad,
+				&queryData.PossessLeadershipSkills,
+				&queryData.LeadershipSkillsReasonYes,
+				&queryData.LeadershipSkillsReasonNo,
+				&queryData.LeadershipSkills,
+				&queryData.CommunityMembersTakesSeriously,
+				&queryData.TakesFeedbackFromCommunityMembers,
+				&queryData.FeedbackFromCommunityMembers,
+				&queryData.GoalsAsGelathi,
+				&queryData.WillingToTakePartLocalElections,
+			)
+			if err != nil {
+				json.NewEncoder(w).Encode(map[string]interface{}{"code": http.StatusInternalServerError, "message": "Database Scan Error", "success": false, "error": err.Error()})
+				return
+			}
+
+			response = append(response, queryData)
+		}
+
+		w.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(map[string]interface{}{"data": response, "success": true, "message": "BuzzSpoorthiProgramBaseline"})
+	}
+}
