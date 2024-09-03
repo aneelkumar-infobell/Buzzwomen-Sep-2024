@@ -24,6 +24,7 @@ import (
 	t4 "buzzstaff-go/Old_Enchancement/Team_4"
 	t5 "buzzstaff-go/Old_Enchancement/Team_5"
 	sep "buzzstaff-go/Sep_Enhancement/NagarikaProgram"
+	sp1 "buzzstaff-go/Sep_Enhancement/NagarikaProgram/SpoorthiFile"
 	dbs "buzzstaff-go/database"
 	c "buzzstaff-go/job"
 
@@ -107,6 +108,13 @@ func HandleFunc() {
 	apiRouter.HandleFunc("/addnagarikaprogram", (func(w http.ResponseWriter, r *http.Request) {
 		sep.Addnagarikasurvey(w, r, db)
 	}))
+	//---------------------------Get Gelathi List----------------------------------
+	apiRouter.HandleFunc("/getSpoorthiForm", func(w http.ResponseWriter, r *http.Request) {
+		sp1.GetBuzzSpoorthiProgramBaseline(w, r, db)
+	})
+	apiRouter.HandleFunc("/getGreenBaselineSurvey", func(w http.ResponseWriter, r *http.Request) {
+		sp1.GetGreenBaselineSurvey(w, r, db)
+	})
 
 	apiRouter.Handle("/addQualityAssessmentForm", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		q.AddQualityAssessmentForm(w, r, db)
