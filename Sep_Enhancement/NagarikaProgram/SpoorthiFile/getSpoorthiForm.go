@@ -118,112 +118,193 @@ func GetBuzzSpoorthiProgramBaseline(w http.ResponseWriter, r *http.Request, db *
 		return
 	}
 	fmt.Println("inside")
-	var query string
-	if req.PartcipantID != 0 {
-		query = fmt.Sprintf("SELECT * FROM SpoorthiBaselineQuestionnaire WHERE partcipantId = %d", req.PartcipantID)
-		rows, err := db.Query(query)
+	//var query string
 
+	query := fmt.Sprintf(`SELECT 
+        COALESCE(id, 0) AS id,
+        COALESCE(partcipantId, 0) AS partcipantId,
+        COALESCE(email_address, '') AS email_address,
+        COALESCE(GelathiId, '') AS GelathiId,
+        COALESCE(entry_date, '') AS entry_date,
+        COALESCE(Spoorthi_Session_Number, '') AS Spoorthi_Session_Number,
+        COALESCE(list_down_your_skills, '') AS list_down_your_skills,
+        COALESCE(skills_to_overcome_my_challenges, '') AS skills_to_overcome_my_challenges,
+        COALESCE(used_skills_resources_combat_challenge, '') AS used_skills_resources_combat_challenge,
+        COALESCE(listen_paragraph, '') AS listen_paragraph,
+        COALESCE(summarize_main_points_paragraph, '') AS summarize_main_points_paragraph,
+        COALESCE(ask_two_questions_help_you_understand, '') AS ask_two_questions_help_you_understand,
+        COALESCE(three_infrastructure_of_your_village, '') AS three_infrastructure_of_your_village,
+        COALESCE(know_the_need_of_my_community, '') AS know_the_need_of_my_community,
+        COALESCE(together_community_members_community_infrastructure, '') AS together_community_members_community_infrastructure,
+        COALESCE(with_other_community_infrastructure, '') AS with_other_community_infrastructure,
+        COALESCE(bring_someone_together, '') AS bring_someone_together,
+        COALESCE(brought_people_together_incident, '') AS brought_people_together_incident,
+        COALESCE(conflict_with_anyone_ask_position, '') AS conflict_with_anyone_ask_position,
+        COALESCE(conflict_matters_interest_mine, '') AS conflict_matters_interest_mine,
+        COALESCE(There_puja_at_my_house, '') AS There_puja_at_my_house,
+        COALESCE(module1, '') AS module1,
+        COALESCE(module2, '') AS module2,
+        COALESCE(module3, '') AS module3,
+        COALESCE(module4, '') AS module4,
+        COALESCE(module5, '') AS module5,
+        COALESCE(district, '') AS district,
+        COALESCE(taluk, '') AS taluk,
+        COALESCE(gram_panchayat, '') AS gram_panchayat,
+        COALESCE(village_name, '') AS village_name,
+        COALESCE(total_adults_no_of_member_household, 0) AS total_adults_no_of_member_household,
+        COALESCE(total_childern_no_of_member_household, 0) AS total_childern_no_of_member_household,
+        COALESCE(house, '') AS house,
+        COALESCE(ration_card, '') AS ration_card,
+        COALESCE(cast_category, '') AS cast_category,
+        COALESCE(mother_tongue, '') AS mother_tongue,
+        COALESCE(religion, '') AS religion,
+        COALESCE(age, 0) AS age,
+        COALESCE(material_status, '') AS material_status,
+        COALESCE(education, '') AS education,
+        COALESCE(phone_number, '') AS phone_number,
+        COALESCE(current_economic_activity_primary_occupation, '') AS current_economic_activity_primary_occupation,
+        COALESCE(secondary_occupation_household, '') AS secondary_occupation_household,
+        COALESCE(womens_occupation, '') AS womens_occupation,
+        COALESCE(skills_motivation, '') AS skills_motivation,
+        COALESCE(three_reasons_become_gelathi, '') AS three_reasons_become_gelathi,
+        COALESCE(goals_achieve_as_gelathi, '') AS goals_achieve_as_gelathi,
+        COALESCE(goals_as_leader_next_year, '') AS goals_as_leader_next_year,
+        COALESCE(goals_for_ten_years, '') AS goals_for_ten_years,
+        COALESCE(community, '') AS community,
+        COALESCE(support_feelings, '') AS support_feelings,
+        COALESCE(meetings_day_feelings, '') AS meetings_day_feelings,
+        COALESCE(deal_with_angry_situation, '') AS deal_with_angry_situation,
+        COALESCE(impatient_with_unclear_comm, '') AS impatient_with_unclear_comm,
+        COALESCE(say_yes_when_unsure_of_instructions, '') AS say_yes_when_unsure_of_instructions,
+        COALESCE(confidence, '') AS confidence,
+        COALESCE(persisted_when_others_quit, '') AS persisted_when_others_quit,
+        COALESCE(narrate_instance, '') AS narrate_instance,
+        COALESCE(goal_persistence_instance, '') AS goal_persistence_instance,
+        COALESCE(task_response, '') AS task_response,
+        COALESCE(challenge_reaction, '') AS challenge_reaction,
+        COALESCE(conflict_management, '') AS conflict_management,
+        COALESCE(conflict_handling, '') AS conflict_handling,
+        COALESCE(solution_agreeable_to_others, '') AS solution_agreeable_to_others,
+        COALESCE(sense_of_sisterhood, '') AS sense_of_sisterhood,
+        COALESCE(qualities_of_good_gelathi, '') AS qualities_of_good_gelathi,
+        COALESCE(members_emotional_bond, '') AS members_emotional_bond,
+        COALESCE(members_discuss_personal_issues, '') AS members_discuss_personal_issues,
+        COALESCE(coping_mechanisms_when_sad, '') AS coping_mechanisms_when_sad,
+        COALESCE(possess_leadership_skills, '') AS possess_leadership_skills,
+        COALESCE(leadership_skills_reason_yes, '') AS leadership_skills_reason_yes,
+        COALESCE(leadership_skills_reason_no, '') AS leadership_skills_reason_no,
+        COALESCE(leadership_skills, '') AS leadership_skills,
+        COALESCE(community_members_takes_seriously, '') AS community_members_takes_seriously,
+        COALESCE(takes_feedback_from_community_members, '') AS takes_feedback_from_community_members,
+        COALESCE(feedback_from_community_members, '') AS feedback_from_community_members,
+        COALESCE(goals_as_gelathi, '') AS goals_as_gelathi,
+        COALESCE(willing_to_take_part_local_elections, '') AS willing_to_take_part_local_elections
+    FROM SpoorthiBaselineQuestionnaire
+    WHERE partcipantId = %d`, req.PartcipantID)
+
+	rows, err := db.Query(query)
+	fmt.Println("printing", query)
+
+	if err != nil {
+		json.NewEncoder(w).Encode(map[string]interface{}{"code": http.StatusInternalServerError, "message": "Database Query Error", "success": false, "error": err.Error()})
+		return
+	}
+	defer rows.Close()
+	fmt.Println("inside1")
+
+	var response []ParticipantData
+
+	for rows.Next() {
+		var queryData ParticipantData
+
+		err := rows.Scan(
+			&queryData.ID,
+			&queryData.ParticipantID,
+			&queryData.EmailAddress,
+			&queryData.GelathiID,
+			&queryData.EntryDate,
+			&queryData.SpoorthiSessionNumber,
+			&queryData.ListDownYourSkills,
+			&queryData.SkillsToOvercomeMyChallenges,
+			&queryData.UsedSkillsResourcesCombatChallenge,
+			&queryData.ListenParagraph,
+			&queryData.SummarizeMainPointsParagraph,
+			&queryData.AskTwoQuestionsHelpYouUnderstand,
+			&queryData.ThreeInfrastructureOfYourVillage,
+			&queryData.KnowTheNeedOfMyCommunity,
+			&queryData.TogetherCommunityMembersCommunityInfrastructure,
+			&queryData.WithOtherCommunityInfrastructure,
+			&queryData.BringSomeoneTogether,
+			&queryData.BroughtPeopleTogetherIncident,
+			&queryData.ConflictWithAnyoneAskPosition,
+			&queryData.ConflictMattersInterestMine,
+			&queryData.TherePujaAtMyHouse,
+			&queryData.Module1,
+			&queryData.Module2,
+			&queryData.Module3,
+			&queryData.Module4,
+			&queryData.Module5,
+			&queryData.District,
+			&queryData.Taluk,
+			&queryData.GramPanchayat,
+			&queryData.VillageName,
+			&queryData.TotalAdultsNoOfMemberHousehold,
+			&queryData.TotalChildrenNoOfMemberHousehold,
+			&queryData.House,
+			&queryData.RationCard,
+			&queryData.CastCategory,
+			&queryData.MotherTongue,
+			&queryData.Religion,
+			&queryData.Age,
+			&queryData.MaterialStatus,
+			&queryData.Education,
+			&queryData.PhoneNumber,
+			&queryData.CurrentEconomicActivityPrimaryOccupation,
+			&queryData.SecondaryOccupationHousehold,
+			&queryData.WomensOccupation,
+			&queryData.SkillsMotivation,
+			&queryData.ThreeReasonsBecomeGelathi,
+			&queryData.GoalsAchieveAsGelathi,
+			&queryData.GoalsAsLeaderNextYear,
+			&queryData.GoalsForTenYears,
+			&queryData.Community,
+			&queryData.SupportFeelings,
+			&queryData.MeetingsDayFeelings,
+			&queryData.DealWithAngrySituation,
+			&queryData.ImpatientWithUnclearComm,
+			&queryData.SayYesWhenUnsureOfInstructions,
+			&queryData.Confidence,
+			&queryData.PersistedWhenOthersQuit,
+			&queryData.NarrateInstance,
+			&queryData.GoalPersistenceInstance,
+			&queryData.TaskResponse,
+			&queryData.ChallengeReaction,
+			&queryData.ConflictManagement,
+			&queryData.ConflictHandling,
+			&queryData.SolutionAgreeableToOthers,
+			&queryData.SenseOfSisterhood,
+			&queryData.QualitiesOfGoodGelathi,
+			&queryData.MembersEmotionalBond,
+			&queryData.MembersDiscussPersonalIssues,
+			&queryData.CopingMechanismsWhenSad,
+			&queryData.PossessLeadershipSkills,
+			&queryData.LeadershipSkillsReasonYes,
+			&queryData.LeadershipSkillsReasonNo,
+			&queryData.LeadershipSkills,
+			&queryData.CommunityMembersTakesSeriously,
+			&queryData.TakesFeedbackFromCommunityMembers,
+			&queryData.FeedbackFromCommunityMembers,
+			&queryData.GoalsAsGelathi,
+			&queryData.WillingToTakePartLocalElections,
+		)
 		if err != nil {
-			json.NewEncoder(w).Encode(map[string]interface{}{"code": http.StatusInternalServerError, "message": "Database Query Error", "success": false, "error": err.Error()})
+			json.NewEncoder(w).Encode(map[string]interface{}{"code": http.StatusInternalServerError, "message": "Database Scan Error", "success": false, "error": err.Error()})
 			return
 		}
-		defer rows.Close()
-		fmt.Println("inside1")
 
-		var response []ParticipantData
-
-		for rows.Next() {
-			var queryData ParticipantData
-
-			err := rows.Scan(
-				&queryData.ID,
-				&queryData.ParticipantID,
-				&queryData.EmailAddress,
-				&queryData.GelathiID,
-				&queryData.EntryDate,
-				&queryData.SpoorthiSessionNumber,
-				&queryData.ListDownYourSkills,
-				&queryData.SkillsToOvercomeMyChallenges,
-				&queryData.UsedSkillsResourcesCombatChallenge,
-				&queryData.ListenParagraph,
-				&queryData.SummarizeMainPointsParagraph,
-				&queryData.AskTwoQuestionsHelpYouUnderstand,
-				&queryData.ThreeInfrastructureOfYourVillage,
-				&queryData.KnowTheNeedOfMyCommunity,
-				&queryData.TogetherCommunityMembersCommunityInfrastructure,
-				&queryData.WithOtherCommunityInfrastructure,
-				&queryData.BringSomeoneTogether,
-				&queryData.BroughtPeopleTogetherIncident,
-				&queryData.ConflictWithAnyoneAskPosition,
-				&queryData.ConflictMattersInterestMine,
-				&queryData.TherePujaAtMyHouse,
-				&queryData.Module1,
-				&queryData.Module2,
-				&queryData.Module3,
-				&queryData.Module4,
-				&queryData.Module5,
-				&queryData.District,
-				&queryData.Taluk,
-				&queryData.GramPanchayat,
-				&queryData.VillageName,
-				&queryData.TotalAdultsNoOfMemberHousehold,
-				&queryData.TotalChildrenNoOfMemberHousehold,
-				&queryData.House,
-				&queryData.RationCard,
-				&queryData.CastCategory,
-				&queryData.MotherTongue,
-				&queryData.Religion,
-				&queryData.Age,
-				&queryData.MaterialStatus,
-				&queryData.Education,
-				&queryData.PhoneNumber,
-				&queryData.CurrentEconomicActivityPrimaryOccupation,
-				&queryData.SecondaryOccupationHousehold,
-				&queryData.WomensOccupation,
-				&queryData.SkillsMotivation,
-				&queryData.ThreeReasonsBecomeGelathi,
-				&queryData.GoalsAchieveAsGelathi,
-				&queryData.GoalsAsLeaderNextYear,
-				&queryData.GoalsForTenYears,
-				&queryData.Community,
-				&queryData.SupportFeelings,
-				&queryData.MeetingsDayFeelings,
-				&queryData.DealWithAngrySituation,
-				&queryData.ImpatientWithUnclearComm,
-				&queryData.SayYesWhenUnsureOfInstructions,
-				&queryData.Confidence,
-				&queryData.PersistedWhenOthersQuit,
-				&queryData.NarrateInstance,
-				&queryData.GoalPersistenceInstance,
-				&queryData.TaskResponse,
-				&queryData.ChallengeReaction,
-				&queryData.ConflictManagement,
-				&queryData.ConflictHandling,
-				&queryData.SolutionAgreeableToOthers,
-				&queryData.SenseOfSisterhood,
-				&queryData.QualitiesOfGoodGelathi,
-				&queryData.MembersEmotionalBond,
-				&queryData.MembersDiscussPersonalIssues,
-				&queryData.CopingMechanismsWhenSad,
-				&queryData.PossessLeadershipSkills,
-				&queryData.LeadershipSkillsReasonYes,
-				&queryData.LeadershipSkillsReasonNo,
-				&queryData.LeadershipSkills,
-				&queryData.CommunityMembersTakesSeriously,
-				&queryData.TakesFeedbackFromCommunityMembers,
-				&queryData.FeedbackFromCommunityMembers,
-				&queryData.GoalsAsGelathi,
-				&queryData.WillingToTakePartLocalElections,
-			)
-			if err != nil {
-				json.NewEncoder(w).Encode(map[string]interface{}{"code": http.StatusInternalServerError, "message": "Database Scan Error", "success": false, "error": err.Error()})
-				return
-			}
-
-			response = append(response, queryData)
-		}
-
-		w.Header().Set("Content-Type", "application/json")
-		json.NewEncoder(w).Encode(map[string]interface{}{"data": response, "success": true, "message": "BuzzSpoorthiProgramBaseline"})
+		response = append(response, queryData)
 	}
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(map[string]interface{}{"data": response, "success": true, "message": "BuzzSpoorthiProgramBaseline"})
 }
