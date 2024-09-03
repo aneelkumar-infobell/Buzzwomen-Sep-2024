@@ -6,7 +6,6 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"log"
 	"net/http"
 	"strconv"
@@ -38,12 +37,8 @@ type response struct {
 	EndDate     string `json:"end_date"`
 	FilterType  string `json:"filter_type"`
 	TrainerID   string `json:"trainer_id"`
-	// pageno := int(1)
-	// if val, ok := request["pageNum"].(float64); ok {
-	// 	pageno = int(val)
-	// }
-	ProjectID string `json:"project_id"`
-	EmpID     string `json:"emp_id"`
+	ProjectID   string `json:"project_id"`
+	EmpID       string `json:"emp_id"`
 }
 
 func GetTrainingBatch(w http.ResponseWriter, r *http.Request, db *sql.DB) {
@@ -56,20 +51,26 @@ func GetTrainingBatch(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 		return
 	}
 	var request response
-	data, err := ioutil.ReadAll(r.Body)
+
+	decoder := json.NewDecoder(r.Body)
+	err := decoder.Decode(&request)
+	fmt.Println("req", request)
 	if err != nil {
-		log.Println(err)
-		json.NewEncoder(w).Encode(map[string]interface{}{"code": http.StatusBadRequest, "message": "Invalid JSON format", "success": false, "error": err})
+		fmt.Println("errrfrfr", err)
+		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
-	// var request map[string]interface{}
-	err = json.Unmarshal(data, &request)
-	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
-		log.Println(err)
-		json.NewEncoder(w).Encode(map[string]interface{}{"code": http.StatusBadRequest, "message": "Invalid JSON format", "success": false, "error": err})
-		return
-	}
+	defer r.Body.Close()
+
+	// err = json.Unmarshal(r.Body, &request)
+	// fmt.Println("request", request)
+	// if err != nil {
+	// 	fmt.Println("err21uy5", err)
+	// 	w.WriteHeader(http.StatusBadRequest)
+	// 	log.Println(err)
+	// 	json.NewEncoder(w).Encode(map[string]interface{}{"code": http.StatusBadRequest, "message": "Invalid JSON format", "success": false, "error": err})
+	// 	return
+	// }
 	EmpID, _ := strconv.Atoi(request.EmpID)
 	ProjectID, _ := strconv.Atoi(request.ProjectID)
 	var searchFilter string
@@ -96,6 +97,7 @@ func GetTrainingBatch(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 	var condition string
 	empType, err := getEmployeeType(db, int(EmpID), w)
 	if err != nil {
+		fmt.Println("ergg", err)
 		log.Println(err)
 		json.NewEncoder(w).Encode(map[string]interface{}{"code": http.StatusInternalServerError, "message": "Failed to execute SQL query get employee type", "success": false, "error": err})
 		return
@@ -108,6 +110,7 @@ func GetTrainingBatch(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 
 	totalRows, err := getTotalPagesAndRows(db, projectIDStr, condition, search, searchFilter, noOfRecords, w)
 	if err != nil {
+		fmt.Println("erssgg", err)
 		json.NewEncoder(w).Encode(map[string]interface{}{"code": http.StatusInternalServerError, "message": "Failed to execute SQL query for get row count", "success": false, "error": err})
 		return
 	}
@@ -116,12 +119,14 @@ func GetTrainingBatch(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 		"GROUP_CONCAT(DISTINCT CONCAT(DATE_FORMAT(tr_btch.date, '%Y-%m-%d %H:%i:%s'))) as dates, " +
 		"GROUP_CONCAT(CONCAT(tr_btch.status)) as status"
 
-	query := fmt.Sprintf("SELECT %s FROM tbl_poa tr_btch WHERE tr_btch.project_id = '%s' AND tr_btch.type = '1' %s %s %s GROUP BY tr_btch.tb_id ORDER BY tr_btch.tb_id",
+	query := fmt.Sprintf("SELECT %s FROM tbl_poa tr_btch WHERE tr_btch.project_id = '%s' AND tr_btch.type = '1' %s %s %s GROUP BY tr_btch.tb_id,tr_btch.name ORDER BY tr_btch.tb_id",
 		fields, projectIDStr, condition, search, searchFilter)
 
+	fmt.Println("query", query)
 	rows, err := db.Query(query)
 
 	if err != nil {
+		fmt.Println("erhhgg", err)
 		json.NewEncoder(w).Encode(map[string]interface{}{"code": http.StatusInternalServerError, "message": "Failed to execute SQL query", "success": false, "error": err})
 		return
 	}
@@ -185,6 +190,7 @@ func getTotalPagesAndRows(db *sql.DB, projectID string, condition string, search
 
 	err := db.QueryRow(totalPagesQuery).Scan(&totalRows)
 	if err != nil {
+
 		log.Println(err)
 		json.NewEncoder(w).Encode(map[string]interface{}{"code": http.StatusBadRequest, "message": "Invalid JSON format", "success": false, "error": err})
 		return 0, err
@@ -215,6 +221,7 @@ func getEmployeeType(db *sql.DB, empId int, w http.ResponseWriter) (empType int,
 	empTypeQuery := fmt.Sprintf("SELECT %s FROM employee where status = 1 and id = %v", fields, empId)
 	err = db.QueryRow(empTypeQuery).Scan(&empType)
 	if err != nil {
+
 		log.Println(err)
 		json.NewEncoder(w).Encode(map[string]interface{}{"code": http.StatusBadRequest, "message": "Invalid JSON format", "success": false, "error": err})
 		return 0, err

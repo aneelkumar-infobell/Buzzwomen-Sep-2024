@@ -298,7 +298,6 @@ func SPCounts(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 			coharts = " AND tbl_poa.user_id = " + (request.GfId)
 			village = " and tp.user_id = " + request.GfId
 			enroll = " AND gelathi_id = " + request.GfId
-
 		}
 
 		gflid := ""

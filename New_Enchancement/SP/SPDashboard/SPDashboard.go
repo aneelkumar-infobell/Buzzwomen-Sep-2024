@@ -300,7 +300,7 @@ func GelathiProgramDashboard1(w http.ResponseWriter, r *http.Request, DB *sql.DB
 				js, err := json.Marshal(response)
 				//fmt.Println(response)
 				if err != nil {
-					log.Println("GreenDashboard", err)
+					log.Println("Spoorthi", err)
 					w.WriteHeader(http.StatusBadRequest)
 					json.NewEncoder(w).Encode(map[string]interface{}{"Status": "400 Bad Request", "Message": err.Error()})
 					return
