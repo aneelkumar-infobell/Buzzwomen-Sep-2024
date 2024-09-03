@@ -443,7 +443,7 @@ func HandleFunc() {
 		t3.GetBusList(w, r, db)
 	}))
 	//-------------------Endpoint for adding data to QAF--------------------------------
-	apiRouter.Handle("/getTrainingBatchData", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
+	apiRouter.HandleFunc("/getTrainingBatchData", (func(w http.ResponseWriter, r *http.Request) {
 		t3.GetTrainingBatchData(w, r, db)
 	}))
 	//-------------------Endpoint for adding data to QAF--------------------------------
@@ -635,7 +635,7 @@ func HandleFunc() {
 	}))
 
 	//----------------------------Get Training Batch----------------------------------
-	apiRouter.Handle("/getTrainingBatch", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
+	apiRouter.HandleFunc("/getTrainingBatch", (func(w http.ResponseWriter, r *http.Request) {
 		t4.GetTrainingBatch(w, r, db)
 	}))
 
@@ -656,7 +656,7 @@ func HandleFunc() {
 	}))
 
 	//----------------------------Get Training Batch List---------------------------------
-	apiRouter.Handle("/getTrainingBatchList", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
+	apiRouter.HandleFunc("/getTrainingBatchList", (func(w http.ResponseWriter, r *http.Request) {
 		t4.GetBatchlist(w, r, db)
 	}))
 

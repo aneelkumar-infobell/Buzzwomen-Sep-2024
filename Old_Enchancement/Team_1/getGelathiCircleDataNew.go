@@ -270,7 +270,7 @@ func GetGelathiCircleDataNew(w http.ResponseWriter, r *http.Request, DB *sql.DB)
 				gelathis[i].IsVyaparSurvey = false
 			}
 
-			err = DB.QueryRow("SELECT COUNT(*) FROM NagarikaProgramQuestionnaire WHERE partcipantId = ?", circle.Gelathis[i].GelathiID).Scan(&count)
+			err = DB.QueryRow("SELECT COUNT(*) FROM nagarikaprogramquestionnaire WHERE partcipantId = ?", circle.Gelathis[i].GelathiID).Scan(&count)
 			if err != nil {
 				log.Println("Failed to execute query:", err)
 				w.WriteHeader(http.StatusInternalServerError)
