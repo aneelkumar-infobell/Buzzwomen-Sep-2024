@@ -173,7 +173,6 @@ func EditParticipantMehtod(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 	sqlResult, err := stmt.Exec(request.ParticipantId)
 	if err != nil {
 		json.NewEncoder(w).Encode(map[string]interface{}{"code": http.StatusInternalServerError, "message": "Failed to executes a prepared statement", "success": false})
-
 	}
 	rowsAffected, _ := sqlResult.RowsAffected()
 
@@ -185,7 +184,6 @@ func EditParticipantMehtod(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 	} else {
 		// Update did not affect any rows
 		json.NewEncoder(w).Encode(map[string]interface{}{"code": 404, "message": "training participants updated Unsuccessfully", "success": false})
-
 	}
 
 }

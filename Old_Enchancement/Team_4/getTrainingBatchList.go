@@ -5,6 +5,7 @@ import (
 	a "buzzstaff-go/New_Enchancement/Dashboard"
 	"database/sql"
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 	"strconv"
@@ -50,7 +51,6 @@ func GetBatchlist(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 	type requestBody struct {
 		ProjectID string `json:"project_id"`
 		EmpID     string `json:"emp_id"`
-		Villageid int    `json:"village_id"`
 		PageNum   string `json:"pageNum"`
 	}
 
@@ -68,7 +68,6 @@ func GetBatchlist(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 	if data.PageNum != "" {
 		pageNo = 1
 	}
-
 	NoOfRecords := 100000
 	offSet := (pageNo - 1) * NoOfRecords
 	_ = offSet
@@ -83,16 +82,15 @@ func GetBatchlist(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 
 		result := strings.Join(stringOpsIds, ",")
 		fields := "COALESCE(tr_btch.tb_id,0) as training_batch_id, COALESCE(UPPER(tr_btch.name),'') as name, 0 as flag, tr_btch.date"
-		query := `SELECT ` + fields + ` FROM tbl_poa tr_btch WHERE tr_btch.location_id = ? and tr_btch.project_id in (` + result + `)  and tr_btch.type = 1  AND tr_btch.check_out is not null and  tr_btch.tb_id != tr_btch.primary_id order by name`
-
-		rows, err := DB.Query(query, data.Villageid)
+		query := "SELECT " + fields + " FROM tbl_poa tr_btch WHERE tr_btch.assigned_batch='0' and tr_btch.project_id in (" + result + ")  and tr_btch.type = 1  AND tr_btch.check_out is not null and  tr_btch.tb_id != tr_btch.primary_id order by name"
+		fmt.Println("query", query)
+		rows, err := DB.Query(query)
 		if err != nil {
 			log.Println(err)
 			w.WriteHeader(http.StatusInternalServerError)
 			json.NewEncoder(w).Encode(map[string]interface{}{"status": "500 Internal Server Error", "message": err.Error()})
 			return
 		}
-
 		var flagZerolist []TrainingBatch1
 		for rows.Next() {
 			var obj TrainingBatch1
@@ -110,9 +108,10 @@ func GetBatchlist(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 
 		fields = "COALESCE(tr_btch.tb_id,0) as training_batch_id, COALESCE(UPPER(tr_btch.name),'') as name, 1 as flag,gf_btch.emp_id"
 
-		empBatches := "select " + fields + " from gf_batches gf_btch left join tbl_poa tr_btch on gf_btch.training_batch_id = tr_btch.tb_id where tr_btch.location_id = ? and gf_btch.project_id in (" + result + ") group by tr_btch.tb_id,gf_btch.emp_id"
+		empBatches := "select " + fields + " from gf_batches gf_btch left join tbl_poa tr_btch on gf_btch.training_batch_id = tr_btch.tb_id where tr_btch.assigned_batch='0' and tr_btch.type=1 and gf_btch.project_id in (" + result + ") group by tr_btch.tb_id,gf_btch.emp_id, tr_btch.name"
 
-		rows1, err1 := DB.Query(empBatches, data.Villageid)
+		fmt.Println("empBatches", empBatches)
+		rows1, err1 := DB.Query(empBatches)
 
 		if err1 != nil {
 

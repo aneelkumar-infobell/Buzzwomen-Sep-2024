@@ -342,7 +342,7 @@ func HandleFunc() {
 	apiRouter.Handle("/updateRescheduleEvent", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		t2.UpdateRescheduleEvent(w, r, db)
 	}))
-	apiRouter.Handle("/editParticipant", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
+	apiRouter.HandleFunc("/editParticipant", (func(w http.ResponseWriter, r *http.Request) {
 		t2.EditParticipantMehtod(w, r, db)
 	}))
 	apiRouter.Handle("/editGFSession", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
@@ -558,7 +558,7 @@ func HandleFunc() {
 		t4.CreateCircle(w, r, db)
 	}))
 	//---------------------------Create GF Batch----------------------------------
-	apiRouter.Handle("/createGFBatch", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
+	apiRouter.HandleFunc("/createGFBatch", (func(w http.ResponseWriter, r *http.Request) {
 		t4.CreateGFBatch(w, r, db)
 	}))
 	//---------------------------roles list----------------------------------

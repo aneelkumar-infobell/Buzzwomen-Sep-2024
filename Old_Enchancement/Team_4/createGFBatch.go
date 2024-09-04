@@ -74,6 +74,12 @@ func CreateGFBatch(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 		json.NewEncoder(w).Encode(map[string]interface{}{"code": http.StatusBadRequest, "message": "Failed to insert gf_batch", "success": false, "error": err})
 		return
 	}
+	_, err2 := DB.Exec("UPDATE tbl_poa SET assigned_batch=1 where tb_id = ? and type=1", request.TrainingBatchID)
+	if err2 != nil {
+		log.Println("Failed", err2)
+	}
+
+	//	updatequery := `UPDATE tbl_poa SET assigned_batch=1 where tb_id = ?`
 
 	json.NewEncoder(w).Encode(map[string]interface{}{"code": http.StatusOK, "message": "GF Batch Created Successfully", "success": true})
 }
