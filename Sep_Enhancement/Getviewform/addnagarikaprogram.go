@@ -11,8 +11,10 @@ import (
 )
 
 type NagarikaProgramQuestionnaire struct {
+	Id                                                     int64  `json:"id"`
 	ParticipantID                                          string `json:"participant_id"`
 	GelathiID                                              string `json:"gelathi_id"`
+	EntryDate                                              string `json:"entry_date"`
 	ProfileOfTheWomen                                      string `json:"profile_of_the_women"`
 	UniqueIdentificationNumberGivenAfterCompletionOfSS     string `json:"unique_identification_number_given_after_completion_of_ss"`
 	SurveyorsName                                          string `json:"surveyors_name"`
