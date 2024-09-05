@@ -119,6 +119,9 @@ func HandleFunc() {
 	apiRouter.HandleFunc("/getSelfShaktiBaselineSurvey", func(w http.ResponseWriter, r *http.Request) {
 		sep.GetSelfShaktiBaselineSurvey(w, r, db)
 	})
+	apiRouter.HandleFunc("/getNagarikaProgramQuestionnaire", func(w http.ResponseWriter, r *http.Request) {
+		sep.GetNagarikaProgramQuestionnaire(w, r, db)
+	})
 
 	apiRouter.Handle("/addQualityAssessmentForm", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		q.AddQualityAssessmentForm(w, r, db)
