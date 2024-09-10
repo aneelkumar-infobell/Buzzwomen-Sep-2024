@@ -1,0 +1,13 @@
+{
+
+  "projects": {
+
+    "default": "buzzstaffwomengambia",
+
+    "prod": "buzzstaffwomengambia"
+
+  },
+
+  "targets": {}
+
+}
