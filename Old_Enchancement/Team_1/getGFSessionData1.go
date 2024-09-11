@@ -287,8 +287,10 @@ func GetGFSessionData1(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 		queryParticipant = fmt.Sprintf("SELECT %s from gelathi_circle gel_circle left join training_participants tr_part ON gel_circle.gelathi_id = tr_part.id, SpoorthiBaselineQuestionnaire b where tr_part.new_green=0 and tr_part.new_vyapar=0 and gel_circle.circle_id = %s", fields, sessionData.CircleID)
 	}
 
+	fmt.Println("queryParticipant", queryParticipant)
 	stmt, err = DB.Prepare(queryParticipant)
 	if err != nil {
+		fmt.Println("errr", err)
 		response.Message = "Error While Preparing Statement"
 		response.Code = 500
 		response.ErrorMessage = err

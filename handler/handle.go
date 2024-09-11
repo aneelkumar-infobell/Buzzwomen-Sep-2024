@@ -24,6 +24,8 @@ import (
 	t4 "buzzstaff-go/Old_Enchancement/Team_4"
 	t5 "buzzstaff-go/Old_Enchancement/Team_5"
 	sep "buzzstaff-go/Sep_Enhancement/Getviewform"
+	np "buzzstaff-go/Sep_Enhancement/NP/NPDashboard"
+	npp "buzzstaff-go/Sep_Enhancement/NP/Participant"
 
 	//sp1 "buzzstaff-go/Sep_Enhancement/NagarikaProgram/SpoorthiFile"
 	dbs "buzzstaff-go/database"
@@ -233,6 +235,9 @@ func HandleFunc() {
 	apiRouter.HandleFunc("/gelathifilter", func(w http.ResponseWriter, r *http.Request) {
 		sppf.SPCounts(w, r, db)
 	})
+	apiRouter.HandleFunc("/npfilter", func(w http.ResponseWriter, r *http.Request) {
+		npp.NPCounts(w, r, db)
+	})
 
 	//-----------------------------------------Green filter-anand-----------------------------
 	apiRouter.HandleFunc("/greenfilter", func(w http.ResponseWriter, r *http.Request) {
@@ -259,6 +264,10 @@ func HandleFunc() {
 	//---------------------gelathiProgram dashboard----------------------------------
 	apiRouter.HandleFunc("/gelathiProgramDashboard", func(w http.ResponseWriter, r *http.Request) {
 		sp.GelathiProgramDashboard1(w, r, db)
+	})
+
+	apiRouter.HandleFunc("/npprogramDashboard", func(w http.ResponseWriter, r *http.Request) {
+		np.NagarikaProgramDashboard(w, r, db)
 	})
 
 	//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>old codes converted to go>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -398,7 +407,7 @@ func HandleFunc() {
 		t2.AddSurveydata(w, r, db)
 	}))
 	//-------------------Endpoint for adding data to QAF---------------------------------------
-	apiRouter.Handle("/getBuses", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
+	apiRouter.HandleFunc("/getBuses", (func(w http.ResponseWriter, r *http.Request) {
 		t2.GetBuses(w, r, db)
 	}))
 	///------------------------- delete Buses --------------------------
@@ -477,6 +486,18 @@ func HandleFunc() {
 	//-------------------Endpoint for adding data to QAF--------------------------------
 	apiRouter.Handle("/setEnrollGelathi", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		t3.SetEnrollGelathi(w, r, db)
+	}))
+
+	apiRouter.HandleFunc("/setEnrollnagarikaGelathi", (func(w http.ResponseWriter, r *http.Request) {
+		sep.SetEnrollNagarikaGelathi(w, r, db)
+	}))
+
+	apiRouter.HandleFunc("/getenrollnagarikagelathi", (func(w http.ResponseWriter, r *http.Request) {
+		sep.GetEnrollednagarikaGelathi(w, r, db)
+	}))
+
+	apiRouter.HandleFunc("/deleteenrollnagarika", (func(w http.ResponseWriter, r *http.Request) {
+		sep.RemoveEnrollNagarikaGelathi(w, r, db)
 	}))
 	//-------------------Endpoint for adding data to QAF--------------------------------
 	apiRouter.Handle("/updatePoaCancel", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
@@ -702,7 +723,7 @@ func HandleFunc() {
 		t5.UpdateTa(w, r, db)
 	}))
 	//---------------------AddSpoorthiBaselineQuestionnaire----------------------------------
-	apiRouter.Handle("/addSpoorthiBaselineQuestionnaire", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
+	apiRouter.HandleFunc("/addSpoorthiBaselineQuestionnaire", (func(w http.ResponseWriter, r *http.Request) {
 		t5.AddSpoorthiBaselineQuestionnaire(w, r, db)
 	}))
 	//---------------------AddGreenBaselineSurvey----------------------------------

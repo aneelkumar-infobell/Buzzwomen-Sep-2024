@@ -9,113 +9,99 @@ import (
 )
 
 type TrainingParticipant struct {
-	ID                           string `json:"id"`
-	ProjectID                    string `json:"project_id"`
-	TbID                         string `json:"tb_id"`
-	TrainerID                    string `json:"trainer_id"`
-	GelathiRecomm                string `json:"gelathiRecomm"`
-	FirstName                    string `json:"firstName"`
-	DOB                          string `json:"dob"`
-	Age                          string `json:"age"`
-	HusbandName                  string `json:"husbandName"`
-	Occupation                   string `json:"occupation"`
-	HusbandOccupation            string `json:"husbandOccupation"`
-	SavingGoal                   string `json:"saving_goal"`
-	Caste                        string `json:"caste"`
-	Day1                         string `json:"day1"`
-	Day2                         string `json:"day2"`
-	ParticipantDay1              string `json:"participant_day1"`
-	ParticipantDay2              string `json:"participant_day2"`
-	NumOfChildren                string `json:"numOfChildren"`
-	Income                       string `json:"income"`
-	Savings                      string `json:"savings"`
-	Enroll                       string `json:"enroll"`
-	EnrolledProject              string `json:"enrolledProject"`
-	Education                    string `json:"education"`
-	ContactNo                    string `json:"contact_no"`
-	VoterID                      string `json:"voter_id"`
-	BusinessIncome               string `json:"business_income"`
-	BusinessProfit               string `json:"business_profit"`
-	SavingAmt                    string `json:"saving_amt"`
-	BankAcc                      string `json:"bank_acc"`
-	FinalSave                    string `json:"final_save"`
-	EnrollDate                   string `json:"enroll_date"`
-	GelathiID                    string `json:"gelathi_id"`
-	NameOfSHG                    string `json:"nameOfSHG"`
-	TypeOfEnterprise             string `json:"typeOfEnterprise"`
-	WifeIncomeMonthly            string `json:"wifeIncomeMonthly"`
-	WifeSavingsMonthly           string `json:"wifeSavingsMonthly"`
-	PersonOfWorth                string `json:"personOfWorth"`
-	GoodQuality                  string `json:"goodQuality"`
-	AmFailure                    string `json:"amFailure"`
-	HaveGoal                     string `json:"haveGoal"`
-	Goal                         string `json:"goal"`
-	PathwayToGoal                string `json:"pathwayToGoal"`
-	DisheartenedToProblems       string `json:"disheartenedToProblems"`
-	SolutionToProblems           string `json:"solutionToProblems"`
-	ImplementationPlan           string `json:"implementationPlan"`
-	NoChoiceForSolution          string `json:"noChoiceForSolution"`
-	ProfitForSarees              string `json:"profitForSarees"`
-	AnnualLoanInterest           string `json:"annualLoanInterest"`
-	SaveRegularly                string `json:"saveRegularly"`
-	WhereSaveMoney               string `json:"whereSaveMoney"`
-	FrequencyOfSaving            string `json:"frequencyOfSaving"`
-	OwnAsset                     string `json:"ownAsset"`
-	SeparateFinancialAsset       string `json:"separateFinancialAsset"`
-	SpendMoney                   string `json:"spendMoney"`
-	HaveLoan                     string `json:"haveLoan"`
-	LoanOnWhoseName              string `json:"loanOnWhoseName"`
-	GovernmentBank               string `json:"governmentBank"`
-	PrivateBank                  string `json:"privateBank"`
-	LocalMFI                     string `json:"localMFI"`
-	NGO                          string `json:"ngo"`
-	MoneyLender                  string `json:"moneyLender"`
-	Middleman                    string `json:"middleman"`
-	AgroProcessors               string `json:"agroProcessors"`
-	Parents                      string `json:"parents"`
-	Relatives                    string `json:"relatives"`
-	Neighbours                   string `json:"neighbours"`
-	Friends                      string `json:"friends"`
-	SocialWelfareDepartments     string `json:"socialWelfareDepartments"`
-	Coorperatives                string `json:"cooperatives"`
-	Others                       string `json:"others"`
-	OwnIncomeGeneration          string `json:"ownIncomeGeneration"`
-	FamilyIncomeGeneration       string `json:"familyIncomeGeneration"`
-	EducationReason              string `json:"educationReason"`
-	FutureEmployment             string `json:"futureEmployment"`
-	OwnMarriage                  string `json:"ownMarriage"`
-	BrotherMarriage              string `json:"brotherMarriage"`
-	PersonalExpenses             string `json:"personalExpenses"`
-	HouseholdUse                 string `json:"householdUse"`
-	HouseRepair                  string `json:"houseRepair"`
-	Medical                      string `json:"medical"`
-	Festival                     string `json:"festival"`
-	ReasonOthersToBorrowLoan     string `json:"reasonOthersToBorrowLoan"`
-	SpecificGoalForSavings       string `json:"specificGoalForSavings"`
-	HowMuchSaveToAchieve         string `json:"howMuchSaveToAchieve"`
-	EducationDecision            string `json:"educationDecision"`
-	AccessToHealtcare            string `json:"accessToHealtcare"`
-	AccessToCredit               string `json:"accessToCredit"`
-	SavingMoney                  string `json:"savingMoney"`
-	AssetPurchase                string `json:"assetPurchase"`
-	DayTodayExpenditure          string `json:"dayTodayExpenditure"`
-	Livelihood                   string `json:"livelihood"`
-	PartOfCollective             string `json:"partOfCollective"`
-	ImportantToShareTheirProb    string `json:"importantToShareTheirProb"`
-	ShareLearningWithCommunity   string `json:"shareLearningWithCommunity"`
-	IsSurveyDone                 string `json:"isSurveyDone"`
-	GreenMotivators              string `json:"greenMotivators"`
-	VyaparEnrollment             string `json:"vyaparEnrollment"`
-	GreenMotivatorsDate          string `json:"greenMotivatorsDate"`
-	VyaparEnrollmentDate         string `json:"vyaparEnrollmentDate"`
-	GreenMotivatorsEnrolledProj  string `json:"greenMotivatorsEnrolledProject"`
-	VyaparEnrollmentEnrolledProj string `json:"vyaparEnrollmentEnrolledProject"`
-	HouseholdBooksAccounts       string `json:"household_books_accounts"`
-	AccountsForSelfEnterprises   string `json:"accounts_for_Self_Enterprises"`
-	AccountHousehold             string `json:"account_household"`
-	AccountBusiness              string `json:"account_business"`
-	NewGreen                     string `json:"new_green"`
-	NewVyapar                    string `json:"new_vyapar"`
+	ID string `json:"id"`
+
+	FirstName         string `json:"firstName"`
+	DOB               string `json:"dob"`
+	Age               string `json:"age"`
+	HusbandName       string `json:"husbandName"`
+	Occupation        string `json:"occupation"`
+	HusbandOccupation string `json:"husbandOccupation"`
+	SavingGoal        string `json:"saving_goal"`
+	Caste             string `json:"caste"`
+
+	NumOfChildren string `json:"numOfChildren"`
+	Income        string `json:"income"`
+	Savings       string `json:"savings"`
+
+	Education      string `json:"education"`
+	ContactNo      string `json:"contact_no"`
+	VoterID        string `json:"voter_id"`
+	BusinessIncome string `json:"business_income"`
+	BusinessProfit string `json:"business_profit"`
+	SavingAmt      string `json:"saving_amt"`
+	BankAcc        string `json:"bank_acc"`
+
+	NameOfSHG                  string `json:"nameOfSHG"`
+	TypeOfEnterprise           string `json:"typeOfEnterprise"`
+	WifeIncomeMonthly          string `json:"wifeIncomeMonthly"`
+	WifeSavingsMonthly         string `json:"wifeSavingsMonthly"`
+	PersonOfWorth              string `json:"personOfWorth"`
+	GoodQuality                string `json:"goodQuality"`
+	AmFailure                  string `json:"amFailure"`
+	HaveGoal                   string `json:"haveGoal"`
+	Goal                       string `json:"goal"`
+	PathwayToGoal              string `json:"pathwayToGoal"`
+	DisheartenedToProblems     string `json:"disheartenedToProblems"`
+	SolutionToProblems         string `json:"solutionToProblems"`
+	ImplementationPlan         string `json:"implementationPlan"`
+	NoChoiceForSolution        string `json:"noChoiceForSolution"`
+	ProfitForSarees            string `json:"profitForSarees"`
+	AnnualLoanInterest         string `json:"annualLoanInterest"`
+	SaveRegularly              string `json:"saveRegularly"`
+	WhereSaveMoney             string `json:"whereSaveMoney"`
+	FrequencyOfSaving          string `json:"frequencyOfSaving"`
+	OwnAsset                   string `json:"ownAsset"`
+	SeparateFinancialAsset     string `json:"separateFinancialAsset"`
+	SpendMoney                 string `json:"spendMoney"`
+	HaveLoan                   string `json:"haveLoan"`
+	LoanOnWhoseName            string `json:"loanOnWhoseName"`
+	GovernmentBank             string `json:"governmentBank"`
+	PrivateBank                string `json:"privateBank"`
+	LocalMFI                   string `json:"localMFI"`
+	NGO                        string `json:"ngo"`
+	MoneyLender                string `json:"moneyLender"`
+	Middleman                  string `json:"middleman"`
+	AgroProcessors             string `json:"agroProcessors"`
+	Parents                    string `json:"parents"`
+	Relatives                  string `json:"relatives"`
+	Neighbours                 string `json:"neighbours"`
+	Friends                    string `json:"friends"`
+	SocialWelfareDepartments   string `json:"socialWelfareDepartments"`
+	Coorperatives              string `json:"cooperatives"`
+	Others                     string `json:"others"`
+	OwnIncomeGeneration        string `json:"ownIncomeGeneration"`
+	FamilyIncomeGeneration     string `json:"familyIncomeGeneration"`
+	EducationReason            string `json:"educationReason"`
+	FutureEmployment           string `json:"futureEmployment"`
+	OwnMarriage                string `json:"ownMarriage"`
+	BrotherMarriage            string `json:"brotherMarriage"`
+	PersonalExpenses           string `json:"personalExpenses"`
+	HouseholdUse               string `json:"householdUse"`
+	HouseRepair                string `json:"houseRepair"`
+	Medical                    string `json:"medical"`
+	Festival                   string `json:"festival"`
+	ReasonOthersToBorrowLoan   string `json:"reasonOthersToBorrowLoan"`
+	SpecificGoalForSavings     string `json:"specificGoalForSavings"`
+	HowMuchSaveToAchieve       string `json:"howMuchSaveToAchieve"`
+	EducationDecision          string `json:"educationDecision"`
+	AccessToHealtcare          string `json:"accessToHealtcare"`
+	AccessToCredit             string `json:"accessToCredit"`
+	SavingMoney                string `json:"savingMoney"`
+	AssetPurchase              string `json:"assetPurchase"`
+	DayTodayExpenditure        string `json:"dayTodayExpenditure"`
+	Livelihood                 string `json:"livelihood"`
+	PartOfCollective           string `json:"partOfCollective"`
+	ImportantToShareTheirProb  string `json:"importantToShareTheirProb"`
+	ShareLearningWithCommunity string `json:"shareLearningWithCommunity"`
+
+	IsSurveyDone string `json:"isSurveyDone"`
+
+	HouseholdBooksAccounts     string `json:"household_books_accounts"`
+	AccountsForSelfEnterprises string `json:"accounts_for_Self_Enterprises"`
+	AccountHousehold           string `json:"account_household"`
+	AccountBusiness            string `json:"account_business"`
+
 	District                     string `json:"district"`
 	Taluk                        string `json:"taluk"`
 	GramPanchayat                string `json:"gram_panchayat"`
@@ -207,10 +193,6 @@ func GetSelfShaktiBaselineSurvey(w http.ResponseWriter, r *http.Request, db *sql
 	query := fmt.Sprintf(`
     SELECT 
     COALESCE(id, '') AS id,
-    COALESCE(project_id, '') AS project_id,
-    COALESCE(tb_id, '') AS tb_id,
-    COALESCE(trainer_id, '') AS trainer_id,
-    COALESCE(gelathiRecomm, '') AS gelathiRecomm,
     COALESCE(firstName, '') AS firstName,
     COALESCE(dob, '') AS dob,
     COALESCE(age, '') AS age,
@@ -219,15 +201,9 @@ func GetSelfShaktiBaselineSurvey(w http.ResponseWriter, r *http.Request, db *sql
     COALESCE(husbandOccupation, '') AS husbandOccupation,
     COALESCE(saving_goal, '') AS saving_goal,
     COALESCE(caste, '') AS caste,
-    COALESCE(day1, '') AS day1,
-    COALESCE(day2, '') AS day2,
-    COALESCE(participant_day1, '') AS participant_day1,
-    COALESCE(participant_day2, '') AS participant_day2,
     COALESCE(numOfChildren, '') AS numOfChildren,
     COALESCE(income, '') AS income,
     COALESCE(savings, '') AS savings,
-    COALESCE(enroll, '') AS enroll,
-    COALESCE(enrolledProject, '') AS enrolledProject,
     COALESCE(education, '') AS education,
     COALESCE(contact_no, '') AS contact_no,
     COALESCE(voter_id, '') AS voter_id,
@@ -235,9 +211,6 @@ func GetSelfShaktiBaselineSurvey(w http.ResponseWriter, r *http.Request, db *sql
     COALESCE(business_profit, '') AS business_profit,
     COALESCE(saving_amt, '') AS saving_amt,
     COALESCE(bank_acc, '') AS bank_acc,
-    COALESCE(final_save, '') AS final_save,
-    COALESCE(enroll_date, '') AS enroll_date,
-    COALESCE(gelathi_id, '') AS gelathi_id,
     COALESCE(nameOfSHG, '') AS nameOfSHG,
     COALESCE(typeOfEnterprise, '') AS typeOfEnterprise,
     COALESCE(wifeIncomeMonthly, '') AS wifeIncomeMonthly,
@@ -300,19 +273,11 @@ func GetSelfShaktiBaselineSurvey(w http.ResponseWriter, r *http.Request, db *sql
     COALESCE(partOfCollective, '') AS partOfCollective,
     COALESCE(importantToShareTheirProb, '') AS importantToShareTheirProb,
     COALESCE(shareLearningWithCommunity, '') AS shareLearningWithCommunity,
-    COALESCE(isSurveyDone, '') AS isSurveyDone,
-    COALESCE(greenMotivators, '') AS greenMotivators,
-    COALESCE(vyaparEnrollment, '') AS vyaparEnrollment,
-    COALESCE(greenMotivatorsDate, '') AS greenMotivatorsDate,
-    COALESCE(vyaparEnrollmentDate, '') AS vyaparEnrollmentDate,
-    COALESCE(greenMotivatorsEnrolledProject, '') AS greenMotivatorsEnrolledProject,
-    COALESCE(vyaparEnrollmentEnrolledProject, '') AS vyaparEnrollmentEnrolledProject,
+COALESCE(isSurveyDone, 0) AS isSurveyDone,
     COALESCE(household_books_accounts, '') AS household_books_accounts,
     COALESCE(accounts_for_Self_Enterprises, '') AS accounts_for_Self_Enterprises,
     COALESCE(account_household, '') AS account_household,
     COALESCE(account_business, '') AS account_business,
-    COALESCE(new_green, '') AS new_green,
-    COALESCE(new_vyapar, '') AS new_vyapar,
     COALESCE(district, '') AS district,
     COALESCE(taluk, '') AS taluk,
     COALESCE(gram_panchayat, '') AS gram_panchayat,
@@ -377,8 +342,7 @@ func GetSelfShaktiBaselineSurvey(w http.ResponseWriter, r *http.Request, db *sql
     COALESCE(cooking_fuel_type, '') AS cooking_fuel_type
 FROM 
     training_participants
-    WHERE id = %d
-`, req.ParticipantID)
+    WHERE isSurveyDone= 1 and id = %d`, req.ParticipantID)
 
 	rows, err := db.Query(query)
 
@@ -395,10 +359,6 @@ FROM
 
 		err := rows.Scan(
 			&participant.ID,
-			&participant.ProjectID,
-			&participant.TbID,
-			&participant.TrainerID,
-			&participant.GelathiRecomm,
 			&participant.FirstName,
 			&participant.DOB,
 			&participant.Age,
@@ -407,15 +367,9 @@ FROM
 			&participant.HusbandOccupation,
 			&participant.SavingGoal,
 			&participant.Caste,
-			&participant.Day1,
-			&participant.Day2,
-			&participant.ParticipantDay1,
-			&participant.ParticipantDay2,
 			&participant.NumOfChildren,
 			&participant.Income,
 			&participant.Savings,
-			&participant.Enroll,
-			&participant.EnrolledProject,
 			&participant.Education,
 			&participant.ContactNo,
 			&participant.VoterID,
@@ -423,9 +377,6 @@ FROM
 			&participant.BusinessProfit,
 			&participant.SavingAmt,
 			&participant.BankAcc,
-			&participant.FinalSave,
-			&participant.EnrollDate,
-			&participant.GelathiID,
 			&participant.NameOfSHG,
 			&participant.TypeOfEnterprise,
 			&participant.WifeIncomeMonthly,
@@ -489,18 +440,10 @@ FROM
 			&participant.ImportantToShareTheirProb,
 			&participant.ShareLearningWithCommunity,
 			&participant.IsSurveyDone,
-			&participant.GreenMotivators,
-			&participant.VyaparEnrollment,
-			&participant.GreenMotivatorsDate,
-			&participant.VyaparEnrollmentDate,
-			&participant.GreenMotivatorsEnrolledProj,
-			&participant.VyaparEnrollmentEnrolledProj,
 			&participant.HouseholdBooksAccounts,
 			&participant.AccountsForSelfEnterprises,
 			&participant.AccountHousehold,
 			&participant.AccountBusiness,
-			&participant.NewGreen,
-			&participant.NewVyapar,
 			&participant.District,
 			&participant.Taluk,
 			&participant.GramPanchayat,

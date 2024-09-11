@@ -9,7 +9,7 @@ import (
 	"strings"
 )
 
-//-------------------------------- Get Buses working but Not getting  ------------------------------------
+// -------------------------------- Get Buses working but Not getting  ------------------------------------
 type Bus struct {
 	Date        string `json:"date"`
 	Role_id     int    `json:"Role_id"`
@@ -66,7 +66,9 @@ func GetBuses(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 	var p Bus
 	var data []busdata
 	err := json.NewDecoder(r.Body).Decode(&p)
+
 	if err != nil {
+
 		w.WriteHeader(http.StatusBadRequest)
 		json.NewEncoder(w).Encode(map[string]interface{}{"code": http.StatusBadRequest, "message": "Failed to decode the request body ", "success": false})
 
@@ -131,8 +133,7 @@ func GetBuses(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 			condition = fmt.Sprintf(" WHERE prj.locationID = %s", p.Taluk_id)
 			other_roles = fmt.Sprintf(" AND prj.locationID = %s", p.Taluk_id)
 		}
-		fmt.Println(p.District_id, p.Taluk_id)
-		fmt.Println(condition, other_roles)
+
 		//---------- page num -----------------
 		var pageno int
 		if p.PageNum == 0 {
@@ -146,6 +147,15 @@ func GetBuses(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 		//var query string
 		no_of_records := 25000
 		offset := (pageno - 1) * no_of_records
+
+		var dateCondition string
+		if date == "" {
+			// If date is empty, check for NULL in the query
+			dateCondition = "date_checked IS NULL"
+		} else {
+			// If date is provided, use the actual date in the query
+			dateCondition = "date_checked = '" + date + "'"
+		}
 
 		//var total_pages float64
 		if p.Role_id == 1 || p.Role_id == 2 {
@@ -177,11 +187,12 @@ func GetBuses(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 
 			// total_pages := int(math.Ceil(float64(totalRows) / float64(no_of_records)))
 
-			fields := "bus.id as bus_id, UPPER(bus.register_number) as register_number, COALESCE(prj.id,'') as project_id, IFNULL(UPPER(prj.projectName), '') as project_name, IFNULL((SELECT IF(check_count > 0, 1, 0) From bus_checklist WHERE date_checked = '" + date + "' AND bus_id = bus.id), 0) as flag, IFNULL((SELECT final_save From bus_checklist WHERE date_checked = '" + date + "' AND bus_id = bus.id), 0) as final_save, IFNULL((SELECT check_count From bus_checklist WHERE date_checked = '" + date + "' AND bus_id = bus.id), 0) as checked_count"
+			fields := "bus.id as bus_id, UPPER(bus.register_number) as register_number, COALESCE(prj.id,'') as project_id, IFNULL(UPPER(prj.projectName), '') as project_name, IFNULL((SELECT IF(check_count > 0, 1, 0) From bus_checklist WHERE " + dateCondition + " AND bus_id = bus.id), 0) as flag, IFNULL((SELECT final_save From bus_checklist WHERE " + dateCondition + " AND bus_id = bus.id), 0) as final_save, IFNULL((SELECT check_count From bus_checklist WHERE " + dateCondition + " AND bus_id = bus.id), 0) as checked_count"
 
 			query = "SELECT " + fields + " FROM bus bus LEFT JOIN project prj ON bus.id = prj.busID " + join_add + condition + searchFilter + " ORDER BY bus.id desc LIMIT " + strconv.Itoa(offset) + ", " + strconv.Itoa(no_of_records)
 
 		}
+
 		projects := []map[string]interface{}{}
 		var queryProject string
 		//var totalRows int
@@ -202,7 +213,6 @@ func GetBuses(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 					if err != nil {
 						w.WriteHeader(http.StatusInternalServerError)
 						json.NewEncoder(w).Encode(map[string]interface{}{"code": http.StatusInternalServerError, "message": "Internal Server Error", "success": false})
-
 						return
 					}
 
@@ -328,31 +338,29 @@ func GetBuses(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 
 			//------------------- counting total pages -----------------
 			totalPagesSQL := fmt.Sprintf("SELECT COUNT(*) FROM bus bus LEFT JOIN project prj ON bus.id = prj.busID WHERE prj.id IN (%s) %s ", projIDs, searchFilter)
-			fmt.Println(totalPagesSQL)
+
 			err := DB.QueryRow(totalPagesSQL).Scan(&totalRows)
 			if err != nil {
 				w.WriteHeader(http.StatusInternalServerError)
 				json.NewEncoder(w).Encode(map[string]interface{}{"code": http.StatusInternalServerError, "message": "Internal Server Error", "success": false})
-
 				return
 			}
 
 			// total_pages := int(math.Ceil(float64(totalRows) / float64(no_of_records)))
 
 			//------------- queries  ------------------------------
-			fields := "bus.id as bus_id, UPPER(bus.register_number) as register_number, COALESCE(prj.id,'') as project_id, IFNULL(UPPER(prj.projectName), '') as project_name, IFNULL((SELECT IF(check_count > 0, 1, 0) FROM bus_checklist WHERE date_checked = '" + date + "' AND bus_id = bus.id), 0) as flag, IFNULL((SELECT final_save FROM bus_checklist WHERE date_checked = '" + date + "' AND bus_id = bus.id), 0) as final_save, IFNULL((SELECT check_count FROM bus_checklist WHERE date_checked = '" + date + "' AND bus_id = bus.id), 0) as checked_count"
+			fields := "bus.id as bus_id, UPPER(bus.register_number) as register_number, COALESCE(prj.id,'') as project_id, IFNULL(UPPER(prj.projectName), '') as project_name, IFNULL((SELECT IF(check_count > 0, 1, 0) FROM bus_checklist WHERE " + dateCondition + " AND bus_id = bus.id), 0) as flag, IFNULL((SELECT final_save FROM bus_checklist WHERE " + dateCondition + " AND bus_id = bus.id), 0) as final_save, IFNULL((SELECT check_count FROM bus_checklist WHERE " + dateCondition + " AND bus_id = bus.id), 0) as checked_count"
 			query = fmt.Sprintf("SELECT %s FROM bus bus LEFT JOIN project prj ON bus.id = prj.busID WHERE prj.id IN (%s) %s ORDER BY bus.id DESC LIMIT %d, %d", fields, projIDs, searchFilter, offset, no_of_records)
 		}
 
 		// ------------------------------ end program -------------------------
-		fmt.Println(query)
+
 		rows, err := DB.Query(query)
 		if err != nil {
 			w.WriteHeader(http.StatusOK)
 			json.NewEncoder(w).Encode(map[string]interface{}{"list": data, "checked_count": checkCount, "total_count": totalRows, "code": 200, "success": true, "message": "Successfully"})
 			// http.Error(w, err.Error(), http.StatusInternalServerError)
 			// json.NewEncoder(w).Encode(map[string]interface{}{"code": http.StatusInternalServerError, "message": "Internal Server Error", "success": false})
-
 			return
 		}
 		defer rows.Close()

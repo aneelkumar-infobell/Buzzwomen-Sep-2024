@@ -399,6 +399,66 @@ func AllAttendence(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 
 		json.NewEncoder(w).Encode(map[string]interface{}{"Message": "Attendance added successfully for vyapar Module5"})
 
+		//  =============================== nagarika program attendance ==========================================
+	case p.Type == 23:
+		if found {
+			_, err := DB.Exec("UPDATE nagarikaprogramquestionnaire sp , gelathi_circle gel_circle left join training_participants tr_part ON gel_circle.gelathi_id = tr_part.id SET sp.module1=1 where sp.partcipantId=? and gel_circle.circle_id =?;", p.PartcipantId, p.Circle_id)
+			if err != nil {
+				w.WriteHeader(http.StatusBadRequest)
+			}
+			json.NewEncoder(w).Encode(map[string]interface{}{"Message": "Attendance added successfully for Nagarika Module1"})
+		} else {
+			json.NewEncoder(w).Encode(map[string]interface{}{"Message": "Fill the Nagarika survey form"})
+		}
+	case p.Type == 24:
+
+		_, err := DB.Exec("UPDATE nagarikaprogramquestionnaire sp , gelathi_circle gel_circle left join training_participants tr_part ON gel_circle.gelathi_id = tr_part.id SET sp.module2=1 where sp.partcipantId=? and gel_circle.circle_id =?;", p.PartcipantId, p.Circle_id)
+		if err != nil {
+			json.NewEncoder(w).Encode(map[string]interface{}{"Message": err, "Status Code": "400 Bad Request"})
+		}
+
+		json.NewEncoder(w).Encode(map[string]interface{}{"Message": "Attendance added successfully for Nagarika Module2"})
+
+	case p.Type == 25:
+
+		_, err := DB.Exec("UPDATE nagarikaprogramquestionnaire sp , gelathi_circle gel_circle left join training_participants tr_part ON gel_circle.gelathi_id = tr_part.id SET sp.module3=1 where sp.partcipantId=? and gel_circle.circle_id =?;", p.PartcipantId, p.Circle_id)
+		if err != nil {
+			return
+		}
+
+		json.NewEncoder(w).Encode(map[string]interface{}{"Message": "Attendance added successfully for Nagarika Module3"})
+
+	case p.Type == 26:
+		_, err := DB.Exec("UPDATE nagarikaprogramquestionnaire sp , gelathi_circle gel_circle left join training_participants tr_part ON gel_circle.gelathi_id = tr_part.id SET sp.module4=1 where sp.partcipantId=? and gel_circle.circle_id =?;", p.PartcipantId, p.Circle_id)
+		if err != nil {
+			w.WriteHeader(http.StatusBadRequest)
+			json.NewEncoder(w).Encode(map[string]interface{}{"Message": err, "Status Code": "400 Bad Request"})
+			return
+		}
+
+		json.NewEncoder(w).Encode(map[string]interface{}{"Message": "Attendance added successfully for Nagaraika Module4"})
+
+	case p.Type == 27:
+
+		_, err := DB.Exec("UPDATE nagarikaprogramquestionnaire sp , gelathi_circle gel_circle left join training_participants tr_part ON gel_circle.gelathi_id = tr_part.id SET sp.module5=1 where sp.partcipantId=? and gel_circle.circle_id =?;", p.PartcipantId, p.Circle_id)
+		if err != nil {
+			w.WriteHeader(http.StatusBadRequest)
+			json.NewEncoder(w).Encode(map[string]interface{}{"Message": err, "Status Code": "400 Bad Request"})
+			return
+		}
+
+		json.NewEncoder(w).Encode(map[string]interface{}{"Message": "Attendance added successfully for Nagarika Module5"})
+	case p.Type == 28:
+
+		_, err := DB.Exec("UPDATE nagarikaprogramquestionnaire sp , gelathi_circle gel_circle left join training_participants tr_part ON gel_circle.gelathi_id = tr_part.id SET sp.module6=1 where sp.partcipantId=? and gel_circle.circle_id =?;", p.PartcipantId, p.Circle_id)
+		if err != nil {
+			w.WriteHeader(http.StatusBadRequest)
+			json.NewEncoder(w).Encode(map[string]interface{}{"Message": err, "Status Code": "400 Bad Request"})
+			return
+		}
+
+		json.NewEncoder(w).Encode(map[string]interface{}{"Message": "Attendance added successfully for Nagarika Module6"})
+
 	default:
 		json.NewEncoder(w).Encode(map[string]interface{}{"Message": "Invalid Attendance"})
 
