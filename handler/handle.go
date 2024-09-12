@@ -406,6 +406,9 @@ func HandleFunc() {
 	apiRouter.Handle("/addSurveyData", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		t2.AddSurveydata(w, r, db)
 	}))
+	apiRouter.HandleFunc("/addselfshakti", (func(w http.ResponseWriter, r *http.Request) {
+		sep.AddSelfshaktiday1day2data(w, r, db)
+	}))
 	//-------------------Endpoint for adding data to QAF---------------------------------------
 	apiRouter.HandleFunc("/getBuses", (func(w http.ResponseWriter, r *http.Request) {
 		t2.GetBuses(w, r, db)
@@ -642,7 +645,7 @@ func HandleFunc() {
 
 	//---------------------------Dhiraj Lakhane---------------------------------
 	//----------------------------Get Location----------------------------------
-	apiRouter.Handle("/getLocation", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
+	apiRouter.HandleFunc("/getLocation", (func(w http.ResponseWriter, r *http.Request) {
 		t4.GetLocations(w, r, db)
 	}))
 
