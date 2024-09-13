@@ -1,4 +1,4 @@
-package spoorthi
+package Nagarika
 
 import (
 	"database/sql"
@@ -337,6 +337,7 @@ func NPCounts(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 				StartDate string `json:"start_date"`
 				EndDate   string `json:"end_date"`
 			}
+
 			err := rows.Scan(&prList.ID, &prList.Name, &prList.StartDate, &prList.EndDate)
 			if err != nil {
 				log.Println("ERROR>>", err)

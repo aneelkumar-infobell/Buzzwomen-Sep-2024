@@ -103,7 +103,7 @@ func HandleFunc() {
 
 	}
 	s2.Every(1).Day().StartAt(status).Do(func() { c.CheckoutTb(db) })
-	fmt.Println("UpdatingStatus : ", status)
+
 	s2.StartAsync()
 
 	//-------------------Endpoint for adding data to QAF---------------------------------------
@@ -706,7 +706,7 @@ func HandleFunc() {
 		t5.GetVillageList(w, r, db)
 	}))
 	//---------------------GetEnrollGelathi----------------------------------
-	apiRouter.Handle("/getEnrollGelathi", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
+	apiRouter.HandleFunc("/getEnrollGelathi", (func(w http.ResponseWriter, r *http.Request) {
 		t5.GetEnrollGelathi(w, r, db)
 	}))
 	//---------------------AddNewTA----------------------------------

@@ -1,4 +1,4 @@
-package spoorthi
+package Nagaraika
 
 import (
 	"database/sql"
@@ -124,7 +124,7 @@ func NagarikaProgramDashboard(w http.ResponseWriter, r *http.Request, DB *sql.DB
 				response["success"] = false
 				response["message"] = "Invalid employe id"
 				js, err := json.Marshal(response)
-				//fmt.Println(response)
+
 				if err != nil {
 					log.Println("Nagarikadashboard", err)
 					w.WriteHeader(http.StatusBadRequest)
@@ -231,7 +231,7 @@ func NagarikaProgramDashboard(w http.ResponseWriter, r *http.Request, DB *sql.DB
 				js, err := json.Marshal(response)
 				//fmt.Println(response)
 				if err != nil {
-					log.Println("GreenDashboard", err)
+					log.Println("nagarikaDashboard", err)
 					w.WriteHeader(http.StatusBadRequest)
 					json.NewEncoder(w).Encode(map[string]interface{}{"Status": "400 Bad Request", "Message": err.Error()})
 					return
@@ -275,7 +275,7 @@ func NagarikaProgramDashboard(w http.ResponseWriter, r *http.Request, DB *sql.DB
 		dateFilter := ""
 		dateFilters := ""
 		if isDateFilterApplied {
-			dateFilter = "startDate >= '" + startDate + "' and endDate <= '" + endDate + "'"
+			dateFilter = "startDate >= '" + startDate + "' and startDate <= '" + endDate + "'"
 			dateFilters = "date >= '" + startDate + "' and date <= '" + endDate + "'"
 		} else {
 			dateFilter = "endDate >= CURRENT_DATE()"
@@ -449,7 +449,8 @@ func NagarikaProgramDashboard(w http.ResponseWriter, r *http.Request, DB *sql.DB
 				projectArray := make([]int, 0)
 
 				if startDate != "" && endDate != "" {
-					getProj = fmt.Sprintf("SELECT distinct p.id, p.startDate, p.endDate from project p join tbl_poa t on t.project_id = p.id join training_participants tp on tp.tb_id=t.tb_id where tp.nagarikaenrollment=1 and p.funderID = %d AND '%s' BETWEEN p.startDate AND p.endDate AND '%s' BETWEEN p.startDate AND p.endDate", funderID, startDate, endDate)
+					//getProj = fmt.Sprintf("SELECT distinct p.id, p.startDate, p.endDate from project p join tbl_poa t on t.project_id = p.id join training_participants tp on tp.tb_id=t.tb_id where tp.nagarikaenrollment=1 and p.funderID = %d AND '%s' BETWEEN p.startDate AND p.endDate AND '%s' BETWEEN p.startDate AND p.endDate", funderID, startDate, endDate)
+					getProj = fmt.Sprintf("SELECT distinct p.id, p.startDate, p.endDate from project p join tbl_poa t on t.project_id = p.id join training_participants tp on tp.tb_id=t.tb_id where tp.nagarikaenrollment=1 and p.funderID = %d AND p.startDate BETWEEN '%s' AND '%s' ", funderID, startDate, endDate)
 					projResult, err := DB.Query(getProj)
 					if err != nil {
 						fmt.Println(err)
@@ -521,15 +522,15 @@ func NagarikaProgramDashboard(w http.ResponseWriter, r *http.Request, DB *sql.DB
 				summaryActuals += obj["actual"].(int)
 				obj["Gelathienrolled"] = nagarikaEnrolled(DB, startDate, endDate, projectArray, "")
 				summarySpoorthienrolled += obj["Gelathienrolled"].(int)
-				obj["Noofsporthicompleted"] = spoorthiModule(DB, startDate, endDate, projectArray, "")
+				obj["Noofsporthicompleted"] = nagarikaModule(DB, startDate, endDate, projectArray, "")
 				summaryNoofSpoorthimodulecompleted += obj["Noofsporthicompleted"].(int)
-				obj["Noofsporthisurvey"] = spoorthiSurvey(DB, startDate, endDate, projectArray, "")
+				obj["Noofsporthisurvey"] = nagarikaSurvey(DB, startDate, endDate, projectArray, "")
 				summaryNoofSpoorthisurvey += obj["Noofsporthisurvey"].(int)
 				obj["NoofCircleMeeting"] = noofCircleMeeting(DB, startDate, endDate, projectArray, "")
 				summayNoofSpoorthicircle += obj["NoofCircleMeeting"].(int)
 				obj["Noofbeehives"] = noofBeehives(DB, startDate, endDate, projectArray, "")
 				summayNoofSpoorthibeehives += obj["Noofbeehives"].(int)
-				obj["villages"], _ = SpoorthinewVillageCount(DB, startDate, endDate, projectArray, "")
+				obj["villages"], _ = NagarikanewVillageCount(DB, startDate, endDate, projectArray, "")
 				summaryVillages += obj["villages"].(int)
 				obj["startDate"] = ""
 				obj["endDate"] = ""
@@ -746,9 +747,9 @@ func NagarikaProgramDashboard(w http.ResponseWriter, r *http.Request, DB *sql.DB
 				}
 				prList.Actual = nagarikaEnrolled(DB, startDate, endDate, projectArray, tpFilter)
 				summaryActuals += prList.Actual
-				prList.NoOfsporthisurvey = spoorthiSurvey(DB, startDate, endDate, projectArray, "")
+				prList.NoOfsporthisurvey = nagarikaSurvey(DB, startDate, endDate, projectArray, "")
 				summaryNoofSpoorthisurvey += prList.NoOfsporthisurvey
-				prList.Noofsporthicompleted = spoorthiModule(DB, startDate, endDate, projectArray, "")
+				prList.Noofsporthicompleted = nagarikaModule(DB, startDate, endDate, projectArray, "")
 				summaryNoofSpoorthimodulecompleted += prList.Noofsporthicompleted
 				prList.Gelathienrolled = nagarikaEnrolled(DB, startDate, endDate, projectArray, "")
 				summarySpoorthienrolled += prList.Gelathienrolled
@@ -756,7 +757,7 @@ func NagarikaProgramDashboard(w http.ResponseWriter, r *http.Request, DB *sql.DB
 				summayNoofSpoorthicircle += prList.NoofCircleMeeting
 				prList.Noofbeehives = noofBeehives(DB, startDate, endDate, projectArray, "")
 				summayNoofSpoorthibeehives += prList.Noofbeehives
-				prList.Villages, _ = SpoorthinewVillageCount(DB, startDate, endDate, projectArray, tbFilter)
+				prList.Villages, _ = NagarikanewVillageCount(DB, startDate, endDate, projectArray, tbFilter)
 				summaryVillages += prList.Villages
 				prList.SelectType = "1"
 
@@ -816,7 +817,8 @@ func NagarikaProgramDashboard(w http.ResponseWriter, r *http.Request, DB *sql.DB
 			filter := ""
 			filters := ""
 			if isDateFilterApplied {
-				filter = fmt.Sprintf(" and p.startDate >= '%s' and p.endDate <= '%s'", startDate, endDate)
+				//filter = fmt.Sprintf(" and p.startDate >= '%s'", startDate)
+				filter = fmt.Sprintf(" and p.startDate between '%s' and '%s'", startDate, endDate)
 				filters = fmt.Sprintf(" and nagarikaenrollmentdate >= '%s' and nagarikaenrollmentdate <= '%s'", startDate, endDate)
 			} else {
 				filter = " and p.endDate >= CURRENT_DATE()"
@@ -831,7 +833,7 @@ func NagarikaProgramDashboard(w http.ResponseWriter, r *http.Request, DB *sql.DB
 							SELECT tp.project_id as id, p.projectName as name,p.startDate,p.endDate FROM training_participants tp
 							INNER JOIN project p ON tp.project_id = p.id
 							WHERE tp.nagarikaenrollment=1 AND gelathi_id = %d %s`, empid, filter, empid, filter)
-
+			fmt.Println("getProjs834", getProjs)
 			if projectid > 0 {
 				getProjs = fmt.Sprintf(`SELECT project_id as id, p.projectName as name,p.startDate,p.endDate FROM tbl_poa tp
 							INNER JOIN project p ON p.id = tp.project_id
@@ -865,9 +867,9 @@ func NagarikaProgramDashboard(w http.ResponseWriter, r *http.Request, DB *sql.DB
 				survey := fmt.Sprintf(" and sb.GelathiId = %d", empid)
 				prList.Actual = nagarikaEnrolled(DB, startDate, endDate, projectArray, filter)
 				summaryActuals += prList.Actual
-				prList.NoOfsporthisurvey = spoorthiSurvey(DB, startDate, endDate, projectArray, survey)
+				prList.NoOfsporthisurvey = nagarikaSurvey(DB, startDate, endDate, projectArray, survey)
 				summaryNoofSpoorthisurvey += prList.NoOfsporthisurvey
-				prList.Noofsporthicompleted = spoorthiModule(DB, startDate, endDate, projectArray, survey)
+				prList.Noofsporthicompleted = nagarikaModule(DB, startDate, endDate, projectArray, survey)
 				summaryNoofSpoorthimodulecompleted += prList.Noofsporthicompleted
 				prList.Gelathienrolled = nagarikaEnrolled(DB, startDate, endDate, projectArray, filter)
 				summarySpoorthienrolled += prList.Gelathienrolled
@@ -875,7 +877,7 @@ func NagarikaProgramDashboard(w http.ResponseWriter, r *http.Request, DB *sql.DB
 				summayNoofSpoorthicircle += prList.NoofCircleMeeting
 				prList.Noofbeehives = noofBeehives(DB, startDate, endDate, projectArray, coharts)
 				summayNoofSpoorthibeehives += prList.Noofbeehives
-				prList.Villages = GfSpoorthiVillageCount(DB, startDate, endDate, projectArray, empID)
+				prList.Villages = GfnagarikaVillageCount(DB, startDate, endDate, projectArray, empID)
 				summaryVillages += prList.Villages
 				prList.SelectType = "1"
 				data = append(data, prList)
@@ -913,7 +915,7 @@ func NagarikaProgramDashboard(w http.ResponseWriter, r *http.Request, DB *sql.DB
 			js, err := json.Marshal(response)
 			////fmt.Println(response)
 			if err != nil {
-				log.Println("SelfSakthiDashboard", err)
+				log.Println("nagarika", err)
 				w.WriteHeader(http.StatusBadRequest)
 				json.NewEncoder(w).Encode(map[string]interface{}{"Status": "400 Bad Request", "Message": err.Error()})
 				return
@@ -933,7 +935,7 @@ func NagarikaProgramDashboard(w http.ResponseWriter, r *http.Request, DB *sql.DB
 		if rows.Next() {
 			var filter string
 			if isDateFilterApplied {
-				filter = fmt.Sprintf(" and p.startDate >= '%s' and p.endDate <= '%s'", startDate, endDate)
+				filter = fmt.Sprintf(" and p.startDate between '%s' and '%s'", startDate, endDate)
 			} else {
 				filter = " and p.endDate >= CURRENT_DATE()"
 			}
@@ -985,19 +987,19 @@ func NagarikaProgramDashboard(w http.ResponseWriter, r *http.Request, DB *sql.DB
 					coharts = fmt.Sprintf(" and tbl_poa.user_id = %d", gfid)
 					village = fmt.Sprintf(" and tp.user_id = %d", gfid)
 				}
-				prList.Actual = GflspoorthiEnrolled(DB, startDate, endDate, projectArray, empid, filter)
+				prList.Actual = GflnagarikaEnrolled(DB, startDate, endDate, projectArray, empid, filter)
 				summaryActuals += prList.Actual
-				prList.NoOfsporthisurvey = GflspoorthiSurvey(DB, startDate, endDate, projectArray, empid, filter)
+				prList.NoOfsporthisurvey = GflnagarikaSurvey(DB, startDate, endDate, projectArray, empid, filter)
 				summaryNoofSpoorthisurvey += prList.NoOfsporthisurvey
-				prList.Noofsporthicompleted = GflspoorthiModule(DB, startDate, endDate, projectArray, empid, filter)
+				prList.Noofsporthicompleted = GflnagarikaModule(DB, startDate, endDate, projectArray, empid, filter)
 				summaryNoofSpoorthimodulecompleted += prList.Noofsporthicompleted
-				prList.Gelathienrolled = GflspoorthiEnrolled(DB, startDate, endDate, projectArray, empid, filter)
+				prList.Gelathienrolled = GflnagarikaEnrolled(DB, startDate, endDate, projectArray, empid, filter)
 				summarySpoorthienrolled += prList.Gelathienrolled
 				prList.NoofCircleMeeting = GflnoofCircleMeeting(DB, startDate, endDate, projectArray, empid, coharts)
 				summayNoofSpoorthicircle += prList.NoofCircleMeeting
 				prList.Noofbeehives = GflnoofBeehives(DB, startDate, endDate, projectArray, empid, coharts)
 				summayNoofSpoorthicircle += prList.Noofbeehives
-				prList.Villages = GflSpoorthinewVillageCount(DB, startDate, endDate, projectArray, empid, village)
+				prList.Villages = GflNagarikanewVillageCount(DB, startDate, endDate, projectArray, empid, village)
 				summaryVillages += prList.Villages
 				prList.SelectType = "1"
 				data = append(data, prList)

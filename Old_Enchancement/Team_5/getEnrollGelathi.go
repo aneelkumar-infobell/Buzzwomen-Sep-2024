@@ -48,6 +48,7 @@ type Datum struct {
 	Flag        string `json:"flag"`
 	EnrollDate  string `json:"enroll_date"`
 	EnrolledBy  string `json:"enrolled_by"`
+	IsSurvey    bool   `json:"is_survey"`
 }
 
 func GetEnrollGelathi(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
@@ -60,6 +61,7 @@ func GetEnrollGelathi(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 		json.NewEncoder(w).Encode(map[string]interface{}{"code": http.StatusNotFound, "message": "Method Not found", "success": false})
 		return
 	}
+
 	data, err := io.ReadAll(r.Body)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
@@ -223,6 +225,29 @@ func GetEnrollGelathi(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 				json.NewEncoder(w).Encode(map[string]interface{}{"code": http.StatusInternalServerError, "message": "Bad Request", "success": false})
 				return
 			}
+
+			var count int
+			err1 := DB.QueryRow("SELECT count(*) FROM SpoorthiBaselineQuestionnaire WHERE partcipantId = ?", d.ID).Scan(&count)
+			fmt.Println(count)
+			if err1 != nil {
+				fmt.Println("errrr219", err1)
+				json.NewEncoder(w).Encode(map[string]interface{}{"code": http.StatusInternalServerError, "message": "Database Query Error", "success": false, "error": err1.Error()})
+				fmt.Print("line 202")
+			}
+			var isSurvey bool
+
+			if count != 0 {
+				isSurvey = true
+			} else {
+				isSurvey = false
+			}
+			// var isSurvey bool
+			// if anaRows.Next() {
+			//  isSurvey = true
+			// } else {
+			//  isSurvey = false
+			// }
+			d.IsSurvey = isSurvey
 			data = append(data, d)
 		}
 		count1, err := strconv.Atoi(totalRows)

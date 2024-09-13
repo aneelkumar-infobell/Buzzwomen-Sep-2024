@@ -212,10 +212,9 @@ func GetBuzzSpoorthiProgramBaseline(w http.ResponseWriter, r *http.Request, db *
 	defer rows.Close()
 	fmt.Println("inside1")
 
-	var response []ParticipantData
-
+	//var response []ParticipantData
+	var queryData ParticipantData
 	for rows.Next() {
-		var queryData ParticipantData
 
 		err := rows.Scan(
 			&queryData.ID,
@@ -302,9 +301,9 @@ func GetBuzzSpoorthiProgramBaseline(w http.ResponseWriter, r *http.Request, db *
 			return
 		}
 
-		response = append(response, queryData)
+		//response = append(response, queryData)
 	}
 
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(map[string]interface{}{"data": response, "success": true, "message": "BuzzSpoorthiProgramBaseline"})
+	json.NewEncoder(w).Encode(map[string]interface{}{"data": queryData, "success": true, "message": "BuzzSpoorthiProgramBaseline"})
 }
