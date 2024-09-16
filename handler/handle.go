@@ -57,6 +57,7 @@ func isAuthorized(endpoint func(http.ResponseWriter, *http.Request)) http.Handle
 			// if token.Valid {
 			// 	endpoint(w, r)
 			// }
+
 			if token.Valid {
 				claims, ok := token.Claims.(jwt.MapClaims)
 				if !ok {
@@ -108,25 +109,27 @@ func HandleFunc() {
 
 	//-------------------Endpoint for adding data to QAF---------------------------------------
 
-	apiRouter.HandleFunc("/addnagarikaprogram", (func(w http.ResponseWriter, r *http.Request) {
+	apiRouter.Handle("/addnagarikaprogram", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		sep.Addnagarikasurvey(w, r, db)
 	}))
 	//---------------------------Get Gelathi List----------------------------------
-	apiRouter.HandleFunc("/getSpoorthiForm", func(w http.ResponseWriter, r *http.Request) {
+	apiRouter.Handle("/getSpoorthiForm", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		sep.GetBuzzSpoorthiProgramBaseline(w, r, db)
-	})
-	apiRouter.HandleFunc("/getGreenBaselineSurvey", func(w http.ResponseWriter, r *http.Request) {
+	}))
+	apiRouter.Handle("/getGreenBaselineSurvey", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		sep.GetGreenBaselineSurvey(w, r, db)
-	})
-	apiRouter.HandleFunc("/getSelfShaktiBaselineSurvey", func(w http.ResponseWriter, r *http.Request) {
+	}))
+	apiRouter.Handle("/getSelfShaktiBaselineSurvey", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		sep.GetSelfShaktiBaselineSurvey(w, r, db)
-	})
-	apiRouter.HandleFunc("/getNagarikaProgramQuestionnaire", func(w http.ResponseWriter, r *http.Request) {
+	}))
+	apiRouter.Handle("/getNagarikaProgramQuestionnaire", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		sep.GetNagarikaProgramQuestionnaire(w, r, db)
 	})
 	apiRouter.HandleFunc("/addGreensurvey", func(w http.ResponseWriter, r *http.Request) {
 		sep.AddGreensurvey(w, r, db)
 	})
+
+
 	apiRouter.Handle("/addQualityAssessmentForm", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		q.AddQualityAssessmentForm(w, r, db)
 	}))
@@ -214,63 +217,63 @@ func HandleFunc() {
 		q.GetPoa(w, r, db)
 	}))
 
-	apiRouter.HandleFunc("/funderVyaparDashboard", func(w http.ResponseWriter, r *http.Request) {
+	apiRouter.Handle("/funderVyaparDashboard", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		d.FunderVyaparD(w, r, db)
-	})
+	}))
 
-	apiRouter.HandleFunc("/funderGreenDashboard", func(w http.ResponseWriter, r *http.Request) {
+	apiRouter.Handle("/funderGreenDashboard", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		d.FunderGreenD(w, r, db)
-	})
-	apiRouter.HandleFunc("/funderSSDashboard", func(w http.ResponseWriter, r *http.Request) {
+	}))
+	apiRouter.Handle("/funderSSDashboard", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		d.FunderSSD(w, r, db)
-	})
-	apiRouter.HandleFunc("/funderGelathiDashboard", func(w http.ResponseWriter, r *http.Request) {
+	}))
+	apiRouter.Handle("/funderGelathiDashboard", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		d.FunderGelathiD(w, r, db)
-	})
+	}))
 
 	//-----------------------------------------SS filter-anand-----------------------------
-	apiRouter.HandleFunc("/ssfilter", func(w http.ResponseWriter, r *http.Request) {
+	apiRouter.Handle("/ssfilter", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		spf.SSCounts(w, r, db)
-	})
+	}))
 
 	//-----------------------------------------Gelathi filter-anand-----------------------------
-	apiRouter.HandleFunc("/gelathifilter", func(w http.ResponseWriter, r *http.Request) {
+	apiRouter.Handle("/gelathifilter", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		sppf.SPCounts(w, r, db)
-	})
-	apiRouter.HandleFunc("/npfilter", func(w http.ResponseWriter, r *http.Request) {
+	}))
+	apiRouter.Handle("/npfilter", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		npp.NPCounts(w, r, db)
-	})
+	}))
 
 	//-----------------------------------------Green filter-anand-----------------------------
-	apiRouter.HandleFunc("/greenfilter", func(w http.ResponseWriter, r *http.Request) {
+	apiRouter.Handle("/greenfilter", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		gppf.GPCounts(w, r, db)
-	})
+	}))
 
 	//-----------------------------------------Vyapar filter-anand-----------------------------
-	apiRouter.HandleFunc("/vyaparfilter", func(w http.ResponseWriter, r *http.Request) {
+	apiRouter.Handle("/vyaparfilter", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		vppf.GetCounts(w, r, db)
-	})
+	}))
 	//-----------------------------------------SS Dashboard-anand-----------------------------
-	apiRouter.HandleFunc("/ssDashboard", func(w http.ResponseWriter, r *http.Request) {
+	apiRouter.Handle("/ssDashboard", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		ss.SelfsakthiDashboard(w, r, db)
-	})
+	}))
 	// -----------------------------------------GP dashboard-----------------------------
-	apiRouter.HandleFunc("/greenDashboard", func(w http.ResponseWriter, r *http.Request) {
+	apiRouter.Handle("/greenDashboard", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		gp.GreenDashboard(w, r, db)
-	})
+	}))
 	//---------------------vyapar dashboard----------------------------------
-	apiRouter.HandleFunc("/vyaparDashboard", func(w http.ResponseWriter, r *http.Request) {
+	apiRouter.Handle("/vyaparDashboard", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		vp.VyaparDashboard(w, r, db)
-	})
+	}))
 
 	//---------------------gelathiProgram dashboard----------------------------------
-	apiRouter.HandleFunc("/gelathiProgramDashboard", func(w http.ResponseWriter, r *http.Request) {
+	apiRouter.Handle("/gelathiProgramDashboard", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		sp.GelathiProgramDashboard1(w, r, db)
-	})
+	}))
 
-	apiRouter.HandleFunc("/npprogramDashboard", func(w http.ResponseWriter, r *http.Request) {
+	apiRouter.Handle("/npprogramDashboard", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		np.NagarikaProgramDashboard(w, r, db)
-	})
+	}))
 
 	//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>old codes converted to go>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	//_______________________________TEAM_1___________________________________
@@ -310,7 +313,7 @@ func HandleFunc() {
 
 	//---------------------Get Gf sessions -----------------------------------------
 
-	apiRouter.HandleFunc("/getGFSessionData1", (func(w http.ResponseWriter, r *http.Request) {
+	apiRouter.Handle("/getGFSessionData1", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		t1.GetGFSessionData1(w, r, db)
 	}))
 
@@ -360,7 +363,7 @@ func HandleFunc() {
 	apiRouter.Handle("/updateRescheduleEvent", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		t2.UpdateRescheduleEvent(w, r, db)
 	}))
-	apiRouter.HandleFunc("/editParticipant", (func(w http.ResponseWriter, r *http.Request) {
+	apiRouter.Handle("/editParticipant", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		t2.EditParticipantMehtod(w, r, db)
 	}))
 	apiRouter.Handle("/editGFSession", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
@@ -369,9 +372,9 @@ func HandleFunc() {
 	apiRouter.Handle("/checkInOut", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		t2.CheckInOut(w, r, db)
 	}))
-	apiRouter.HandleFunc("/signIn", func(w http.ResponseWriter, r *http.Request) {
+	apiRouter.Handle("/signIn", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		t2.SignInHandleRequest(w, r, db)
-	})
+	}))
 
 	//====================== vishal pimple ==============================
 	apiRouter.Handle("/getPOA", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
@@ -397,9 +400,9 @@ func HandleFunc() {
 		t2.CreateGFSessions(w, r, db)
 	}))
 
-	apiRouter.HandleFunc("/getGFSessionsNew", func(w http.ResponseWriter, r *http.Request) {
+	apiRouter.Handle("/getGFSessionsNew", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		t2.GetGFSessionsNew(w, r, db)
-	})
+	}))
 
 	//=================================== ANEEL CODES =========================================
 	apiRouter.Handle("/teamMembers", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
@@ -408,11 +411,11 @@ func HandleFunc() {
 	apiRouter.Handle("/addSurveyData", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		t2.AddSurveydata(w, r, db)
 	}))
-	apiRouter.HandleFunc("/addselfshakti", (func(w http.ResponseWriter, r *http.Request) {
+	apiRouter.Handle("/addselfshakti", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		sep.AddSelfshaktiday1day2data(w, r, db)
 	}))
 	//-------------------Endpoint for adding data to QAF---------------------------------------
-	apiRouter.HandleFunc("/getBuses", (func(w http.ResponseWriter, r *http.Request) {
+	apiRouter.Handle("/getBuses", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		t2.GetBuses(w, r, db)
 	}))
 	///------------------------- delete Buses --------------------------
@@ -459,12 +462,15 @@ func HandleFunc() {
 		t4.GetFunderList(w, r, db)
 	}))
 
+	apiRouter.HandleFunc("/projectFunderList", (func(w http.ResponseWriter, r *http.Request) {
+		sep.GetFunderProjectList(w, r, db)
+	}))
 	//-------------------Endpoint for adding data to QAF---------------------------------------
 	apiRouter.Handle("/getBusList", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		t3.GetBusList(w, r, db)
 	}))
 	//-------------------Endpoint for adding data to QAF--------------------------------
-	apiRouter.HandleFunc("/getTrainingBatchData", (func(w http.ResponseWriter, r *http.Request) {
+	apiRouter.Handle("/getTrainingBatchData", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		t3.GetTrainingBatchData(w, r, db)
 	}))
 	//-------------------Endpoint for adding data to QAF--------------------------------
@@ -493,15 +499,15 @@ func HandleFunc() {
 		t3.SetEnrollGelathi(w, r, db)
 	}))
 
-	apiRouter.HandleFunc("/setEnrollnagarikaGelathi", (func(w http.ResponseWriter, r *http.Request) {
+	apiRouter.Handle("/setEnrollnagarikaGelathi", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		sep.SetEnrollNagarikaGelathi(w, r, db)
 	}))
 
-	apiRouter.HandleFunc("/getenrollnagarikagelathi", (func(w http.ResponseWriter, r *http.Request) {
+	apiRouter.Handle("/getenrollnagarikagelathi", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		sep.GetEnrollednagarikaGelathi(w, r, db)
 	}))
 
-	apiRouter.HandleFunc("/deleteenrollnagarika", (func(w http.ResponseWriter, r *http.Request) {
+	apiRouter.Handle("/deleteenrollnagarika", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		sep.RemoveEnrollNagarikaGelathi(w, r, db)
 	}))
 	//-------------------Endpoint for adding data to QAF--------------------------------
@@ -530,7 +536,7 @@ func HandleFunc() {
 		t3.GetChangeRole(w, r, db)
 	}))
 	// -------------------Endpoint for adding data to QAF--------------------------------
-	apiRouter.HandleFunc("/getProjectData", (func(w http.ResponseWriter, r *http.Request) {
+	apiRouter.Handle("/getProjectData", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		t3.GetProjectData(w, r, db)
 	}))
 	// -------------------Endpoint for adding Bus--------------------------------
@@ -591,7 +597,7 @@ func HandleFunc() {
 		t4.CreateCircle(w, r, db)
 	}))
 	//---------------------------Create GF Batch----------------------------------
-	apiRouter.HandleFunc("/createGFBatch", (func(w http.ResponseWriter, r *http.Request) {
+	apiRouter.Handle("/createGFBatch", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		t4.CreateGFBatch(w, r, db)
 	}))
 	//---------------------------roles list----------------------------------
@@ -647,7 +653,7 @@ func HandleFunc() {
 
 	//---------------------------Dhiraj Lakhane---------------------------------
 	//----------------------------Get Location----------------------------------
-	apiRouter.HandleFunc("/getLocation", (func(w http.ResponseWriter, r *http.Request) {
+	apiRouter.Handle("/getLocation", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		t4.GetLocations(w, r, db)
 	}))
 
@@ -668,7 +674,7 @@ func HandleFunc() {
 	}))
 
 	//----------------------------Get Training Batch----------------------------------
-	apiRouter.HandleFunc("/getTrainingBatch", (func(w http.ResponseWriter, r *http.Request) {
+	apiRouter.Handle("/getTrainingBatch", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		t4.GetTrainingBatch(w, r, db)
 	}))
 
@@ -689,7 +695,7 @@ func HandleFunc() {
 	}))
 
 	//----------------------------Get Training Batch List---------------------------------
-	apiRouter.HandleFunc("/getTrainingBatchList", (func(w http.ResponseWriter, r *http.Request) {
+	apiRouter.Handle("/getTrainingBatchList", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		t4.GetBatchlist(w, r, db)
 	}))
 
@@ -708,7 +714,7 @@ func HandleFunc() {
 		t5.GetVillageList(w, r, db)
 	}))
 	//---------------------GetEnrollGelathi----------------------------------
-	apiRouter.HandleFunc("/getEnrollGelathi", (func(w http.ResponseWriter, r *http.Request) {
+	apiRouter.Handle("/getEnrollGelathi", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		t5.GetEnrollGelathi(w, r, db)
 	}))
 	//---------------------AddNewTA----------------------------------
@@ -728,7 +734,7 @@ func HandleFunc() {
 		t5.UpdateTa(w, r, db)
 	}))
 	//---------------------AddSpoorthiBaselineQuestionnaire----------------------------------
-	apiRouter.HandleFunc("/addSpoorthiBaselineQuestionnaire", (func(w http.ResponseWriter, r *http.Request) {
+	apiRouter.Handle("/addSpoorthiBaselineQuestionnaire", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		t5.AddSpoorthiBaselineQuestionnaire(w, r, db)
 	}))
 	//---------------------AddGreenBaselineSurvey----------------------------------
@@ -778,7 +784,7 @@ func HandleFunc() {
 	})).Methods("POST")
 	// -------------------Endpoint for getting GetGFSessionData ---------------------------------------
 
-	apiRouter.HandleFunc("/getGFSessionData", (func(w http.ResponseWriter, r *http.Request) {
+	apiRouter.Handle("/getGFSessionData", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		t5.GetGFSessionData(w, r, db)
 	})).Methods("POST")
 
