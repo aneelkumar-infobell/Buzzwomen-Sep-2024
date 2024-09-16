@@ -29,3 +29,11 @@
 2024/08/31 12:55:14 Participant ID already present
 2024/08/31 12:56:07 Participant ID already present
 2024/09/05 12:11:34 Recorded sucessfully
+2024/09/16 15:10:28 Error checking participant ID: Error 1054 (42S22): Unknown column 'participantid' in 'where clause'
+2024/09/16 15:12:11 Error 1054 (42S22): Unknown column 'participant_id' in 'field list'
+2024/09/16 15:12:49 Error 1054 (42S22): Unknown column 'native_food_you_believe_is_environmentally_friendly' in 'field list'
+2024/09/16 15:14:15 Error 1136 (21S01): Column count doesn't match value count at row 1
+2024/09/16 15:18:27 Error 1136 (21S01): Column count doesn't match value count at row 1
+2024/09/16 15:19:52 Error 1366 (HY000): Incorrect integer value: 'Completed' for column 'module1' at row 1
+2024/09/16 15:22:32 json: cannot unmarshal string into Go struct field GreenBaselineSurvey1.participant_id of type int64
+2024/09/16 15:24:54 Recorded sucessfully
