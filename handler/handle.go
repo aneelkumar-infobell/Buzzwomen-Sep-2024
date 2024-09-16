@@ -458,6 +458,9 @@ func HandleFunc() {
 		t4.GetFunderList(w, r, db)
 	}))
 
+	apiRouter.HandleFunc("/projectFunderList", (func(w http.ResponseWriter, r *http.Request) {
+		sep.GetFunderProjectList(w, r, db)
+	}))
 	//-------------------Endpoint for adding data to QAF---------------------------------------
 	apiRouter.Handle("/getBusList", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		t3.GetBusList(w, r, db)
