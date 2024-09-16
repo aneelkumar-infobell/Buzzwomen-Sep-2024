@@ -95,7 +95,7 @@ func getParticipantFilternoSpoorthirenroll(db *sql.DB, startDate string, endDate
 	if len(projectIDs) > 0 {
 		spoorthienroll = fmt.Sprintf("SELECT COUNT(id) as spoorthi FROM training_participants WHERE nagarikaenrollment=1 and nagarikaenrollmentdate BETWEEN '%s' AND '%s' AND project_id IN (%s) %s", startDate, endDate, strings.Trim(strings.Replace(fmt.Sprint(projectIDs), " ", ",", -1), "[]"), filter)
 	} else {
-		spoorthienroll = fmt.Sprintf("SELECT COUNT(id) as spoorthi FROM training_participants WHERE nagarikaenrollment=1 and nagarikaenrollment BETWEEN '%s' AND '%s' %s", startDate, endDate, filter)
+		spoorthienroll = fmt.Sprintf("SELECT COUNT(id) as spoorthi FROM training_participants WHERE nagarikaenrollment=1 and nagarikaenrollmentdate BETWEEN '%s' AND '%s' %s", startDate, endDate, filter)
 	}
 
 	err := db.QueryRow(spoorthienroll).Scan(&noofspoorthienroll)

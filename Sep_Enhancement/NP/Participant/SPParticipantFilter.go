@@ -100,6 +100,7 @@ func NPCounts(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 			projectList = "SELECT DISTINCT COALESCE(tp.project_id, 0) as id, COALESCE(projectName, '') as name, COALESCE(p.startDate, '') as startDate, COALESCE(p.endDate, '') as endDate " +
 				"from tbl_poa tp inner join project p on p.id = tp.project_id join training_participants t on t.tb_id=tp.tb_id where t.nagarikaenrollment=1 and tp.session_type in (22,23,24,25,26,27,28) and ((tp.date BETWEEN '" + request.StartDate + "' AND '" + request.EndDate + "'))" + filter
 		}
+
 		fmt.Println(projectList)
 		rows, err := DB.Query(projectList)
 		if err != nil {

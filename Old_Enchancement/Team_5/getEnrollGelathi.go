@@ -241,12 +241,7 @@ func GetEnrollGelathi(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 			} else {
 				isSurvey = false
 			}
-			// var isSurvey bool
-			// if anaRows.Next() {
-			//  isSurvey = true
-			// } else {
-			//  isSurvey = false
-			// }
+
 			d.IsSurvey = isSurvey
 			data = append(data, d)
 		}
@@ -256,6 +251,7 @@ func GetEnrollGelathi(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 			json.NewEncoder(w).Encode(map[string]interface{}{"Message": err, "Status Code": "400 Bad Request"})
 			return
 		}
+
 		//Reponse structure
 		response := Response7{
 			List:       data,
