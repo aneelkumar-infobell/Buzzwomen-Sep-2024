@@ -53,11 +53,6 @@ type GreenBaselineSurvey1 struct {
 	ConservationInitiative                         string `json:"initiative_to_conserve_the_environment"`
 	CommunityConservationGoal                      string `json:"community_together_achieve_my_conservation_goal"`
 	EntryDate                                      string `json:"entry_date"`
-	Module1                                        any    `json:"module1"`
-	Module2                                        any    `json:"module2"`
-	Module3                                        any    `json:"module3"`
-	Module4                                        any    `json:"module4"`
-	Module5                                        any    `json:"module5"`
 	DistrictName                                   string `json:"district_name"`
 	TalukName                                      string `json:"taluk_name"`
 	PanchayatName                                  string `json:"panchayat_name"`
@@ -213,11 +208,6 @@ func AddGreensurvey(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 			initiative_to_conserve_the_environment,
 			community_together_achieve_my_conservation_goal,
 			entry_date,
-			module1,
-			module2,
-			module3,
-			module4,
-			module5,
 			district_name,
 			taluk_name,
 			panchayat_name,
@@ -274,7 +264,7 @@ func AddGreensurvey(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 			access_to_daily_living_products,
 			locally_produced_products_consumed
 		) VALUES (
-			?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?,?
+			?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?,?
 		)`
 
 		_, err := DB.Exec(sql,
@@ -320,11 +310,6 @@ func AddGreensurvey(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 			survey.ConservationInitiative,
 			survey.CommunityConservationGoal,
 			survey.EntryDate,
-			survey.Module1,
-			survey.Module2,
-			survey.Module3,
-			survey.Module4,
-			survey.Module5,
 			survey.DistrictName,
 			survey.TalukName,
 			survey.PanchayatName,
