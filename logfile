@@ -37,3 +37,25 @@
 2024/09/16 15:19:52 Error 1366 (HY000): Incorrect integer value: 'Completed' for column 'module1' at row 1
 2024/09/16 15:22:32 json: cannot unmarshal string into Go struct field GreenBaselineSurvey1.participant_id of type int64
 2024/09/16 15:24:54 Recorded sucessfully
+2024/09/17 10:31:06 json: cannot unmarshal string into Go struct field GreenBaselineSurvey.adult_members of type int
+2024/09/17 10:33:01 sql: expected 97 arguments, got 98
+2024/09/17 10:34:00 Error 1136 (21S01): Column count doesn't match value count at row 1
+2024/09/17 10:34:45 Recorded sucessfully
+2024/09/17 12:01:20 Error 1054 (42S22): Unknown column 'participant_id' in 'field list'
+2024/09/17 12:02:09 Error 1054 (42S22): Unknown column 'gf_id' in 'field list'
+2024/09/17 12:03:11 Error 1054 (42S22): Unknown column 'maintain_detailed_business_plan' in 'field list'
+2024/09/17 12:05:13 Error 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'has context menu,
+    short_term_goal,
+    loan_taken,
+    interest_rate,
+    lo' at line 100
+2024/09/17 12:06:13 Error 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'has context menu,
+    short_term_goal,
+    loan_taken,
+    interest_rate,
+    lo' at line 100
+2024/09/17 12:06:31 Error 1136 (21S01): Column count doesn't match value count at row 1
+2024/09/17 12:10:00 Error 1136 (21S01): Column count doesn't match value count at row 1
+2024/09/17 12:11:33 Error 1366 (HY000): Incorrect integer value: 'Yes' for column 'savings_available' at row 1
+2024/09/17 12:13:00 Recorded sucessfully
+2024/09/17 14:44:50 Recorded sucessfully

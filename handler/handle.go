@@ -116,9 +116,15 @@ func HandleFunc() {
 	apiRouter.Handle("/getSpoorthiForm", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		sep.GetBuzzSpoorthiProgramBaseline(w, r, db)
 	}))
-	apiRouter.Handle("/getGreenBaselineSurvey", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
+	apiRouter.HandleFunc("/getGreenBaselineSurvey", func(w http.ResponseWriter, r *http.Request) {
 		sep.GetGreenBaselineSurvey(w, r, db)
-	}))
+	})
+	apiRouter.HandleFunc("/addVyaparBaselineSurvey", func(w http.ResponseWriter, r *http.Request) {
+		sep.AddVyaparsurvey(w, r, db)
+	})
+	apiRouter.HandleFunc("/getVyaparBaselineSurvey", func(w http.ResponseWriter, r *http.Request) {
+		sep.GetVyaparBaselineSurvey(w, r, db)
+	})
 	apiRouter.Handle("/getSelfShaktiBaselineSurvey", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		sep.GetSelfShaktiBaselineSurvey(w, r, db)
 	}))
