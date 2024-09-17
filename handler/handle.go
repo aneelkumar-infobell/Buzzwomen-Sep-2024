@@ -377,7 +377,7 @@ func HandleFunc() {
 	apiRouter.Handle("/checkInOut", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		t2.CheckInOut(w, r, db)
 	}))
-	apiRouter.Handle("/signIn", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
+	apiRouter.HandleFunc("/signIn", (func(w http.ResponseWriter, r *http.Request) {
 		t2.SignInHandleRequest(w, r, db)
 	}))
 
