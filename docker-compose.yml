@@ -5,7 +5,7 @@ services:
     image: go_india:8.0
     build: .
     ports:
-      - "8080:8080"
+      - "8083:8080"
     volumes:
       - ./images:/var/www/html/appTest/images
     env_file: 
@@ -15,7 +15,7 @@ services:
     image: go_gambia:8.0
     build: .
     ports:
-      - "8081:8080"
+      - "8084:8080"
     volumes:
       - ./images:/var/www/html/appTest/images
     env_file: 
@@ -25,7 +25,7 @@ services:
     image: go_tanzania:8.0
     build: .
     ports:
-      - "8082:8080"
+      - "8085:8080"
     volumes:
       - ./images:/var/www/html/appTest/images
     env_file: 

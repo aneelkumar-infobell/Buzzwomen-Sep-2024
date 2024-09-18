@@ -301,8 +301,8 @@ func CreateProject(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 							w.WriteHeader(http.StatusOK)
 							json.NewEncoder(w).Encode(map[string]interface{}{"success": true, "message": "Project Publishedd Successfully", "response": queryData})
 							return
-
 						}
+
 						w.WriteHeader(http.StatusBadRequest)
 						json.NewEncoder(w).Encode(map[string]interface{}{"success": false, "message": "An error occurred while processing the request", "response": []interface{}{}})
 

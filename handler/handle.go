@@ -90,7 +90,7 @@ func HandleFunc() {
 	db := dbs.Connect()
 
 	router := mux.NewRouter()
-	apiPrefix := "/appGo"
+	apiPrefix := "/appGoTest"
 	apiRouter := router.PathPrefix(apiPrefix).Subrouter()
 
 	corsHandler := cors.AllowAll()
