@@ -8,6 +8,7 @@ import Searchbar from 'src/layouts/dashboard/Searchbar';
 import Filtersmain from './projectfilters/filtersmain';
 import { baseURL } from 'src/utils/api';
 import { useAuth } from 'src/AuthContext';
+import GelathiCircleFormView from './Components/GelathiCircleFormView';
 export default function enrolledGelathiList() {
     const { apikey } = useAuth();
     const {state} = useLocation()
@@ -23,11 +24,23 @@ export default function enrolledGelathiList() {
         enrolledGelathi();
     }, []
     )
+    const [gelathiId  ,setGelathiID] = useState('')
     const [openFilter, setOpenFilter] = useState(false);
     const [filter,setFilter]=useState(false);
+    const [shopwShakthiForm ,setShowShakkthiForm] = useState(false)
     const handleOpenFilter = () => {
         setOpenFilter(true);
     };
+    const handlesurvey =(itm)=>{
+      console.log(itm ,"data")
+      setGelathiID(itm)
+      // alert('Survey was done')
+      setShowShakkthiForm(true)
+  }
+  console.log(gelathiId ,"gelathiIdgelathiId")
+  const handleShakformClose = ()=>{
+    setShowShakkthiForm(false)
+  }
     const handleCloseFilter = () => {
         setOpenFilter(false);
     };
@@ -180,7 +193,7 @@ const getData = (itm, i) => {
                     selected &&(selected?.type=='Field Associates') && <> <Chip style={{ backgroundColor: '#ffd796', color: '#000' }}label={`${selected?.type} : ${selected?.itm?.name} `} onDelete={() => { handleDelete(selected) }} /><br/>&nbsp;</>
             }
                    <Card><CardContent style={{fontWeight:700}}>Project Name : {data1.project_name}</CardContent> </Card><br/>
-            <Typography style={{fontWeight:500,marginLeft:2}}>Enrolled Gelathis({count})</Typography> 
+            <Typography style={{fontWeight:500,marginLeft:2}}>Enrolled Gelathis working({count})</Typography> 
             {/* <Stack direction="row" flexWrap="wrap-reverse" alignItems="center" justifyContent="flex-end" sx={{ mb: 5 }}> */}
             <Stack direction="row" spacing={1} flexShrink={0} sx={{ my: 1 }}>
                 <ParticipantDrawer
@@ -199,8 +212,8 @@ const getData = (itm, i) => {
             
             enrolled?.list?.length!==0?enrolled?.list?.map((itm) => {
                 return (
-                    <Card style={styles.card1} >
-                     {(role==13 || role==6)?<IconButton style={{float:'right'}} onClick={()=>removeGelathi(itm)}><Iconify icon="ic:sharp-remove-circle"/></IconButton>:null}
+                    <Card style={{ ...styles.card1, display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px' }}>
+                  
                         <div onClick={() => {
                         setClickData({ name: itm.gelathiname, title: "Participant Details",id:itm?.id })
                         handleOpenFilter()
@@ -218,10 +231,36 @@ const getData = (itm, i) => {
                                 {` Enrolled Date : ${itm?.enroll_date}`}
                             </Typography>
                         </div>
-                    </Card>)
+                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
+                        {(role==13 || role==6)?<IconButton style={{float:'right'}} onClick={()=>removeGelathi(itm)}><Iconify icon="ic:sharp-remove-circle"/></IconButton>:null}
+                     {  itm?.is_survey? 
+                     <IconButton >
+          <Iconify icon="charm:notes-tick" width={20} height={20} color="green" onClick={() => handlesurvey(itm)}/>
+        </IconButton> : <IconButton > <Iconify icon="charm:notes-tick" width={20} height={20} color="orange" onClick={() => alert("Not yet filled")}/>
+        </IconButton>  }
+
+                        </div>
+                    </Card>
+                    
+                  )
             }):<>
             <h4 style={{textAlign:'center'}}>No Enrolled Gelathi Found</h4>
             </>}
+
+            {shopwShakthiForm && (
+              <GelathiCircleFormView
+                // index={selectedFromIndex.index}
+                // reloadmethod={reloadmethod}
+                // itm={itm } 
+                // clcikData={clcikData}
+                // circleData={circleData}
+                // singleCircleData={singleCircleData}
+                 id={gelathiId}
+                setShowForm={handleShakformClose}
+                // componentreloadmethod={componentreloadmethod}
+                // gelathiDrawerReloder={gelathiDrawerReloder}
+              />
+            )} 
         </Container>
     );
 }

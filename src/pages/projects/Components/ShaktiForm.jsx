@@ -63,7 +63,8 @@ export default function ShaktiForm({itm ,reloadFUnction}) {
   const [shareproblems, setshareproblems] = React.useState(false);
   const [localFormPresent, setlocalFormPresent] = React.useState(new Map());
   const [isFormPresentLocally ,setIsFormPresentLocally] =React.useState(false)
-
+  const [talukOptions ,setTalukOptions] = useState([])
+  const [districtOptions ,setDistrictOptions] = useState([])
   //validation
   const [helperText, setHelperText] = React.useState('');
   const [implementationPlanError, SetImplementationPlanError] = useState(false);
@@ -98,12 +99,105 @@ export default function ShaktiForm({itm ,reloadFUnction}) {
   const [accounts_for_Self_EnterprisesError, Setaccounts_for_Self_EnterprisesError] = useState(false);
   const [savemoneyError, SetsavemoneyError] = useState(false);
   const [purchaseError, SetpurchaseError] = useState(false);
-
+  const [vyaapar, setVyaapar] = useState('');
+  const [goladAchicedError, setGoladAchicedError] = useState(false);
+  const [goladAchicedValue, setGoladAchiced] = React.useState('');
   const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
   const [checked, setChecked] = React.useState({
     loanborrow: [],
     borrowedmoney: [],
   });
+
+  const workOptions = [
+    { id: 1, name: "My work" },
+    { id: 2, name: "Savings from household expenditure" },
+    { id: 3, name: "My husband" },
+    { id: 4, name: "Others…/ಇತರೆ…"}
+  ]
+  const womenWorkOptions = [
+    { id: 1, name: "Crop cultivator/ಕೃಷಿ" },
+    { id: 2, name: "Livestock farming/ಜಾನುವಾರು ಸಾಕಣೆ" },
+    { id: 3, name: "Farm wage worker/ಕೃಷಿ ಕೂಲಿ ಕಾರ್ಮಿಕ" },
+    { id: 4, name: "Non farm sector wage worker like factory worker, sales girl, domestic worker/ಕಾರ್ಖಾನೆಯ ಕೆಲಸಗಾರ, ಮಾರಾಟಗಾರ್ತಿ, ಮನೆಕೆಲಸದಂತಹ ಕೃಷಿಯೇತರ ವಲಯದ ಕೂಲಿ ಕೆಲಸಗಾರ" },
+    { id: 5, name: "Business/Self employed like tailor, shop owner/ಟೈಲರ್, ಅಂಗಡಿ ಮಾಲೀಕರು, ವ್ಯಾಪಾರ/ಸ್ವಯಂ ಉದ್ಯೋಗಿ" },
+    { id: 6, name: "Government employee/ಸರ್ಕಾರಿ ಉದ್ಯೋಗಿ" },
+    { id: 7, name: "Private company employee/ಖಾಸಗಿ ಕಂಪನಿ ಉದ್ಯೋಗಿ" },
+    { id: 8, name: "Housewife/ಮನೆಕೆಲಸ" },
+    { id: 9, name: "Student/ವಿದ್ಯಾರ್ಥಿ" },
+    { id: 10, name: "Looking for job/ಕೆಲಸ ಹುಡುಕುತ್ತಿರುವ" }
+  ];
+  const houseOptions = [
+    { id: 1, name: "Owned/ಸ್ವಂತ" },
+    { id: 2, name: "Rented/ಬಾಡಿಗೆ" },
+    { id: 3, name: "Others…/ಇತರೆ…"}
+  ]
+  const RoofOptions = [
+    { id: 1, name: "Thatched/ಹುಲ್ಲಿನ" },
+    { id: 2, name: "Tile/ಹಂಚಿನ " },
+    { id: 3, name: "Sheet/ಶೀಟ್"},
+    { id: 4, name: "Concrete/ತಾರಸಿ"},
+    { id: 5, name: "Others……/ಇತರೆ......  "}
+  ]
+  const cardOptions = [
+    { id: 1, name: "None/ಯಾವುದೂ ಇಲ್ಲ" },
+    { id: 2, name: "APL/ಎಪಿಎಲ್" },
+    { id: 3, name: "BPL/ಬಿಪಿಎಲ್" },
+    { id: 4, name: "Antyodaya/ಅಂತ್ಯೋದಯ"}
+  ]
+  const casteOptions = [
+    { id: 1, name: "ST/ಪರಿಶಿಷ್ಟ ಜಾತಿ" },
+    { id: 2, name: "SC/ಪರಿಶಿಷ್ಟ ಪಂಗಡ" },
+    { id: 3, name: "OBC/ಹಿಂದುಳಿದ ವರ್ಗ" },
+    { id: 4, name: "Others/ಇತರೆ" }
+  ];
+  const religiousOptions = [
+    { id: 1, name: "Hindu/ಹಿಂದೂ" },
+    { id: 2, name: "Muslim/ಮುಸ್ಲಿಂ" },
+    { id: 3, name: "Christian/ಕ್ರಿಶ್ಚಿಯನ್" },
+    { id: 4, name: "Other/ಇತರೆ" },
+    { id: 5, name: "No Religion/ಧರ್ಮವಿಲ್ಲ"}
+  ]
+// Define the marital status options with English and Kannada names
+const maritalStatusOptions = [
+  { id: 1, name: "Unmarried/ಅವಿವಾಹಿತ" },
+  { id: 2, name: "Married/ವಿವಾಹಿತ" },
+  { id: 3, name: "Divorced/ವಿಚ್ಛೇದಿತ" },
+  { id: 4, name: "Widowed/ವಿಧವೆ" }
+];
+
+const educationOptions = [
+  { id: 1, name: "Primary (1-6)/ಪ್ರಾಥಮಿಕ (1-6)" },
+  { id: 2, name: "Secondary (6-10)/ದ್ವಿತೀಯ (6-10)" },
+  { id: 3, name: "PU (11 and 12)/ಪಿಯು (11 ಮತ್ತು 12)" },
+  { id: 4, name: "Degree/ಪದವಿ" },
+  { id: 5, name: "Post Graduation/ಸ್ನಾತಕೋತ್ತರ ಪದವಿ" },
+  { id: 6, name: "Other/ಇತರೆ" }
+];
+const occupationOptions = [
+  { id: 1, name: "Crop cultivator/ಕೃಷಿ" },
+  { id: 2, name: "Livestock farming/ಜಾನುವಾರು ಸಾಕಣೆ" },
+  { id: 3, name: "Farm wage worker/ಕೃಷಿ ಕೂಲಿ ಕಾರ್ಮಿಕ" },
+  { id: 4, name: "Non farm sector wage worker like factory worker, sales girl, domestic worker/ಕಾರ್ಖಾನೆಯ ಕೆಲಸಗಾರ, ಮಾರಾಟಗಾರ್ತಿ, ಮನೆಕೆಲಸದಂತಹ ಕೃಷಿಯೇತರ ವಲಯದ ಕೂಲಿ ಕೆಲಸಗಾರ" },
+  { id: 5, name: "Business/Self employed like tailor, shop owner/ಟೈಲರ್, ಅಂಗಡಿ ಮಾಲೀಕರು, ವ್ಯಾಪಾರ/ಸ್ವಯಂ ಉದ್ಯೋಗಿ" },
+  { id: 6, name: "Government employee/ಸರ್ಕಾರಿ ಉದ್ಯೋಗಿ" },
+  { id: 7, name: "Private company employee/ಖಾಸಗಿ ಕಂಪನಿ ಉದ್ಯೋಗಿ" },
+  { id: 9, name: "Student/ವಿದ್ಯಾರ್ಥಿ" },
+  { id: 10, name: "Looking for job/ಕೆಲಸ ಹುಡುಕುತ್ತಿರುವ" }
+];
+const secondaryIncomeOptions = [
+  { id: 1, name: "Crop cultivator/ಕೃಷಿ" },
+  { id: 2, name: "Livestock farming/ಜಾನುವಾರು ಸಾಕಣೆ" },
+  { id: 3, name: "Farm wage worker/ಕೃಷಿ ಕೂಲಿ ಕಾರ್ಮಿಕ" },
+  { id: 4, name: "Non farm sector wage worker like factory worker, sales girl, domestic worker/ಕಾರ್ಖಾನೆಯ ಕೆಲಸಗಾರ, ಮಾರಾಟಗಾರ್ತಿ, ಮನೆಕೆಲಸದಂತಹ ಕೃಷಿಯೇತರ ವಲಯದ ಕೂಲಿ ಕೆಲಸಗಾರ" },
+  { id: 5, name: "Business/Self employed like tailor, shop owner/ಟೈಲರ್, ಅಂಗಡಿ ಮಾಲೀಕರು, ವ್ಯಾಪಾರ/ಸ್ವಯಂ ಉದ್ಯೋಗಿ" },
+  { id: 6, name: "Government employee/ಸರ್ಕಾರಿ ಉದ್ಯೋಗಿ" },
+  { id: 7, name: "Private company employee/ಖಾಸಗಿ ಕಂಪನಿ ಉದ್ಯೋಗಿ" },
+  { id: 9, name: "Student/ವಿದ್ಯಾರ್ಥಿ" },
+  { id: 10, name: "Looking for job/ಕೆಲಸ ಹುಡುಕುತ್ತಿರುವ" },
+  { id: 11, name: "Not applicable/ಅನುಸ್ಥಿತಿಯಲ್ಲ" },
+  { id: 12, name: "Other/ಇತರೆ"}
+]
+
   const handlecheckedata = (label, event) => {
     var updatedList = [...checked[label]];
     if (event.target.checked) {
@@ -161,7 +255,10 @@ export default function ShaktiForm({itm ,reloadFUnction}) {
       return false;
     }
   };
-  
+  const handleSoleEarning = (event) => {
+    setGoladAchiced(event.target.value);
+    setGoladAchicedError(false);
+  };
 
   const handledClose = () => {
     setOpen(false);
@@ -257,115 +354,102 @@ export default function ShaktiForm({itm ,reloadFUnction}) {
     SetsharelearningError(false);
   };
   const [sendData, setSendData] = React.useState({
-    implementationPlan: '',
-    medical: '',
-    goodQuality: '',
-    socialWelfareDepartments: '',
-    personalExpenses: '',
-    accessToHealtcare: '',
-    moneyLender: '',
-    accessToCredit: '',
-    household_books_accounts: '',
-    educationReason: '',
-    saveRegularly: '',
-    middleman: '',
-    specificGoalForSavings: '',
-    solutionToProblems: '',
-    others: '',
-    familyIncomeGeneration: '',
-    goal: '',
-    privateBank: '',
-    householdUse: '',
-    personOfWorth: '',
-    festival: '',
-    reasonOthersToBorrowLoan: '',
-    relatives: '',
-    ownAsset: '',
-    friends: '',
-    separateFinancialAsset: '',
-    NGO: '',
-    partOfCollective: '',
-    whereSaveMoney: '',
-    annualLoanInterest: '',
-    haveLoan: '',
-    parents: '',
-    importantToShareTheirProb: '',
-    account_household: '',
-    profitForSarees: '',
-    brotherMarriage: '',
-    spendMoney: '',
-    coorperatives: '',
-    ownIncomeGeneration: '',
-    localMFI: '',
-    frequencyOfSaving: '',
-    loanOnWhoseName: '',
-    haveGoal: '',
-    pathwayToGoal: '',
-    ownMarriage: '',
-    agroProcessors: '',
-    howMuchSaveToAchieve: '',
-    account_business: '',
-    neighbours: '',
-    educationDecision: '',
-    noChoiceForSolution: '',
-    livelihood: '',
-    futureEmployment: '',
-    houseRepair: '',
-    shareLearningWithCommunity: '',
-    disheartenedToProblems: '',
-    amFailure: '',
-    governmentBank: '',
-    dayTodayExpenditure: '',
-    accounts_for_Self_Enterprises: '',
-    savingMoney: '',
-    assetPurchase: '',
-    moneyborrowed: '',
+    "id": 785741,
+    "district": "Your District",
+    "taluk": "Your Taluk",
+    "gram_panchayat": "Your Gram Panchayat",
+    "village_name": "Your Village Name",
+    "house": "Your House",
+    "roof": "Your Roof Type",
+    "ration_card": "Ration Card Number",
+    "caste": "4",
+    "sub_cast_name": "Sub-caste Name",
+    "religion": "Your Religion",
+    "marital_status": "Your Marital Status",
+    "education_level": "Highest Level of Education Completed",
+    "primary_occupation": "Your Primary Occupation",
+    "monthly_household_expenditure": 2000.0,
+    "monthly_household_income": 5000.0,
+    "sole_earner_family": "Yes",
+    "source": "N/A",
+        
+      
   });
+console.log(sendData )
   const shakthiformdata = async () => {
 
     var data ={}
     data = JSON.stringify({
     participantId: itm?.participant_id,
-    implementationPlan: plan,
-    goodQuality: qualitiesgood,
-    accessToHealtcare: healthcareaccess,
-    accessToCredit: creditaccess,
-    household_books_accounts: sendData?.household_books_accounts,
-    saveRegularly: sendData?.saveRegularly,
-    middleman: null,
-    specificGoalForSavings: sendData?.specificGoalForSavings,
-    solutionToProblems: problemsolutions,
-    others: null,
-    familyIncomeGeneration: "1",
-    goal: "100",
-    householdUse: null,
-    personOfWorth: worthperson,
-    reasonOthersToBorrowLoan: checked['loanborrow'],
-    moneyborrowed: checked['borrowedmoney'],
-    ownAsset: sendData?.ownAsset,
-    separateFinancialAsset: sendData?.separateFinancialAsset,
-    partOfCollective: sendData?.partOfCollective,
-    whereSaveMoney: moneysave,
-    annualLoanInterest: sendData?.annualLoanInterest,
-    haveLoan: sendData?.haveLoan,
-    importantToShareTheirProb: shareproblems,
-    profitForSarees: sendData?.profitForSarees,
-    spendMoney: sendData?.spendMoney,
-    frequencyOfSaving: savingfrequency,
-    loanOnWhoseName: sendData?.loanOnWhoseName,
-    haveGoal: sendData?.haveGoal,
-    pathwayToGoal: sendData?.pathwayToGoal,
-    howMuchSaveToAchieve: sendData?.howMuchSaveToAchieve,
-    educationDecision: education,
-    noChoiceForSolution: solution,
-    livelihood: livelihoodvalue,
-    shareLearningWithCommunity: sharelearning,
-    disheartenedToProblems: problemsdisheartened,
-    amFailure: failureperson,
-    dayTodayExpenditure: expenditure,
-    accounts_for_Self_Enterprises: sendData?.accounts_for_Self_Enterprises,
-    savingMoney: savemoney,
-    assetPurchase: purchase,
+      "id": 785741,
+        "district": "Your District",
+        "taluk": "Your Taluk",
+        "gram_panchayat": "Your Gram Panchayat",
+        "village_name": "Your Village Name",
+        "house": "Your House",
+        "roof": "Your Roof Type",
+        "ration_card": "Ration Card Number",
+        "caste": "4",
+        "sub_cast_name": "Sub-caste Name",
+        "religion": "Your Religion",
+        "marital_status": "Your Marital Status",
+        "education_level": "Highest Level of Education Completed",
+        "primary_occupation": "Your Primary Occupation",
+        "monthly_household_expenditure": 2000.0,
+        "monthly_household_income": 5000.0,
+        "sole_earner_family": "Yes",
+        "source": "N/A",
+
+
+        "migration_profile": "Migration Profile",
+        "household_migration_last_year": "No",
+        "migrant_sends_remittance": "Yes",
+        "financial_literacy": "Basic",
+        "liabilities_or_assets": "Assets",
+        "bookkeeping_entry": "Yes",
+        "loan_type": "Personal Loan",
+        "annual_interest_rate": 5.0,
+        "interest_payment_due": 500.0,
+        "profit_made": 1000.0,
+        "has_personal_account": true,
+        "bank_account_usage_frequency": "Monthly",
+        "money_decision_maker": "Self",
+        "monthly_expense_plan": "Yes",
+        "monthly_expense_amount": 3000.0,
+        "maintain_expense_record": true,
+        "individual_savings": 1000.0,
+        "monthly_savings_individual": 200.0,
+        "annual_savings_household": 2400.0,
+        "confident_spend_savings": "Yes",
+        "loans": "No",
+        "loan_taken_by": "Self",
+        "amount_borrowed": 0.0,
+        "purpose_of_loan": "N/A",
+        "rate_of_interest": 0.0,
+        "expenses_exceed_income_last_year": false,
+        "income_loss_duration": "None",
+        "goals": "Buy a new house",
+        "financial_goals_set": true,
+        "short_term_goal": "Increase savings",
+        "long_term_goal": "Start a business",
+        "enterprise": "Yes",
+        "family_business": "No",
+        "want_to_start_enterprise": true,
+        "enterprise_type": "Small Business",
+        "num_employees_paid": 2,
+        "individual_involvement_nature": "Full-Time",
+        "enterprise_monthly_income": 3000.0,
+        "enterprise_is_profitable": true,
+        "monthly_profit": 1000.0,
+        "decision_making": "Self",
+        "decision_say": "Full",
+        "menstrual_hygiene_env": "Yes",
+        "env_friendly_practices": "Yes",
+        "menstrual_product_used": "Pads",
+        "menstrual_disposal_method": "Burning",
+        "cooking_fuel_type": "LPG"
+        
+      
     });
 
    if(isOnline() && networkAccess()){
@@ -809,7 +893,84 @@ export default function ShaktiForm({itm ,reloadFUnction}) {
 const handlesurvey=()=>{
   alert('Form is already filled')
 }
-
+const getDistrict = async (district) => {
+  var data = JSON.stringify({
+    "country_id": "1",
+    "state_id": '3',
+    "district_id": "",
+    
+  });
+  var config = {
+    method: 'post',
+    url: baseURL + 'getLocation',
+    headers: {
+      'Content-Type': 'application/json',
+       'Authorization': `${apikey}`
+    },
+    data: data
+  };
+  axios(config)
+    .then(function (response) {
+      setDistrictOptions(response.data.list)
+    })
+    .catch(function (error) {
+      // console.log(error);
+    });
+}
+const getTaluk = async (id) => {
+  var data = JSON.stringify({
+    "country_id": "1",
+    "state_id": "3",
+    "district_id": JSON.stringify(id)
+  });
+  var config = {
+    method: 'post',
+    url: baseURL + 'getLocation',
+    headers: {
+      'Content-Type': 'application/json',
+       'Authorization': `${apikey}`
+    },
+    data: data
+  };
+  axios(config)
+    .then(function (response) {
+      setTalukOptions(response.data.list)
+    })
+    .catch(function (error) {
+      // console.log(error);
+    });
+}
+const gelathinamelist = (async) => {
+  // var data = JSON.stringify({
+  //   partcipantId: id,
+  // });
+  var config = {
+    method: 'post',
+    url: baseURL + 'getGelathiList',
+    headers: {
+      'Content-Type': 'application/json',
+       'Authorization': `${apikey}`
+    },
+    // data: data,
+  };
+  axios(config)
+    .then(function (response) {
+      localStorage.setItem('gelathilist',JSON.stringify(response?.data));
+      setVyaapar(response?.data);
+    })
+    .catch(function (error) {
+      // console.log(error);
+      let gelathidata=JSON.parse(localStorage.getItem('gelathilist'))
+      setVyaapar(gelathidata);
+    });
+};
+useEffect(()=>{
+  getDistrict()
+},[])
+useEffect(() => {
+  gelathinamelist();
+ 
+}, []);
   return (
     <>
       {/* <Button variant="outlined" onClick={handleClickOpen}>
@@ -854,8 +1015,589 @@ const handlesurvey=()=>{
             </Toolbar>
           </AppBar>
           <Grid style={{marginTop:20}}>
+
+          <Card mt={1} style={{ marginTop: 50, borderRadius: 20 }}>
+                  <CardContent>
+                    <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+                    Respondent’s name/ಪ್ರತಿಕ್ರಿಯಿಸಿದವರ ಹೆಸರು*
+                    </Typography>
+                    <Stack mt={2} mb={2}>
+                      <Select
+                        color="common"
+                        label="Choose Gelathi Facilitator"
+                        variant="standard"
+                        required
+                        onChange={(e) => setSendData({ ...sendData, GelathiId: e?.target?.value })}
+                        value={sendData?.GelathiId}
+                      >
+                        {vyaapar?.list?.map((itm) => {
+                          return <MenuItem value={itm?.id}>{itm?.first_name}</MenuItem>;
+                        })}
+                      </Select>
+                    </Stack>
+                  </CardContent>
+                </Card>
+                <Card mt={1} style={{ marginTop: 10, borderRadius: 20 }}>
+  <CardContent>
+    <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+      District/Taluk-ಜಿಲ್ಲೆ/ತಾಲೂಕು
+    </Typography>
+    <Stack mt={2} mb={2}>
+      <Select
+        color="common"
+        label="Choose District/Taluk-ಜಿಲ್ಲೆ/ತಾಲೂಕು"
+        variant="standard"
+        required
+        onChange={(e) => {
+          const selectedOption = districtOptions.find(option => option.id === e.target.value);
+          setSendData({ 
+            ...sendData, 
+            district: selectedOption?.id, 
+            district_name: selectedOption?.name 
+          });
+          console.log(selectedOption ,selectedOption?.id ,selectedOption?.name  )
+        getTaluk(e?.target?.value)}}
+        value={sendData?.district}
+      >
+        {/* Use the districtOptions variable for mapping */}
+        {districtOptions && districtOptions.map((itm) => (
+          <MenuItem key={itm.id} value={itm.id}>
+            {itm.name}
+          </MenuItem>
+        ))}
+      </Select>
+    </Stack>
+  </CardContent>
+</Card>
+<Card mt={1} style={{ marginTop: 10, borderRadius: 20 }}>
+  <CardContent>
+    <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+    Taluk/ತಾಲೂಕು
+    </Typography>
+    <Stack mt={2} mb={2}>
+      <Select
+        color="common"
+        label="Choose District/Taluk-ಜಿಲ್ಲೆ/ತಾಲೂಕು"
+        variant="standard"
+        required
+        onChange={(e) => {
+          const selectedOption = talukOptions.find(option => option.id === e.target.value);
+          setSendData({ ...sendData, taluk: selectedOption.id ,taluk_name: selectedOption?.name })
+
+        
+        }}
+        value={sendData?.taluk}
+      >
+        {/* Use the districtOptions variable for mapping */}
+        {talukOptions && talukOptions.map((itm) => (
+          <MenuItem key={itm.id} value={itm.id}>
+            {itm.name}
+          </MenuItem>
+        ))}
+      </Select>
+    </Stack>
+  </CardContent>
+</Card>
+<Card style={{ marginTop: 10, borderRadius: 20 }}>
+                  <CardContent>
+                    <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+                    Gram panchayat/ಗ್ರಾಮ ಪಂಚಾಯಿತಿ*
+                    </Typography>
+                    <Stack mt={2} mb={2}>
+                      <TextField
+                        id="grampanchayath"
+                        label="Your Answer"
+                        required
+                        onChange={(e) => {
+                          setSendData({ ...sendData, gram_panchayat: e?.target?.value });
+                        }}
+                        variant="outlined"
+                        color="common"
+                      />
+                    </Stack>
+                  </CardContent>
+                </Card>
+                <Card style={{ marginTop: 10, borderRadius: 20 }}>
+                  <CardContent>
+                    <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+                    Village name/ಗ್ರಾಮದ ಹೆಸರು
+                    </Typography>
+                    <Stack mt={2} mb={2}>
+                      <TextField
+                        id="skillsresources"
+                        label="Your Answer"
+                        onChange={(e) => {
+                          setSendData({ ...sendData, village_name: e?.target?.value });
+                        }}
+                        variant="outlined"
+                        color="common"
+                      />
+                    </Stack>
+                    <Card style={{ marginTop: 10, borderRadius: 20 }}>
+                  <CardContent>
+                    <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+                    Total number of members in your household (adult)
+ ನಿಮ್ಮ ಮನೆಯ ಸದಸ್ಯರ ಒಟ್ಟು ಸಂಖ್ಯೆ
+                    </Typography>
+                    <Stack mt={2} mb={2}>
+                      <TextField
+                        id="skillsresources"
+                        label="Your Answer"
+                        onChange={(e) => {
+                          setSendData({ ...sendData, total_adults_no_of_member_household: e?.target?.value });
+                        }}
+                        variant="outlined"
+                        color="common"
+                      />
+                    </Stack>
+                  </CardContent>
+                </Card>
+                <Card style={{ marginTop: 10, borderRadius: 20 }}>
+                  <CardContent>
+                    <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+                    Total number of members in your household (children)
+                    </Typography>
+                    <Stack mt={2} mb={2}>
+                      <TextField
+                        id="skillsresources"
+                        label="Your Answer"
+                        onChange={(e) => {
+                          setSendData({ ...sendData, total_children_no_of_member_household: e?.target?.value });
+                        }}
+                        variant="outlined"
+                        color="common"
+                      />
+                    </Stack>
+                  </CardContent>
+                </Card>
+                  </CardContent>
+                </Card>
+                <Card mt={1} style={{ marginTop: 10, borderRadius: 20 }}>
+  <CardContent>
+    <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+      House/ಮನೆ:
+    </Typography>
+    <Stack mt={2} mb={2}>
+      <Select
+        color="common"
+        label="Choose House Type/ಮನೆ ಪ್ರಕಾರ"
+        variant="standard"
+        required
+        onChange={(e) => {
+           const selectedOption = houseOptions.find(option => option.id === e.target.value);
+          setSendData({ ...sendData, house: selectedOption.id, house_name: selectedOption?.name  });
+       
+          console.log(selectedOption); }}
+        value={sendData?.house}
+      >
+        {/* Map the houseOptions to the dropdown */}
+        {houseOptions.map((itm) => (
+          <MenuItem key={itm.id} value={itm.id}>
+            {itm.name}
+          </MenuItem>
+        ))}
+      </Select>
+    </Stack>
+  </CardContent>
+</Card>
+<Card mt={1} style={{ marginTop: 10, borderRadius: 20 }}>
+  <CardContent>
+    <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+      House/ಮನೆ:
+    </Typography>
+    <Stack mt={2} mb={2}>
+      <Select
+        color="common"
+        label="Choose House Type/ಮನೆ ಪ್ರಕಾರ"
+        variant="standard"
+        required
+        onChange={(e) => {
+           const selectedOption = houseOptions.find(option => option.id === e.target.value);
+          setSendData({ ...sendData, house: selectedOption.id, house_name: selectedOption?.name  });
+       
+          console.log(selectedOption); }}
+        value={sendData?.house}
+      >
+        {/* Map the houseOptions to the dropdown */}
+        {houseOptions.map((itm) => (
+          <MenuItem key={itm.id} value={itm.id}>
+            {itm.name}
+          </MenuItem>
+        ))}
+      </Select>
+    </Stack>
+  </CardContent>
+</Card>
+<Card mt={1} style={{ marginTop: 10, borderRadius: 20 }}>
+                  <CardContent>
+                    <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+                    Roof/ಛಾವಣಿ: 
+ 
+
+                    </Typography>
+                    <Stack mt={2} mb={2}>
+                      <Select
+                        color="common"
+                        label="Choose  Ration card/ಪಡಿತರ ಚೀಟಿ:"
+                        variant="standard"
+                        required
+                        onChange={(e) => {
+                          const selectedOption = RoofOptions.find(option => option.id === e.target.value);
+                         setSendData({ ...sendData, ration_card: selectedOption.id, ration_card_name: selectedOption?.name  });
+                      
+                         console.log(selectedOption); }}
+                        value={sendData?.roofOptions}
+                      >
+                       {RoofOptions.map((itm) => (
+          <MenuItem key={itm.id} value={itm.id}>
+            {itm.name}
+          </MenuItem>
+        ))}
+                      </Select>
+                    </Stack>
+                  </CardContent>
+                </Card>
+                <Card mt={1} style={{ marginTop: 10, borderRadius: 20 }}>
+  <CardContent>
+    <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+    Caste Category/ಜಾತಿ ವರ್ಗ:
+    </Typography>
+    <Stack mt={2} mb={2}>
+      <Select
+        color="common"
+        label="Choose Caste Category/ಜಾತಿ ವರ್ಗ:"
+        variant="standard"
+        required
+        onChange={(e) => {
+          const selectedOption = casteOptions.find(option => option.id === e.target.value);
+         setSendData({ ...sendData, cast_category: selectedOption.id, cast_category_name: selectedOption?.name  });
+      
+         console.log(selectedOption); }}
+        value={sendData?.cast_category}
+      >
+        {/* Map the houseOptions to the dropdown */}
+        {casteOptions.map((itm) => (
+          <MenuItem key={itm.id} value={itm.id}>
+            {itm.name}
+          </MenuItem>
+        ))}
+      </Select>
+    </Stack>
+  </CardContent>
+</Card>
+<Card mt={1} style={{ marginTop: 10, borderRadius: 20 }}>
+  <CardContent>
+    <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+      Religion/ಧರ್ಮ:
+    </Typography>
+    <Stack mt={2} mb={2}>
+      <Select
+        color="common"
+        label="Choose Religion/ಧರ್ಮ"
+        variant="standard"
+        required
+        onChange={(e) => {
+          const selectedOption = religiousOptions.find(option => option.id === e.target.value);
+         setSendData({ ...sendData, religion: selectedOption.id, religion_name: selectedOption?.name  });
+      
+         console.log(selectedOption); }} value={sendData?.religion}
+      >
+        {/* Map the religiousOptions to the dropdown */}
+        {religiousOptions.map((itm) => (
+          <MenuItem key={itm.id} value={itm.id}>
+            {itm.name}
+          </MenuItem>
+        ))}
+      </Select>
+    </Stack>
+  </CardContent>
+</Card>
+<Card style={{ marginTop: 10, borderRadius: 20 }}>
+                  <CardContent>
+                    <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+                    Age/ವಯಸ್ಸು
+                    </Typography>
+                    <Stack mt={2} mb={2}>
+                      <TextField
+                        id="twoquestions"
+                        label="Your Answer"
+                        onChange={(e) => {
+                          setSendData({ ...sendData, age: e?.target?.value });
+                        }}
+                        variant="outlined"
+                        color="common"
+                      />
+                    </Stack>
+                  </CardContent>
+                </Card>
+
+                <Card mt={1} style={{ marginTop: 10, borderRadius: 20 }}>
+  <CardContent>
+    <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+    Marital Status/ವೈವಾಹಿಕ ಸ್ಥಿತಿ
+    </Typography>
+    <Stack mt={2} mb={2}>
+      <Select
+        color="common"
+        label="Choose Marital Status/ವೈವಾಹಿಕ ಸ್ಥಿತಿ"
+        variant="standard"
+        required
+        onChange={(e) => {
+          const selectedOption = maritalStatusOptions.find(option => option.id === e.target.value);
+         setSendData({ ...sendData, material_status: selectedOption.id, material_status_name: selectedOption?.name  });
+      
+         console.log(selectedOption); }}value={sendData?.material_status}
+      >
+        {/* Map the maritalStatusOptions to the dropdown */}
+        {maritalStatusOptions.map((itm) => (
+          <MenuItem key={itm.id} value={itm.id}>
+            {itm.name}
+          </MenuItem>
+        ))}
+      </Select>
+    </Stack>
+  </CardContent>
+</Card>
+<Card mt={1} style={{ marginTop: 10, borderRadius: 20 }}>
+  <CardContent>
+    <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+    Highest level of education completed  
+ಉನ್ನತ ಮಟ್ಟದ ಶಿಕ್ಷಣವನ್ನು ಪೂರ್ಣಗೊಳಿಸಲಾಗಿದೆ 
+:
+    </Typography>
+    <Stack mt={2} mb={2}>
+      <Select
+        color="common"
+        label="Choose Education Level/ಶಿಕ್ಷಣದ ಮಟ್ಟ"
+        variant="standard"
+        required
+        onChange={(e) => {
+          const selectedOption = educationOptions.find(option => option.id === e.target.value);
+         setSendData({ ...sendData, education: selectedOption.id, education_name: selectedOption?.name  });
+      
+         console.log(selectedOption); }}
+        value={sendData?.education}
+      >
+        {/* Map the educationOptions to the dropdown */}
+        {educationOptions.map((itm) => (
+          <MenuItem key={itm.id} value={itm.id}>
+            {itm.name}
+          </MenuItem>
+        ))}
+      </Select>
+    </Stack>
+  </CardContent>
+</Card>
+<Card mt={1} style={{ marginTop: 10, borderRadius: 20 }}>
+                  <CardContent>
+                    <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+                    Primary occupation (the work that you engage in for more than 6 months in a year)
+ಪ್ರಾಥಮಿಕ ಉದ್ಯೋಗ (ಒಂದು ವರ್ಷದಲ್ಲಿ 6 ತಿಂಗಳಿಗಿಂತ ಹೆಚ್ಚು ಕಾಲ ನೀವು ತೊಡಗಿಸಿಕೊಂಡಿರುವ ಕೆಲಸ)
+
+
+
+                    </Typography>
+                    <Stack mt={2} mb={2}>
+                      <Select
+                        color="common"
+                        label="Choose Current Economic Activity"
+                        variant="standard"
+                        required
+                        onChange={(e) => {
+                          const selectedOption = occupationOptions.find(option => option.id === e.target.value);
+                         setSendData({ ...sendData, current_economic_activity_primary_occupation: selectedOption.id, current_economic_activity_primary_occupation_name: selectedOption?.name  });
+                      
+                         console.log(selectedOption); }} value={sendData?.current_economic_activity_primary_occupation}
+                      >
+                       {/* Map the occupationOptions to the dropdown */}
+        {occupationOptions.map((itm) => (
+          <MenuItem key={itm.id} value={itm.id}>
+            {itm.name}
+          </MenuItem>
+        ))}
+                      </Select>
+                    </Stack>
+                  </CardContent>
+                </Card>
+                <Card mt={1} style={{ marginTop: 10, borderRadius: 20 }}>
+                  <CardContent>
+                    <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+                    Secondary Occupation of the Household/
+                    ಕುಟುಂಬದ  ದ್ವಿತೀಯಕ ಉದ್ಯೋಗ
+
+                    </Typography>
+                    <Stack mt={2} mb={2}>
+                      <Select
+                        color="common"
+                        label="Choose Secondary Occupation of the Household"
+                        variant="standard"
+                        required
+                        onChange={(e) => {
+                          const selectedOption = secondaryIncomeOptions.find(option => option.id === e.target.value);
+                         setSendData({ ...sendData, secondary_occupation_household: selectedOption.id, secondary_occupation_household_name: selectedOption?.name  });
+                      
+                         console.log(selectedOption); }}
+                         
+                         value={sendData?.secondary_occupation_household}
+                      >
+                               {secondaryIncomeOptions.map((itm) => (
+          <MenuItem key={itm.id} value={itm.id}>
+            {itm.name}
+          </MenuItem>
+        ))}
+
+                      </Select>
+                    </Stack>
+                  </CardContent>
+                </Card>
+                <Card mt={1} style={{ marginTop: 10, borderRadius: 20 }}>
+                  <CardContent>
+                    <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+                    Women's Occupation/ಮಹಿಳಾ ಉದ್ಯೋಗ
+
+                    </Typography>
+                    <Stack mt={2} mb={2}>
+                      <Select
+                        color="common"
+                        label="Choose Women's Occupation/ಮಹಿಳಾ ಉದ್ಯೋಗ"
+                        variant="standard"
+                        required
+                        onChange={(e) => {
+                          const selectedOption = womenWorkOptions.find(option => option.id === e.target.value);
+                         setSendData({ ...sendData, womens_occupation: selectedOption.id, womens_occupation_name: selectedOption?.name  });
+                      
+                         console.log(selectedOption); }}
+                        
+                        value={sendData?.womens_occupation}
+                      >
+                       {womenWorkOptions.map((itm) => (
+          <MenuItem key={itm.id} value={itm.id}>
+            {itm.name}
+          </MenuItem>
+        ))}
+                      </Select>
+                    </Stack>
+                  </CardContent>
+                </Card>
+                <Card mt={1} style={{ marginTop: 50, borderRadius: 20 }}>
+                  <CardContent>
+                    <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+                    Monthly Women's income
+                    *
+                    </Typography>
+                    <Stack mt={2} mb={2}>
+                      <TextField
+                        id="Email"
+                        required
+                        label="Enter Email"
+                        onChange={(e) => {
+                          setSendData({ ...sendData, monthlyIncome: e?.target?.value });
+                        }}
+                        variant="outlined"
+                        color="common"
+                      />
+                    </Stack>
+                  </CardContent>
+                </Card>
+                <Card mt={1} style={{ marginTop: 10, borderRadius: 20 }}>
+                  <CardContent>
+                    <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+                    What is the source of this income?
+
+                    </Typography>
+                    <Stack mt={2} mb={2}>
+                      <Select
+                        color="common"
+                        label="Choose Women's Occupation/ಮಹಿಳಾ ಉದ್ಯೋಗ"
+                        variant="standard"
+                        required
+                        onChange={(e) => {
+                          const selectedOption = workOptions.find(option => option.id === e.target.value);
+                         setSendData({ ...sendData, womens_occupation: selectedOption.id, womens_occupation_name: selectedOption?.name  });
+                      
+                         console.log(selectedOption); }}
+                        
+                        value={sendData?.womens_occupation}
+                      >
+                       {workOptions.map((itm) => (
+          <MenuItem key={itm.id} value={itm.id}>
+            {itm.name}
+          </MenuItem>
+        ))}
+                      </Select>
+                    </Stack>
+                  </CardContent>
+                </Card>
+                <Card mt={1} style={{ marginTop: 50, borderRadius: 20 }}>
+                  <CardContent>
+                    <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+
+ 	
+                    Monthly household expenditure (in Rs)   
+ಮಾಸಿಕ ಮನೆಯ ಖರ್ಚು (ರೂ.ಗಳಲ್ಲಿ)
+                    *
+                    </Typography>
+                    <Stack mt={2} mb={2}>
+                      <TextField
+                        id="Email"
+                        required
+                        label="Enter Email"
+                        onChange={(e) => {
+                          setSendData({ ...sendData, expenditure: e?.target?.value });
+                        }}
+                        variant="outlined"
+                        color="common"
+                      />
+                    </Stack>
+                  </CardContent>
+                </Card>
+                <Card mt={1} style={{ marginTop: 50, borderRadius: 20 }}>
+                  <CardContent>
+                    <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+
+ 	
+                    Monthly household income(in Rs.)   
+                    ಮಾಸಿಕ ಮನೆಯ ಆದಾಯ(ರೂ.ಗಳಲ್ಲಿ)
+                    *
+                    </Typography>
+                    <Stack mt={2} mb={2}>
+                      <TextField
+                        id="Email"
+                        required
+                        label="Enter Email"
+                        onChange={(e) => {
+                          setSendData({ ...sendData, income: e?.target?.value });
+                        }}
+                        variant="outlined"
+                        color="common"
+                      />
+                    </Stack>
+                  </CardContent>
+                </Card>
+                <Card style={{ marginTop: 10, borderRadius: 20 }}>
+                  <CardContent>
+                    <Stack mt={2}>
+                      <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+                      Are you the sole earning member of your family?   (Yes/No)
+                      /ನಿಮ್ಮ ಕುಟುಂಬದ ಏಕೈಕ ಗಳಿಕೆಯ ಸದಸ್ಯರಾಗಿದ್ದೀರಾ? (ಹೌದು/ಇಲ್ಲ)
+                        {goladAchicedError ? (
+                          <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText>
+                        ) : null}{' '}
+                      </Typography>
+                      <RadioGroup
+                        aria-labelledby="demo-radio-buttons-group-label"
+                        name="radio-buttons-group"
+                        value={goladAchicedValue}
+                        onChange={handleSoleEarning}
+                      >
+                        <FormControlLabel value="Yes" control={<Radio style={{ color: '#595959' }} />} label="Yes" />
+                        <FormControlLabel value="No" control={<Radio style={{ color: '#595959' }} />} label="No" />
+                      </RadioGroup>
+                    </Stack>
+                  </CardContent>
+                </Card>
             <Card >
-              <CardContent>
+              {/* <CardContent>
                 <Stack>
                   <Typography mt={3} variant="h6" color="primary">
                     % of Women With increased Self Esteem{' '}
@@ -980,9 +1722,7 @@ const handlesurvey=()=>{
                     </RadioGroup>
                   </Stack>
                 </Stack>
-                {/* <Stack mt={2} mb={2}>
-                <TextField id="Correct Answer" label="Correct Answer" variant="outlined" />
-              </Stack> */}
+              
                 <Stack>
                   <Typography variant="body2">2. Is there a pathway to that goal ?</Typography>
                   {pathwayToGoalError ? (
@@ -1185,7 +1925,7 @@ const handlesurvey=()=>{
                   <Stack mt={2}>
                     <RadioGroup
                       aria-labelledby="demo-radio-buttons-group-label"
-                      // defaultValue="Yes"
+                   
                       name="radio-buttons-group"
                       onChange={(e, value) => {
                         setSendData({ ...sendData, saveRegularly: value });
@@ -1290,7 +2030,7 @@ const handlesurvey=()=>{
                   <Stack mt={2}>
                     <RadioGroup
                       aria-labelledby="demo-radio-buttons-group-label"
-                      // defaultValue="Yes"
+                  
                       name="radio-buttons-group"
                       onChange={(e, value) => {
                         setSendData({ ...sendData, separateFinancialAsset: value });
@@ -1311,7 +2051,7 @@ const handlesurvey=()=>{
                   <Stack mt={2}>
                     <RadioGroup
                       aria-labelledby="demo-radio-buttons-group-label"
-                      // defaultValue="Yes"
+                      
                       name="radio-buttons-group"
                       onChange={(e, value) => {
                         setSendData({ ...sendData, spendMoney: value });
@@ -1353,7 +2093,7 @@ const handlesurvey=()=>{
                   <Stack mt={2}>
                     <RadioGroup
                       aria-labelledby="demo-radio-buttons-group-label"
-                      // defaultValue="Yes"
+            
                       name="radio-buttons-group"
                       onChange={(e, value) => {
                         setSendData({ ...sendData, loanOnWhoseName: value });
@@ -1555,7 +2295,7 @@ const handlesurvey=()=>{
                   <Stack mt={2}>
                     <RadioGroup
                       aria-labelledby="demo-radio-buttons-group-label"
-                      // defaultValue="Yes"
+                  
                       required
                       name="radio-buttons-group"
                       onChange={(e, value) => {
@@ -1780,7 +2520,7 @@ const handlesurvey=()=>{
                   <Stack mt={2}>
                     <RadioGroup
                       aria-labelledby="demo-radio-buttons-group-label"
-                      // defaultValue="Yes"
+                   
                       name="radio-buttons-group"
                       onChange={(e, value) => {
                         setSendData({ ...sendData, partOfCollective: value });
@@ -1870,7 +2610,7 @@ const handlesurvey=()=>{
                   <Stack mt={2}>
                     <RadioGroup
                       aria-labelledby="demo-radio-buttons-group-label"
-                      // defaultValue="Yes"
+                  
                       name="radio-buttons-group"
                       onChange={(e, value) => {
                         setSendData({ ...sendData, household_books_accounts: value });
@@ -1889,27 +2629,10 @@ const handlesurvey=()=>{
                           <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText>
                         ) : null}{' '}
                   <Stack mt={2} mb={5}>
-                    {/* <div>
-                    <Radio
-                      checked={selectedValue === 'Yes'}
-                      onChange={handleChange}
-                      value="Yes"
-                      name="radio-buttons"
-                      label="Yes"
-                      inputProps={{ 'aria-label': 'Yes' }}
-                    />
-                    <Radio
-                      checked={selectedValue === 'No'}
-                      onChange={handleChange}
-                      value="No"
-                      name="radio-buttons"
-                      label="No"
-                      inputProps={{ 'aria-label': 'No' }}
-                    />
-                  </div> */}
+                    
                     <RadioGroup
                       aria-labelledby="demo-radio-buttons-group-label"
-                      // defaultValue="Yes"
+                    
                       name="radio-buttons-group"
                       onChange={(e, value) => {
                         setSendData({ ...sendData, accounts_for_Self_Enterprises: value });
@@ -1922,7 +2645,7 @@ const handlesurvey=()=>{
                     </RadioGroup>
                   </Stack>
                 </Stack>
-              </CardContent>
+              </CardContent> */}
             </Card>
           </Grid>
         </form>

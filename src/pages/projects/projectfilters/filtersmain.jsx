@@ -3,23 +3,36 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 import {
   Grid, Radio, Stack, Button, Drawer, Rating, Divider, Checkbox, FormGroup, IconButton, Typography, Chip, Card, CardContent, Box,
+  TextField,
 } from '@mui/material';
 import Iconify from '../../../components/Iconify';
 import Scrollbar from '../../../components/Scrollbar';
 import GelathiFacilitators from './Gelathifacilitators';
 import Daterange from './Daterange';
 import { id } from 'date-fns/locale';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { LocalizationProvider } from '@mui/lab';
+import Funders from 'src/pages/Filters/Funders';
+import FuderList from 'src/pages/Filters/FuderList';
 Filtersmain.propTypes = {
     isOpenFilter: PropTypes.bool,
     onOpenFilter: PropTypes.func,
     onCloseFilter: PropTypes.func,
   };
-export default function Filtersmain({ isOpenFilter, onOpenFilter, onCloseFilter, clcikData, user, getData, onSumbit, onDateSubmit, type, data1, gelathiPrograme }) {
+export default function Filtersmain({ isOpenFilter,getDataForFUnder, onOpenFilter, onCloseFilter, clcikData, user, getData, onSumbit, onDateSubmit, type, data1, gelathiPrograme ,setDateParenent,setEndDateParenet}) {
     var [selectDATA, setSelectData] = useState()
-  
+    const [calOpen,setCalOpen] = useState(false);
+    const [date, setDate] = useState(new Date())
+const [dateValue,setdateValue]=useState(false);
+const [endDateValue,setendateValue]=useState(false);
+const [endDate, setEndDate] = useState(new Date())
+let userDetails = sessionStorage?.getItem('userDetails')
+userDetails = JSON.parse(userDetails)
+    console.log(type ,"typetype" ,date , endDate ,dateValue ,endDateValue )
     const filterPermissions = {
-  
-      GelathiProgram: [{id:45,roles:['1','3','4','6','12','13']},{id:2,roles:['1','3','4','6','12','13']},{id:1,roles:['1','3','4','6','12','13']},{id:3,roles:['1','3','4','6','12','13']},
+      Funder: [{ id: 47, roles: ['1', '3', '12', '4'] }],
+      GelathiProgram: [{id:45,roles:['1','3','4','6','12','13']},{ id: 47, roles: ['1', '3', '12', '4'] },{id:2,roles:['1','3','4','6','12','13']},{id:1,roles:['1','3','4','6','12','13']},{id:3,roles:['1','3','4','6','12','13']},
       { id: 22, roles: ['1','3','4','6','12','13']}, { id: 23, roles: ['1','3','4','6','12','13']},{id:46,roles:['13','4','3','1','12']},
       {id:4,roles:['1','12','13','6','3']},{id:5,roles:['1','3','4','6','12','13']},{id:6,roles:['13','4','3','1','12','6']}, 
       { id: 7, roles: ['1','3','4','6','12','13']}, { id: 8, roles: ['1','3','4','6','12','13']}, { id: 9, roles: ['1','3','4','6','12','13']},
@@ -31,17 +44,21 @@ export default function Filtersmain({ isOpenFilter, onOpenFilter, onCloseFilter,
    
     ],
   
-      GreenMotivators: [{ id: 6, roles: ['1','3','12','4','6','13'] }],
+      GreenMotivators: [{ id: 6, roles: ['1','3','12','4','6','13'] },{ id: 47, roles: ['1', '3', '12', '4'] },],
   
-      Vyapar: [{ id: 6, roles: ['1','3','12','4','6','13'] }],
+      Vyapar: [{ id: 6, roles: ['1','3','12','4','6','13'] },{ id: 47, roles: ['1', '3', '12', '4'] },],
   
       Gelathicircles: [{ id: 6, roles: ['1','3','12','4','6','13'] }],
-      Gelathis:[{id:6,roles:['1','3','12','4','6']}]
+      Gelathis:[{id:6,roles:['1','3','12','4','6']} ,{ id: 47, roles: ['1', '3', '12', '4'] },]
     }
   
   
+    const allowedRolesForCalendar = ['3', '1', '12', '4']; // Define the allowed roles
     const data = sessionStorage?.getItem('userId')
-  
+    // Check if the user has one of the allowed roles
+    const userHasCalendarAccess = allowedRolesForCalendar.includes(data)
+    
+  console.log(selectDATA ,"selectDATAselectDATA",userHasCalendarAccess ,"userHasCalendarAccess")
     const filtersHeaders = {
       46: 'Field Associates',
       9: 'Date Range',
@@ -69,10 +86,16 @@ export default function Filtersmain({ isOpenFilter, onOpenFilter, onCloseFilter,
       22:'Rescheduled',
       23:'Cancelled',
       45: 'All Gelathi Sessions',
+      47:"Funder"
      
     };
   
-  
+    const handleCalendar=()=>{
+      setCalOpen(true)
+    }
+    const handlecloseCalendar=()=>{
+      setCalOpen(false)
+    }
     const setData = (value) => {
       setSelectData(value)
       if(value==46){
@@ -89,7 +112,7 @@ export default function Filtersmain({ isOpenFilter, onOpenFilter, onCloseFilter,
        || filtersHeaders[value]=='SPM2' || filtersHeaders[value]=='SPM3' ||filtersHeaders[value]=='SPM3'|| filtersHeaders[value]=='SPM4' || filtersHeaders[value]=='SPM5' 
        || filtersHeaders[value]=='GPS' || filtersHeaders[value]=='GPM1' || filtersHeaders[value]=='GPM2' || filtersHeaders[value]=='GPM3' || filtersHeaders[value]=='GPM4'
        || filtersHeaders[value]=='GPM5' || filtersHeaders[value]=='VPS' || filtersHeaders[value]=='VPM1'|| filtersHeaders[value]=='VPM2' || filtersHeaders[value]=='VPM3'
-       || filtersHeaders[value]=='VPM4' || filtersHeaders[value]=='VPM5') {
+       || filtersHeaders[value]=='VPM4' || filtersHeaders[value]=='VPM5' || filtersHeaders[value]=='Funder') {
         user(1, { id: value, type: filtersHeaders[value] });
         onCloseFilter()
       }
@@ -146,13 +169,40 @@ export default function Filtersmain({ isOpenFilter, onOpenFilter, onCloseFilter,
             <Typography variant="subtitle1" sx={{ ml: 1 }} style={{ marginLeft: 25 }}>
               Filters :  {filtersHeaders[selectDATA]}
             </Typography>
+           { userHasCalendarAccess &&<IconButton onClick={handleCalendar} sx={{float:'right',position:'absolute',right:40}}><Iconify icon="material-symbols:calendar-month" ></Iconify></IconButton>}
+            {/* {userHasCalendarAccess && ( */}
             <IconButton onClick={() => {
               setSelectData(null)
               onCloseFilter()
             }}>
               <Iconify icon="eva:close-fill" width={20} height={20} />
             </IconButton>
+            {/* )} */}
           </Stack>
+          {calOpen && 
+        <>
+        
+        <Stack>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+           <DatePicker
+    onChange={(e) => {setDate(e),setdateValue(true) ,setDateParenent(e)}}
+    renderInput={(params) => <TextField {...params} sx={{margin:1}} color="common" />}
+    value={date} />
+        </LocalizationProvider>
+    
+      </Stack>
+      <Stack>
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+         <DatePicker
+sx={{margin:5}}
+  onChange={(e) => {setEndDate(e),setendateValue(true), setEndDateParenet(e)}}
+  renderInput={(params) => <TextField {...params} sx={{margin:1}} color="common" />}
+  value={endDate} />
+      </LocalizationProvider>
+   
+    </Stack><br/>
+    <Button onClick={handlecloseCalendar} style={styles.highlightStyle} sx={{width:20,textAlign:'center',left:30}}>OK</Button></>}
+<br/>
           <Divider />
           <Scrollbar>
             <div>
@@ -160,6 +210,7 @@ export default function Filtersmain({ isOpenFilter, onOpenFilter, onCloseFilter,
                 <CardContent>
                   {
                     filterPermissions[type].map(f => {
+                      console.log(filterPermissions ,"filterPermissions" ,data ,f)
                       return (f.roles === true || f.roles.includes(data)) && <Button onClick={() => { setData(f.id) }}
                         sx={styles.buttonStyle} style={selectDATA == f.id ? styles.highlightStyle : null}>{filtersHeaders[f.id]}</Button>
                     })
@@ -169,7 +220,11 @@ export default function Filtersmain({ isOpenFilter, onOpenFilter, onCloseFilter,
             </div>
             {
             type != 'people' && <div>
-         
+          {
+                selectDATA == 2 && <Grid>
+                  <FuderList type={type} date={date} endDate={endDate} dateValue={dateValue} endDateValue={endDateValue} getData={getDataForFUnder} selectDATA={selectDATA} />
+                </Grid>
+              }
               {
                 selectDATA == 46 && <Grid>
                   <GelathiFacilitators type={type} getData={getData} selectDATA={selectDATA} data1={data1} />
