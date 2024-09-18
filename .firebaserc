@@ -1,0 +1,13 @@
+{
+
+  "projects": {
+
+    "default": "buzztestapi",
+
+    "prod": "buzztestapi"
+
+  },
+
+  "targets": {}
+
+}

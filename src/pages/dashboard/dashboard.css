@@ -1,0 +1,11 @@
+
+@media only screen and (min-width: 600px) {
+    Container {
+      flex-direction: row;
+      align-items: center;
+    }
+    Grid {
+      flex-direction: column;
+      margin: 0 8px;
+    }
+  }
