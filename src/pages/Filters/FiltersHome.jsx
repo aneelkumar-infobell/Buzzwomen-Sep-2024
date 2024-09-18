@@ -56,6 +56,7 @@ FiltersHome.propTypes = {
   onCloseFilter: PropTypes.func,
 };
 export default function FiltersHome({ isOpenFilter, onOpenFilter, onCloseFilter, clcikData, getData, onSumbit, onDatasubmit, onDateSubmit, type, resetBus, user, projectr, resetProjects }) {
+  console.log(type ,"typetype")
   var [selectDATA, setSelectData] = useState()
 const [calOpen,setCalOpen] = useState(false);
 const [date, setDate] = useState(new Date())
@@ -145,7 +146,7 @@ const [endDate, setEndDate] = useState(new Date())
           <Typography variant="subtitle1" sx={{ ml: 1 }} style={{ marginLeft: 25 }}>
             Filters :  {filtersHeaders[selectDATA]} 
           </Typography>
-          {(filtersHeaders[selectDATA] !="Date Range" && (type=='Dashboard' || type=='GreenDashboard'))?
+          {(filtersHeaders[selectDATA] !="Date Range" && (type=='Dashboard' || type=='GreenDashboard' ))?
           <><IconButton onClick={handleCalendar} sx={{float:'right',position:'absolute',right:40}}><Iconify icon="material-symbols:calendar-month" ></Iconify></IconButton></>:null}
          
  

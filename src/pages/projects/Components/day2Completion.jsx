@@ -30,6 +30,7 @@ import Iconify from 'src/components/Iconify';
 import { baseURL } from 'src/utils/api';
 import EditParticipantdata from './Editparticipantdata';
 import { useAuth } from 'src/AuthContext';
+import GelathiCircleForm from './GelathiCircleForm';
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -43,6 +44,7 @@ export default function Day2Completed({ shown, setShown, batch }) {
   const [gelathiCount,setGelathicount]=useState(0);
 const userid = JSON.parse(sessionStorage.getItem('userDetails'))?.role
   const [checkData,setCheckData]=React.useState('');
+  const [shopwShakthiForm ,setShowShakkthiForm] = useState(false)
   const handleOpenFilter = () => {
     setOpenFilter(true); 
    
@@ -80,7 +82,11 @@ if( batch?.data?.id){
     setOpen(false);
   };
 const handlesurvey =()=>{
-    alert('Survey was done')
+    // alert('Survey was done')
+    setShowShakkthiForm(true)
+}
+const handleShakformClose = ()=>{
+  setShowShakkthiForm(false)
 }
   const getTrainingBatch = async =>{
         
@@ -216,6 +222,20 @@ countsuggestedgelathi();
         )
     })
 }
+{shopwShakthiForm && (
+              <GelathiCircleForm
+                // index={selectedFromIndex.index}
+                // reloadmethod={reloadmethod}
+                // itm={itm } 
+                // clcikData={clcikData}
+                // circleData={circleData}
+                // singleCircleData={singleCircleData}
+                // id={selectedFromIndex.id}
+                setShowForm={handleShakformClose}
+                // componentreloadmethod={componentreloadmethod}
+                // gelathiDrawerReloder={gelathiDrawerReloder}
+              />
+            )}
       </Dialog>
     </div>
   );
