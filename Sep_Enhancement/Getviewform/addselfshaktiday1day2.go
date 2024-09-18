@@ -124,9 +124,7 @@ func AddSelfshaktiday1day2data(w http.ResponseWriter, r *http.Request, DB *sql.D
 			religion = ?,
 			marital_status = ?,
 			education = ?,
-			primary_occupation_household=?,
-			secondary_occupation_household=?,
-			womens_occupation=?,
+			primary_occupation=?,
 			secondary_occupation=?,
 			monthly_household_expenditure = ?,
 			monthly_household_income = ?,
@@ -178,7 +176,7 @@ func AddSelfshaktiday1day2data(w http.ResponseWriter, r *http.Request, DB *sql.D
 			env_friendly_practices = ?,
 			menstrual_product_used = ?,
 			menstrual_disposal_method = ?,
-			cooking_fuel_type = ?
+			cooking_fuel_type = ?,
 			womens_occupation=?,
 			monthly_women_income=?,
 			source_of_this_income=?,
@@ -274,6 +272,7 @@ func AddSelfshaktiday1day2data(w http.ResponseWriter, r *http.Request, DB *sql.D
 		p.ID,
 	)
 	if err != nil {
+		fmt.Println("errr", err)
 		res := Response{
 
 			Code:    http.StatusInternalServerError,
