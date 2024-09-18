@@ -451,7 +451,7 @@ const saveDataLocally = (key, data) => {
                 <Card mt={1} style={{ marginTop: 10, borderRadius: 20 }}>
                   <CardContent>
                     <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
-                      Surveyor's email address *
+                      Surveyor's email address 
                     </Typography>
                     <Stack mt={2} mb={2}>
                       <TextField
