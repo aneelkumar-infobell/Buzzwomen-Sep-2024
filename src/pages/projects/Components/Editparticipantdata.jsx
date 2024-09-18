@@ -47,7 +47,9 @@ export default function EditParticipantdata({editSession, setEditsession,Trainin
     saving_goal:"",
     wifeSavingsMonthly:"",
     income:"",
-    bank_acc:""
+    bank_acc:"",
+     contact_no:"",
+  husbandName:""
   });
   const [helperText, setHelperText] = useState('');
   const [open, setOpen] = React.useState(false);
@@ -90,6 +92,7 @@ const Occupation =()=>{
       });
       
 }
+
 const SendData = async => {
   var data = JSON.stringify({
     "income":parseInt(sendData?.income), 
@@ -106,7 +109,9 @@ const SendData = async => {
      "participant_day2":Trainingdata?.data?.day2, 
      "gelathiRecomm":sendData?.gelathiRecomm, 
      "project_id":parseInt(Trainingdata?.data?.project_id), 
-     "tb_id":parseInt(Trainingdata?.data?.id)
+     "tb_id":parseInt(Trainingdata?.data?.id),
+      "contact_no":sendData?.contact_no,
+  "husbandName":sendData?.husbandName
 });
 if (sendData?.husbandOccupation == '') {
   setHusbandOccupationError(true);
@@ -145,7 +150,9 @@ var config = {
           saving_goal:"",
           wifeSavingsMonthly:"",
           income:"",
-          bank_acc:""
+          bank_acc:"",
+            contact_no:"",
+  husbandName:""
       
         })
         handleClose()
@@ -227,6 +234,12 @@ var config = {
               </Stack>
               <Stack style={{ marginTop: 20 }}>
                 <TextField required id="type_of_enterprise" onChange={(e) => { setSendData({ ...sendData,typeOfEnterprise : e?.target?.value }) }} label="Type of Enterprise" variant="outlined" color="common"/>
+              </Stack>
+              <Stack style={{ marginTop: 20 }}>
+                <TextField required id="contact_no" onChange={(e) => { setSendData({ ...sendData,contact_no : e?.target?.value }) }} label="Contact Number" variant="outlined" color="common"/>
+              </Stack>
+              <Stack style={{ marginTop: 20 }}>
+                <TextField required id="husbandName" onChange={(e) => { setSendData({ ...sendData,husbandName : e?.target?.value }) }} label="Husband Name" variant="outlined" color="common"/>
               </Stack>
               <Stack mt={1}>
                 <Typography style={{fontWeight:500}} >Bank Account *</Typography>

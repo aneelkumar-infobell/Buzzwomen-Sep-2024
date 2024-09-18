@@ -1,3 +1,5 @@
+
+
 import { useState, useEffect } from 'react';
 import axios from 'axios'
 import { Card, Stack, Chip, Container,Box , Typography, Grid, IconButton,CardContent,Button, CircularProgress } from '@mui/material';
@@ -8,6 +10,8 @@ import Filtersmain from './projectfilters/filtersmain';
 import Searchbar from 'src/layouts/dashboard/Searchbar';
 import { baseURL } from 'src/utils/api';
 import { useAuth } from 'src/AuthContext';
+import moment from 'moment';
+
 export default function gelathiProgram(props) {
     const { apikey } = useAuth();
     const {state} = useLocation();
@@ -18,6 +22,11 @@ export default function gelathiProgram(props) {
     const [count,setCount]= useState('');
     var [search, setSearch] = useState('')
     var [selected, setSelected] = useState(null)
+    const [dateParenet, setDateParenent] = useState()
+    const [endDateParenet, setEndDateParenet] = useState()
+    let userDetails = sessionStorage?.getItem('userDetails')
+userDetails = JSON.parse(userDetails)
+    console.log(dateParenet,endDateParenet ,"gelati program ")
     const user = async (d, filter_type) => {
        if (filter_type) {
          setSelected(filter_type)
@@ -31,19 +40,23 @@ export default function gelathiProgram(props) {
         gelathiPrograme();
         }, []
     )
+    console.log(filterData ,"filterData")
     const gelathiPrograme = async(id,i,g) =>{
+      console.log( id,"id",  i, "iiii ",g ,"gggg")
         var role = JSON.parse(sessionStorage?.getItem('userDetails'))?.role
         var idvalue = JSON.parse(sessionStorage?.getItem('userDetails'))?.id;
         var data = JSON.stringify({
           "filter": i?.id?JSON.stringify(parseInt(i?.id)):'',
-          "end_date":  g==="date"?i:'',
+          "end_date":  g==="date"?i:dateParenet ? moment(endDateParenet?.$d)?.format('YYYY-MM-DD'):'',
           "search": search,
           "project_id": state?.id,
           "gelathi_id": JSON.stringify(id?.emp_id),
-          "start_date":  g==="date"?id:'',
-          "emp_id": idvalue
+          "start_date":  g==="date"?id:dateParenet ? moment(dateParenet?.$d)?.format('YYYY-MM-DD'):'',
+          "emp_id": idvalue,
+          "funder":id?id.funderID:""
+,
         });
-        
+        console.log(data ,"data")
         var config = {
           method: 'post',
           url: baseURL+'getGFSessionsNew',
@@ -57,7 +70,7 @@ export default function gelathiProgram(props) {
           axios(config)
           .then(function (response) {
             setPrograme(response.data)
-            setCount(response.data?.list.length)
+            setCount(response.data?.list?response.data?.list.length : 0 )
           })
           .catch(function (error) {
             // console.log(error);
@@ -133,8 +146,18 @@ export default function gelathiProgram(props) {
       setFilterData({ from_date: e?.startDate, to_date: e?.endDate })
       handleclose()
     }
+
     const getData = (itm, i) => {
+      console.log(itm, i ,"datain getData(")
     setSelected({itm,type:'Field Associates'})
+    const data = i === 6 ? { "gelathi_id": itm?.id } : i === 1 ? { "partner_id": itm?.id } : { "project_id": itm?.id }
+    gelathiPrograme(itm, i)
+    setFilterData(data)
+    handleclose()
+    }
+    const getDataForFUnder = (itm, i) => {
+      console.log(itm, i ,"datain getData(")
+ 
     const data = i === 6 ? { "gelathi_id": itm?.id } : i === 1 ? { "partner_id": itm?.id } : { "project_id": itm?.id }
     gelathiPrograme(itm, i)
     setFilterData(data)
@@ -150,7 +173,7 @@ export default function gelathiProgram(props) {
                         <IconButton>
                             <Iconify icon="material-symbols:arrow-back-rounded" />
                         </IconButton></Link>
-                    Gelathi Program  
+                    Gelathi Program 
                 </Typography>
                 <Button style={{ float: "right",right:30,position:'absolute', color: '#ff7424' }} sx={{ '&:hover': { backgroundColor: '#ffd796', }, }} onClick={() => { handleopen() }}>
             Filter
@@ -180,8 +203,11 @@ export default function gelathiProgram(props) {
                     onDateSubmit={onDateSubmit}
                     gelathiPrograme={gelathiPrograme}
                     getData={getData}
+                    getDataForFUnder={getDataForFUnder}
                     onOpenFilter={handleopen}
                     onCloseFilter={handleclose}
+                    setEndDateParenet={setEndDateParenet}
+                    setDateParenent={setDateParenent}
                 />
             </Stack>
                <Card>
@@ -201,7 +227,7 @@ export default function gelathiProgram(props) {
 <div style={{marginTop:"20%" , marginLeft:"40%"}}>
   <CircularProgress sx={{color:'#ff7424'}}/>
   </div>
-:   programe?.list?.length!==0?programe?.list?.map((itm) => {
+:  programe?.list?programe?.list?.map((itm) => {
                         return (
                             <Card style={styles.card1} onClick={() => {
                                 setClickData({ name: itm?.gf_session_id, title: "Gelathi program Name" })

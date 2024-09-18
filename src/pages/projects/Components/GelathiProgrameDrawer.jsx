@@ -203,7 +203,7 @@ const [iserror, setIsError] = useState(false)
         'Authorization': `${apikey}`
       }
     };
-    let res = fetch(baseURL + 'uploadGFSessionPhotos', requestOptions)
+    let res = fetch(baseURL + 'uploadGFsessionPhotos', requestOptions)
       .then((itn) => {
         setImages([]);
         alert('Image uploaded successfully..');
@@ -513,7 +513,7 @@ session.length <=0 ?
             
               {userId == 6 || userId == 13 ? (
                 <Card style={{ marginTop: 20 }}>
-                  {session?.gf_session_name?.split('_')[1].slice(0, 2) == 'BV' &&
+                  {session?.gf_session_name != "" ||session?.gf_session_name  != null ||session?.gf_session_name  != undefined  ?.split('_')[1].slice(0, 2) == 'BV' &&
                   (userId == 13 || userId == 6) ? null : (
                     <>
                       <div style={{ display: 'flex' }}>

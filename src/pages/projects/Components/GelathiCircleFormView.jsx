@@ -31,7 +31,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function GelathiCircleForm({
+export default function GelathiCircleFormView({
   itm,
   gelathiDrawerReloder,
   setShowForm,
@@ -81,6 +81,10 @@ export default function GelathiCircleForm({
   const [conflicts, setConflicts] = React.useState('');
   const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
   const [sendData, setSendData] = useState(
+ 
+   
+  );
+  const [formData , setFormData] = useState(
     {
       "partcipantId": "",
       "GelathiId": "",
@@ -197,225 +201,7 @@ export default function GelathiCircleForm({
   const [conflictsError, setconflictsError] = useState(false);
   const [spoorthiForm, setSpoorthiForm] = useState('');
   const [isFormPresentLocally ,setIsFormPresentLocally] =useState(false)
-// Define the secondary income options with English and Kannada names
-const womenWorkOptions = [
-  { id: 1, name: "Crop cultivator/ಕೃಷಿ" },
-  { id: 2, name: "Livestock farming/ಜಾನುವಾರು ಸಾಕಣೆ" },
-  { id: 3, name: "Farm wage worker/ಕೃಷಿ ಕೂಲಿ ಕಾರ್ಮಿಕ" },
-  { id: 4, name: "Non farm sector wage worker like factory worker, sales girl, domestic worker/ಕಾರ್ಖಾನೆಯ ಕೆಲಸಗಾರ, ಮಾರಾಟಗಾರ್ತಿ, ಮನೆಕೆಲಸದಂತಹ ಕೃಷಿಯೇತರ ವಲಯದ ಕೂಲಿ ಕೆಲಸಗಾರ" },
-  { id: 5, name: "Business/Self employed like tailor, shop owner/ಟೈಲರ್, ಅಂಗಡಿ ಮಾಲೀಕರು, ವ್ಯಾಪಾರ/ಸ್ವಯಂ ಉದ್ಯೋಗಿ" },
-  { id: 6, name: "Government employee/ಸರ್ಕಾರಿ ಉದ್ಯೋಗಿ" },
-  { id: 7, name: "Private company employee/ಖಾಸಗಿ ಕಂಪನಿ ಉದ್ಯೋಗಿ" },
-  { id: 8, name: "Housewife/ಮನೆಕೆಲಸ" },
-  { id: 9, name: "Student/ವಿದ್ಯಾರ್ಥಿ" },
-  { id: 10, name: "Looking for job/ಕೆಲಸ ಹುಡುಕುತ್ತಿರುವ" }
-];
-const secondaryIncomeOptions = [
-  { id: 1, name: "Crop cultivator/ಕೃಷಿ" },
-  { id: 2, name: "Livestock farming/ಜಾನುವಾರು ಸಾಕಣೆ" },
-  { id: 3, name: "Farm wage worker/ಕೃಷಿ ಕೂಲಿ ಕಾರ್ಮಿಕ" },
-  { id: 4, name: "Non farm sector wage worker like factory worker, sales girl, domestic worker/ಕಾರ್ಖಾನೆಯ ಕೆಲಸಗಾರ, ಮಾರಾಟಗಾರ್ತಿ, ಮನೆಕೆಲಸದಂತಹ ಕೃಷಿಯೇತರ ವಲಯದ ಕೂಲಿ ಕೆಲಸಗಾರ" },
-  { id: 5, name: "Business/Self employed like tailor, shop owner/ಟೈಲರ್, ಅಂಗಡಿ ಮಾಲೀಕರು, ವ್ಯಾಪಾರ/ಸ್ವಯಂ ಉದ್ಯೋಗಿ" },
-  { id: 6, name: "Government employee/ಸರ್ಕಾರಿ ಉದ್ಯೋಗಿ" },
-  { id: 7, name: "Private company employee/ಖಾಸಗಿ ಕಂಪನಿ ಉದ್ಯೋಗಿ" },
-  { id: 9, name: "Student/ವಿದ್ಯಾರ್ಥಿ" },
-  { id: 10, name: "Looking for job/ಕೆಲಸ ಹುಡುಕುತ್ತಿರುವ" },
-  { id: 11, name: "Not applicable/ಅನುಸ್ಥಿತಿಯಲ್ಲ" },
-  { id: 12, name: "Other/ಇತರೆ"}
-]
-  // const districtOptions = [
-  //   { id: 1, name: "Tumkur/ತುಮಕೂರು" },
-  //   { id: 2, name: "Bangalore Rural/ಬೆಂಗಳೂರು ಗ್ರಾಮಾಂತರ" },
-  //   { id: 3, name: "Kolar/ಕೋಲಾರ" },
-  //   { id: 4, name: "Ramanagara/ರಾಮನಗರ" },
-  //   { id: 5, name: "Chitradurga/ಚಿತ್ರದುರ್ಗ" },
-  //   { id: 6, name: "Chikkaballapur/ಚಿಕ್ಕಬಳ್ಳಾಪುರ" },
-  //   { id: 7, name: "Hassan/ಹಾಸನ" },
-  //   { id: 8, name: "Davangere/ದಾವಣಗೆರೆ" },
-  //   { id: 9, name: "Mandya/ಮಂಡ್ಯ" },
-  //   { id: 10, name: "Mysore/ಮೈಸೂರು" },
-  //   { id: 11, name: "Chamarajnagar/ಚಾಮರಾಜನಗರ" }
-  // ];
-  const houseOptions = [
-    { id: 1, name: "Owned/ಸ್ವಂತ" },
-    { id: 2, name: "Rented/ಬಾಡಿಗೆ" },
-    { id: 3, name: "Others…/ಇತರೆ…"}
-  ]
-  const cardOptions = [
-    { id: 1, name: "None/ಯಾವುದೂ ಇಲ್ಲ" },
-    { id: 2, name: "APL/ಎಪಿಎಲ್" },
-    { id: 3, name: "BPL/ಬಿಪಿಎಲ್" },
-    { id: 4, name: "Antyodaya/ಅಂತ್ಯೋದಯ"}
-  ]
-
-  const casteOptions = [
-    { id: 1, name: "ST/ಪರಿಶಿಷ್ಟ ಜಾತಿ" },
-    { id: 2, name: "SC/ಪರಿಶಿಷ್ಟ ಪಂಗಡ" },
-    { id: 3, name: "OBC/ಹಿಂದುಳಿದ ವರ್ಗ" },
-    { id: 4, name: "Others/ಇತರೆ" }
-  ];
-  const religiousOptions = [
-    { id: 1, name: "Hindu/ಹಿಂದೂ" },
-    { id: 2, name: "Muslim/ಮುಸ್ಲಿಂ" },
-    { id: 3, name: "Christian/ಕ್ರಿಶ್ಚಿಯನ್" },
-    { id: 4, name: "Other/ಇತರೆ" },
-    { id: 5, name: "No Religion/ಧರ್ಮವಿಲ್ಲ"}
-  ]
-// Define the marital status options with English and Kannada names
-const maritalStatusOptions = [
-  { id: 1, name: "Unmarried/ಅವಿವಾಹಿತ" },
-  { id: 2, name: "Married/ವಿವಾಹಿತ" },
-  { id: 3, name: "Divorced/ವಿಚ್ಛೇದಿತ" },
-  { id: 4, name: "Widowed/ವಿಧವೆ" }
-];
-
-const educationOptions = [
-  { id: 1, name: "Primary (1-6)/ಪ್ರಾಥಮಿಕ (1-6)" },
-  { id: 2, name: "Secondary (6-10)/ದ್ವಿತೀಯ (6-10)" },
-  { id: 3, name: "PU (11 and 12)/ಪಿಯು (11 ಮತ್ತು 12)" },
-  { id: 4, name: "Degree/ಪದವಿ" },
-  { id: 5, name: "Post Graduation/ಸ್ನಾತಕೋತ್ತರ ಪದವಿ" },
-  { id: 6, name: "Other/ಇತರೆ" }
-];
-const occupationOptions = [
-  { id: 1, name: "Crop cultivator/ಕೃಷಿ" },
-  { id: 2, name: "Livestock farming/ಜಾನುವಾರು ಸಾಕಣೆ" },
-  { id: 3, name: "Farm wage worker/ಕೃಷಿ ಕೂಲಿ ಕಾರ್ಮಿಕ" },
-  { id: 4, name: "Non farm sector wage worker like factory worker, sales girl, domestic worker/ಕಾರ್ಖಾನೆಯ ಕೆಲಸಗಾರ, ಮಾರಾಟಗಾರ್ತಿ, ಮನೆಕೆಲಸದಂತಹ ಕೃಷಿಯೇತರ ವಲಯದ ಕೂಲಿ ಕೆಲಸಗಾರ" },
-  { id: 5, name: "Business/Self employed like tailor, shop owner/ಟೈಲರ್, ಅಂಗಡಿ ಮಾಲೀಕರು, ವ್ಯಾಪಾರ/ಸ್ವಯಂ ಉದ್ಯೋಗಿ" },
-  { id: 6, name: "Government employee/ಸರ್ಕಾರಿ ಉದ್ಯೋಗಿ" },
-  { id: 7, name: "Private company employee/ಖಾಸಗಿ ಕಂಪನಿ ಉದ್ಯೋಗಿ" },
-  { id: 9, name: "Student/ವಿದ್ಯಾರ್ಥಿ" },
-  { id: 10, name: "Looking for job/ಕೆಲಸ ಹುಡುಕುತ್ತಿರುವ" }
-];
-
-const getTaluk = async (id) => {
-  var data = JSON.stringify({
-    "country_id": "1",
-    "state_id": "3",
-    "district_id": JSON.stringify(id)
-  });
-  var config = {
-    method: 'post',
-    url: baseURL + 'getLocation',
-    headers: {
-      'Content-Type': 'application/json',
-       'Authorization': `${apikey}`
-    },
-    data: data
-  };
-  axios(config)
-    .then(function (response) {
-      setTalukOptions(response.data.list)
-    })
-    .catch(function (error) {
-      // console.log(error);
-    });
-}
-const getDistrict = async (district) => {
-  var data = JSON.stringify({
-    "country_id": "1",
-    "state_id": '3',
-    "district_id": "",
-    
-  });
-  var config = {
-    method: 'post',
-    url: baseURL + 'getLocation',
-    headers: {
-      'Content-Type': 'application/json',
-       'Authorization': `${apikey}`
-    },
-    data: data
-  };
-  axios(config)
-    .then(function (response) {
-      setDistrictOptions(response.data.list)
-    })
-    .catch(function (error) {
-      // console.log(error);
-    });
-}
-  const handleChangeSelect = (event) => {
-    setAge(event.target.value);
-  };
-  // const sessionValue = (event) => {
-  //   setSelectedValue(event.target.value);
-  //   setSessionValueError(false);
-  // };
-  // const skillsoption = (event) => {
-  //   setSkillValue(event.target.value);
-  //   setSkillError(false);
-  // };
-  const paravalue = (event) => {
-    setListenpara(event.target.value);
-    setListenParaError(false);
-  };
-  const goladAchiced = (event) => {
-    setGoladAchiced(event.target.value);
-    setGoladAchicedError(false);
-  };
-  const takeFeddBakcHandler = (event) => {
-    setTakeFeddBakc(event.target.value);
-    setTakeFeddBakcError(false);
-  };
-  const canUTellMeHandker = (event) => {
-    setCanUTellMe(event.target.value);
-    setCanUTellMeError(false);
-  };
-  const giveAnOppurtutnityHandler = (event) => {
-    setGiveAnOppurtutnity(event.target.value);
-    setGiveAnOppurtutnityError(false);
-  };
-  const takeYouSeriouslyEroorHandler = (event) => {
-    setTakeYouSeriously(event.target.value);
-    setTakeYouSeriouslyEroor(false);
-  };
-  const leaderShipSkillHandler = (event) => {
-    setILeaderShipSkill(event.target.value);
-    setLeaderShipSkillError(false);
-  };
-  const oneInstanaceHandle = (event) => {
-    setOneInstanace(event.target.value);
-    setOneInstanaceError(false);
-  };
-  const duscussPersonalHandler = (event) => {
-    setDuscussPersonal(event.target.value);
-    setDuscussPersonalError(false);
-  };
-  const impatientHandle = (event) => {
-    setIBecameImpatient(event.target.value);
-    setIBecameImpatientError(false);
-  };
-  const didYouListenParaHandle = (event) => {
-    setDidYouListenPara(event.target.value);
-    setDidYouListenParaError(false);
-  };
-  const whenIgetTaskHandler = (event) => {
-    setwhenIgetTask(event.target.value);
-    setWhenIgetTaskError(false);
-  };
-  const emotionbondHandler = (event) => {
-    setEmotionbond(event.target.value);
-    setEmotionbondError(false);
-  };
-  // const communityvalue = (event) => {
-  //   setCommunity(event.target.value);
-  //   setcommunityError(false);
-  // };
-  // const communitymemvalue = (event) => {
-  //   setCommunitymem(event.target.value);
-  //   setcommunitymemError(false);
-  // };
-  // const bringtogethervalue = (event) => {
-  //   setbringTogether(event.target.value);
-  //   setbringtogetherError(false);
-  // };
-  // const Conflictvalue = (event) => {
-  //   setConflicts(event.target.value);
-  //   setconflictsError(false);
-  // };
-  const handleClickOpen = () => {
+const  handleClickOpen = () => {
     setOpen(true);
     setLoader(true);
     setShowForm(true);
@@ -425,10 +211,7 @@ const getDistrict = async (district) => {
     setIsFormPresentLocally(false)
     setShowForm(false);
   };
-  useEffect(() => {
-    gelathinamelist();
-   
-  }, []);
+ 
   useEffect(()=>{
 
     const existingData = localStorage.getItem('spoorthi');
@@ -455,30 +238,6 @@ const getDistrict = async (district) => {
         }
   
   },[])
-  const gelathinamelist = (async) => {
-    // var data = JSON.stringify({
-    //   partcipantId: id,
-    // });
-    var config = {
-      method: 'post',
-      url: baseURL + 'getGelathiList',
-      headers: {
-        'Content-Type': 'application/json',
-         'Authorization': `${apikey}`
-      },
-      // data: data,
-    };
-    axios(config)
-      .then(function (response) {
-        localStorage.setItem('gelathilist',JSON.stringify(response?.data));
-        setVyaapar(response?.data);
-      })
-      .catch(function (error) {
-        // console.log(error);
-        let gelathidata=JSON.parse(localStorage.getItem('gelathilist'))
-        setVyaapar(gelathidata);
-      });
-  };
 
 //   const saveDataLocally = (key, data) => {
   
@@ -521,473 +280,37 @@ const saveDataLocally = (key, data) => {
       return false;
     }
   };
-  const dummy ={
-    partcipantId: JSON.stringify(parseInt(id)),
-    email_address: sendData?.email_address,
-    GelathiId: sendData?.GelathiId,
-    Spoorthi_Session_Number: selectedValue,
-    list_down_your_skills: sendData?.list_down_your_skills,
-    skills_to_overcome_my_challenges: skillValue,
-    used_skills_resources_combat_challenge: sendData?.used_skills_resources_combat_challenge,
-    listen_paragraph: listenpara,
-    summarize_main_points_paragraph: sendData?.summarize_main_points_paragraph,
-    ask_two_questions_help_you_understand: sendData?.ask_two_questions_help_you_understand,
-    three_infrastructure_of_your_village: sendData?.three_infrastructure_of_your_village,
-    know_the_need_of_my_community: community,
-    together_community_members_community_infrastructure: communitymem,
-    with_other_community_infrastructure: sendData?.with_other_community_infrastructure,
-    bring_someone_together: bringtogether,
-    brought_people_together_incident: sendData?.brought_people_together_incident,
-    conflict_with_anyone_ask_position: sendData?.conflict_with_anyone_ask_position,
-    conflict_matters_interest_mine: conflicts,
-    There_puja_at_my_house: sendData?.There_puja_at_my_house,
-  }
+ 
 
-  const gelathicircleformdata = async () => {
-    var data = {}
-    data = JSON.stringify(
-      {
-        "partcipantId": JSON.stringify(parseInt(id)),
-        "GelathiId": sendData.GelathiId,
-        "email_address": sendData.email_address,
-        "listen_paragraph":sendData.listen_paragraph,
-        "summarize_main_points_paragraph": sendData.summarize_main_points_paragraph,
-        "ask_two_questions_help_you_understand": sendData.ask_two_questions_help_you_understand,
-        "district": sendData.district_name,
-        "taluk": sendData.taluk_name,
-        "gram_panchayat": sendData.gram_panchayat,
-        "village_name": sendData.village_name,
-        "total_adults_no_of_member_household": sendData.total_adults_no_of_member_household,
-        "total_children_no_of_member_household": sendData.total_children_no_of_member_household,
-        "house": sendData.house_name,
-        "ration_card": sendData.ration_card_name,
-        "cast_category": sendData.cast_category_name,
-        "mother_tongue": sendData.mother_tongue,
-        "religion": sendData.religion_name,
-        "age": sendData.age,
-        "material_status":sendData.material_status_name,
-        "education": sendData.education_name,
-        "phone_number": sendData.phone_number,
-        "current_economic_activity_primary_occupation": sendData.current_economic_activity_primary_occupation_name,
-        "secondary_occupation_household":sendData.secondary_occupation_household_name,
-        "womens_occupation": sendData.womens_occupation_name,
-        "skills_motivation": sendData.skills_motivation,
-        "three_reasons_become_gelathi":sendData.three_reasons_become_gelathi,
-        "goals_achieve_as_gelathi": goladAchiced,
-        "goals_as_leader_next_year": sendData.goals_as_leader_next_year,
-        "goals_for_ten_years": sendData.goals_for_ten_years,
-        "community": sendData.community,
-        "support_feelings": sendData.support_feelings,
-        "meetings_day_feelings": sendData.meetings_day_feelings,
-        "deal_with_angry_situation": sendData.deal_with_angry_situation ,
-        "impatient_with_unclear_comm": iBecameImpatient,
-        "say_yes_when_unsure_of_instructions":sendData.say_yes_when_unsure_of_instructions,
-        "confidence": sendData.confidence,
-        "persisted_when_others_quit":sendData.persisted_when_others_quit,
-        "narrate_instance": sendData.narrate_instance,
-        "goal_persistence_instance":sendData.persisted_when_others_quit,
-        "task_response": sendData.whenIgetTask,
-        "challenge_reaction": sendData.challenge_reaction,
-        "conflict_management": sendData.conflict_management,
-        "conflict_handling":sendData.conflict_handling,
-        "solution_agreeable_to_others": sendData.solution_agreeable_to_others,
-        "sense_of_sisterhood": sendData.sense_of_sisterhood,
-        "qualities_of_good_gelathi":sendData.qualities_of_good_gelathi,
-        "members_emotional_bond": emotionbond,
-        "members_discuss_personal_issues":duscussPersonal,
-        "coping_mechanisms_when_sad": sendData.coping_mechanisms_when_sad,
-        "possess_leadership_skills": leaderShipSkill,
-        "leadership_skills_reason_yes": sendData.leadership_skills_reason_yes,
-        "leadership_skills_reason_no": sendData.leadership_skills_reason_no,
-        "leadership_skills":sendData.leadership_skills,
-        "community_members_takes_seriously": takeYouSeriously,
-        "takes_feedback_from_community_members":takeFeddBakc,
-        "feedback_from_community_members": canUTellMe,
-        "goals_as_gelathi": sendData.goals_as_gelathi,
-        "willing_to_take_part_local_elections": giveAnOppurtutnity
-    }
-
-  //   {
-  //     "partcipantId": "785828",
-  //     "GelathiId": "892",
-  //     "email_address": "participant@example.com",
-  //     "listen_paragraph": "Listening to others attentively",
-  //     "summarize_main_points_paragraph": "Key points were summarized effectively",
-  //     "ask_two_questions_help_you_understand": "What were the challenges? How can we solve them?",
-  //     "district": "District Name",
-  //     "taluk": "Taluk Name",
-  //     "gram_panchayat": "Panchayat Name",
-  //     "village_name": "Village Name",
-  //     "total_adults_no_of_member_household": "5",
-  //     "total_children_no_of_member_household": "2",
-  //     "house": "Yes",
-  //     "ration_card": "Yes",
-  //     "cast_category": "General",
-  //     "mother_tongue": "Kannada",
-  //     "religion": "Hindu",
-  //     "age": "35",
-  //     "material_status": "Married",
-  //     "education": "Graduate",
-  //     "phone_number": "9876543210",
-  //     "current_economic_activity_primary_occupation": "Farming",
-  //     "secondary_occupation_household": "None",
-  //     "womens_occupation": "Tailoring",
-  //     "skills_motivation": "To improve livelihood",
-  //     "three_reasons_become_gelathi": "Leadership, Community involvement, Social impact",
-  //     "goals_achieve_as_gelathi": "Increase community participation in development",
-  //     "goals_as_leader_next_year": "Build a school in the village",
-  //     "goals_for_ten_years": "Make the village self-sufficient in resources",
-  //     "community": "Yes",
-  //     "support_feelings": "Supportive environment",
-  //     "meetings_day_feelings": "Meetings are productive and engaging",
-  //     "deal_with_angry_situation": "I remain calm and try to understand the other person's point of view",
-  //     "impatient_with_unclear_comm": "Yes, I get impatient sometimes",
-  //     "say_yes_when_unsure_of_instructions": "No",
-  //     "confidence": "High",
-  //     "persisted_when_others_quit": "Yes, I continued the project even when others gave up",
-  //     "narrate_instance": "I continued a village clean-up initiative when others were hesitant",
-  //     "goal_persistence_instance": "I achieved the clean-up goal after persistent effort",
-  //     "task_response": "I respond promptly and efficiently",
-  //     "challenge_reaction": "I analyze the situation before reacting",
-  //     "conflict_management": "I try to mediate between conflicting parties",
-  //     "conflict_handling": "I listen to both sides and propose a compromise",
-  //     "solution_agreeable_to_others": "Yes, the proposed solution was accepted by everyone",
-  //     "sense_of_sisterhood": "Yes, there is a strong bond among women in the community",
-  //     "qualities_of_good_gelathi": "Leadership, empathy, communication",
-  //     "members_emotional_bond": "Yes, the group is emotionally bonded",
-  //     "members_discuss_personal_issues": "Yes, we share and discuss personal challenges",
-  //     "coping_mechanisms_when_sad": "I talk to friends and family, and practice meditation",
-  //     "possess_leadership_skills": "Yes",
-  //     "leadership_skills_reason_yes": "I have led various community projects successfully",
-  //     "leadership_skills_reason_no": "",
-  //     "leadership_skills": "Strong leadership qualities with good communication",
-  //     "community_members_takes_seriously": "Yes, they respect my decisions",
-  //     "takes_feedback_from_community_members": "Yes",
-  //     "feedback_from_community_members": "They give constructive feedback to improve my leadership",
-  //     "goals_as_gelathi": "Improve village infrastructure and social services",
-  //     "willing_to_take_part_local_elections": "Yes"
-  // }
-  ); 
-
-  console.log(data ,"formData")
-    if(isOnline() && networkAccess())
-      {
-
-   
-    // if (selectedValue == '') {
-    //   setSessionValueError(true);
-    //   setHelperText('Please Select The Option 1');
-    // }
-    // if (skillValue == '') {
-    //   setSkillError(true);
-    //   setHelperText('Please Select The Option2');
-    // }
-
-    //working
-    // if (listenpara == '') {
-    //   setListenParaError(true);
-    //   setHelperText('Please Select The Option3');
-    // }
-    // if (goladAchicedValue == '') {
-    //   setGoladAchicedError(true);
-    //   setHelperText('Please Select The Option4');
-    // }
-    // if (takeFeddBakc == '') {
-    //   setTakeFeddBakc(true);
-    //   setHelperText('Please Select The Option5');
-    // }
-    // if (takeYouSeriously == '') {
-    //   setTakeYouSeriouslyEroor(true);
-    //   setHelperText('Please Select The Option6');
-    // }
-
-    // if (leaderShipSkill == '') {
-    //   setLeaderShipSkillError(true);
-    //   setHelperText('Please Select The Option7');
-    // }
-    // if (duscussPersonal == '') {
-    //   setDuscussPersonalError(true);
-    //   setHelperText('Please Select The Option8');
-    // }
-    // if (whenIgetTask == '') {
-    //   setWhenIgetTaskError(true);
-    //   setHelperText('Please Select The Option9');
-    // }
-    // if (emotionbond == '') {
-    //   setEmotionbondError(true);
-    //   setHelperText('Please Select The Option10');
-    // }
-    // if (oneInstanace == '') {
-    //   setOneInstanaceError(true);
-    //   setHelperText('Please Select The Option11');
-    // }
-    // if (didYouListenPara == '') {
-    //   setDidYouListenParaError(true);
-    //   setHelperText('Please Select The Option12');
-    // }
-    // if (iBecameImpatient == '') {
-    //   setIBecameImpatient(true);
-    //   setHelperText('Please Select The Option13');
-    // }
-    // if (conflicts == '') {
-    //   setconflictsError(true);
-    //   setHelperText('Please Select The Option17');
-    // }
-    // if (community == '') {
-    //   setcommunityError(true);
-    //   setHelperText('Please Select The Option14');
-    // }
-
-
-    //commented
-    // if (communitymem == '') {
-    //   setcommunitymemError(true);
-    //   setHelperText('Please Select The Option15');
-    // }
-    // if (bringtogether == '') {
-    //   setbringtogetherError(true);
-    //   setHelperText('Please Select The Option16');
-    // }
-   
-    if (true
-      // conflicts != '' &&
-
-      // community != '' &&
-      // listenpara != '' 
-
-
-
-      // bringtogether != '' &&
-      // communitymem != ' ' &&
-   
-      // skillValue != '' &&
-      // selectedValue != ''
-    )
-     {
-      if(localStorage.getItem('spoorthi')){
-        // data  = setSpoorthiForm()
-        // setSpoorthiForm(data)
-        saveDataLocally('spoorthi', data)
-        data = setSpoorthiForm(saveDataLocally('spoorthi', JSON.parse(data)));
-        setSpoorthiForm(data);
-
-      }
-      
-      else{
-console.log ("comming")
-     var  data = JSON.stringify(
-      {
-        "partcipantId": JSON.stringify(parseInt(id)),
-        "GelathiId": sendData.GelathiId,
-        "email_address": sendData.email_address,
-        "listen_paragraph":sendData.listen_paragraph,
-        "summarize_main_points_paragraph": sendData.summarize_main_points_paragraph,
-        "ask_two_questions_help_you_understand": sendData.ask_two_questions_help_you_understand,
-        "district": sendData.district_name,
-        "taluk": sendData.taluk_name,
-        "gram_panchayat": sendData.gram_panchayat,
-        "village_name": sendData.village_name,
-        "total_adults_no_of_member_household": sendData.total_adults_no_of_member_household,
-        "total_children_no_of_member_household": sendData.total_children_no_of_member_household,
-        "house": sendData.house_name,
-        "ration_card": sendData.ration_card_name,
-        "cast_category": sendData.cast_category_name,
-        "mother_tongue": sendData.mother_tongue,
-        "religion": sendData.religion_name,
-        "age": sendData.age,
-        "material_status":sendData.material_status_name,
-        "education": sendData.education_name,
-        "phone_number": sendData.phone_number,
-        "current_economic_activity_primary_occupation": sendData.current_economic_activity_primary_occupation_name,
-        "secondary_occupation_household":sendData.secondary_occupation_household_name,
-        "womens_occupation": sendData.womens_occupation_name,
-        "skills_motivation": sendData.skills_motivation,
-        "three_reasons_become_gelathi":sendData.three_reasons_become_gelathi,
-        "goals_achieve_as_gelathi": goladAchiced,
-        "goals_as_leader_next_year": sendData.goals_as_leader_next_year,
-        "goals_for_ten_years": sendData.goals_for_ten_years,
-        "community": sendData.community,
-        "support_feelings": sendData.support_feelings,
-        "meetings_day_feelings": sendData.meetings_day_feelings,
-        "deal_with_angry_situation": sendData.deal_with_angry_situation ,
-        "impatient_with_unclear_comm": iBecameImpatient,
-        "say_yes_when_unsure_of_instructions":sendData.say_yes_when_unsure_of_instructions,
-        "confidence": sendData.confidence,
-        "persisted_when_others_quit":sendData.persisted_when_others_quit,
-        "narrate_instance": sendData.narrate_instance,
-        "goal_persistence_instance":sendData.persisted_when_others_quit,
-        "task_response": sendData.whenIgetTask,
-        "challenge_reaction": sendData.challenge_reaction,
-        "conflict_management": sendData.conflict_management,
-        "conflict_handling":sendData.conflict_handling,
-        "solution_agreeable_to_others": sendData.solution_agreeable_to_others,
-        "sense_of_sisterhood": sendData.sense_of_sisterhood,
-        "qualities_of_good_gelathi":sendData.qualities_of_good_gelathi,
-        "members_emotional_bond": emotionbond,
-        "members_discuss_personal_issues":duscussPersonal,
-        "coping_mechanisms_when_sad": sendData.coping_mechanisms_when_sad,
-        "possess_leadership_skills": leaderShipSkill,
-        "leadership_skills_reason_yes": sendData.leadership_skills_reason_yes,
-        "leadership_skills_reason_no": sendData.leadership_skills_reason_no,
-        "leadership_skills":sendData.leadership_skills,
-        "community_members_takes_seriously": takeYouSeriously,
-        "takes_feedback_from_community_members":takeFeddBakc,
-        "feedback_from_community_members": canUTellMe,
-        "goals_as_gelathi": sendData.goals_as_gelathi,
-        "willing_to_take_part_local_elections": giveAnOppurtutnity
-    }
-  //   {
-  //     "partcipantId": "785828",
-  //     "GelathiId": "892",
-  //     "email_address": "participant@example.com",
-  //     "listen_paragraph": "Listening to others attentively",
-  //     "summarize_main_points_paragraph": "Key points were summarized effectively",
-  //     "ask_two_questions_help_you_understand": "What were the challenges? How can we solve them?",
-  //     "district": "District Name",
-  //     "taluk": "Taluk Name",
-  //     "gram_panchayat": "Panchayat Name",
-  //     "village_name": "Village Name",
-  //     "total_adults_no_of_member_household": "5",
-  //     "total_children_no_of_member_household": "2",
-  //     "house": "Yes",
-  //     "ration_card": "Yes",
-  //     "cast_category": "General",
-  //     "mother_tongue": "Kannada",
-  //     "religion": "Hindu",
-  //     "age": "35",
-  //     "material_status": "Married",
-  //     "education": "Graduate",
-  //     "phone_number": "9876543210",
-  //     "current_economic_activity_primary_occupation": "Farming",
-  //     "secondary_occupation_household": "None",
-  //     "womens_occupation": "Tailoring",
-  //     "skills_motivation": "To improve livelihood",
-  //     "three_reasons_become_gelathi": "Leadership, Community involvement, Social impact",
-  //     "goals_achieve_as_gelathi": "Increase community participation in development",
-  //     "goals_as_leader_next_year": "Build a school in the village",
-  //     "goals_for_ten_years": "Make the village self-sufficient in resources",
-  //     "community": "Yes",
-  //     "support_feelings": "Supportive environment",
-  //     "meetings_day_feelings": "Meetings are productive and engaging",
-  //     "deal_with_angry_situation": "I remain calm and try to understand the other person's point of view",
-  //     "impatient_with_unclear_comm": "Yes, I get impatient sometimes",
-  //     "say_yes_when_unsure_of_instructions": "No",
-  //     "confidence": "High",
-  //     "persisted_when_others_quit": "Yes, I continued the project even when others gave up",
-  //     "narrate_instance": "I continued a village clean-up initiative when others were hesitant",
-  //     "goal_persistence_instance": "I achieved the clean-up goal after persistent effort",
-  //     "task_response": "I respond promptly and efficiently",
-  //     "challenge_reaction": "I analyze the situation before reacting",
-  //     "conflict_management": "I try to mediate between conflicting parties",
-  //     "conflict_handling": "I listen to both sides and propose a compromise",
-  //     "solution_agreeable_to_others": "Yes, the proposed solution was accepted by everyone",
-  //     "sense_of_sisterhood": "Yes, there is a strong bond among women in the community",
-  //     "qualities_of_good_gelathi": "Leadership, empathy, communication",
-  //     "members_emotional_bond": "Yes, the group is emotionally bonded",
-  //     "members_discuss_personal_issues": "Yes, we share and discuss personal challenges",
-  //     "coping_mechanisms_when_sad": "I talk to friends and family, and practice meditation",
-  //     "possess_leadership_skills": "Yes",
-  //     "leadership_skills_reason_yes": "I have led various community projects successfully",
-  //     "leadership_skills_reason_no": "",
-  //     "leadership_skills": "Strong leadership qualities with good communication",
-  //     "community_members_takes_seriously": "Yes, they respect my decisions",
-  //     "takes_feedback_from_community_members": "Yes",
-  //     "feedback_from_community_members": "They give constructive feedback to improve my leadership",
-  //     "goals_as_gelathi": "Improve village infrastructure and social services",
-  //     "willing_to_take_part_local_elections": "Yes"
-  // }
-      );
-      }
-      var config = {
-        method: 'post',
-        url: baseURL+ 'addSpoorthiBaselineQuestionnaire',
-        headers: {
-          'Content-Type': 'application/json',
-           'Authorization': `${apikey}`
-        },
-        data: data,
-      };
-      axios(config)
-        .then(function (response) {
-          if (response.data.success) {
-            setcircleform(response?.data);
-            alert('Spoorthi Form Submitted Successfully.');
-            reloadmethod();
-            gelathiDrawerReloder();
-          }
-        })
-        .catch(function (error) {
-          // console.log(error);
-          setSpoorthiForm(saveDataLocally('spoorthi', data));
-          componentreloadmethod();
-        });
-      // handleClose();
-    }
-     else {
-      alert('Please Select The Optionworking why this is comming. ');
-    }
-  }
-   else{
-    // if (selectedValue == '') {
-    //   setSessionValueError(true);
-    //   setHelperText('Please Select The Option111');
-    // }
-    // if (skillValue == '') {
-    //   setSkillError(true);
-    //   setHelperText('Please Select The Option2222');
-    // }
-   
-    // if (communitymem == '') {
-    //   setcommunitymemError(true);
-    //   setHelperText('Please Select The Option555');
-    // }
-    // if (bringtogether == '') {
-    //   setbringtogetherError(true);
-    //   setHelperText('Please Select The Option666');
-    // }
-
-    //working
-    // if (conflicts == '') {
-    //   setconflictsError(true);
-    //   setHelperText('Please Select The Option777');
-    // }
-    // if (listenpara == '') {
-    //   setListenParaError(true);
-    //   setHelperText('Please Select The Option333');
-    // }
-    // if (community == '') {
-    //   setcommunityError(true);
-    //   setHelperText('Please Select The Option4444');
-    // }
-    if (true
-      // conflicts != '' &&
-      // community != '' &&
-      // listenpara != '' 
-
-
-
-      // bringtogether != '' &&
-      // communitymem != ' ' &&
-     
-      // skillValue != '' &&
-      // selectedValue != ''
-    ){
-
-      console.log("comming inside local" )
-      // setSpoorthiForm()
-      // saveDataLocally('spoorthi', data)
-      setSpoorthiForm(saveDataLocally('spoorthi', JSON.parse(data)));
-      componentreloadmethod();
-      handleClose();
-    }else{
-      alert("Please Select The Option working")
-
-    }
-  }
-
-  };
+ 
 
   const [loader, setLoader] = useState(true);
+console.log(id ,"datadatadata")
+  const getSpoorthiFormTOView = async (district) => {
+    var data = JSON.stringify({
+        "partcipantId":parseInt(id.id) 
+    });
+    var config = {
+      method: 'post',
+      url: baseURL + 'getSpoorthiForm',
+      headers: {
+        'Content-Type': 'application/json',
+         'Authorization': `${apikey}`
+      },
+      data: data
+    };
+    axios(config)
+      .then(function (response) {
+        console.log(response.data ,"response.dataresponse.data")
+        const participantData = response.data;
+        setFormData(participantData.data)
+      })
+      .catch(function (error) {
+        // console.log(error);
+      });
+  }
+
+
   useEffect(() => {
     // After 3 seconds, set showCard to true to render the Card component
     const delay = 3000; // 3 seconds in milliseconds
@@ -997,8 +320,15 @@ console.log ("comming")
   })
 
   useEffect(()=>{
-    getDistrict()
+    // getDistrict()
+    getSpoorthiFormTOView()
   },[])
+useEffect(()=>{
+
+},[sendData])
+  console.log(formData ,"formDataformData", sendData)
+
+  console.log(sendData ,"sendData")
   return (
     <div>
       <Stack style={{ flexDirection: 'row', float: 'right' }} mb={2}>
@@ -1011,7 +341,7 @@ console.log ("comming")
         <form
           onSubmit={(e) => {
             e.preventDefault();
-            gelathicircleformdata();
+            // gelathicircleformdata();
           }}
         >
           <Toolbar sx={{ bgcolor: '#ff7424', color: 'white' }}>
@@ -1047,8 +377,8 @@ console.log ("comming")
                     <Stack mt={2} mb={2}>
                       <TextField
                         id="Email"
-                        required
-                        label="Enter Email"
+                        disabled
+                        label="Your Answer"
                         onChange={(e) => {
                           setSendData({ ...sendData, email_address: e?.target?.value });
                         }}
@@ -1066,11 +396,10 @@ console.log ("comming")
                     <Stack mt={2} mb={2}>
                       <TextField
                         id="Email"
-                        required
-                        label="Enter Email"
-                        onChange={(e) => {
-                          setSendData({ ...sendData, email_address: e?.target?.value });
-                        }}
+                        disabled
+                        label="Your Answer"
+                       
+                        value={formData?.email_address}
                         variant="outlined"
                         color="common"
                       />
@@ -1087,7 +416,7 @@ console.log ("comming")
                         color="common"
                         label="Choose Gelathi Facilitator"
                         variant="standard"
-                        required
+                        disabled
                         onChange={(e) => setSendData({ ...sendData, GelathiId: e?.target?.value })}
                         value={sendData?.GelathiId}
                       >
@@ -1105,18 +434,15 @@ console.log ("comming")
                     Respondent’s name/ಪ್ರತಿಕ್ರಿಯಿಸಿದವರ ಹೆಸರು*
                     </Typography>
                     <Stack mt={2} mb={2}>
-                      <Select
-                        color="common"
-                        label="Choose Gelathi Facilitator"
-                        variant="standard"
-                        required
-                        onChange={(e) => setSendData({ ...sendData, GelathiId: e?.target?.value })}
+                      <TextField
+                        id="Email"
+                        disabled
+                        label="Your Answer"
+                     
                         value={sendData?.GelathiId}
-                      >
-                        {vyaapar?.list?.map((itm) => {
-                          return <MenuItem value={itm?.id}>{itm?.first_name}</MenuItem>;
-                        })}
-                      </Select>
+                        variant="outlined"
+                        color="common"
+                      />
                     </Stack>
                   </CardContent>
                 </Card>
@@ -1177,30 +503,15 @@ console.log ("comming")
       District/Taluk-ಜಿಲ್ಲೆ/ತಾಲೂಕು
     </Typography>
     <Stack mt={2} mb={2}>
-      <Select
-        color="common"
-        label="Choose District/Taluk-ಜಿಲ್ಲೆ/ತಾಲೂಕು"
-        variant="standard"
-        required
-        onChange={(e) => {
-          const selectedOption = districtOptions.find(option => option.id === e.target.value);
-          setSendData({ 
-            ...sendData, 
-            district: selectedOption?.id, 
-            district_name: selectedOption?.name 
-          });
-          console.log(selectedOption ,selectedOption?.id ,selectedOption?.name  )
-        getTaluk(e?.target?.value)}}
-        value={sendData?.district}
-      >
-        {/* Use the districtOptions variable for mapping */}
-        {districtOptions && districtOptions.map((itm) => (
-          <MenuItem key={itm.id} value={itm.id}>
-            {itm.name}
-          </MenuItem>
-        ))}
-      </Select>
-    </Stack>
+                      <TextField
+                        id="Email"
+                        disabled
+                        label="Your Answer"
+                        value={sendData?.district}
+                        variant="outlined"
+                        color="common"
+                      />
+                    </Stack>
   </CardContent>
 </Card>
                 {/* <Card style={{ marginTop: 10, borderRadius: 20 }}>
@@ -1212,7 +523,7 @@ console.log ("comming")
                       <TextField
                         id="skillslist"
                         label="Your Answer"
-                        required
+                        disabled
                         onChange={(e) => {
                           setSendData({ ...sendData, list_down_your_skills: e?.target?.value });
                         }}
@@ -1229,27 +540,15 @@ console.log ("comming")
     Taluk/ತಾಲೂಕು
     </Typography>
     <Stack mt={2} mb={2}>
-      <Select
-        color="common"
-        label="Choose District/Taluk-ಜಿಲ್ಲೆ/ತಾಲೂಕು"
-        variant="standard"
-        required
-        onChange={(e) => {
-          const selectedOption = talukOptions.find(option => option.id === e.target.value);
-          setSendData({ ...sendData, taluk: selectedOption.id ,taluk_name: selectedOption?.name })
-
-        
-        }}
-        value={sendData?.taluk}
-      >
-        {/* Use the districtOptions variable for mapping */}
-        {talukOptions && talukOptions.map((itm) => (
-          <MenuItem key={itm.id} value={itm.id}>
-            {itm.name}
-          </MenuItem>
-        ))}
-      </Select>
-    </Stack>
+                      <TextField
+                        id="Email"
+                        disabled
+                        label="Your Answer"
+                        value={sendData?.taluk}
+                        variant="outlined"
+                        color="common"
+                      />
+                    </Stack>
   </CardContent>
 </Card>
             <Card style={{ marginTop: 10, borderRadius: 20 }}>
@@ -1261,10 +560,9 @@ console.log ("comming")
                       <TextField
                         id="grampanchayath"
                         label="Your Answer"
-                        required
-                        onChange={(e) => {
-                          setSendData({ ...sendData, gram_panchayat: e?.target?.value });
-                        }}
+                        disabled
+                       
+                        value={sendData?.gram_panchayat}
                         variant="outlined"
                         color="common"
                       />
@@ -1299,9 +597,7 @@ console.log ("comming")
                       <TextField
                         id="skillsresources"
                         label="Your Answer"
-                        onChange={(e) => {
-                          setSendData({ ...sendData, village_name: e?.target?.value });
-                        }}
+                        value={sendData?.village_name}
                         variant="outlined"
                         color="common"
                       />
@@ -1322,19 +618,22 @@ console.log ("comming")
                         ಗಾಜಿನಂತಹ ವಸ್ತುಗಳನ್ನು ಒಳಗೊಂಡಿರುತ್ತದೆ, ಅದನ್ನು ಹತ್ತಿರದ ಮರುಬಳಕೆ ಕೇಂದ್ರ ಕ್ಕೆ ಕಳುಹಿಸಬಹುದು ಅಥವಾ
                         ಜಂಕೀಲರ್ಗೆ ವಿಲೇವಾರಿಮಾಡಬಹುದು. ಇಂದಿನಿಂದ, ನಾನು ನನಗೆ ತಿಳಿದಿರುವ ವಸ್ತುಗಳನ್ನು ಮರುಬಳಕೆಮಾಡಲು ಪ್ರಯತ್ನಿ
                         ಸುತ್ತೇ ನೆ.Did you listen to the paragraph
-                        {listenparaError ? (
-                          <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText>
-                        ) : null}{' '}
+                      
                       </Typography>
-                      <RadioGroup
-                        aria-labelledby="demo-radio-buttons-group-label"
-                        name="radio-buttons-group"
-                        value={listenpara}
-                        onChange={paravalue}
-                      >
-                        <FormControlLabel value="Yes" control={<Radio style={{ color: '#595959' }} />} label="Yes" />
-                        <FormControlLabel value="No" control={<Radio style={{ color: '#595959' }} />} label="No" />
-                      </RadioGroup>
+                   
+                    </Stack>
+                    <Stack mt={2} mb={2}>
+                      <TextField
+                        id="Email"
+                        disabled
+                        label="Your Answer"
+                        onChange={(e) => {
+                          setSendData({ ...sendData, email_address: e?.target?.value });
+                        }}
+                        value={formData?.email_address}
+                        variant="outlined"
+                        color="common"
+                      />
                     </Stack>
                   </CardContent>
                 </Card>
@@ -1349,9 +648,7 @@ console.log ("comming")
                       <TextField
                         id="skillsresources"
                         label="Your Answer"
-                        onChange={(e) => {
-                          setSendData({ ...sendData, total_adults_no_of_member_household: e?.target?.value });
-                        }}
+                        value={sendData?.total_adults_no_of_member_household}
                         variant="outlined"
                         color="common"
                       />
@@ -1367,9 +664,7 @@ console.log ("comming")
                       <TextField
                         id="skillsresources"
                         label="Your Answer"
-                        onChange={(e) => {
-                          setSendData({ ...sendData, total_children_no_of_member_household: e?.target?.value });
-                        }}
+                        value={sendData?.total_children_no_of_member_household}
                         variant="outlined"
                         color="common"
                       />
@@ -1383,26 +678,16 @@ console.log ("comming")
       House/ಮನೆ:
     </Typography>
     <Stack mt={2} mb={2}>
-      <Select
-        color="common"
-        label="Choose House Type/ಮನೆ ಪ್ರಕಾರ"
-        variant="standard"
-        required
-        onChange={(e) => {
-           const selectedOption = houseOptions.find(option => option.id === e.target.value);
-          setSendData({ ...sendData, house: selectedOption.id, house_name: selectedOption?.name  });
-       
-          console.log(selectedOption); }}
-        value={sendData?.house}
-      >
-        {/* Map the houseOptions to the dropdown */}
-        {houseOptions.map((itm) => (
-          <MenuItem key={itm.id} value={itm.id}>
-            {itm.name}
-          </MenuItem>
-        ))}
-      </Select>
-    </Stack>
+                      <TextField
+                        id="Email"
+                        disabled
+                        label="Your Answer"
+                       
+                        value={formData?.house}
+                        variant="outlined"
+                        color="common"
+                      />
+                    </Stack>
   </CardContent>
 </Card>
                 <Card mt={1} style={{ marginTop: 10, borderRadius: 20 }}>
@@ -1412,24 +697,15 @@ console.log ("comming")
 
                     </Typography>
                     <Stack mt={2} mb={2}>
-                      <Select
+                      <TextField
+                        id="Email"
+                        disabled
+                        label="Your Answer"
+                    
+                        value={formData?.ration_card}
+                        variant="outlined"
                         color="common"
-                        label="Choose  Ration card/ಪಡಿತರ ಚೀಟಿ:"
-                        variant="standard"
-                        required
-                        onChange={(e) => {
-                          const selectedOption = cardOptions.find(option => option.id === e.target.value);
-                         setSendData({ ...sendData, ration_card: selectedOption.id, ration_card_name: selectedOption?.name  });
-                      
-                         console.log(selectedOption); }}
-                        value={sendData?.ration_card}
-                      >
-                       {cardOptions.map((itm) => (
-          <MenuItem key={itm.id} value={itm.id}>
-            {itm.name}
-          </MenuItem>
-        ))}
-                      </Select>
+                      />
                     </Stack>
                   </CardContent>
                 </Card>
@@ -1443,9 +719,7 @@ console.log ("comming")
                       <TextField
                         id="parapoints"
                         label="Your Answer"
-                        onChange={(e) => {
-                          setSendData({ ...sendData, summarize_main_points_paragraph: e?.target?.value });
-                        }}
+                        value={formData?.summarize_main_points_paragraph}
                         variant="outlined"
                         color="common"
                       />
@@ -1462,9 +736,7 @@ console.log ("comming")
                       <TextField
                         id="twoquestions"
                         label="Your Answer"
-                        onChange={(e) => {
-                          setSendData({ ...sendData, ask_two_questions_help_you_understand: e?.target?.value });
-                        }}
+                        value={formData?.ask_two_questions_help_you_understand}
                         variant="outlined"
                         color="common"
                       />
@@ -1478,26 +750,16 @@ console.log ("comming")
     Caste Category/ಜಾತಿ ವರ್ಗ:
     </Typography>
     <Stack mt={2} mb={2}>
-      <Select
-        color="common"
-        label="Choose Caste Category/ಜಾತಿ ವರ್ಗ:"
-        variant="standard"
-        required
-        onChange={(e) => {
-          const selectedOption = casteOptions.find(option => option.id === e.target.value);
-         setSendData({ ...sendData, cast_category: selectedOption.id, cast_category_name: selectedOption?.name  });
-      
-         console.log(selectedOption); }}
-        value={sendData?.cast_category}
-      >
-        {/* Map the houseOptions to the dropdown */}
-        {casteOptions.map((itm) => (
-          <MenuItem key={itm.id} value={itm.id}>
-            {itm.name}
-          </MenuItem>
-        ))}
-      </Select>
-    </Stack>
+                      <TextField
+                        id="Email"
+                        disabled
+                        label="Your Answer"
+                      
+                        value={formData?.cast_category}
+                        variant="outlined"
+                        color="common"
+                      />
+                    </Stack>
   </CardContent>
 </Card>
                 {/* <Card style={{ marginTop: 10, borderRadius: 20 }}>
@@ -1524,25 +786,16 @@ console.log ("comming")
       Religion/ಧರ್ಮ:
     </Typography>
     <Stack mt={2} mb={2}>
-      <Select
-        color="common"
-        label="Choose Religion/ಧರ್ಮ"
-        variant="standard"
-        required
-        onChange={(e) => {
-          const selectedOption = religiousOptions.find(option => option.id === e.target.value);
-         setSendData({ ...sendData, religion: selectedOption.id, religion_name: selectedOption?.name  });
-      
-         console.log(selectedOption); }} value={sendData?.religion}
-      >
-        {/* Map the religiousOptions to the dropdown */}
-        {religiousOptions.map((itm) => (
-          <MenuItem key={itm.id} value={itm.id}>
-            {itm.name}
-          </MenuItem>
-        ))}
-      </Select>
-    </Stack>
+                      <TextField
+                        id="Email"
+                        disabled
+                        label="Your Answer"
+                      
+                        value={formData?.religion}
+                        variant="outlined"
+                        color="common"
+                      />
+                    </Stack>
   </CardContent>
 </Card>
                 {/* <Card style={{ marginTop: 10, borderRadius: 20 }}>
@@ -1598,9 +851,7 @@ console.log ("comming")
                       <TextField
                         id="twoquestions"
                         label="Your Answer"
-                        onChange={(e) => {
-                          setSendData({ ...sendData, mother_tongue: e?.target?.value });
-                        }}
+                        value={formData?.mother_tongue}
                         variant="outlined"
                         color="common"
                       />
@@ -1663,9 +914,7 @@ console.log ("comming")
                       <TextField
                         id="twoquestions"
                         label="Your Answer"
-                        onChange={(e) => {
-                          setSendData({ ...sendData, age: e?.target?.value });
-                        }}
+                        value={formData?.age}
                         variant="outlined"
                         color="common"
                       />
@@ -1699,25 +948,16 @@ console.log ("comming")
     Marital Status/ವೈವಾಹಿಕ ಸ್ಥಿತಿ
     </Typography>
     <Stack mt={2} mb={2}>
-      <Select
-        color="common"
-        label="Choose Marital Status/ವೈವಾಹಿಕ ಸ್ಥಿತಿ"
-        variant="standard"
-        required
-        onChange={(e) => {
-          const selectedOption = maritalStatusOptions.find(option => option.id === e.target.value);
-         setSendData({ ...sendData, material_status: selectedOption.id, material_status_name: selectedOption?.name  });
-      
-         console.log(selectedOption); }}value={sendData?.material_status}
-      >
-        {/* Map the maritalStatusOptions to the dropdown */}
-        {maritalStatusOptions.map((itm) => (
-          <MenuItem key={itm.id} value={itm.id}>
-            {itm.name}
-          </MenuItem>
-        ))}
-      </Select>
-    </Stack>
+                      <TextField
+                        id="Email"
+                        disabled
+                        label="Your Answer"
+                       
+                        value={formData?.material_status}
+                        variant="outlined"
+                        color="common"
+                      />
+                    </Stack>
   </CardContent>
 </Card>
                 {/* <Card style={{ marginTop: 10, borderRadius: 20 }}>
@@ -1766,26 +1006,16 @@ console.log ("comming")
       Education/ಶಿಕ್ಷಣ:
     </Typography>
     <Stack mt={2} mb={2}>
-      <Select
-        color="common"
-        label="Choose Education Level/ಶಿಕ್ಷಣದ ಮಟ್ಟ"
-        variant="standard"
-        required
-        onChange={(e) => {
-          const selectedOption = educationOptions.find(option => option.id === e.target.value);
-         setSendData({ ...sendData, education: selectedOption.id, education_name: selectedOption?.name  });
-      
-         console.log(selectedOption); }}
-        value={sendData?.education}
-      >
-        {/* Map the educationOptions to the dropdown */}
-        {educationOptions.map((itm) => (
-          <MenuItem key={itm.id} value={itm.id}>
-            {itm.name}
-          </MenuItem>
-        ))}
-      </Select>
-    </Stack>
+                      <TextField
+                        id="Email"
+                        disabled
+                        label="Your Answer"
+                     
+                        value={formData?.education}
+                        variant="outlined"
+                        color="common"
+                      />
+                    </Stack>
   </CardContent>
 </Card>
                 {/* <Card style={{ marginTop: 10, borderRadius: 20 }}>
@@ -1843,9 +1073,8 @@ console.log ("comming")
                       <TextField
                         id="twoquestions"
                         label="Your Answer"
-                        onChange={(e) => {
-                          setSendData({ ...sendData, phone_number: e?.target?.value });
-                        }}
+                      
+                        value={formData?.phone_number}
                         variant="outlined"
                         color="common"
                       />
@@ -1882,24 +1111,15 @@ console.log ("comming")
 
                     </Typography>
                     <Stack mt={2} mb={2}>
-                      <Select
+                      <TextField
+                        id="Email"
+                        disabled
+                        label="Your Answer"
+                     
+                        value={formData?.current_economic_activity_primary_occupation}
+                        variant="outlined"
                         color="common"
-                        label="Choose Current Economic Activity"
-                        variant="standard"
-                        required
-                        onChange={(e) => {
-                          const selectedOption = occupationOptions.find(option => option.id === e.target.value);
-                         setSendData({ ...sendData, current_economic_activity_primary_occupation: selectedOption.id, current_economic_activity_primary_occupation_name: selectedOption?.name  });
-                      
-                         console.log(selectedOption); }} value={sendData?.current_economic_activity_primary_occupation}
-                      >
-                       {/* Map the occupationOptions to the dropdown */}
-        {occupationOptions.map((itm) => (
-          <MenuItem key={itm.id} value={itm.id}>
-            {itm.name}
-          </MenuItem>
-        ))}
-                      </Select>
+                      />
                     </Stack>
                   </CardContent>
                 </Card>
@@ -1911,26 +1131,14 @@ console.log ("comming")
 
                     </Typography>
                     <Stack mt={2} mb={2}>
-                      <Select
+                      <TextField
+                        id="Email"
+                        disabled
+                        label="Your Answer"
+                        value={sendData?.secondary_occupation_household}
+                        variant="outlined"
                         color="common"
-                        label="Choose Secondary Occupation of the Household"
-                        variant="standard"
-                        required
-                        onChange={(e) => {
-                          const selectedOption = secondaryIncomeOptions.find(option => option.id === e.target.value);
-                         setSendData({ ...sendData, secondary_occupation_household: selectedOption.id, secondary_occupation_household_name: selectedOption?.name  });
-                      
-                         console.log(selectedOption); }}
-                         
-                         value={sendData?.secondary_occupation_household}
-                      >
-                               {secondaryIncomeOptions.map((itm) => (
-          <MenuItem key={itm.id} value={itm.id}>
-            {itm.name}
-          </MenuItem>
-        ))}
-
-                      </Select>
+                      />
                     </Stack>
                   </CardContent>
                 </Card>
@@ -1942,25 +1150,14 @@ console.log ("comming")
 
                     </Typography>
                     <Stack mt={2} mb={2}>
-                      <Select
-                        color="common"
-                        label="Choose Women's Occupation/ಮಹಿಳಾ ಉದ್ಯೋಗ"
-                        variant="standard"
-                        required
-                        onChange={(e) => {
-                          const selectedOption = womenWorkOptions.find(option => option.id === e.target.value);
-                         setSendData({ ...sendData, womens_occupation: selectedOption.id, womens_occupation_name: selectedOption?.name  });
-                      
-                         console.log(selectedOption); }}
-                        
+                      <TextField
+                        id="Email"
+                        disabled
+                        label="Your Answer"
                         value={sendData?.womens_occupation}
-                      >
-                       {womenWorkOptions.map((itm) => (
-          <MenuItem key={itm.id} value={itm.id}>
-            {itm.name}
-          </MenuItem>
-        ))}
-                      </Select>
+                        variant="outlined"
+                        color="common"
+                      />
                     </Stack>
                   </CardContent>
                 </Card>
@@ -1973,9 +1170,7 @@ console.log ("comming")
                       <TextField
                         id="twoquestions"
                         label="Your Answer"
-                        onChange={(e) => {
-                          setSendData({ ...sendData, skills_motivation: e?.target?.value });
-                        }}
+                        value={sendData?.skills_motivation}
                         variant="outlined"
                         color="common"
                       />
@@ -1992,9 +1187,7 @@ console.log ("comming")
                       <TextField
                         id="twoquestions"
                         label="Your Answer"
-                        onChange={(e) => {
-                          setSendData({ ...sendData, three_reasons_become_gelathi: e?.target?.value });
-                        }}
+                        value={sendData?.womens_occupation}
                         variant="outlined"
                         color="common"
                       />
@@ -2011,15 +1204,18 @@ console.log ("comming")
                           <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText>
                         ) : null}{' '}
                       </Typography>
-                      <RadioGroup
-                        aria-labelledby="demo-radio-buttons-group-label"
-                        name="radio-buttons-group"
-                        value={goladAchicedValue}
-                        onChange={goladAchiced}
-                      >
-                        <FormControlLabel value="Yes" control={<Radio style={{ color: '#595959' }} />} label="Yes" />
-                        <FormControlLabel value="No" control={<Radio style={{ color: '#595959' }} />} label="No" />
-                      </RadioGroup>
+                     
+                    </Stack>
+                    <Stack mt={2} mb={2}>
+                      <TextField
+                        id="Email"
+                        disabled
+                        label="Your Answer"
+                        
+                        value={formData?.goals_achieve_as_gelathi}
+                        variant="outlined"
+                        color="common"
+                      />
                     </Stack>
                   </CardContent>
                 </Card>
@@ -2032,9 +1228,7 @@ console.log ("comming")
                       <TextField
                         id="twoquestions"
                         label="Your Answer"
-                        onChange={(e) => {
-                          setSendData({ ...sendData, goals_as_leader_next_year: e?.target?.value });
-                        }}
+                        value={sendData?.goals_as_leader_next_year}
                         variant="outlined"
                         color="common"
                       />
@@ -2050,9 +1244,7 @@ console.log ("comming")
                       <TextField
                         id="twoquestions"
                         label="Your Answer"
-                        onChange={(e) => {
-                          setSendData({ ...sendData, goals_for_ten_years: e?.target?.value });
-                        }}
+                         value={sendData?.goals_for_ten_years}
                         variant="outlined"
                         color="common"
                       />
@@ -2068,9 +1260,7 @@ console.log ("comming")
                       <TextField
                         id="twoquestions"
                         label="Your Answer"
-                        onChange={(e) => {
-                          setSendData({ ...sendData, community: e?.target?.value });
-                        }}
+                        value={sendData?.community}
                         variant="outlined"
                         color="common"
                       />
@@ -2088,9 +1278,7 @@ console.log ("comming")
                       <TextField
                         id="twoquestions"
                         label="Your Answer"
-                        onChange={(e) => {
-                          setSendData({ ...sendData, support_feelings: e?.target?.value });
-                        }}
+                        value={sendData?.support_feelings}
                         variant="outlined"
                         color="common"
                       />
@@ -2106,9 +1294,7 @@ console.log ("comming")
                       <TextField
                         id="twoquestions"
                         label="Your Answer"
-                        onChange={(e) => {
-                          setSendData({ ...sendData, meetings_day_feelings: e?.target?.value });
-                        }}
+                        value={sendData?.meetings_day_feelings}
                         variant="outlined"
                         color="common"
                       />
@@ -2125,9 +1311,7 @@ console.log ("comming")
                       <TextField
                         id="twoquestions"
                         label="Your Answer"
-                        onChange={(e) => {
-                          setSendData({ ...sendData, deal_with_angry_situation: e?.target?.value });
-                        }}
+                        value={sendData?.deal_with_angry_situation}
                         variant="outlined"
                         color="common"
                       />
@@ -2144,9 +1328,7 @@ console.log ("comming")
                       <TextField
                         id="twoquestions"
                         label="Your Answer"
-                        onChange={(e) => {
-                          setSendData({ ...sendData, say_yes_when_unsure_of_instructions: e?.target?.value });
-                        }}
+                        say_yes_when_unsure_of_instructions  value={sendData?.say_yes_when_unsure_of_instructions}
                         variant="outlined"
                         color="common"
                       />
@@ -2157,20 +1339,21 @@ console.log ("comming")
                   <CardContent>
                     <Stack mt={2}>
                       <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
-                      I become impatient with people who do not express their thoughts and opinions clearly. (Yes/No)/ ತಮ್ಮ ಆಲೋಚನೆಗಳು ಮತ್ತು ಅಭಿಪ್ರಾಯಗಳನ್ನು ಸ್ಪಷ್ಟವಾಗಿ ವ್ಯಕ್ತಪಡಿಸದ ಜನರ ಬಗ್ಗೆ ನಾನು ಅಸಹನೆ ಹೊಂದುತ್ತೇನೆ. (ಹೌದು/ಇಲ್ಲ) {iBecameImpatientError ? (
-                          <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText>
-                        ) : null}{' '}
+                      I become impatient with people who do not express their thoughts and opinions clearly. (Yes/No)/ ತಮ್ಮ ಆಲೋಚನೆಗಳು ಮತ್ತು ಅಭಿಪ್ರಾಯಗಳನ್ನು ಸ್ಪಷ್ಟವಾಗಿ ವ್ಯಕ್ತಪಡಿಸದ ಜನರ ಬಗ್ಗೆ ನಾನು ಅಸಹನೆ ಹೊಂದುತ್ತೇನೆ. (ಹೌದು/ಇಲ್ಲ) 
+                      
+                   
                       </Typography>
-                      <RadioGroup
-                        aria-labelledby="demo-radio-buttons-group-label"
-                        name="radio-buttons-group"
-                        value={iBecameImpatient}
-                        onChange={impatientHandle}
-                      >
-                        <FormControlLabel value="Yes" control={<Radio style={{ color: '#595959' }} />} label="Yes" />
-                        <FormControlLabel value="No" control={<Radio style={{ color: '#595959' }} />} label="No" />
-                      </RadioGroup>
+                      <Stack mt={2} mb={2}>
+                      <TextField
+                        id="twoquestions"
+                        label="Your Answer"
+                          value={sendData?.impatient_with_unclear_comm}
+                        variant="outlined"
+                        color="common"
+                      />
                     </Stack>
+                    </Stack>
+                    
                   </CardContent>
                 </Card>
                 <Card style={{ marginTop: 10, borderRadius: 20 }}>
@@ -2179,19 +1362,18 @@ console.log ("comming")
                       <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
                       Did you listen to the paragraph? Yes/No / 
                       ನೀವು ಪ್ಯಾರಾಗ್ರಾಫ್ ಅನ್ನು ಕೇಳಿದ್ದೀರಾ? ಹೌದು ಅಲ್ಲ
-                        {didYouListenParaError ? (
-                          <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText>
-                        ) : null}{' '}
+                      
                       </Typography>
-                      <RadioGroup
-                        aria-labelledby="demo-radio-buttons-group-label"
-                        name="radio-buttons-group"
-                        value={didYouListenPara}
-                        onChange={didYouListenParaHandle}
-                      >
-                        <FormControlLabel value="Yes" control={<Radio style={{ color: '#595959' }} />} label="Yes" />
-                        <FormControlLabel value="No" control={<Radio style={{ color: '#595959' }} />} label="No" />
-                      </RadioGroup>
+                     
+                    </Stack>
+                    <Stack mt={2} mb={2}>
+                      <TextField
+                        id="twoquestions"
+                        label="Your Answer"
+                          value={sendData?.listen_paragraph}
+                        variant="outlined"
+                        color="common"
+                      />
                     </Stack>
                   </CardContent>
                 </Card>
@@ -2205,9 +1387,7 @@ console.log ("comming")
                       <TextField
                         id="twoquestions"
                         label="Your Answer"
-                        onChange={(e) => {
-                          setSendData({ ...sendData, summarize_main_points_paragraph: e?.target?.value });
-                        }}
+                        value={sendData?.summarize_main_points_paragraph}
                         variant="outlined"
                         color="common"
                       />
@@ -2224,9 +1404,7 @@ console.log ("comming")
                       <TextField
                         id="twoquestions"
                         label="Your Answer"
-                        onChange={(e) => {
-                          setSendData({ ...sendData, ask_two_questions_help_you_understand: e?.target?.value });
-                        }}
+                        value={sendData?.ask_two_questions_help_you_understand}
                         variant="outlined"
                         color="common"
                       />
@@ -2243,9 +1421,7 @@ console.log ("comming")
                       <TextField
                         id="twoquestions"
                         label="Your Answer"
-                        onChange={(e) => {
-                          setSendData({ ...sendData, persisted_when_others_quit: e?.target?.value });
-                        }}
+                        value={sendData?.persisted_when_others_quit}
                         variant="outlined"
                         color="common"
                       />
@@ -2262,9 +1438,7 @@ console.log ("comming")
                       <TextField
                         id="twoquestions"
                         label="Your Answer"
-                        onChange={(e) => {
-                          setSendData({ ...sendData, narrate_instance: e?.target?.value });
-                        }}
+                        value={sendData?.narrate_instance}
                         variant="outlined"
                         color="common"
                       />
@@ -2280,9 +1454,7 @@ console.log ("comming")
                       <TextField
                         id="twoquestions"
                         label="Your Answer"
-                        onChange={(e) => {
-                          setSendData({ ...sendData, confidence: e?.target?.value });
-                        }}
+                        value={sendData?.confidence}
                         variant="outlined"
                         color="common"
                       />
@@ -2296,19 +1468,17 @@ console.log ("comming")
                       <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
                       There has been at least one instance when I continued to work on a goal even when others discouraged me. (Yes/No) / 
                       ಇತರರು ನನ್ನನ್ನು ನಿರುತ್ಸಾಹಗೊಳಿಸಿದಾಗಲೂ ನಾನು ಗುರಿಯ ಮೇಲೆ ಕೆಲಸ ಮಾಡುವುದನ್ನು ಮುಂದುವರೆಸಿದಾಗ ಕನಿಷ್ಠ ಒಂದು ನಿದರ್ಶನವಿದೆ. ಹೌದು /ಇಲ್ಲ 
-                        {oneInstanaceError ? (
-                          <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText>
-                        ) : null}{' '}
+                        
                       </Typography>
-                      <RadioGroup
-                        aria-labelledby="demo-radio-buttons-group-label"
-                        name="radio-buttons-group"
-                        value={oneInstanace}
-                        onChange={oneInstanaceHandle}
-                      >
-                        <FormControlLabel value="Yes" control={<Radio style={{ color: '#595959' }} />} label="Yes" />
-                        <FormControlLabel value="No" control={<Radio style={{ color: '#595959' }} />} label="No" />
-                      </RadioGroup>
+                     
+                    </Stack> <Stack mt={2} mb={2}>
+                      <TextField
+                        id="twoquestions"
+                        label="Your Answer"
+                          value={sendData?.id}
+                        variant="outlined"
+                        color="common"
+                      />
                     </Stack>
                   </CardContent>
                 </Card>
@@ -2319,19 +1489,18 @@ console.log ("comming")
                       <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
                       When I get a task to complete, I am usually excited to find a solution/ nervous  
                       ನಾನು ಕೆಲಸವನ್ನು ಪೂರ್ಣಗೊಳಿಸಲು ಬಂದಾಗ, ನಾನು ಸಾಮಾನ್ಯವಾಗಿ ಪರಿಹಾರವನ್ನು ಹುಡುಕಲು ಉತ್ಸುಕನಾಗಿದ್ದೇನೆ / ಉದ್ವಿಗ್ನ
-                        {whenIgetTaskError ? (
-                          <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText>
-                        ) : null}{' '}
+                     
                       </Typography>
-                      <RadioGroup
-                        aria-labelledby="demo-radio-buttons-group-label"
-                        name="radio-buttons-group"
-                        value={whenIgetTask}
-                        onChange={whenIgetTaskHandler}
-                      >
-                        <FormControlLabel value="Yes" control={<Radio style={{ color: '#595959' }} />} label="Yes" />
-                        <FormControlLabel value="No" control={<Radio style={{ color: '#595959' }} />} label="No" />
-                      </RadioGroup>
+                    
+                    </Stack>
+                    <Stack mt={2} mb={2}>
+                      <TextField
+                        id="twoquestions"
+                        label="Your Answer"
+                          value={sendData?.id}
+                        variant="outlined"
+                        color="common"
+                      />
                     </Stack>
                   </CardContent>
                 </Card>
@@ -2345,9 +1514,7 @@ console.log ("comming")
                       <TextField
                         id="twoquestions"
                         label="Your Answer"
-                        onChange={(e) => {
-                          setSendData({ ...sendData, challenge_reaction: e?.target?.value });
-                        }}
+                        value={sendData?.challenge_reaction}
                         variant="outlined"
                         color="common"
                       />
@@ -2363,9 +1530,7 @@ console.log ("comming")
                       <TextField
                         id="twoquestions"
                         label="Your Answer"
-                        onChange={(e) => {
-                          setSendData({ ...sendData, conflict_management: e?.target?.value });
-                        }}
+                        value={sendData?.conflict_management}
                         variant="outlined"
                         color="common"
                       />
@@ -2386,9 +1551,9 @@ console.log ("comming")
                       <TextField
                         id="twoquestions"
                         label="Your Answer"
-                        onChange={(e) => {
-                          setSendData({ ...sendData, conflict_handling: e?.target?.value });
-                        }}
+                      
+                          value={sendData?.conflict_handling}
+                      
                         variant="outlined"
                         color="common"
                       />
@@ -2404,9 +1569,7 @@ console.log ("comming")
                       <TextField
                         id="twoquestions"
                         label="Your Answer"
-                        onChange={(e) => {
-                          setSendData({ ...sendData, sense_of_sisterhood: e?.target?.value });
-                        }}
+                        value={sendData?.sense_of_sisterhood}
                         variant="outlined"
                         color="common"
                       />
@@ -2425,9 +1588,7 @@ console.log ("comming")
                       <TextField
                         id="twoquestions"
                         label="Your Answer"
-                        onChange={(e) => {
-                          setSendData({ ...sendData, qualities_of_good_gelathi: e?.target?.value });
-                        }}
+                        value={sendData?.qualities_of_good_gelathi}
                         variant="outlined"
                         color="common"
                       />
@@ -2440,19 +1601,18 @@ console.log ("comming")
                       <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
                       Do the members in your community share an emotional bond with each other? Yes/No/
                       ನಿಮ್ಮ ಸಮುದಾಯದ ಸದಸ್ಯರು ಪರಸ್ಪರ ಭಾವನಾತ್ಮಕ ಬಂಧವನ್ನು ಹಂಚಿಕೊಳ್ಳುತ್ತಾರೆಯೇ? ಹೌದು /ಇಲ್ಲ 
-                        {emotionbondError ? (
-                          <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText>
-                        ) : null}{' '}
+                      
                       </Typography>
-                      <RadioGroup
-                        aria-labelledby="demo-radio-buttons-group-label"
-                        name="radio-buttons-group"
-                        value={emotionbond}
-                        onChange={emotionbondHandler}
-                      >
-                        <FormControlLabel value="Yes" control={<Radio style={{ color: '#595959' }} />} label="Yes" />
-                        <FormControlLabel value="No" control={<Radio style={{ color: '#595959' }} />} label="No" />
-                      </RadioGroup>
+                      
+                    </Stack>
+                    <Stack mt={2} mb={2}>
+                      <TextField
+                        id="twoquestions"
+                        label="Your Answer"
+                          value={sendData?.id}
+                        variant="outlined"
+                        color="common"
+                      />
                     </Stack>
                   </CardContent>
                 </Card>
@@ -2462,19 +1622,18 @@ console.log ("comming")
                       <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
                       Do your group members discuss their personal issues when you get together? Yes/No/
                       ನಿಮ್ಮ ಗುಂಪಿನ ಸದಸ್ಯರು ನೀವು ಒಟ್ಟಿಗೆ ಸೇರಿದಾಗ  ತಮ್ಮ ವೈಯಕ್ತಿಕ ಸಮಸ್ಯೆಗಳನ್ನು ಚರ್ಚಿಸುತ್ತಾರೆಯೇ? ಹೌದು /ಇಲ್ಲ 
-                        {duscussPersonalError ? (
-                          <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText>
-                        ) : null}{' '}
+                     
                       </Typography>
-                      <RadioGroup
-                        aria-labelledby="demo-radio-buttons-group-label"
-                        name="radio-buttons-group"
-                        value={duscussPersonal}
-                        onChange={duscussPersonalHandler}
-                      >
-                        <FormControlLabel value="Yes" control={<Radio style={{ color: '#595959' }} />} label="Yes" />
-                        <FormControlLabel value="No" control={<Radio style={{ color: '#595959' }} />} label="No" />
-                      </RadioGroup>
+                    
+                    </Stack>
+                    <Stack mt={2} mb={2}>
+                      <TextField
+                        id="twoquestions"
+                        label="Your Answer"
+                          value={sendData?.say_yes_when_unsure_of_instructions}
+                        variant="outlined"
+                        color="common"
+                      />
                     </Stack>
                   </CardContent>
                 </Card>
@@ -2489,9 +1648,7 @@ console.log ("comming")
                       <TextField
                         id="twoquestions"
                         label="Your Answer"
-                        onChange={(e) => {
-                          setSendData({ ...sendData, coping_mechanisms_when_sad: e?.target?.value });
-                        }}
+                        value={sendData?.coping_mechanisms_when_sad}
                         variant="outlined"
                         color="common"
                       />
@@ -2505,19 +1662,18 @@ console.log ("comming")
                       <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
                       Do you think you possess leadership skills /  
                       ನೀವು ನಾಯಕತ್ವದ ಕೌಶಲ್ಯಗಳನ್ನು ಹೊಂದಿದ್ದೀರಿ ಎಂದು ನೀವು ಭಾವಿಸುತ್ತೀರಾ? 
-                        {leaderShipSkillError ? (
-                          <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText>
-                        ) : null}{' '}
+                      
                       </Typography>
-                      <RadioGroup
-                        aria-labelledby="demo-radio-buttons-group-label"
-                        name="radio-buttons-group"
-                        value={leaderShipSkill}
-                        onChange={leaderShipSkillHandler}
-                      >
-                        <FormControlLabel value="Yes" control={<Radio style={{ color: '#595959' }} />} label="Yes" />
-                        <FormControlLabel value="No" control={<Radio style={{ color: '#595959' }} />} label="No" />
-                      </RadioGroup>
+                     
+                    </Stack>
+                    <Stack mt={2} mb={2}>
+                      <TextField
+                        id="twoquestions"
+                        label="Your Answer"
+                          value={sendData?.id}
+                        variant="outlined"
+                        color="common"
+                      />
                     </Stack>
                   </CardContent>
                 </Card>
@@ -2533,9 +1689,7 @@ console.log ("comming")
                       <TextField
                         id="twoquestions"
                         label="Your Answer"
-                        onChange={(e) => {
-                          setSendData({ ...sendData, leadership_skills_reason_yes: e?.target?.value });
-                        }}
+                        value={sendData?.coping_mechanisms_when_sad}
                         variant="outlined"
                         color="common"
                       />
@@ -2553,9 +1707,7 @@ console.log ("comming")
                       <TextField
                         id="twoquestions"
                         label="Your Answer"
-                        onChange={(e) => {
-                          setSendData({ ...sendData, leadership_skills_reason_no: e?.target?.value });
-                        }}
+                        value={sendData?.leadership_skills_reason_no}
                         variant="outlined"
                         color="common"
                       />
@@ -2572,9 +1724,7 @@ console.log ("comming")
                       <TextField
                         id="twoquestions"
                         label="Your Answer"
-                        onChange={(e) => {
-                          setSendData({ ...sendData, leadership_skills: e?.target?.value });
-                        }}
+                        value={sendData?.leadership_skills}
                         variant="outlined"
                         color="common"
                       />
@@ -2587,19 +1737,18 @@ console.log ("comming")
                       <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
                       Do you think that your community members take you seriously? Yes/NO
                       ನಿಮ್ಮ ಸಮುದಾಯದ ಸದಸ್ಯರು ನಿಮ್ಮನ್ನು ಗಂಭೀರವಾಗಿ ಪರಿಗಣಿಸುತ್ತಾರೆ ಎಂದು ನೀವು ಭಾವಿಸುತ್ತೀರಾ? ಹೌದು /ಇಲ್ಲ 
-                        {takeYouSeriouslyEroor ? (
-                          <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText>
-                        ) : null}{' '}
+                      
                       </Typography>
-                      <RadioGroup
-                        aria-labelledby="demo-radio-buttons-group-label"
-                        name="radio-buttons-group"
-                        value={takeYouSeriously}
-                        onChange={takeYouSeriouslyEroorHandler}
-                      >
-                        <FormControlLabel value="Yes" control={<Radio style={{ color: '#595959' }} />} label="Yes" />
-                        <FormControlLabel value="No" control={<Radio style={{ color: '#595959' }} />} label="No" />
-                      </RadioGroup>
+                     
+                    </Stack>
+                    <Stack mt={2} mb={2}>
+                      <TextField
+                        id="twoquestions"
+                        label="Your Answer"
+                          value={sendData?.id}
+                        variant="outlined"
+                        color="common"
+                      />
                     </Stack>
                   </CardContent>
                 </Card>
@@ -2609,19 +1758,18 @@ console.log ("comming")
                       <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
                       Do you take feedback from your community members? Yes/No/ 
                       ನಿಮ್ಮ ಸಮುದಾಯದ ಸದಸ್ಯರಿಂದ ನೀವು ಪ್ರತಿಕ್ರಿಯೆಯನ್ನು ತೆಗೆದುಕೊಳ್ಳುತ್ತೀರಾ? ಹೌದು /ಇಲ್ಲ
-                       {takeFeddBakcError ? (
-                          <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText>
-                        ) : null}{' '}
+                     
                       </Typography>
-                      <RadioGroup
-                        aria-labelledby="demo-radio-buttons-group-label"
-                        name="radio-buttons-group"
-                        value={takeFeddBakc}
-                        onChange={takeFeddBakcHandler}
-                      >
-                        <FormControlLabel value="Yes" control={<Radio style={{ color: '#595959' }} />} label="Yes" />
-                        <FormControlLabel value="No" control={<Radio style={{ color: '#595959' }} />} label="No" />
-                      </RadioGroup>
+                    
+                    </Stack>\
+                    <Stack mt={2} mb={2}>
+                      <TextField
+                        id="twoquestions"
+                        label="Your Answer"
+                          value={sendData?.id}
+                        variant="outlined"
+                        color="common"
+                      />
                     </Stack>
                   </CardContent>
                 </Card>
@@ -2631,19 +1779,18 @@ console.log ("comming")
                       <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
                       Can you tell me one feedback that your community members gave you? Yes/No/  
                       ನಿಮ್ಮ ಸಮುದಾಯದ ಸದಸ್ಯರು ನಿಮಗೆ ನೀಡಿದ ಒಂದು ಪ್ರತಿಕ್ರಿಯೆಯನ್ನು ನೀವು ನನಗೆ ಹೇಳಬಲ್ಲಿರಾ? ಹೌದು /ಇಲ್ಲ  
-                      {canUTellMeError ? (
-                          <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText>
-                        ) : null}{' '}
+                    
                       </Typography>
-                      <RadioGroup
-                        aria-labelledby="demo-radio-buttons-group-label"
-                        name="radio-buttons-group"
-                        value={canUTellMe}
-                        onChange={canUTellMeHandker}
-                      >
-                        <FormControlLabel value="Yes" control={<Radio style={{ color: '#595959' }} />} label="Yes" />
-                        <FormControlLabel value="No" control={<Radio style={{ color: '#595959' }} />} label="No" />
-                      </RadioGroup>
+                     
+                    </Stack>
+                    <Stack mt={2} mb={2}>
+                      <TextField
+                        id="twoquestions"
+                        label="Your Answer"
+                          value={sendData?.id}
+                        variant="outlined"
+                        color="common"
+                      />
                     </Stack>
                   </CardContent>
                 </Card>
@@ -2658,9 +1805,7 @@ console.log ("comming")
                       <TextField
                         id="twoquestions"
                         label="Your Answer"
-                        onChange={(e) => {
-                          setSendData({ ...sendData, goals_as_gelathi: e?.target?.value });
-                        }}
+                        value={sendData?.goals_as_gelathi}
                         variant="outlined"
                         color="common"
                       />
@@ -2673,19 +1818,18 @@ console.log ("comming")
                       <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
                       If given an opportunity, would you be willing to take part in the local elections and become an elected representative?/ 
                       ಅವಕಾಶ ಸಿಕ್ಕರೆ ಸ್ಥಳೀಯ ಚುನಾವಣೆಯಲ್ಲಿ ಭಾಗವಹಿಸಿ ಚುನಾಯಿತ ಪ್ರತಿನಿಧಿಯಾಗಲು ಸಿದ್ಧರಿದ್ದೀರಾ? 
-                        {giveAnOppurtutnityError ? (
-                          <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText>
-                        ) : null}{' '}
+                     
                       </Typography>
-                      <RadioGroup
-                        aria-labelledby="demo-radio-buttons-group-label"
-                        name="radio-buttons-group"
-                        value={giveAnOppurtutnity}
-                        onChange={giveAnOppurtutnityHandler}
-                      >
-                        <FormControlLabel value="Yes" control={<Radio style={{ color: '#595959' }} />} label="Yes" />
-                        <FormControlLabel value="No" control={<Radio style={{ color: '#595959' }} />} label="No" />
-                      </RadioGroup>
+                    
+                    </Stack>
+                    <Stack mt={2} mb={2}>
+                      <TextField
+                        id="twoquestions"
+                        label="Your Answer"
+                          value={sendData?.id}
+                        variant="outlined"
+                        color="common"
+                      />
                     </Stack>
                   </CardContent>
                 </Card>
