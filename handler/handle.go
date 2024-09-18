@@ -125,9 +125,9 @@ func HandleFunc() {
 	apiRouter.HandleFunc("/getVyaparBaselineSurvey", func(w http.ResponseWriter, r *http.Request) {
 		sep.GetVyaparBaselineSurvey(w, r, db)
 	})
-	apiRouter.Handle("/getSelfShaktiBaselineSurvey", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
+	apiRouter.HandleFunc("/getSelfShaktiBaselineSurvey", func(w http.ResponseWriter, r *http.Request) {
 		sep.GetSelfShaktiBaselineSurvey(w, r, db)
-	}))
+	})
 	apiRouter.Handle("/getNagarikaProgramQuestionnaire", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		sep.GetNagarikaProgramQuestionnaire(w, r, db)
 	}))
@@ -416,9 +416,9 @@ func HandleFunc() {
 	apiRouter.Handle("/addSurveyData", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		t2.AddSurveydata(w, r, db)
 	}))
-	apiRouter.Handle("/addselfshakti", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
+	apiRouter.HandleFunc("/addselfshakti", func(w http.ResponseWriter, r *http.Request) {
 		sep.AddSelfshaktiday1day2data(w, r, db)
-	}))
+	})
 	//-------------------Endpoint for adding data to QAF---------------------------------------
 	apiRouter.Handle("/getBuses", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		t2.GetBuses(w, r, db)
