@@ -29,7 +29,6 @@ import (
 
 	p "buzzstaff-go/Sep_Enhancement/Projectflexibility"
 
-
 	//sp1 "buzzstaff-go/Sep_Enhancement/NagarikaProgram/SpoorthiFile"
 	dbs "buzzstaff-go/database"
 	c "buzzstaff-go/job"
@@ -120,10 +119,10 @@ func HandleFunc() {
 		sep.GetBuzzSpoorthiProgramBaseline(w, r, db)
 	}))
 	apiRouter.HandleFunc("/creatProjectFunder", func(w http.ResponseWriter, r *http.Request) {
-		projf.CreateProjectNfunder(w, r, db)
+		p.CreateProjectNfunder(w, r, db)
 	})
 	apiRouter.HandleFunc("/assignNewFunder", func(w http.ResponseWriter, r *http.Request) {
-		projf.AssignNewFunder(w, r, db)
+		p.AssignNewFunder(w, r, db)
 	})
 	apiRouter.HandleFunc("/getGreenBaselineSurvey", func(w http.ResponseWriter, r *http.Request) {
 		sep.GetGreenBaselineSurvey(w, r, db)
