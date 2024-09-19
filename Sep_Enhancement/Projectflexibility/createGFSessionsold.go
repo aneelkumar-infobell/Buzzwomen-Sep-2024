@@ -1,4 +1,4 @@
-package Team_2
+package Projectflexibility
 
 import (
 	"database/sql"
@@ -48,6 +48,32 @@ func CreateGFSessions(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 		return
 	}
 
+	ProjectID, _ := strconv.Atoi(data.ProjectID)
+	var funderid, ffid int
+	var funder1enddate string
+	//====================== getting active funder =======================================
+	activefunder, err := DB.Query("SELECT COALESCE(fend_date,''),funderid FROM multiple_funder  WHERE  projectid = ?", ProjectID)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		json.NewEncoder(w).Encode(map[string]interface{}{"code": http.StatusBadRequest, "message": "Error while executing the query", "success": false, "error": err})
+		return
+	}
+
+	for activefunder.Next() {
+		err := activefunder.Scan(&funder1enddate, &funderid)
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			json.NewEncoder(w).Encode(map[string]interface{}{"code": http.StatusBadRequest, "message": "Error while scaning error", "success": false, "error": err})
+			return
+		}
+
+		if funder1enddate == "" {
+			ffid = funderid
+		}
+
+	}
+
+	// ====================================================================================
 	typeVar := 2
 	tbId := data.TBID
 	_, _ = typeVar, tbId
@@ -133,7 +159,7 @@ func CreateGFSessions(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 
 	}
 
-	insertQuery := "INSERT INTO tbl_poa (type, tb_id, name, user_id, project_id,location_id, participants, date, session_type, circle_id)VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+	insertQuery := "INSERT INTO tbl_poa (type, tb_id, name, user_id, project_id,location_id, participants, date, session_type, circle_id,funderid)VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)"
 
 	stmt, err := DB.Prepare(insertQuery)
 	if err != nil {
@@ -143,7 +169,7 @@ func CreateGFSessions(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 		return
 	}
 
-	result, err := stmt.Exec(typeVar, tbId, name, userID, projectID, locationId, participants, dateStr, sessionType, circleID)
+	result, err := stmt.Exec(typeVar, tbId, name, userID, projectID, locationId, participants, dateStr, sessionType, circleID, ffid)
 	if err != nil {
 		log.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)

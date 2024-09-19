@@ -1,4 +1,4 @@
-package projectflexibility
+package Projectflexibility
 
 import (
 	"database/sql"
