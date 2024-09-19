@@ -26,6 +26,7 @@ import (
 	sep "buzzstaff-go/Sep_Enhancement/Getviewform"
 	np "buzzstaff-go/Sep_Enhancement/NP/NPDashboard"
 	npp "buzzstaff-go/Sep_Enhancement/NP/Participant"
+	p "buzzstaff-go/Sep_Enhancement/Projectflexibility"
 
 	//sp1 "buzzstaff-go/Sep_Enhancement/NagarikaProgram/SpoorthiFile"
 	dbs "buzzstaff-go/database"
@@ -90,9 +91,9 @@ func HandleFunc() {
 	db := dbs.Connect()
 
 	router := mux.NewRouter()
-	apiPrefix := "/appGoTest"
+	apiPrefix := "/appGo"
 	apiRouter := router.PathPrefix(apiPrefix).Subrouter()
-
+	fmt.Println("creating")
 	corsHandler := cors.AllowAll()
 	handler := corsHandler.Handler(router)
 
@@ -208,8 +209,8 @@ func HandleFunc() {
 	}))
 
 	//---------------------attendence of spoorthi----------------------------------
-	apiRouter.Handle("/allAttendence", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
-		a.AllAttendence(w, r, db)
+	apiRouter.HandleFunc("/allAttendence", (func(w http.ResponseWriter, r *http.Request) {
+		p.AllAttendence(w, r, db)
 	}))
 
 	//---------------------Add buzz vyapar----------------------------------
@@ -229,9 +230,11 @@ func HandleFunc() {
 	apiRouter.Handle("/funderGreenDashboard", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		d.FunderGreenD(w, r, db)
 	}))
+
 	apiRouter.Handle("/funderSSDashboard", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		d.FunderSSD(w, r, db)
 	}))
+
 	apiRouter.Handle("/funderGelathiDashboard", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		d.FunderGelathiD(w, r, db)
 	}))
@@ -401,12 +404,12 @@ func HandleFunc() {
 		t2.GetGFAssignedBatch(w, r, db)
 	}))
 
-	apiRouter.Handle("/createGFSessions", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
-		t2.CreateGFSessions(w, r, db)
+	apiRouter.HandleFunc("/createGFSessions", (func(w http.ResponseWriter, r *http.Request) {
+		p.CreateGFSessions(w, r, db)
 	}))
 
-	apiRouter.Handle("/getGFSessionsNew", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
-		t2.GetGFSessionsNew(w, r, db)
+	apiRouter.HandleFunc("/getGFSessionsNew", (func(w http.ResponseWriter, r *http.Request) {
+		p.GetGFSessionsNew1(w, r, db)
 	}))
 
 	//=================================== ANEEL CODES =========================================
@@ -500,8 +503,11 @@ func HandleFunc() {
 		t3.EditUser(w, r, db)
 	}))
 	//-------------------Endpoint for adding data to QAF--------------------------------
-	apiRouter.Handle("/setEnrollGelathi", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
+	apiRouter.HandleFunc("/setEnrollGelathi", (func(w http.ResponseWriter, r *http.Request) {
 		t3.SetEnrollGelathi(w, r, db)
+	}))
+	apiRouter.HandleFunc("/setEnrollGelathinew", (func(w http.ResponseWriter, r *http.Request) {
+		p.SetEnrollGelathinew1(w, r, db)
 	}))
 
 	apiRouter.Handle("/setEnrollnagarikaGelathi", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
@@ -818,6 +824,9 @@ func HandleFunc() {
 		t5.CreateGFSessionNew1(w, r, db)
 	})).Methods("POST")
 
+	apiRouter.HandleFunc("/createGFSessionsnew2", (func(w http.ResponseWriter, r *http.Request) {
+		p.CreateGFSessionsnew2(w, r, db)
+	})).Methods("POST")
 	// handler := cors.Default().Handler(apiRouter)
 	log.Println(http.ListenAndServe(":8080", handler))
 

@@ -55,8 +55,8 @@ func GetFunderProjectList(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 
 	// Query to fetch funders based on projectID
 	query := `
-		SELECT f.funderID, f.funderName FROM funder f  join project p on p.funderID=f.funderID 
-WHERE f.status = 1 and p.id=? ORDER BY f.funderID DESC, f.funderName
+		SELECT f.funderID, f.funderName FROM funder f  join multiple_funder mp on mp.funderid=f.funderID 
+WHERE f.status = 1 and mp.projectid=? ORDER BY f.funderID DESC, f.funderName
 	`
 
 	rows, err := DB.Query(query, projectID)

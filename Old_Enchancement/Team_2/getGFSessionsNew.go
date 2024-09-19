@@ -83,8 +83,9 @@ func GetGFSessionsNew(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 
 			}
 		}
-
-		if data.StartDate != "" && data.EndDate != "" {
+		if data.StartDate != "" && data.EndDate != "" && data.Funder != "" {
+			where += fmt.Sprintf(" AND fstart_date >= '%s' AND fend_date <= '%s'", data.StartDate, data.EndDate)
+		} else if data.StartDate != "" && data.EndDate != "" {
 			where += fmt.Sprintf(" AND date(date) >= '%s' AND date(date) <= '%s'", data.StartDate, data.EndDate)
 		}
 
