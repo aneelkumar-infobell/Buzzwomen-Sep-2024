@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"strings"
 )
 
 type Response struct {
@@ -15,78 +16,78 @@ type Response struct {
 
 // Participant struct represents the participant data
 type Selfshekthi struct {
-	ID                                int     `json:"id"`
-	District                          string  `json:"district"`
-	Taluk                             string  `json:"taluk"`
-	GramPanchayat                     string  `json:"gram_panchayat"`
-	VillageName                       string  `json:"village_name"`
-	House                             string  `json:"house"`
-	Roof                              string  `json:"roof"`
-	RationCard                        string  `json:"ration_card"`
-	Caste                             string  `json:"caste"`
-	SubCastName                       string  `json:"sub_cast_name"`
-	Religion                          string  `json:"religion"`
-	MaritalStatus                     string  `json:"marital_status"`
-	EducationLevel                    string  `json:"education_level"` // Added field for education level
-	PrimaryOccupation                 string  `json:"primary_occupation"`
-	SecondaryOccupation               string  `json:"secondary_occupation"`
-	MonthlyHouseholdExpenditure       float64 `json:"monthly_household_expenditure"` // Added field for monthly expenditure
-	MonthlyHouseholdIncome            float64 `json:"monthly_household_income"`      // Added field for monthly income
-	SoleEarnerFamily                  string  `json:"sole_earner_family"`
-	MigrationProfile                  string  `json:"migration_profile"`
-	HouseholdMigrationLastYear        string  `json:"household_migration_last_year"`
-	MigrantSendsRemittance            string  `json:"migrant_sends_remittance"`
-	FinancialLiteracy                 string  `json:"financial_literacy"`
-	LiabilitiesOrAssets               string  `json:"liabilities_or_assets"`
-	BookkeepingEntry                  string  `json:"bookkeeping_entry"`
-	LoanType                          string  `json:"loan_type"`
-	AnnualInterestRate                float64 `json:"annual_interest_rate"`
-	InterestPaymentDue                float64 `json:"interest_payment_due"`
-	ProfitMade                        float64 `json:"profit_made"`
-	PersonalAccount                   string  `json:"personal_account"`
-	HasPersonalAccount                bool    `json:"has_personal_account"` // Changed to bool for better representation
-	BankAccountUsageFrequency         string  `json:"bank_account_usage_frequency"`
-	MoneyDecisionMaker                string  `json:"money_decision_maker"`
-	MonthlyExpensePlan                string  `json:"monthly_expense_plan"`
-	MonthlyExpenseAmount              float64 `json:"monthly_expense_amount"`
-	MaintainExpenseRecord             bool    `json:"maintain_expense_record"` // Changed to bool for better representation
-	IndividualSavings                 float64 `json:"individual_savings"`
-	MonthlySavingsIndividual          float64 `json:"monthly_savings_individual"`
-	AnnualSavingsHousehold            float64 `json:"annual_savings_household"`
-	ConfidentSpendSavings             string  `json:"confident_spend_savings"`
-	Loans                             string  `json:"loans"`
-	LoanTakenBy                       string  `json:"loan_taken_by"`
-	AmountBorrowed                    float64 `json:"amount_borrowed"`
-	PurposeOfLoan                     string  `json:"purpose_of_loan"`
-	Source                            string  `json:"source"`
-	RateOfInterest                    float64 `json:"rate_of_interest"`
-	ExpensesExceedIncomeLastYear      bool    `json:"expenses_exceed_income_last_year"` // Changed to bool
-	IncomeLossDuration                string  `json:"income_loss_duration"`
-	Goals                             string  `json:"goals"`
-	FinancialGoalsSet                 bool    `json:"financial_goals_set"` // Changed to bool
-	ShortTermGoal                     string  `json:"short_term_goal"`
-	LongTermGoal                      string  `json:"long_term_goal"`
-	Enterprise                        string  `json:"enterprise"`
-	FamilyBusiness                    string  `json:"family_business"`
-	WantToStartEnterprise             bool    `json:"want_to_start_enterprise"` // Changed to bool
-	EnterpriseType                    string  `json:"enterprise_type"`
-	NumEmployeesPaid                  int     `json:"num_employees_paid"`
-	IndividualInvolvementNature       string  `json:"individual_involvement_nature"`
-	EnterpriseMonthlyIncome           float64 `json:"enterprise_monthly_income"`
-	EnterpriseIsProfitable            bool    `json:"enterprise_is_profitable"` // Changed to bool
-	MonthlyProfit                     float64 `json:"monthly_profit"`
-	DecisionMaking                    string  `json:"decision_making"`
-	DecisionSay                       string  `json:"decision_say"`
-	MenstrualHygieneEnv               string  `json:"menstrual_hygiene_env"`
-	EnvFriendlyPractices              string  `json:"env_friendly_practices"`
-	MenstrualProductUsed              string  `json:"menstrual_product_used"`
-	MenstrualDisposalMethod           string  `json:"menstrual_disposal_method"`
-	CookingFuelType                   string  `json:"cooking_fuel_type"`
-	WomensOccupation                  string  `json:"womens_occupation"`
-	MonthlyWomenIncome                float64 `json:"monthly_women_income"`
-	SourceOfThisIncome                string  `json:"source_of_this_income"`
-	SecondaryOccupationOfTheHousehold string  `json:"secondary_occupation_of_the_household"`
-	PrimaryOccupationOfHousehold      string  `json:"primary_occupation_of_the_household"`
+	ID                                int      `json:"id"`
+	District                          string   `json:"district"`
+	Taluk                             string   `json:"taluk"`
+	GramPanchayat                     string   `json:"gram_panchayat"`
+	VillageName                       string   `json:"village_name"`
+	House                             string   `json:"house"`
+	Roof                              string   `json:"roof"`
+	RationCard                        string   `json:"ration_card"`
+	Caste                             string   `json:"caste"`
+	SubCastName                       string   `json:"sub_cast_name"`
+	Religion                          string   `json:"religion"`
+	MaritalStatus                     string   `json:"marital_status"`
+	EducationLevel                    string   `json:"education_level"` // Added field for education level
+	PrimaryOccupation                 string   `json:"primary_occupation"`
+	SecondaryOccupation               string   `json:"secondary_occupation"`
+	MonthlyHouseholdExpenditure       float64  `json:"monthly_household_expenditure"` // Added field for monthly expenditure
+	MonthlyHouseholdIncome            float64  `json:"monthly_household_income"`      // Added field for monthly income
+	SoleEarnerFamily                  string   `json:"sole_earner_family"`
+	MigrationProfile                  string   `json:"migration_profile"`
+	HouseholdMigrationLastYear        string   `json:"household_migration_last_year"`
+	MigrantSendsRemittance            string   `json:"migrant_sends_remittance"`
+	FinancialLiteracy                 string   `json:"financial_literacy"`
+	LiabilitiesOrAssets               []string `json:"liabilities_or_assets"`
+	BookkeepingEntry                  []string `json:"bookkeeping_entry"`
+	LoanType                          []string `json:"loan_type"`
+	AnnualInterestRate                float64  `json:"annual_interest_rate"`
+	InterestPaymentDue                float64  `json:"interest_payment_due"`
+	ProfitMade                        float64  `json:"profit_made"`
+	PersonalAccount                   string   `json:"personal_account"`
+	HasPersonalAccount                string   `json:"has_personal_account"` // Changed to bool for better representation
+	BankAccountUsageFrequency         []string `json:"bank_account_usage_frequency"`
+	MoneyDecisionMaker                []string `json:"money_decision_maker"`
+	MonthlyExpensePlan                string   `json:"monthly_expense_plan"`
+	MonthlyExpenseAmount              float64  `json:"monthly_expense_amount"`
+	MaintainExpenseRecord             bool     `json:"maintain_expense_record"` // Changed to bool for better representation
+	IndividualSavings                 float64  `json:"individual_savings"`
+	MonthlySavingsIndividual          float64  `json:"monthly_savings_individual"`
+	AnnualSavingsHousehold            float64  `json:"annual_savings_household"`
+	ConfidentSpendSavings             string   `json:"confident_spend_savings"`
+	Loans                             string   `json:"loans"`
+	LoanTakenBy                       []string `json:"loan_taken_by"`
+	AmountBorrowed                    float64  `json:"amount_borrowed"`
+	PurposeOfLoan                     []string `json:"purpose_of_loan"`
+	Source                            []string `json:"source"`
+	RateOfInterest                    float64  `json:"rate_of_interest"`
+	ExpensesExceedIncomeLastYear      []string `json:"expenses_exceed_income_last_year"` // Changed to bool
+	IncomeLossDuration                []string `json:"income_loss_duration"`
+	Goals                             string   `json:"goals"`
+	FinancialGoalsSet                 bool     `json:"financial_goals_set"` // Changed to bool
+	ShortTermGoal                     string   `json:"short_term_goal"`
+	LongTermGoal                      string   `json:"long_term_goal"`
+	Enterprise                        string   `json:"enterprise"`
+	FamilyBusiness                    string   `json:"family_business"`
+	WantToStartEnterprise             bool     `json:"want_to_start_enterprise"` // Changed to bool
+	EnterpriseType                    []string `json:"enterprise_type"`
+	NumEmployeesPaid                  int      `json:"num_employees_paid"`
+	IndividualInvolvementNature       []string `json:"individual_involvement_nature"`
+	EnterpriseMonthlyIncome           float64  `json:"enterprise_monthly_income"`
+	EnterpriseIsProfitable            bool     `json:"enterprise_is_profitable"` // Changed to bool
+	MonthlyProfit                     float64  `json:"monthly_profit"`
+	DecisionMaking                    string   `json:"decision_making"`
+	DecisionSay                       []string `json:"decision_say"`
+	MenstrualHygieneEnv               string   `json:"menstrual_hygiene_env"`
+	EnvFriendlyPractices              []string `json:"env_friendly_practices"`
+	MenstrualProductUsed              []string `json:"menstrual_product_used"`
+	MenstrualDisposalMethod           []string `json:"menstrual_disposal_method"`
+	CookingFuelType                   []string `json:"cooking_fuel_type"`
+	WomensOccupation                  string   `json:"womens_occupation"`
+	MonthlyWomenIncome                float64  `json:"monthly_women_income"`
+	SourceOfThisIncome                string   `json:"source_of_this_income"`
+	SecondaryOccupationOfTheHousehold string   `json:"secondary_occupation_of_the_household"`
+	PrimaryOccupationOfHousehold      string   `json:"primary_occupation_of_the_household"`
 }
 
 func AddSelfshaktiday1day2data(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
@@ -220,14 +221,14 @@ func AddSelfshaktiday1day2data(w http.ResponseWriter, r *http.Request, DB *sql.D
 		p.HouseholdMigrationLastYear,
 		p.MigrantSendsRemittance,
 		p.FinancialLiteracy,
-		p.LiabilitiesOrAssets,
-		p.BookkeepingEntry,
-		p.LoanType,
+		strings.Join(p.LiabilitiesOrAssets, ", "),
+		strings.Join(p.BookkeepingEntry, ", "),
+		strings.Join(p.LoanType, ", "),
 		p.AnnualInterestRate,
 		p.InterestPaymentDue,
 		p.ProfitMade,
 		p.HasPersonalAccount,
-		p.BankAccountUsageFrequency,
+		strings.Join(p.BankAccountUsageFrequency, ", "),
 		p.MoneyDecisionMaker,
 		p.MonthlyExpensePlan,
 		p.MonthlyExpenseAmount,
@@ -237,13 +238,13 @@ func AddSelfshaktiday1day2data(w http.ResponseWriter, r *http.Request, DB *sql.D
 		p.AnnualSavingsHousehold,
 		p.ConfidentSpendSavings,
 		p.Loans,
-		p.LoanTakenBy,
+		strings.Join(p.LoanTakenBy, ", "),
 		p.AmountBorrowed,
-		p.PurposeOfLoan,
-		p.Source,
+		strings.Join(p.PurposeOfLoan, ", "),
+		strings.Join(p.Source, ", "),
 		p.RateOfInterest,
-		p.ExpensesExceedIncomeLastYear,
-		p.IncomeLossDuration,
+		strings.Join(p.ExpensesExceedIncomeLastYear, ", "),
+		strings.Join(p.IncomeLossDuration, ", "),
 		p.Goals,
 		p.FinancialGoalsSet,
 		p.ShortTermGoal,
@@ -251,19 +252,19 @@ func AddSelfshaktiday1day2data(w http.ResponseWriter, r *http.Request, DB *sql.D
 		p.Enterprise,
 		p.FamilyBusiness,
 		p.WantToStartEnterprise,
-		p.EnterpriseType,
+		strings.Join(p.EnterpriseType, ", "),
 		p.NumEmployeesPaid,
-		p.IndividualInvolvementNature,
+		strings.Join(p.IndividualInvolvementNature, ", "),
 		p.EnterpriseMonthlyIncome,
 		p.EnterpriseIsProfitable,
 		p.MonthlyProfit,
 		p.DecisionMaking,
-		p.DecisionSay,
+		strings.Join(p.DecisionSay, ", "),
 		p.MenstrualHygieneEnv,
-		p.EnvFriendlyPractices,
-		p.MenstrualProductUsed,
-		p.MenstrualDisposalMethod,
-		p.CookingFuelType,
+		strings.Join(p.EnvFriendlyPractices, ", "),
+		strings.Join(p.MenstrualProductUsed, ", "),
+		strings.Join(p.MenstrualDisposalMethod, ", "),
+		strings.Join(p.CookingFuelType, ", "),
 		p.WomensOccupation,
 		p.MonthlyWomenIncome,
 		p.SourceOfThisIncome,
@@ -271,6 +272,11 @@ func AddSelfshaktiday1day2data(w http.ResponseWriter, r *http.Request, DB *sql.D
 		p.PrimaryOccupationOfHousehold,
 		p.ID,
 	)
+	fmt.Println("District:", p.District)
+	fmt.Println("LiabilitiesOrAssets:", strings.Join(p.LiabilitiesOrAssets, ", "))
+	fmt.Println("LoanType:", strings.Join(p.LoanType, ", "))
+	fmt.Println("MoneyDecisionMaker:", strings.Join(p.MoneyDecisionMaker, ", "))
+	// (Log other relevant fields, especially those with []string)
 	if err != nil {
 		fmt.Println("errr", err)
 		res := Response{
