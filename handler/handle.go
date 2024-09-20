@@ -752,9 +752,9 @@ func HandleFunc() {
 		t5.UpdateTa(w, r, db)
 	}))
 	//---------------------AddSpoorthiBaselineQuestionnaire----------------------------------
-	apiRouter.Handle("/addSpoorthiBaselineQuestionnaire", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
+	apiRouter.HandleFunc("/addSpoorthiBaselineQuestionnaire", func(w http.ResponseWriter, r *http.Request) {
 		t5.AddSpoorthiBaselineQuestionnaire(w, r, db)
-	}))
+	})
 	//---------------------AddGreenBaselineSurvey----------------------------------
 	apiRouter.Handle("/addGreenBaselineSurvey", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		t5.AddGreenBaselineSurvey(w, r, db)
