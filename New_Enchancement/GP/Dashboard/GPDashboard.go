@@ -446,7 +446,29 @@ func GreenDashboard(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 
 				projectArray := make([]int, 0)
 
-				if startDate != "" && endDate != "" {
+				if startDate != "" && endDate != "" && funderID > 0 {
+					getProj = fmt.Sprintf("SELECT distinct p.id, p.startDate, p.endDate from project p join tbl_poa t on t.project_id = p.id join training_participants tp on tp.tb_id=t.tb_id join multiple_funder mp on mp.projectid=p.id  where (tp.GreenMotivators=1 or tp.new_green=1) and mp.funderid = %d AND mp.fstart_date <= '%s'  AND (COALESCE(mp.fend_date, '9999-12-31') >= '%s')", funderID, endDate, startDate)
+					projResult, err := DB.Query(getProj)
+					if err != nil {
+						fmt.Println(err)
+						return
+					}
+					defer projResult.Close()
+
+					for projResult.Next() {
+						var projectID int
+						var startDate, endDate string
+						err = projResult.Scan(&projectID, &startDate, &endDate)
+						if err != nil {
+							fmt.Println(err)
+							return
+						}
+
+						fmt.Println(projectID)
+
+						projectArray = append(projectArray, projectID)
+					}
+				} else if startDate != "" && endDate != "" {
 					getProj = fmt.Sprintf("SELECT distinct p.id, p.startDate, p.endDate from project p join tbl_poa t on t.project_id = p.id join training_participants tp on tp.tb_id=t.tb_id where (tp.GreenMotivators=1 or tp.new_green=1) and p.funderID = %d AND '%s' BETWEEN p.startDate AND p.endDate AND '%s' BETWEEN p.startDate AND p.endDate", funderID, startDate, endDate)
 					projResult, err := DB.Query(getProj)
 					if err != nil {
