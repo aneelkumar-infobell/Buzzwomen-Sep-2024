@@ -281,6 +281,7 @@ func GelathiProgramDashboard1(w http.ResponseWriter, r *http.Request, DB *sql.DB
 			dateFilter = "endDate >= CURRENT_DATE()"
 			dateFilters = "date >= CURRENT_DATE()"
 		}
+
 		funderListQuery := ""
 		if partnerid > 0 {
 			rows, err := DB.Query("SELECT partnerID FROM project where partnerID= ?", partnerid)
@@ -393,6 +394,7 @@ func GelathiProgramDashboard1(w http.ResponseWriter, r *http.Request, DB *sql.DB
 				filter += " and locationID in (" + strings.Trim(strings.Replace(fmt.Sprint(talukArray), " ", ",", -1), "[]") + ")"
 			}
 		} else if funderid > 0 {
+			fmt.Println("entering funderid filter")
 			rows, err := DB.Query("SELECT funderID FROM funder where funderID = ?", funderid)
 			if err != nil {
 				fmt.Println(err)
@@ -401,6 +403,7 @@ func GelathiProgramDashboard1(w http.ResponseWriter, r *http.Request, DB *sql.DB
 			if rows.Next() {
 				funderListQuery = fmt.Sprintf("SELECT funderID AS id, funderName AS name FROM funder WHERE funderID = %d ", funderid)
 				summaryFilter = fmt.Sprintf(" AND p.funderID = %d", funderid)
+
 			} else {
 				// showNoProj()
 				w.WriteHeader(http.StatusNotFound)
@@ -423,6 +426,7 @@ func GelathiProgramDashboard1(w http.ResponseWriter, r *http.Request, DB *sql.DB
 			}
 		} else if projectid == 0 && gfid == 0 && opsid == 0 && som == 0 && gflid == 0 && !isDateFilterApplied && roleid != 4 {
 			// Role 4 OpsManager Default should be project list
+			fmt.Println("entering except filter funder query")
 			funderListQuery = "SELECT DISTINCT(p.funderId) as id, funderName as name FROM project p " +
 				"INNER JOIN funder ON p.funderId = funder.funderID " +
 				"WHERE " + dateFilter + filter
@@ -448,8 +452,33 @@ func GelathiProgramDashboard1(w http.ResponseWriter, r *http.Request, DB *sql.DB
 
 				projectArray := make([]int, 0)
 
-				if startDate != "" && endDate != "" {
+				if startDate != "" && endDate != "" && funderid > 0 {
+					getProj = fmt.Sprintf("SELECT distinct p.id, p.startDate, p.endDate from project p join tbl_poa t on t.project_id = p.id join training_participants tp on tp.tb_id=t.tb_id join multiple_funder mp on mp.projectid=p.id where tp.enroll=1 and mp.funderid = %d AND mp.fstart_date <= '%s'  AND (COALESCE(mp.fend_date, '9999-12-31') >= '%s')", funderID, endDate, startDate)
+					fmt.Println("getProj", getProj)
+					projResult, err := DB.Query(getProj)
+					if err != nil {
+						fmt.Println(err)
+						return
+					}
+					defer projResult.Close()
+
+					for projResult.Next() {
+						var projectID int
+						var startDate, endDate string
+						err = projResult.Scan(&projectID, &startDate, &endDate)
+						if err != nil {
+							fmt.Println(err)
+							return
+						}
+
+						fmt.Println(projectID)
+
+						projectArray = append(projectArray, projectID)
+					}
+
+				} else if startDate != "" && endDate != "" {
 					getProj = fmt.Sprintf("SELECT distinct p.id, p.startDate, p.endDate from project p join tbl_poa t on t.project_id = p.id join training_participants tp on tp.tb_id=t.tb_id where tp.enroll=1 and p.funderID = %d AND '%s' BETWEEN p.startDate AND p.endDate AND '%s' BETWEEN p.startDate AND p.endDate", funderID, startDate, endDate)
+					fmt.Println("getProj", getProj)
 					projResult, err := DB.Query(getProj)
 					if err != nil {
 						fmt.Println(err)
@@ -537,7 +566,6 @@ func GelathiProgramDashboard1(w http.ResponseWriter, r *http.Request, DB *sql.DB
 				data = append(data, obj)
 			}
 		}
-		fmt.Println(summaryFilter)
 
 		var projectList string
 
@@ -550,7 +578,7 @@ func GelathiProgramDashboard1(w http.ResponseWriter, r *http.Request, DB *sql.DB
 			if rows.Next() {
 				dateFilterNew := ""
 				if isDateFilterApplied {
-					dateFilterNew = fmt.Sprintf(" AND t.GreenMotivatorsDate >= '%s' and '%s'", startDate, endDate)
+					dateFilterNew = fmt.Sprintf(" AND t.enroll_date >= '%s' and '%s'", startDate, endDate)
 				}
 
 				projectList = fmt.Sprintf("SELECT distinct p.id, p.projectName AS name, p.startDate, p.endDate FROM project p join training_participants t on p.id=t.project_id where t.enroll=1 and id = %d%s%s", projectid, filter, dateFilterNew)
@@ -562,7 +590,7 @@ func GelathiProgramDashboard1(w http.ResponseWriter, r *http.Request, DB *sql.DB
 				response["success"] = false
 				response["message"] = "Invalid project id"
 				js, err := json.Marshal(response)
-				//fmt.Println(response)
+
 				if err != nil {
 					log.Println("GreenDashboard", err)
 					w.WriteHeader(http.StatusBadRequest)
@@ -592,7 +620,7 @@ func GelathiProgramDashboard1(w http.ResponseWriter, r *http.Request, DB *sql.DB
 				response["success"] = false
 				response["message"] = "Invalid trainer id"
 				js, err := json.Marshal(response)
-				//fmt.Println(response)
+
 				if err != nil {
 					log.Println("GreenDashboard", err)
 					w.WriteHeader(http.StatusBadRequest)
@@ -626,7 +654,7 @@ func GelathiProgramDashboard1(w http.ResponseWriter, r *http.Request, DB *sql.DB
 				response["success"] = false
 				response["message"] = "Invalid operation_manager id"
 				js, err := json.Marshal(response)
-				//fmt.Println(response)
+
 				if err != nil {
 					log.Println("GreenDashboard", err)
 					w.WriteHeader(http.StatusBadRequest)
@@ -712,10 +740,10 @@ func GelathiProgramDashboard1(w http.ResponseWriter, r *http.Request, DB *sql.DB
 
 			}
 		} else if isDateFilterApplied && partnerid == 0 && distid == 0 && funderid == 0 || roleid == 4 && distid == 0 {
+			fmt.Println("entering project array")
 			projectList = fmt.Sprintf("SELECT distinct p.id, projectName as name, p.startDate, p.endDate from project p join tbl_poa t on t.project_id = p.id join training_participants tp on tp.tb_id=t.tb_id where tp.enroll=1 and %s %s", dateFilter, filter)
 		}
 
-		fmt.Println(projectList)
 		if len(projectList) > 0 {
 			rows, err := DB.Query(projectList)
 			if err != nil {
@@ -774,8 +802,8 @@ func GelathiProgramDashboard1(w http.ResponseWriter, r *http.Request, DB *sql.DB
 				projects = append(projects, project)
 			}
 		}
-
-		fmt.Println(dateFilters)
+		fmt.Println("summaryFilter", summaryFilter)
+		fmt.Println("dateFilters", dateFilters)
 
 		response := make(map[string]interface{})
 		response["summary_Gelathienrolled"] = summarySpoorthienrolled
@@ -817,10 +845,10 @@ func GelathiProgramDashboard1(w http.ResponseWriter, r *http.Request, DB *sql.DB
 			filters := ""
 			if isDateFilterApplied {
 				filter = fmt.Sprintf(" and p.startDate >= '%s' and p.endDate <= '%s'", startDate, endDate)
-				filters = fmt.Sprintf(" and GreenMotivatorsDate >= '%s' and GreenMotivatorsDate <= '%s'", startDate, endDate)
+				filters = fmt.Sprintf(" and enroll_date >= '%s' and enroll_date <= '%s'", startDate, endDate)
 			} else {
 				filter = " and p.endDate >= CURRENT_DATE()"
-				filters = " and GreenMotivatorsDate >= CURRENT_DATE()"
+				filters = " and enroll_date >= CURRENT_DATE()"
 			}
 			fmt.Println(filters)
 
@@ -831,7 +859,7 @@ func GelathiProgramDashboard1(w http.ResponseWriter, r *http.Request, DB *sql.DB
 							SELECT tp.project_id as id, p.projectName as name,p.startDate,p.endDate FROM training_participants tp
 							INNER JOIN project p ON tp.project_id = p.id
 							WHERE enroll=1 AND gelathi_id = %d %s`, empid, filter, empid, filter)
-
+			fmt.Println("role6", getProjs)
 			if projectid > 0 {
 				getProjs = fmt.Sprintf(`SELECT project_id as id, p.projectName as name,p.startDate,p.endDate FROM tbl_poa tp
 							INNER JOIN project p ON p.id = tp.project_id
@@ -841,7 +869,7 @@ func GelathiProgramDashboard1(w http.ResponseWriter, r *http.Request, DB *sql.DB
 							INNER JOIN project p ON tp.project_id = p.id
 							WHERE enroll=1 AND gelathi_id = %d AND tp.project_id = %d`, projectid, empid, empid, projectid)
 			}
-			fmt.Println(getProjs)
+
 			projectsList, err := DB.Query(getProjs)
 			if err != nil {
 				fmt.Println(err)
@@ -911,7 +939,7 @@ func GelathiProgramDashboard1(w http.ResponseWriter, r *http.Request, DB *sql.DB
 			response["success"] = false
 			response["message"] = "Invalid employe id"
 			js, err := json.Marshal(response)
-			////fmt.Println(response)
+
 			if err != nil {
 				log.Println("SelfSakthiDashboard", err)
 				w.WriteHeader(http.StatusBadRequest)
@@ -960,7 +988,6 @@ func GelathiProgramDashboard1(w http.ResponseWriter, r *http.Request, DB *sql.DB
 				inner join project p on p.id = tp.project_id  join training_participants t on t.tb_id= tp.tb_id
 				where t.enroll=1 and p.gfl_id = %d %s %s GROUP BY tp.project_id`, empid, gf, filter)
 			}
-			fmt.Println(getProjs)
 
 			rows, err = DB.Query(getProjs)
 			if err != nil {

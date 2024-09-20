@@ -221,7 +221,7 @@ func HandleFunc() {
 	}))
 
 	//---------------------Add buzz vyapar----------------------------------
-	apiRouter.Handle("/addBuzzVyapar", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
+	apiRouter.HandleFunc("/addBuzzVyapar", (func(w http.ResponseWriter, r *http.Request) {
 		a.Addbuzzvyapar(w, r, db)
 	}))
 
@@ -282,7 +282,7 @@ func HandleFunc() {
 	}))
 
 	//---------------------gelathiProgram dashboard----------------------------------
-	apiRouter.Handle("/gelathiProgramDashboard", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
+	apiRouter.HandleFunc("/gelathiProgramDashboard", (func(w http.ResponseWriter, r *http.Request) {
 		sp.GelathiProgramDashboard1(w, r, db)
 	}))
 

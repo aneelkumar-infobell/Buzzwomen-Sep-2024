@@ -1735,8 +1735,32 @@ func GelathiDashboard(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 				getProj := ""
 
 				projectArray := make([]int, 0)
+				if startDate != "" && endDate != "" && funderID > 0 {
+					getProj = fmt.Sprintf("SELECT p.id, p.startDate, p.endDate FROM project p join multiple_funder mp on mp.projectid=p.id WHERE mp.funderid = %d AND mp.fstart_date <= '%s'  AND (COALESCE(mp.fend_date, '9999-12-31') >= '%s')", funderID, endDate, startDate)
+					projResult, err := DB.Query(getProj)
+					if err != nil {
+						log.Println("ERROR>>", err)
+						w.WriteHeader(http.StatusBadRequest)
+						json.NewEncoder(w).Encode(map[string]interface{}{"code": http.StatusBadRequest, "message": "Invalid Request Body", "success": false})
+						return
+					}
+					defer projResult.Close()
 
-				if startDate != "" && endDate != "" {
+					for projResult.Next() {
+						var projectID int
+						var startDate, endDate string
+						err = projResult.Scan(&projectID, &startDate, &endDate)
+						if err != nil {
+							log.Println("ERROR>>", err)
+							w.WriteHeader(http.StatusBadRequest)
+							json.NewEncoder(w).Encode(map[string]interface{}{"code": http.StatusBadRequest, "message": "Invalid Request Body", "success": false})
+							return
+						}
+
+						projectArray = append(projectArray, projectID)
+					}
+
+				} else if startDate != "" && endDate != "" {
 					getProj = fmt.Sprintf("SELECT id, startDate, endDate FROM project p WHERE funderID = %d AND '%s' BETWEEN startDate AND endDate AND '%s' BETWEEN startDate AND endDate", funderID, startDate, endDate)
 					projResult, err := DB.Query(getProj)
 					if err != nil {
