@@ -229,7 +229,7 @@ func AddSelfshaktiday1day2data(w http.ResponseWriter, r *http.Request, DB *sql.D
 		p.ProfitMade,
 		p.HasPersonalAccount,
 		strings.Join(p.BankAccountUsageFrequency, ", "),
-		p.MoneyDecisionMaker,
+		strings.Join(p.MoneyDecisionMaker, ", "),
 		p.MonthlyExpensePlan,
 		p.MonthlyExpenseAmount,
 		p.MaintainExpenseRecord,
