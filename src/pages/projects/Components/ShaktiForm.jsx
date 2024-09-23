@@ -40,6 +40,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 export default function ShaktiForm({itm ,reloadFUnction}) {
+  console.log(itm ,"itm")
   const { apikey } = useAuth();
   const [open, setOpen] = React.useState(false);
   const [solution,setsolution]= React.useState(false);
@@ -256,6 +257,7 @@ const secondaryIncomeOptions = [
     }
   };
   const handleSoleEarning = (event) => {
+    setSendData( {...sendData, sole_earner_family: event.target.value })
     setGoladAchiced(event.target.value);
     setGoladAchicedError(false);
   };
@@ -354,266 +356,214 @@ const secondaryIncomeOptions = [
     SetsharelearningError(false);
   };
   const [sendData, setSendData] = React.useState({
-    "id": 785741,
-    "district": "Your District",
-    "taluk": "Your Taluk",
-    "gram_panchayat": "Your Gram Panchayat",
-    "village_name": "Your Village Name",
-    "house": "Your House",
-    "roof": "Your Roof Type",
-    "ration_card": "Ration Card Number",
-    "caste": "4",
-    "sub_cast_name": "Sub-caste Name",
-    "religion": "Your Religion",
-    "marital_status": "Your Marital Status",
-    "education_level": "Highest Level of Education Completed",
-    "primary_occupation": "Your Primary Occupation",
-    "monthly_household_expenditure": 2000.0,
-    "monthly_household_income": 5000.0,
-    "sole_earner_family": "Yes",
-    "source": "N/A",
-        
+    "id": itm.participantId,
+    "district": "",
+    "taluk": "",
+    "gram_panchayat": "",
+    "village_name": "",
+    "house": "",
+    "roof": "",
+    "ration_card": "",
+    "religion":"",
+    "education_level":"",
+    "caste": "",
+    "sub_cast_name": "",
+    "religion": "",
+    "marital_status": "",
+    "primary_occupation": "",
+    "monthly_household_expenditure": null,
+    "monthly_household_income": null,
+    "sole_earner_family": "",
+    "source": "",
+    "secondary_occupation_of_the_household" :"",
+     
+            "primary_occupation_of_the_household": "",
+            "womens_occupation": "",
+            "monthly_women_income": null,
+            "source_of_this_income": "",
+            "religion":"hindu",
+            "education_level":" ",
+            
+    "education_level": "",
       
+    "womens_occupation_name":"",
+    "ration_card_name":"",
+    "source_of_this_income_name":"",
+      "primary_occupation_name":"",
+      "material_status_name":"",
   });
-console.log(sendData )
+
+
+console.log(sendData , "senDatasenData" )
   const shakthiformdata = async () => {
-
-    var data ={}
+   var data ={}
     data = JSON.stringify({
-    participantId: itm?.participant_id,
-      "id": 785741,
-        "district": "Your District",
-        "taluk": "Your Taluk",
-        "gram_panchayat": "Your Gram Panchayat",
-        "village_name": "Your Village Name",
-        "house": "Your House",
-        "roof": "Your Roof Type",
-        "ration_card": "Ration Card Number",
-        "caste": "4",
-        "sub_cast_name": "Sub-caste Name",
-        "religion": "Your Religion",
-        "marital_status": "Your Marital Status",
-        "education_level": "Highest Level of Education Completed",
-        "primary_occupation": "Your Primary Occupation",
-        "monthly_household_expenditure": 2000.0,
-        "monthly_household_income": 5000.0,
-        "sole_earner_family": "Yes",
-        "source": "N/A",
+    "id": parseInt(itm?.participant_id),
+    "district": sendData.distric_namet,
+    "taluk": sendData.taluk_name,
+    "gram_panchayat": sendData.gram_panchayat,
+    "village_name": sendData.village_name,
+    "house": sendData.house_name,
+    "roof": sendData.roof_name,
+    "ration_card": sendData.ration_card_name,
+    "caste": sendData.cast_category_name,
+    "sub_cast_name": sendData.sub_cast_name,
+    "religion": sendData.religion_name,
+    "marital_status":sendData.material_status_name,
+    "education_level": sendData.education_name,
+    "primary_occupation": sendData.primary_occupation_of_the_household_name,
+    "monthly_household_expenditure":parseFloat(sendData.monthly_household_expenditure) ,
+    "monthly_household_income": parseFloat(sendData.monthly_household_income),
+    "sole_earner_family": sendData.sole_earner_family,
+    "source": sendData.source_of_this_income_name,
+    "secondary_occupation_of_the_household":sendData?.secondary_occupation_of_the_household_name,
+    "primary_occupation_of_the_household": sendData.primary_occupation_of_the_household_name,
+    "womens_occupation": sendData.womens_occupation_name,
+    "monthly_women_income": parseFloat(sendData.monthly_women_income),
+    "source_of_this_income":sendData.source_of_this_income_name,
+    "religion":sendData.religion_name,
+    "education_level":sendData.education_name,
+    
 
-
-        "migration_profile": "Migration Profile",
-        "household_migration_last_year": "No",
-        "migrant_sends_remittance": "Yes",
-        "financial_literacy": "Basic",
-        "liabilities_or_assets": "Assets",
-        "bookkeeping_entry": "Yes",
-        "loan_type": "Personal Loan",
-        "annual_interest_rate": 5.0,
-        "interest_payment_due": 500.0,
-        "profit_made": 1000.0,
-        "has_personal_account": true,
-        "bank_account_usage_frequency": "Monthly",
-        "money_decision_maker": "Self",
-        "monthly_expense_plan": "Yes",
-        "monthly_expense_amount": 3000.0,
-        "maintain_expense_record": true,
-        "individual_savings": 1000.0,
-        "monthly_savings_individual": 200.0,
-        "annual_savings_household": 2400.0,
-        "confident_spend_savings": "Yes",
-        "loans": "No",
-        "loan_taken_by": "Self",
-        "amount_borrowed": 0.0,
-        "purpose_of_loan": "N/A",
-        "rate_of_interest": 0.0,
-        "expenses_exceed_income_last_year": false,
-        "income_loss_duration": "None",
-        "goals": "Buy a new house",
-        "financial_goals_set": true,
-        "short_term_goal": "Increase savings",
-        "long_term_goal": "Start a business",
-        "enterprise": "Yes",
-        "family_business": "No",
-        "want_to_start_enterprise": true,
-        "enterprise_type": "Small Business",
-        "num_employees_paid": 2,
-        "individual_involvement_nature": "Full-Time",
-        "enterprise_monthly_income": 3000.0,
-        "enterprise_is_profitable": true,
-        "monthly_profit": 1000.0,
-        "decision_making": "Self",
-        "decision_say": "Full",
-        "menstrual_hygiene_env": "Yes",
-        "env_friendly_practices": "Yes",
-        "menstrual_product_used": "Pads",
-        "menstrual_disposal_method": "Burning",
-        "cooking_fuel_type": "LPG"
-        
       
     });
 
+    const values = Object.values(data);
+    const hasEmptyFields = values.some((value) => value === "");
+    
+console.log(data ,"data")
    if(isOnline() && networkAccess()){
-    if(plan == ''){
-      SetImplementationPlanError(true);
-      setHelperText('please select the option')
-    }
-    if(qualitiesgood == ''){
-      SetQualitiesgoodError(true);
-      setHelperText('please select the option')
-    }
-    if(healthcareaccess == ''){
-      SetAccessToHealtcareError(true);
-      setHelperText('please select the option')
-    }
-    if(creditaccess == ''){
-      SetCreditaccessError(true);
-      setHelperText('please select the option')
-    }
-    if(sendData?.household_books_accounts == ''){
-      SetHousehold_books_accountsError(true);
-      setHelperText('please select the option')
-    }
-    if(sendData?.saveRegularly == ''){
-      SetsaveRegularlyError(true);
-      setHelperText('please select the option')
-    }
-    if(sendData?.specificGoalForSavings == ''){
-      SetspecificGoalForSavingsError(true);
-      setHelperText('please select the option')
-    }
-    if(problemsolutions == ''){
-      SetproblemsolutionsError(true);
-      setHelperText('please select the option')
-    }
-    if(worthperson == ''){
-      SetworthpersonError(true);
-      setHelperText('please select the option')
-    }
-    if(sendData?.ownAsset == ''){
-      SetownAssetError(true);
-      setHelperText('please select the option')
-    }
-    if(sendData?.separateFinancialAsset == ''){
-      SetseparateFinancialAssetError(true);
-      setHelperText('please select the option')
-    }
-    if(sendData?.partOfCollective == ''){
-      SetpartOfCollectiveError(true);
-      setHelperText('please select the option')
-    }
-    if(moneysave == ''){
-      SetmoneysaveError(true);
-      setHelperText('please select the option')
-    }
-    if(sendData?.haveLoan == ''){
-      SethaveLoanError(true);
-      setHelperText('please select the option')
-    }
-    if(shareproblems == ''){
-      SetshareproblemsError(true);
-      setHelperText('please select the option')
-    }
-    if(sendData?.spendMoney == ''){
-      SetspendMoneyError(true);
-      setHelperText('please select the option')
-    }
-    if(savingfrequency == ''){
-      SetsavingfrequencyError(true);
-      setHelperText('please select the option')
-    }
-    if(sendData?.loanOnWhoseName == ''){
-      SetloanOnWhoseNameError(true);
-      setHelperText('please select the option')
-    }
-    if(sendData?.haveGoal == ''){
-      SethaveGoalError(true);
-      setHelperText('please select the option')
-    }
-    if(sendData?.pathwayToGoal == ''){
-      SetpathwayToGoalError(true);
-      setHelperText('please select the option')
-    }
-    if(education == ''){
-      SeteducationError(true);
-      setHelperText('please select the option')
-    }
-    if(solution == ''){
-      SetsolutionError(true);
-      setHelperText('please select the option')
-    }
-    if(livelihoodvalue == ''){
-      SetlivelihoodvalueError(true);
-      setHelperText('please select the option')
-    }
-    if(sharelearning == ''){
-      SetsharelearningError(true);
-      setHelperText('please select the option')
-    }
-    if(problemsdisheartened == ''){
-      SetproblemsdisheartenedError(true);
-      setHelperText('please select the option')
-    }
-    if(failureperson == ''){
-      SetfailurepersonError(true);
-      setHelperText('please select the option')
-    }
-    if(expenditure == ''){
-      SetexpenditureError(true);
-      setHelperText('please select the option')
-    }
-    if(sendData?.accounts_for_Self_Enterprises == ''){
-      Setaccounts_for_Self_EnterprisesError(true);
-      setHelperText('please select the option')
-    }
-    if(savemoney == ''){
-      SetsavemoneyError(true);
-      setHelperText('please select the option')
-    }
-    if(purchase == ''){
-      SetpurchaseError(true);
-      setHelperText('please select the option')
-    }
-    if(checked['loanborrow'] == 0){
-      SetloanborrowError(true);
-      setHelperText('please select the option')
-    }
-    if(checked['borrowedmoney'] == 0){
-      SetborrowedmoneyError(true);
-      setHelperText('please select the option')
-    }
-    if(
-       plan != '' && 
-       healthcareaccess != '' && 
-       creditaccess != '' && 
-       sendData?.household_books_accounts != '' && 
-       sendData?.saveRegularly != '' && 
-       sendData?.specificGoalForSavings!= '' && 
-       problemsolutions!= '' && 
-       worthperson!= '' && 
-       moneysave!= '' && 
-       sendData?.haveLoan!= '' && 
-       sendData?.separateFinancialAsset!= '' && 
-       sendData?.partOfCollective!= '' && 
-       sendData?.ownAsset!= '' && 
-       shareproblems!= '' && 
-       sendData?.spendMoney!= '' && 
-       savingfrequency!= '' && 
-       sendData?.loanOnWhoseName!= '' && 
-       sendData?.haveGoal!= '' && 
-       sendData?.pathwayToGoal!= '' && 
-       education!= '' && 
-       solution!= '' && 
-       livelihoodvalue!= '' && 
-       sharelearning!= '' && 
-       failureperson!= '' && 
-       problemsdisheartened!= '' && 
-       expenditure!= '' && 
-       sendData?.accounts_for_Self_Enterprises!= '' && 
-       savemoney!= '' && 
-       purchase!= '' && 
-       checked['loanborrow']!= 0 && 
-       checked['borrowedmoney']!= 0 && 
-    qualitiesgood!= ''){
+    // if(plan == ''){
+    //   SetImplementationPlanError(true);
+    //   setHelperText('please select the option')
+    // }
+    // if(qualitiesgood == ''){
+    //   SetQualitiesgoodError(true);
+    //   setHelperText('please select the option')
+    // }
+    // if(healthcareaccess == ''){
+    //   SetAccessToHealtcareError(true);
+    //   setHelperText('please select the option')
+    // }
+    // if(creditaccess == ''){
+    //   SetCreditaccessError(true);
+    //   setHelperText('please select the option')
+    // }
+    // if(sendData?.household_books_accounts == ''){
+    //   SetHousehold_books_accountsError(true);
+    //   setHelperText('please select the option')
+    // }
+    // if(sendData?.saveRegularly == ''){
+    //   SetsaveRegularlyError(true);
+    //   setHelperText('please select the option')
+    // }
+    // if(sendData?.specificGoalForSavings == ''){
+    //   SetspecificGoalForSavingsError(true);
+    //   setHelperText('please select the option')
+    // }
+    // if(problemsolutions == ''){
+    //   SetproblemsolutionsError(true);
+    //   setHelperText('please select the option')
+    // }
+    // if(worthperson == ''){
+    //   SetworthpersonError(true);
+    //   setHelperText('please select the option')
+    // }
+    // if(sendData?.ownAsset == ''){
+    //   SetownAssetError(true);
+    //   setHelperText('please select the option')
+    // }
+    // if(sendData?.separateFinancialAsset == ''){
+    //   SetseparateFinancialAssetError(true);
+    //   setHelperText('please select the option')
+    // }
+    // if(sendData?.partOfCollective == ''){
+    //   SetpartOfCollectiveError(true);
+    //   setHelperText('please select the option')
+    // }
+    // if(moneysave == ''){
+    //   SetmoneysaveError(true);
+    //   setHelperText('please select the option')
+    // }
+    // if(sendData?.haveLoan == ''){
+    //   SethaveLoanError(true);
+    //   setHelperText('please select the option')
+    // }
+    // if(shareproblems == ''){
+    //   SetshareproblemsError(true);
+    //   setHelperText('please select the option')
+    // }
+    // if(sendData?.spendMoney == ''){
+    //   SetspendMoneyError(true);
+    //   setHelperText('please select the option')
+    // }
+    // if(savingfrequency == ''){
+    //   SetsavingfrequencyError(true);
+    //   setHelperText('please select the option')
+    // }
+    // if(sendData?.loanOnWhoseName == ''){
+    //   SetloanOnWhoseNameError(true);
+    //   setHelperText('please select the option')
+    // }
+    // if(sendData?.haveGoal == ''){
+    //   SethaveGoalError(true);
+    //   setHelperText('please select the option')
+    // }
+    // if(sendData?.pathwayToGoal == ''){
+    //   SetpathwayToGoalError(true);
+    //   setHelperText('please select the option')
+    // }
+    // if(education == ''){
+    //   SeteducationError(true);
+    //   setHelperText('please select the option')
+    // }
+    // if(solution == ''){
+    //   SetsolutionError(true);
+    //   setHelperText('please select the option')
+    // }
+    // if(livelihoodvalue == ''){
+    //   SetlivelihoodvalueError(true);
+    //   setHelperText('please select the option')
+    // }
+    // if(sharelearning == ''){
+    //   SetsharelearningError(true);
+    //   setHelperText('please select the option')
+    // }
+    // if(problemsdisheartened == ''){
+    //   SetproblemsdisheartenedError(true);
+    //   setHelperText('please select the option')
+    // }
+    // if(failureperson == ''){
+    //   SetfailurepersonError(true);
+    //   setHelperText('please select the option')
+    // }
+    // if(expenditure == ''){
+    //   SetexpenditureError(true);
+    //   setHelperText('please select the option')
+    // }
+    // if(sendData?.accounts_for_Self_Enterprises == ''){
+    //   Setaccounts_for_Self_EnterprisesError(true);
+    //   setHelperText('please select the option')
+    // }
+    // if(savemoney == ''){
+    //   SetsavemoneyError(true);
+    //   setHelperText('please select the option')
+    // }
+    // if(purchase == ''){
+    //   SetpurchaseError(true);
+    //   setHelperText('please select the option')
+    // }
+    // if(checked['loanborrow'] == 0){
+    //   SetloanborrowError(true);
+    //   setHelperText('please select the option')
+    // }
+    // if(checked['borrowedmoney'] == 0){
+    //   SetborrowedmoneyError(true);
+    //   setHelperText('please select the option')
+    // }\
+
+    console.log(hasEmptyFields , !hasEmptyFields)
+    if(!hasEmptyFields){
     if(localStorage.getItem('shaktiform')){
       data = setshaktidata(saveDataLocally('shaktiform',JSON.parse(data)))
       setshaktidata(data);
@@ -621,53 +571,44 @@ console.log(sendData )
 
    
    else{
-    var data = JSON.stringify({
-      participantId: itm?.participant_id,
-      implementationPlan: plan,
-      goodQuality: qualitiesgood,
-      accessToHealtcare: healthcareaccess,
-      accessToCredit: creditaccess,
-      household_books_accounts: sendData?.household_books_accounts,
-      saveRegularly: sendData?.saveRegularly,
-      middleman: null,
-      specificGoalForSavings: sendData?.specificGoalForSavings,
-      solutionToProblems: problemsolutions,
-      others: null,
-      familyIncomeGeneration: "1",
-      goal: "100",
-      householdUse: null,
-      personOfWorth: worthperson,
-      reasonOthersToBorrowLoan: checked['loanborrow'],
-      moneyborrowed: checked['borrowedmoney'],
-      ownAsset: sendData?.ownAsset,
-      separateFinancialAsset: sendData?.separateFinancialAsset,
-      partOfCollective: sendData?.partOfCollective,
-      whereSaveMoney: moneysave,
-      annualLoanInterest: sendData?.annualLoanInterest,
-      haveLoan: sendData?.haveLoan,
-      importantToShareTheirProb: shareproblems,
-      profitForSarees: sendData?.profitForSarees,
-      spendMoney: sendData?.spendMoney,
-      frequencyOfSaving: savingfrequency,
-      loanOnWhoseName: sendData?.loanOnWhoseName,
-      haveGoal: sendData?.haveGoal,
-      pathwayToGoal: sendData?.pathwayToGoal,
-      howMuchSaveToAchieve: sendData?.howMuchSaveToAchieve,
-      educationDecision: education,
-      noChoiceForSolution: solution,
-      livelihood: livelihoodvalue,
-      shareLearningWithCommunity: sharelearning,
-      disheartenedToProblems: problemsdisheartened,
-      amFailure: failureperson,
-      dayTodayExpenditure: expenditure,
-      accounts_for_Self_Enterprises: sendData?.accounts_for_Self_Enterprises,
-      savingMoney: savemoney,
-      assetPurchase: purchase,
-    });
+    data = JSON.stringify({
+      "id": parseInt(itm?.participant_id),
+      "district": sendData.distric_namet,
+      "taluk": sendData.taluk_name,
+      "gram_panchayat": sendData.gram_panchayat,
+      "village_name": sendData.village_name,
+      "house": sendData.house_name,
+      "roof": sendData.roof_name,
+      "ration_card": sendData.ration_card_name,
+      "caste": sendData.cast_category_name,
+      "sub_cast_name": sendData.sub_cast_name,
+      "religion": sendData.religion_name,
+      "marital_status":sendData.material_status_name,
+      "education_level": sendData.education_name,
+      "primary_occupation": sendData.primary_occupation_name,
+      "monthly_household_expenditure":parseFloat(sendData.monthly_household_expenditure) ,
+      "monthly_household_income": parseFloat(sendData.monthly_household_income),
+      "sole_earner_family": sendData.sole_earner_family,
+      "source": sendData.source_of_this_income_name,
+      "secondary_occupation_of_the_household":sendData.secondary_occupation_of_the_household_name,
+      "primary_occupation_of_the_household": sendData.primary_occupation_of_the_household_name,
+      "womens_occupation": sendData.womens_occupation_name,
+      "monthly_women_income": parseFloat(sendData.monthly_women_income),
+      "source_of_this_income":sendData.source_of_this_income_name,
+      "religion":sendData.religion_name,
+      "education_level":sendData.education_name,
+      
+  
+        
+      });
+  
+      const values = Object.values(data);
+      const hasEmptyFields = values.some((value) => value === "");
+      
    }
     var config = {
       method: 'post',
-      url: baseURL + 'addSurveyData',
+      url: baseURL + 'addselfshakti',
       headers: {
         'Content-Type': 'application/json',
          'Authorization': `${apikey}`
@@ -704,167 +645,135 @@ console.log(sendData )
   }
 }
    else{
-    if(plan == ''){
-      SetImplementationPlanError(true);
-      setHelperText('please select the option')
-    }
-    if(qualitiesgood == ''){
-      SetQualitiesgoodError(true);
-      setHelperText('please select the option')
-    }
-    if(healthcareaccess == ''){
-      SetAccessToHealtcareError(true);
-      setHelperText('please select the option')
-    }
-    if(creditaccess == ''){
-      SetCreditaccessError(true);
-      setHelperText('please select the option')
-    }
-    if(sendData?.household_books_accounts == ''){
-      SetHousehold_books_accountsError(true);
-      setHelperText('please select the option')
-    }
-    if(sendData?.saveRegularly == ''){
-      SetsaveRegularlyError(true);
-      setHelperText('please select the option')
-    }
-    if(sendData?.specificGoalForSavings == ''){
-      SetspecificGoalForSavingsError(true);
-      setHelperText('please select the option')
-    }
-    if(problemsolutions == ''){
-      SetproblemsolutionsError(true);
-      setHelperText('please select the option')
-    }
-    if(worthperson == ''){
-      SetworthpersonError(true);
-      setHelperText('please select the option')
-    }
-    if(sendData?.ownAsset == ''){
-      SetownAssetError(true);
-      setHelperText('please select the option')
-    }
-    if(sendData?.separateFinancialAsset == ''){
-      SetseparateFinancialAssetError(true);
-      setHelperText('please select the option')
-    }
-    if(sendData?.partOfCollective == ''){
-      SetpartOfCollectiveError(true);
-      setHelperText('please select the option')
-    }
-    if(moneysave == ''){
-      SetmoneysaveError(true);
-      setHelperText('please select the option')
-    }
-    if(sendData?.haveLoan == ''){
-      SethaveLoanError(true);
-      setHelperText('please select the option')
-    }
-    if(shareproblems == ''){
-      SetshareproblemsError(true);
-      setHelperText('please select the option')
-    }
-    if(sendData?.spendMoney == ''){
-      SetspendMoneyError(true);
-      setHelperText('please select the option')
-    }
-    if(savingfrequency == ''){
-      SetsavingfrequencyError(true);
-      setHelperText('please select the option')
-    }
-    if(sendData?.loanOnWhoseName == ''){
-      SetloanOnWhoseNameError(true);
-      setHelperText('please select the option')
-    }
-    if(sendData?.haveGoal == ''){
-      SethaveGoalError(true);
-      setHelperText('please select the option')
-    }
-    if(sendData?.pathwayToGoal == ''){
-      SetpathwayToGoalError(true);
-      setHelperText('please select the option')
-    }
-    if(education == ''){
-      SeteducationError(true);
-      setHelperText('please select the option')
-    }
-    if(solution == ''){
-      SetsolutionError(true);
-      setHelperText('please select the option')
-    }
-    if(livelihoodvalue == ''){
-      SetlivelihoodvalueError(true);
-      setHelperText('please select the option')
-    }
-    if(sharelearning == ''){
-      SetsharelearningError(true);
-      setHelperText('please select the option')
-    }
-    if(problemsdisheartened == ''){
-      SetproblemsdisheartenedError(true);
-      setHelperText('please select the option')
-    }
-    if(failureperson == ''){
-      SetfailurepersonError(true);
-      setHelperText('please select the option')
-    }
-    if(expenditure == ''){
-      SetexpenditureError(true);
-      setHelperText('please select the option')
-    }
-    if(sendData?.accounts_for_Self_Enterprises == ''){
-      Setaccounts_for_Self_EnterprisesError(true);
-      setHelperText('please select the option')
-    }
-    if(savemoney == ''){
-      SetsavemoneyError(true);
-      setHelperText('please select the option')
-    }
-    if(purchase == ''){
-      SetpurchaseError(true);
-      setHelperText('please select the option')
-    }
-    if(checked['loanborrow'] == 0){
-      SetloanborrowError(true);
-      setHelperText('please select the option')
-    }
-    if(checked['borrowedmoney'] == 0){
-      SetborrowedmoneyError(true);
-      setHelperText('please select the option')
-    }
-    if(
-       plan != '' && 
-       healthcareaccess != '' && 
-       creditaccess != '' && 
-       sendData?.household_books_accounts != '' && 
-       sendData?.saveRegularly != '' && 
-       sendData?.specificGoalForSavings!= '' && 
-       problemsolutions!= '' && 
-       worthperson!= '' && 
-       moneysave!= '' && 
-       sendData?.haveLoan!= '' && 
-       sendData?.separateFinancialAsset!= '' && 
-       sendData?.partOfCollective!= '' && 
-       sendData?.ownAsset!= '' && 
-       shareproblems!= '' && 
-       sendData?.spendMoney!= '' && 
-       savingfrequency!= '' && 
-       sendData?.loanOnWhoseName!= '' && 
-       sendData?.haveGoal!= '' && 
-       sendData?.pathwayToGoal!= '' && 
-       education!= '' && 
-       solution!= '' && 
-       livelihoodvalue!= '' && 
-       sharelearning!= '' && 
-       failureperson!= '' && 
-       problemsdisheartened!= '' && 
-       expenditure!= '' && 
-       sendData?.accounts_for_Self_Enterprises!= '' && 
-       savemoney!= '' && 
-       purchase!= '' && 
-       checked['loanborrow']!= 0 && 
-       checked['borrowedmoney']!= 0 && 
-    qualitiesgood!= ''){
+    // if(plan == ''){
+    //   SetImplementationPlanError(true);
+    //   setHelperText('please select the option')
+    // }
+    // if(qualitiesgood == ''){
+    //   SetQualitiesgoodError(true);
+    //   setHelperText('please select the option')
+    // }
+    // if(healthcareaccess == ''){
+    //   SetAccessToHealtcareError(true);
+    //   setHelperText('please select the option')
+    // }
+    // if(creditaccess == ''){
+    //   SetCreditaccessError(true);
+    //   setHelperText('please select the option')
+    // }
+    // if(sendData?.household_books_accounts == ''){
+    //   SetHousehold_books_accountsError(true);
+    //   setHelperText('please select the option')
+    // }
+    // if(sendData?.saveRegularly == ''){
+    //   SetsaveRegularlyError(true);
+    //   setHelperText('please select the option')
+    // }
+    // if(sendData?.specificGoalForSavings == ''){
+    //   SetspecificGoalForSavingsError(true);
+    //   setHelperText('please select the option')
+    // }
+    // if(problemsolutions == ''){
+    //   SetproblemsolutionsError(true);
+    //   setHelperText('please select the option')
+    // }
+    // if(worthperson == ''){
+    //   SetworthpersonError(true);
+    //   setHelperText('please select the option')
+    // }
+    // if(sendData?.ownAsset == ''){
+    //   SetownAssetError(true);
+    //   setHelperText('please select the option')
+    // }
+    // if(sendData?.separateFinancialAsset == ''){
+    //   SetseparateFinancialAssetError(true);
+    //   setHelperText('please select the option')
+    // }
+    // if(sendData?.partOfCollective == ''){
+    //   SetpartOfCollectiveError(true);
+    //   setHelperText('please select the option')
+    // }
+    // if(moneysave == ''){
+    //   SetmoneysaveError(true);
+    //   setHelperText('please select the option')
+    // }
+    // if(sendData?.haveLoan == ''){
+    //   SethaveLoanError(true);
+    //   setHelperText('please select the option')
+    // }
+    // if(shareproblems == ''){
+    //   SetshareproblemsError(true);
+    //   setHelperText('please select the option')
+    // }
+    // if(sendData?.spendMoney == ''){
+    //   SetspendMoneyError(true);
+    //   setHelperText('please select the option')
+    // }
+    // if(savingfrequency == ''){
+    //   SetsavingfrequencyError(true);
+    //   setHelperText('please select the option')
+    // }
+    // if(sendData?.loanOnWhoseName == ''){
+    //   SetloanOnWhoseNameError(true);
+    //   setHelperText('please select the option')
+    // }
+    // if(sendData?.haveGoal == ''){
+    //   SethaveGoalError(true);
+    //   setHelperText('please select the option')
+    // }
+    // if(sendData?.pathwayToGoal == ''){
+    //   SetpathwayToGoalError(true);
+    //   setHelperText('please select the option')
+    // }
+    // if(education == ''){
+    //   SeteducationError(true);
+    //   setHelperText('please select the option')
+    // }
+    // if(solution == ''){
+    //   SetsolutionError(true);
+    //   setHelperText('please select the option')
+    // }
+    // if(livelihoodvalue == ''){
+    //   SetlivelihoodvalueError(true);
+    //   setHelperText('please select the option')
+    // }
+    // if(sharelearning == ''){
+    //   SetsharelearningError(true);
+    //   setHelperText('please select the option')
+    // }
+    // if(problemsdisheartened == ''){
+    //   SetproblemsdisheartenedError(true);
+    //   setHelperText('please select the option')
+    // }
+    // if(failureperson == ''){
+    //   SetfailurepersonError(true);
+    //   setHelperText('please select the option')
+    // }
+    // if(expenditure == ''){
+    //   SetexpenditureError(true);
+    //   setHelperText('please select the option')
+    // }
+    // if(sendData?.accounts_for_Self_Enterprises == ''){
+    //   Setaccounts_for_Self_EnterprisesError(true);
+    //   setHelperText('please select the option')
+    // }
+    // if(savemoney == ''){
+    //   SetsavemoneyError(true);
+    //   setHelperText('please select the option')
+    // }
+    // if(purchase == ''){
+    //   SetpurchaseError(true);
+    //   setHelperText('please select the option')
+    // }
+    // if(checked['loanborrow'] == 0){
+    //   SetloanborrowError(true);
+    //   setHelperText('please select the option')
+    // }
+    // if(checked['borrowedmoney'] == 0){
+    //   SetborrowedmoneyError(true);
+    //   setHelperText('please select the option')
+    // }
+    if(!hasEmptyFields){
     setshaktidata(saveDataLocally('shaktiform',JSON.parse(data)));
      handleClose(); 
     }else{
@@ -1172,34 +1081,7 @@ useEffect(() => {
                 </Card>
                   </CardContent>
                 </Card>
-                <Card mt={1} style={{ marginTop: 10, borderRadius: 20 }}>
-  <CardContent>
-    <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
-      House/ಮನೆ:
-    </Typography>
-    <Stack mt={2} mb={2}>
-      <Select
-        color="common"
-        label="Choose House Type/ಮನೆ ಪ್ರಕಾರ"
-        variant="standard"
-        required
-        onChange={(e) => {
-           const selectedOption = houseOptions.find(option => option.id === e.target.value);
-          setSendData({ ...sendData, house: selectedOption.id, house_name: selectedOption?.name  });
        
-          console.log(selectedOption); }}
-        value={sendData?.house}
-      >
-        {/* Map the houseOptions to the dropdown */}
-        {houseOptions.map((itm) => (
-          <MenuItem key={itm.id} value={itm.id}>
-            {itm.name}
-          </MenuItem>
-        ))}
-      </Select>
-    </Stack>
-  </CardContent>
-</Card>
 <Card mt={1} style={{ marginTop: 10, borderRadius: 20 }}>
   <CardContent>
     <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
@@ -1243,12 +1125,42 @@ useEffect(() => {
                         required
                         onChange={(e) => {
                           const selectedOption = RoofOptions.find(option => option.id === e.target.value);
+                         setSendData({ ...sendData, roof: selectedOption.id, roof_name: selectedOption?.name  });
+                      
+                         console.log(selectedOption); }}
+                        value={sendData?.roof}
+                      >
+                       {RoofOptions.map((itm) => (
+          <MenuItem key={itm.id} value={itm.id}>
+            {itm.name}
+          </MenuItem>
+        ))}
+                      </Select>
+                    </Stack>
+                  </CardContent>
+                </Card>
+                <Card mt={1} style={{ marginTop: 10, borderRadius: 20 }}>
+                  <CardContent>
+                    <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+                    Ration card/ಪಡಿತರ ಚೀಟಿ: 
+ 
+ 
+
+                    </Typography>
+                    <Stack mt={2} mb={2}>
+                      <Select
+                        color="common"
+                        label="Choose  Ration card/ಪಡಿತರ ಚೀಟಿ:"
+                        variant="standard"
+                        required
+                        onChange={(e) => {
+                          const selectedOption = cardOptions.find(option => option.id === e.target.value);
                          setSendData({ ...sendData, ration_card: selectedOption.id, ration_card_name: selectedOption?.name  });
                       
                          console.log(selectedOption); }}
-                        value={sendData?.roofOptions}
+                        value={sendData?.ration_card}
                       >
-                       {RoofOptions.map((itm) => (
+                       {cardOptions.map((itm) => (
           <MenuItem key={itm.id} value={itm.id}>
             {itm.name}
           </MenuItem>
@@ -1285,6 +1197,26 @@ useEffect(() => {
     </Stack>
   </CardContent>
 </Card>
+<Card style={{ marginTop: 10, borderRadius: 20 }}>
+                  <CardContent>
+                    <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+                    Sub-caste name/ಉಪಜಾತಿ ಹೆಸರು
+
+                    </Typography>
+                    <Stack mt={2} mb={2}>
+                      <TextField
+                        id="grampanchayath"
+                        label="Your Answer"
+                        required
+                        onChange={(e) => {
+                          setSendData({ ...sendData, sub_cast_name: e?.target?.value });
+                        }}
+                        variant="outlined"
+                        color="common"
+                      />
+                    </Stack>
+                  </CardContent>
+                </Card>
 <Card mt={1} style={{ marginTop: 10, borderRadius: 20 }}>
   <CardContent>
     <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
@@ -1405,9 +1337,9 @@ useEffect(() => {
                         required
                         onChange={(e) => {
                           const selectedOption = occupationOptions.find(option => option.id === e.target.value);
-                         setSendData({ ...sendData, current_economic_activity_primary_occupation: selectedOption.id, current_economic_activity_primary_occupation_name: selectedOption?.name  });
+                         setSendData({ ...sendData, primary_occupation_of_the_household: selectedOption.id, primary_occupation_of_the_household_name: selectedOption?.name  });
                       
-                         console.log(selectedOption); }} value={sendData?.current_economic_activity_primary_occupation}
+                         console.log(selectedOption); }} value={sendData?.primary_occupation_of_the_household}
                       >
                        {/* Map the occupationOptions to the dropdown */}
         {occupationOptions.map((itm) => (
@@ -1434,11 +1366,11 @@ useEffect(() => {
                         required
                         onChange={(e) => {
                           const selectedOption = secondaryIncomeOptions.find(option => option.id === e.target.value);
-                         setSendData({ ...sendData, secondary_occupation_household: selectedOption.id, secondary_occupation_household_name: selectedOption?.name  });
+                         setSendData({ ...sendData, secondary_occupation_of_the_household: selectedOption.id, secondary_occupation_household_name: selectedOption?.name  });
                       
                          console.log(selectedOption); }}
                          
-                         value={sendData?.secondary_occupation_household}
+                         value={sendData?.secondary_occupation_of_the_household}
                       >
                                {secondaryIncomeOptions.map((itm) => (
           <MenuItem key={itm.id} value={itm.id}>
@@ -1489,9 +1421,9 @@ useEffect(() => {
                       <TextField
                         id="Email"
                         required
-                        label="Enter Email"
+                        label="Your answer"
                         onChange={(e) => {
-                          setSendData({ ...sendData, monthlyIncome: e?.target?.value });
+                          setSendData({ ...sendData, monthly_women_income: e?.target?.value });
                         }}
                         variant="outlined"
                         color="common"
@@ -1513,11 +1445,11 @@ useEffect(() => {
                         required
                         onChange={(e) => {
                           const selectedOption = workOptions.find(option => option.id === e.target.value);
-                         setSendData({ ...sendData, womens_occupation: selectedOption.id, womens_occupation_name: selectedOption?.name  });
+                         setSendData({ ...sendData, source_of_this_income: selectedOption.id, source_of_this_income_name: selectedOption?.name  });
                       
                          console.log(selectedOption); }}
                         
-                        value={sendData?.womens_occupation}
+                        value={sendData?.source_of_this_income}
                       >
                        {workOptions.map((itm) => (
           <MenuItem key={itm.id} value={itm.id}>
@@ -1541,9 +1473,9 @@ useEffect(() => {
                       <TextField
                         id="Email"
                         required
-                        label="Enter Email"
+                        label="Your answer"
                         onChange={(e) => {
-                          setSendData({ ...sendData, expenditure: e?.target?.value });
+                          setSendData({ ...sendData, monthly_household_expenditure: e?.target?.value });
                         }}
                         variant="outlined"
                         color="common"
@@ -1564,9 +1496,9 @@ useEffect(() => {
                       <TextField
                         id="Email"
                         required
-                        label="Enter Email"
+                        label="Your answer"
                         onChange={(e) => {
-                          setSendData({ ...sendData, income: e?.target?.value });
+                          setSendData({ ...sendData, monthly_household_income: e?.target?.value });
                         }}
                         variant="outlined"
                         color="common"
