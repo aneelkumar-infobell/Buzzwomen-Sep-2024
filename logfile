@@ -63,3 +63,11 @@
 2024/09/20 14:40:47 Error 1054 (42S22): Unknown column 'maintain_detailed_business_plan' in 'field list'
 2024/09/20 14:42:01 Error 1054 (42S22): Unknown column 'maintain_detailed_business_plan' in 'field list'
 2024/09/20 14:43:24 Recorded sucessfully
+2024/09/23 11:03:05 json: cannot unmarshal array into Go struct field GreenBaselineSurvey.if_yes_what_are_they of type string
+2024/09/23 11:04:49 json: cannot unmarshal array into Go struct field GreenBaselineSurvey.waste_categories_produced of type string
+2024/09/23 11:06:35 sql: expected 72 arguments, got 73
+2024/09/23 11:19:43 Error 1136 (21S01): Column count doesn't match value count at row 1
+2024/09/23 11:27:22 Recorded sucessfully
+2024/09/23 11:38:11 Recorded sucessfully
+2024/09/23 11:40:39 Recorded sucessfully
+2024/09/23 11:42:26 Error 1054 (42S22): Unknown column 'water_you_consume_safe' in 'field list'
