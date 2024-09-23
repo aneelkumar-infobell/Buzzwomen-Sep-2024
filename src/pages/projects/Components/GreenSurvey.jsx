@@ -20,9 +20,11 @@ import {
   CardActionArea,
   DialogContent,
   DialogContentText,
-  FormHelperText,Box,CircularProgress
+  FormHelperText,
+  Box,
+  CircularProgress,
 } from '@mui/material';
-import svgLogo from '../../../assets/form-line.svg'
+import svgLogo from '../../../assets/form-line.svg';
 import Dialog from '@mui/material/Dialog';
 import ListItemText from '@mui/material/ListItemText';
 import ListItem from '@mui/material/ListItem';
@@ -42,12 +44,15 @@ import products from 'src/_mock/products';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import Alert from '@mui/material/Alert';
-import { baseURL} from 'src/utils/api';
-import { useAuth } from 'src/AuthContext'; 
+import { baseURL } from 'src/utils/api';
+import { useAuth } from 'src/AuthContext';
+import TextInput from 'src/components/TextInput';
+import SelectInput from 'src/components/SelectInput';
+import { districtsOptions, house } from './GreenSurveySelectOptions';
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
- 
+
 export default function GreenSurvey(props) {
   const { apikey } = useAuth();
   const { state } = useLocation();
@@ -101,8 +106,8 @@ export default function GreenSurvey(props) {
   const [sendData, setSendData] = React.useState({
     Email: '',
     Name_of_the_surveyor: '',
-    Name_of_the_respondent: '',
-    Village_Name: '',
+    name_of_the_respondent: '',
+    village_name: '',
     Phone_number: '',
     natural_resources: '',
     natural_resources_impacting_your_life: '',
@@ -149,11 +154,10 @@ export default function GreenSurvey(props) {
   const handleClickOpen = () => {
     setOpen(true);
     setLoader(true);
-
   };
   const handleClose = () => {
     setOpen(false);
-    setIsFormPresentLocally(false)
+    setIsFormPresentLocally(false);
   };
 
   const [helperText, setHelperText] = useState('');
@@ -183,36 +187,35 @@ export default function GreenSurvey(props) {
   // Save data to local storage
 
   const saveDataLocally = (key, data) => {
- 
-      const existingData = localStorage.getItem('green');
-      const parsedData = existingData ? JSON.parse(existingData) : [];
-      const newData = { ...data}; // Replace with your own data object
-      parsedData.push(newData);
-      const updatedData = JSON.stringify(parsedData);
-      localStorage.setItem('green', updatedData);
-      props?.componentreloadmethod()
+    const existingData = localStorage.getItem('green');
+    const parsedData = existingData ? JSON.parse(existingData) : [];
+    const newData = { ...data }; // Replace with your own data object
+    parsedData.push(newData);
+    const updatedData = JSON.stringify(parsedData);
+    localStorage.setItem('green', updatedData);
+    props?.componentreloadmethod();
     // localStorage.setItem(key, JSON.stringify(data));
   };
-  const [isFormPresentLocally ,setIsFormPresentLocally] =useState(false)
+  const [isFormPresentLocally, setIsFormPresentLocally] = useState(false);
   const localStorageData = localStorage.getItem('green');
-useEffect(()=>{
-  const existingData = localStorage.getItem('green');
-      const parsedData = existingData ? JSON.parse(existingData) : [];
-      if(parsedData?.length){
-        parsedData.map(item=>{
-          if(item?.partcipantId===props?.itm?.id || item?.partcipantId===props?.itm.gelathi_id){
-            setSendData(item);
-            setIsFormPresentLocally(true)
-            setwealth(item?.Natural_Wealth)
-          }
-        })
-      }
-},[])
+  useEffect(() => {
+    const existingData = localStorage.getItem('green');
+    const parsedData = existingData ? JSON.parse(existingData) : [];
+    if (parsedData?.length) {
+      parsedData.map((item) => {
+        if (item?.partcipantId === props?.itm?.id || item?.partcipantId === props?.itm.gelathi_id) {
+          setSendData(item);
+          setIsFormPresentLocally(true);
+          setwealth(item?.Natural_Wealth);
+        }
+      });
+    }
+  }, []);
 
   // Get data from local storage
-  const data1 = localStorage.getItem("green");
+  const data1 = localStorage.getItem('green');
   const getDataLocally = (key) => {
-    const data = localStorage.getItem("green");
+    const data = localStorage.getItem('green');
 
     return data ? JSON.parse(data) : null;
   };
@@ -229,8 +232,6 @@ useEffect(()=>{
       return false;
     }
   };
-
-
 
   const wealthvalue = (event) => {
     setwealth(event.target.value);
@@ -367,14 +368,14 @@ useEffect(()=>{
   };
 
   const greensurveyformdata = async () => {
-  var  data = {}
+    var data = {};
 
-  data = JSON.stringify({
+    data = JSON.stringify({
       partcipantId: JSON.stringify(props?.itm?.id) || JSON.stringify(props?.itm.gelathi_id),
       Email: sendData?.Email,
       Name_of_the_surveyor: sendData?.Name_of_the_surveyor,
-      Name_of_the_respondent: sendData?.Name_of_the_respondent,
-      Village_Name: sendData?.Village_Name,
+      name_of_the_respondent: sendData?.name_of_the_respondent,
+      village_name: sendData?.village_name,
       Phone_number: sendData?.Phone_number,
       natural_resources: checked['natural_resources'],
       natural_resources_impacting_your_life: checked['natural_resources_impacting_your_life'],
@@ -396,8 +397,7 @@ useEffect(()=>{
       gifting_his_6_acres_land_to_children: land,
       Which_one_according_to_you_is_right: trees,
       believe_connection_between_the_food_health_climate: foodconnection,
-      native_food_you_believe_is_envionmentally_friendly:
-        sendData?.native_food_you_believe_is_envionmentally_friendly,
+      native_food_you_believe_is_envionmentally_friendly: sendData?.native_food_you_believe_is_envionmentally_friendly,
       household_activity_pollutes_natural_resources: householdactivity,
       alternatives_household_materials_cause_pollution: pollutioncause,
       If_yes_what_are_they: sendData?.If_yes_what_are_they,
@@ -562,19 +562,16 @@ useEffect(()=>{
         checked['main_source_of_water'] != 0 &&
         communitytogether != ''
       ) {
-       
-
         if (localStorage.getItem('green')) {
           data = setGreenForm(saveDataLocally('green', JSON.parse(data)));
           setGreenForm(data);
-        } 
-        else {
+        } else {
           data = JSON.stringify({
-            partcipantId: JSON.stringify(props?.itm?.id)|| JSON.stringify(props?.itm.gelathi_id),
+            partcipantId: JSON.stringify(props?.itm?.id) || JSON.stringify(props?.itm.gelathi_id),
             Email: sendData?.Email,
             Name_of_the_surveyor: sendData?.Name_of_the_surveyor,
-            Name_of_the_respondent: sendData?.Name_of_the_respondent,
-            Village_Name: sendData?.Village_Name,
+            name_of_the_respondent: sendData?.name_of_the_respondent,
+            village_name: sendData?.village_name,
             Phone_number: sendData?.Phone_number,
             natural_resources: checked['natural_resources'],
             natural_resources_impacting_your_life: checked['natural_resources_impacting_your_life'],
@@ -621,14 +618,14 @@ useEffect(()=>{
           url: baseURL + 'addGreenBaselineSurvey',
           headers: {
             'Content-Type': 'application/json',
-             'Authorization': `${apikey}`
+            Authorization: `${apikey}`,
           },
           data: data,
         };
 
         axios(config)
           .then(function (response) {
-            console.log(response,"responseeeegreen")
+            console.log(response, 'responseeeegreen');
             props?.changeState();
             props?.mainDrawerReload();
             setgreensurveyform(response?.data);
@@ -643,12 +640,14 @@ useEffect(()=>{
               timer: 3000,
             });
             handleClose();
-          
+
             // props.enrolledGreenMotivators();
           })
 
           .catch(function (error) {
-            {console.log(data,"responseeeegreen",error)}
+            {
+              console.log(data, 'responseeeegreen', error);
+            }
             setGreenForm(saveDataLocally('green', data));
             props?.mainDrawerReload();
           });
@@ -663,9 +662,7 @@ useEffect(()=>{
       } else {
         alert('Please Fill All The Fields');
       }
-    } 
-    
-    else {
+    } else {
       let validationSchema = [
         {
           field: wealth,
@@ -813,15 +810,14 @@ useEffect(()=>{
         checked['main_source_of_water'] != 0 &&
         communitytogether != ''
       ) {
-       
-        {isOnline()?setGreenForm(data):setGreenForm(saveDataLocally('green', JSON.parse(data)))};
+        {
+          isOnline() ? setGreenForm(data) : setGreenForm(saveDataLocally('green', JSON.parse(data)));
+        }
         handleClose();
         props?.mainDrawerReload();
-        }
-        else{
-          alert("Please Select the option")
-        }
-     
+      } else {
+        alert('Please Select the option');
+      }
     }
   };
   const [loader, setLoader] = useState(true);
@@ -831,41 +827,189 @@ useEffect(()=>{
     const timeoutId = setTimeout(() => {
       setLoader(false);
     }, delay);
-  })
-
-
+  });
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setSendData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+  
   return (
     <div>
-     {(isOnline())?
-      <Stack style={{ position: 'absolute', right: 0, float: 'right' }} mb={2}>
-        {!props?.itm?.is_green_survey ? (
-          <button onClick={handleClickOpen} style={{border: 'none',marginRight:6, outline: 'none', background: 'transparent', cursor: 'pointer'}}>
-          <svg xmlns="http://www.w3.org/2000/svg" color="#ff7424" width="1.5em" height="1.5em" viewBox="0 0 36 36"><path fill="currentColor" d="M21 12H7a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1ZM8 10h12V7.94H8Z" class="clr-i-outline clr-i-outline-path-1"/><path fill="currentColor" d="M21 14.08H7a1 1 0 0 0-1 1V19a1 1 0 0 0 1 1h11.36L22 16.3v-1.22a1 1 0 0 0-1-1ZM20 18H8v-2h12Z" class="clr-i-outline clr-i-outline-path-2"/><path fill="currentColor" d="M11.06 31.51v-.06l.32-1.39H4V4h20v10.25l2-1.89V3a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v28a1 1 0 0 0 1 1h8a3.44 3.44 0 0 1 .06-.49Z" class="clr-i-outline clr-i-outline-path-3"/><path fill="currentColor" d="m22 19.17l-.78.79a1 1 0 0 0 .78-.79Z" class="clr-i-outline clr-i-outline-path-4"/><path fill="currentColor" d="M6 26.94a1 1 0 0 0 1 1h4.84l.3-1.3l.13-.55v-.05H8V24h6.34l2-2H7a1 1 0 0 0-1 1Z" class="clr-i-outline clr-i-outline-path-5"/><path fill="currentColor" d="m33.49 16.67l-3.37-3.37a1.61 1.61 0 0 0-2.28 0L14.13 27.09L13 31.9a1.61 1.61 0 0 0 1.26 1.9a1.55 1.55 0 0 0 .31 0a1.15 1.15 0 0 0 .37 0l4.85-1.07L33.49 19a1.6 1.6 0 0 0 0-2.27ZM18.77 30.91l-3.66.81l.89-3.63L26.28 17.7l2.82 2.82Zm11.46-11.52l-2.82-2.82L29 15l2.84 2.84Z" class="clr-i-outline clr-i-outline-path-6"/><path fill="none" d="M0 0h36v36H0z"/></svg>
-          </button>
-        ) : (
-          <button onClick={handleform} style={{border: 'none',marginRight:6, outline: 'none', background: 'transparent', cursor: 'pointer'}}>
-           <svg xmlns="http://www.w3.org/2000/svg" color="green" width="1.5em" height="1.5em" viewBox="0 0 36 36"><path fill="currentColor" d="M21 12H7a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1ZM8 10h12V7.94H8Z" class="clr-i-outline clr-i-outline-path-1"/><path fill="currentColor" d="M21 14.08H7a1 1 0 0 0-1 1V19a1 1 0 0 0 1 1h11.36L22 16.3v-1.22a1 1 0 0 0-1-1ZM20 18H8v-2h12Z" class="clr-i-outline clr-i-outline-path-2"/><path fill="currentColor" d="M11.06 31.51v-.06l.32-1.39H4V4h20v10.25l2-1.89V3a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v28a1 1 0 0 0 1 1h8a3.44 3.44 0 0 1 .06-.49Z" class="clr-i-outline clr-i-outline-path-3"/><path fill="currentColor" d="m22 19.17l-.78.79a1 1 0 0 0 .78-.79Z" class="clr-i-outline clr-i-outline-path-4"/><path fill="currentColor" d="M6 26.94a1 1 0 0 0 1 1h4.84l.3-1.3l.13-.55v-.05H8V24h6.34l2-2H7a1 1 0 0 0-1 1Z" class="clr-i-outline clr-i-outline-path-5"/><path fill="currentColor" d="m33.49 16.67l-3.37-3.37a1.61 1.61 0 0 0-2.28 0L14.13 27.09L13 31.9a1.61 1.61 0 0 0 1.26 1.9a1.55 1.55 0 0 0 .31 0a1.15 1.15 0 0 0 .37 0l4.85-1.07L33.49 19a1.6 1.6 0 0 0 0-2.27ZM18.77 30.91l-3.66.81l.89-3.63L26.28 17.7l2.82 2.82Zm11.46-11.52l-2.82-2.82L29 15l2.84 2.84Z" class="clr-i-outline clr-i-outline-path-6"/><path fill="none" d="M0 0h36v36H0z"/></svg>
-          </button>
-        )}
-      </Stack>:
-       <Stack style={{ position: 'absolute', right: 0, float: 'right' }} mb={2}>
-        {!props?.itm?.is_green_survey ? (
-          // <IconButton onClick={handleClickOpen}>
-          //   <Icon icon="clarity:form-line" width={20} height={20} marginTop={20}  color="#ff7424" />
-          // </IconButton>
-          <button onClick={handleClickOpen} style={{border: 'none', outline: 'none', background: 'transparent', cursor: 'pointer'}}> 
-          <svg xmlns="http://www.w3.org/2000/svg" color="#ff7424" width="1.5em" height="1.5em" viewBox="0 0 36 36"><path fill="currentColor" d="M21 12H7a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1ZM8 10h12V7.94H8Z" class="clr-i-outline clr-i-outline-path-1"/><path fill="currentColor" d="M21 14.08H7a1 1 0 0 0-1 1V19a1 1 0 0 0 1 1h11.36L22 16.3v-1.22a1 1 0 0 0-1-1ZM20 18H8v-2h12Z" class="clr-i-outline clr-i-outline-path-2"/><path fill="currentColor" d="M11.06 31.51v-.06l.32-1.39H4V4h20v10.25l2-1.89V3a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v28a1 1 0 0 0 1 1h8a3.44 3.44 0 0 1 .06-.49Z" class="clr-i-outline clr-i-outline-path-3"/><path fill="currentColor" d="m22 19.17l-.78.79a1 1 0 0 0 .78-.79Z" class="clr-i-outline clr-i-outline-path-4"/><path fill="currentColor" d="M6 26.94a1 1 0 0 0 1 1h4.84l.3-1.3l.13-.55v-.05H8V24h6.34l2-2H7a1 1 0 0 0-1 1Z" class="clr-i-outline clr-i-outline-path-5"/><path fill="currentColor" d="m33.49 16.67l-3.37-3.37a1.61 1.61 0 0 0-2.28 0L14.13 27.09L13 31.9a1.61 1.61 0 0 0 1.26 1.9a1.55 1.55 0 0 0 .31 0a1.15 1.15 0 0 0 .37 0l4.85-1.07L33.49 19a1.6 1.6 0 0 0 0-2.27ZM18.77 30.91l-3.66.81l.89-3.63L26.28 17.7l2.82 2.82Zm11.46-11.52l-2.82-2.82L29 15l2.84 2.84Z" class="clr-i-outline clr-i-outline-path-6"/><path fill="none" d="M0 0h36v36H0z"/></svg>
-          {/* <img src={svgLogo} width={36} height={36}/>  */}
-          </button>
-
-        ) : (
-          // <IconButton onClick={handleform}>
-          //   <Icon icon="charm:notes-tick" width={20} height={20} marginTop={20} color="green" />
-          // </IconButton>
-          <button onClick={handleform} style={{ border: 'none', outline: 'none', background: 'transparent', cursor: 'pointer'}}>
-          <svg xmlns="http://www.w3.org/2000/svg" color="green" width="1.5em" height="1.5em" viewBox="0 0 36 36"><path fill="currentColor" d="M21 12H7a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1ZM8 10h12V7.94H8Z" class="clr-i-outline clr-i-outline-path-1"/><path fill="currentColor" d="M21 14.08H7a1 1 0 0 0-1 1V19a1 1 0 0 0 1 1h11.36L22 16.3v-1.22a1 1 0 0 0-1-1ZM20 18H8v-2h12Z" class="clr-i-outline clr-i-outline-path-2"/><path fill="currentColor" d="M11.06 31.51v-.06l.32-1.39H4V4h20v10.25l2-1.89V3a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v28a1 1 0 0 0 1 1h8a3.44 3.44 0 0 1 .06-.49Z" class="clr-i-outline clr-i-outline-path-3"/><path fill="currentColor" d="m22 19.17l-.78.79a1 1 0 0 0 .78-.79Z" class="clr-i-outline clr-i-outline-path-4"/><path fill="currentColor" d="M6 26.94a1 1 0 0 0 1 1h4.84l.3-1.3l.13-.55v-.05H8V24h6.34l2-2H7a1 1 0 0 0-1 1Z" class="clr-i-outline clr-i-outline-path-5"/><path fill="currentColor" d="m33.49 16.67l-3.37-3.37a1.61 1.61 0 0 0-2.28 0L14.13 27.09L13 31.9a1.61 1.61 0 0 0 1.26 1.9a1.55 1.55 0 0 0 .31 0a1.15 1.15 0 0 0 .37 0l4.85-1.07L33.49 19a1.6 1.6 0 0 0 0-2.27ZM18.77 30.91l-3.66.81l.89-3.63L26.28 17.7l2.82 2.82Zm11.46-11.52l-2.82-2.82L29 15l2.84 2.84Z" class="clr-i-outline clr-i-outline-path-6"/><path fill="none" d="M0 0h36v36H0z"/></svg>
-         </button>
-        )}</Stack>}
+      {isOnline() ? (
+        <Stack style={{ position: 'absolute', right: 0, float: 'right' }} mb={2}>
+          {!props?.itm?.is_green_survey ? (
+            <button
+              onClick={handleClickOpen}
+              style={{ border: 'none', marginRight: 6, outline: 'none', background: 'transparent', cursor: 'pointer' }}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" color="#ff7424" width="1.5em" height="1.5em" viewBox="0 0 36 36">
+                <path
+                  fill="currentColor"
+                  d="M21 12H7a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1ZM8 10h12V7.94H8Z"
+                  class="clr-i-outline clr-i-outline-path-1"
+                />
+                <path
+                  fill="currentColor"
+                  d="M21 14.08H7a1 1 0 0 0-1 1V19a1 1 0 0 0 1 1h11.36L22 16.3v-1.22a1 1 0 0 0-1-1ZM20 18H8v-2h12Z"
+                  class="clr-i-outline clr-i-outline-path-2"
+                />
+                <path
+                  fill="currentColor"
+                  d="M11.06 31.51v-.06l.32-1.39H4V4h20v10.25l2-1.89V3a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v28a1 1 0 0 0 1 1h8a3.44 3.44 0 0 1 .06-.49Z"
+                  class="clr-i-outline clr-i-outline-path-3"
+                />
+                <path
+                  fill="currentColor"
+                  d="m22 19.17l-.78.79a1 1 0 0 0 .78-.79Z"
+                  class="clr-i-outline clr-i-outline-path-4"
+                />
+                <path
+                  fill="currentColor"
+                  d="M6 26.94a1 1 0 0 0 1 1h4.84l.3-1.3l.13-.55v-.05H8V24h6.34l2-2H7a1 1 0 0 0-1 1Z"
+                  class="clr-i-outline clr-i-outline-path-5"
+                />
+                <path
+                  fill="currentColor"
+                  d="m33.49 16.67l-3.37-3.37a1.61 1.61 0 0 0-2.28 0L14.13 27.09L13 31.9a1.61 1.61 0 0 0 1.26 1.9a1.55 1.55 0 0 0 .31 0a1.15 1.15 0 0 0 .37 0l4.85-1.07L33.49 19a1.6 1.6 0 0 0 0-2.27ZM18.77 30.91l-3.66.81l.89-3.63L26.28 17.7l2.82 2.82Zm11.46-11.52l-2.82-2.82L29 15l2.84 2.84Z"
+                  class="clr-i-outline clr-i-outline-path-6"
+                />
+                <path fill="none" d="M0 0h36v36H0z" />
+              </svg>
+            </button>
+          ) : (
+            <button
+              onClick={handleform}
+              style={{ border: 'none', marginRight: 6, outline: 'none', background: 'transparent', cursor: 'pointer' }}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" color="green" width="1.5em" height="1.5em" viewBox="0 0 36 36">
+                <path
+                  fill="currentColor"
+                  d="M21 12H7a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1ZM8 10h12V7.94H8Z"
+                  class="clr-i-outline clr-i-outline-path-1"
+                />
+                <path
+                  fill="currentColor"
+                  d="M21 14.08H7a1 1 0 0 0-1 1V19a1 1 0 0 0 1 1h11.36L22 16.3v-1.22a1 1 0 0 0-1-1ZM20 18H8v-2h12Z"
+                  class="clr-i-outline clr-i-outline-path-2"
+                />
+                <path
+                  fill="currentColor"
+                  d="M11.06 31.51v-.06l.32-1.39H4V4h20v10.25l2-1.89V3a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v28a1 1 0 0 0 1 1h8a3.44 3.44 0 0 1 .06-.49Z"
+                  class="clr-i-outline clr-i-outline-path-3"
+                />
+                <path
+                  fill="currentColor"
+                  d="m22 19.17l-.78.79a1 1 0 0 0 .78-.79Z"
+                  class="clr-i-outline clr-i-outline-path-4"
+                />
+                <path
+                  fill="currentColor"
+                  d="M6 26.94a1 1 0 0 0 1 1h4.84l.3-1.3l.13-.55v-.05H8V24h6.34l2-2H7a1 1 0 0 0-1 1Z"
+                  class="clr-i-outline clr-i-outline-path-5"
+                />
+                <path
+                  fill="currentColor"
+                  d="m33.49 16.67l-3.37-3.37a1.61 1.61 0 0 0-2.28 0L14.13 27.09L13 31.9a1.61 1.61 0 0 0 1.26 1.9a1.55 1.55 0 0 0 .31 0a1.15 1.15 0 0 0 .37 0l4.85-1.07L33.49 19a1.6 1.6 0 0 0 0-2.27ZM18.77 30.91l-3.66.81l.89-3.63L26.28 17.7l2.82 2.82Zm11.46-11.52l-2.82-2.82L29 15l2.84 2.84Z"
+                  class="clr-i-outline clr-i-outline-path-6"
+                />
+                <path fill="none" d="M0 0h36v36H0z" />
+              </svg>
+            </button>
+          )}
+        </Stack>
+      ) : (
+        <Stack style={{ position: 'absolute', right: 0, float: 'right' }} mb={2}>
+          {!props?.itm?.is_green_survey ? (
+            // <IconButton onClick={handleClickOpen}>
+            //   <Icon icon="clarity:form-line" width={20} height={20} marginTop={20}  color="#ff7424" />
+            // </IconButton>
+            <button
+              onClick={handleClickOpen}
+              style={{ border: 'none', outline: 'none', background: 'transparent', cursor: 'pointer' }}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" color="#ff7424" width="1.5em" height="1.5em" viewBox="0 0 36 36">
+                <path
+                  fill="currentColor"
+                  d="M21 12H7a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1ZM8 10h12V7.94H8Z"
+                  class="clr-i-outline clr-i-outline-path-1"
+                />
+                <path
+                  fill="currentColor"
+                  d="M21 14.08H7a1 1 0 0 0-1 1V19a1 1 0 0 0 1 1h11.36L22 16.3v-1.22a1 1 0 0 0-1-1ZM20 18H8v-2h12Z"
+                  class="clr-i-outline clr-i-outline-path-2"
+                />
+                <path
+                  fill="currentColor"
+                  d="M11.06 31.51v-.06l.32-1.39H4V4h20v10.25l2-1.89V3a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v28a1 1 0 0 0 1 1h8a3.44 3.44 0 0 1 .06-.49Z"
+                  class="clr-i-outline clr-i-outline-path-3"
+                />
+                <path
+                  fill="currentColor"
+                  d="m22 19.17l-.78.79a1 1 0 0 0 .78-.79Z"
+                  class="clr-i-outline clr-i-outline-path-4"
+                />
+                <path
+                  fill="currentColor"
+                  d="M6 26.94a1 1 0 0 0 1 1h4.84l.3-1.3l.13-.55v-.05H8V24h6.34l2-2H7a1 1 0 0 0-1 1Z"
+                  class="clr-i-outline clr-i-outline-path-5"
+                />
+                <path
+                  fill="currentColor"
+                  d="m33.49 16.67l-3.37-3.37a1.61 1.61 0 0 0-2.28 0L14.13 27.09L13 31.9a1.61 1.61 0 0 0 1.26 1.9a1.55 1.55 0 0 0 .31 0a1.15 1.15 0 0 0 .37 0l4.85-1.07L33.49 19a1.6 1.6 0 0 0 0-2.27ZM18.77 30.91l-3.66.81l.89-3.63L26.28 17.7l2.82 2.82Zm11.46-11.52l-2.82-2.82L29 15l2.84 2.84Z"
+                  class="clr-i-outline clr-i-outline-path-6"
+                />
+                <path fill="none" d="M0 0h36v36H0z" />
+              </svg>
+              {/* <img src={svgLogo} width={36} height={36}/>  */}
+            </button>
+          ) : (
+            // <IconButton onClick={handleform}>
+            //   <Icon icon="charm:notes-tick" width={20} height={20} marginTop={20} color="green" />
+            // </IconButton>
+            <button
+              onClick={handleform}
+              style={{ border: 'none', outline: 'none', background: 'transparent', cursor: 'pointer' }}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" color="green" width="1.5em" height="1.5em" viewBox="0 0 36 36">
+                <path
+                  fill="currentColor"
+                  d="M21 12H7a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1ZM8 10h12V7.94H8Z"
+                  class="clr-i-outline clr-i-outline-path-1"
+                />
+                <path
+                  fill="currentColor"
+                  d="M21 14.08H7a1 1 0 0 0-1 1V19a1 1 0 0 0 1 1h11.36L22 16.3v-1.22a1 1 0 0 0-1-1ZM20 18H8v-2h12Z"
+                  class="clr-i-outline clr-i-outline-path-2"
+                />
+                <path
+                  fill="currentColor"
+                  d="M11.06 31.51v-.06l.32-1.39H4V4h20v10.25l2-1.89V3a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v28a1 1 0 0 0 1 1h8a3.44 3.44 0 0 1 .06-.49Z"
+                  class="clr-i-outline clr-i-outline-path-3"
+                />
+                <path
+                  fill="currentColor"
+                  d="m22 19.17l-.78.79a1 1 0 0 0 .78-.79Z"
+                  class="clr-i-outline clr-i-outline-path-4"
+                />
+                <path
+                  fill="currentColor"
+                  d="M6 26.94a1 1 0 0 0 1 1h4.84l.3-1.3l.13-.55v-.05H8V24h6.34l2-2H7a1 1 0 0 0-1 1Z"
+                  class="clr-i-outline clr-i-outline-path-5"
+                />
+                <path
+                  fill="currentColor"
+                  d="m33.49 16.67l-3.37-3.37a1.61 1.61 0 0 0-2.28 0L14.13 27.09L13 31.9a1.61 1.61 0 0 0 1.26 1.9a1.55 1.55 0 0 0 .31 0a1.15 1.15 0 0 0 .37 0l4.85-1.07L33.49 19a1.6 1.6 0 0 0 0-2.27ZM18.77 30.91l-3.66.81l.89-3.63L26.28 17.7l2.82 2.82Zm11.46-11.52l-2.82-2.82L29 15l2.84 2.84Z"
+                  class="clr-i-outline clr-i-outline-path-6"
+                />
+                <path fill="none" d="M0 0h36v36H0z" />
+              </svg>
+            </button>
+          )}
+        </Stack>
+      )}
 
       <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>
         <form
@@ -877,1053 +1021,915 @@ useEffect(()=>{
           <AppBar sx={{ position: 'fixed', bgcolor: '#ff7424' }}>
             <Toolbar sx={{ bgcolor: '#ff7424', color: 'white' }}>
               <IconButton style={{ color: 'white' }} onClick={handleClose}>
-              {(isOnline())? <Iconify icon="material-symbols:arrow-back-rounded" />:<div style={{borderRadius:5}}>🡠</div>}
-               </IconButton>
+                {isOnline() ? (
+                  <Iconify icon="material-symbols:arrow-back-rounded" />
+                ) : (
+                  <div style={{ borderRadius: 5 }}>🡠</div>
+                )}
+              </IconButton>
               <Typography sx={{ ml: 2, flex: 1, color: 'inherit' }} variant="h6" component="div">
                 Green Baseline Survey
               </Typography>
               <Button autoFocus edge="end" color="inherit" type="submit">
-              {(isOnline())? <Iconify icon="material-symbols:save" width={30} height={30} />:"Save"}
-             
+                {isOnline() ? <Iconify icon="material-symbols:save" width={30} height={30} /> : 'Save'}
               </Button>
             </Toolbar>
           </AppBar>
 
-        {(isFormPresentLocally)?
-       <Typography sx={{ ml: 2, flex: 1, color: 'inherit' }} variant="h6" component="div">
-       This Form is Filled!
-     </Typography>
-       :
-       (loader)? 
-         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '70vh' }}>
-               <CircularProgress sx={{color:'#ff7424'}}/>
-          </Box>
-        :<Grid>
-            <Card>
-              <CardContent>
-                <Card mt={1} style={{ backgroundColor: '#F6F8FB', marginTop: 50 }}>
-                  <CardContent>
-                    <Typography style={{ color: '#ff7424' }}>Email *</Typography>
-                    <Stack mt={2} mb={2}>
-                      <TextField
-                        id="Email"
-                        label="Enter Email"
+          {isFormPresentLocally ? (
+            <Typography sx={{ ml: 2, flex: 1, color: 'inherit' }} variant="h6" component="div">
+              This Form is Filled!
+            </Typography>
+          ) : loader ? (
+            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '70vh' }}>
+              <CircularProgress sx={{ color: '#ff7424' }} />
+            </Box>
+          ) : (
+            <Grid>
+              <Card>
+                <CardContent>
+                  <Card mt={1} style={{ backgroundColor: '#F6F8FB', marginTop: 50 }}>
+                    <CardContent>
+                      <TextInput
+                        id="name_of_respondent"
+                        label="Name of respondent"
+                        required
+                        name="name_of_the_respondent"
+                        onChange={handleInputChange}
+                        value={sendData?.name_of_the_respondent}
+                      />
+                      <TextInput
+                        id="green_motivator_name"
+                        label="Green Motivator name"
+                        kannadaLabel="ಹಸಿರು ಪ್ರೇರಕಿಯ ಹೆಸರು"
                         required
                         type="email"
-                        variant="outlined"
-                        color="common"
-                        onChange={(e) => setSendData({ ...sendData, Email: e?.target?.value })}
-                        value={sendData?.Email}
+                        name="green_motivator_name"
+                        onChange={handleInputChange}
+                        value={sendData?.green_motivator_name}
                       />
-                    </Stack>
-                    <Typography style={{ color: '#ff7424' }}>Name of surveyor *</Typography>
-                    <Stack mt={2} mb={2}>
-                      <TextField
-                        id="Answer"
-                        label="Your Answer"
+                      <SelectInput
+                        id="districts_name"
+                        name="districts_name"
+                        label="Districts name"
+                        kannadaLabel="ಜಿಲ್ಲೆಗಳ ಹೆಸರು"
                         required
-                        variant="outlined"
-                        color="common"
-                        onChange={(e) => setSendData({ ...sendData, Name_of_the_surveyor: e?.target?.value })}
-                        value={sendData?.Name_of_the_surveyor}
+                        onChange={handleInputChange}
+                        value={sendData?.districts_name}
+                        options={districtsOptions}
                       />
-                    </Stack>
-
-                    <Typography style={{ color: '#ff7424' }}>Name of respondent *</Typography>
-                    <Stack mt={2} mb={2}>
-                      <TextField
-                        id="Answer"
-                        label="Your Answer"
+                      <TextInput
+                        id="taluks_name"
+                        label="Taluks namee"
+                        kannadaLabel="ತಾಲೂಕು ಹೆಸರು"
                         required
-                        variant="outlined"
-                        color="common"
-                        onChange={(e) => setSendData({ ...sendData, Name_of_the_respondent: e?.target?.value })}
-                        value={sendData?.Name_of_the_respondent}
+                        type="email"
+                        name="taluks_name"
+                        onChange={handleInputChange}
+                        value={sendData?.taluks_name}
                       />
-                    </Stack>
-
-                    <Typography style={{ color: '#ff7424' }}>Village Name *</Typography>
-                    <Stack mt={2} mb={2}>
-                      <TextField
-                        id="Village"
-                        label="Village Name"
+                      <TextInput
+                        id="panchayat_name"
+                        label="Panchayat namee"
+                        kannadaLabel="ಪಂಚಾಯತ್ ಹೆಸರು"
                         required
-                        variant="outlined"
-                        color="common"
-                        onChange={(e) => setSendData({ ...sendData, Village_Name: e?.target?.value })}
-                        value={sendData?.Village_Name}
+                        type="email"
+                        name="panchayat_name"
+                        onChange={handleInputChange}
+                        value={sendData?.panchayat_name}
                       />
-                    </Stack>
+                      <TextInput
+                        id="village_name"
+                        label="Village namee"
+                        kannadaLabel="ಗ್ರಾಮದ ಹೆಸರು"
+                        required
+                        type="email"
+                        name="village_name"
+                        onChange={handleInputChange}
+                        value={sendData?.village_name}
+                      />
 
-                    <Typography style={{ color: '#ff7424' }}>Phone Number *</Typography>
-                    <Stack mt={2} mb={2}>
-                      <TextField
-                        id="Phone Number"
+                      <TextInput
+                        id="total_number_of_members_in_your_household_adult"
+                        name="total_number_of_members_in_your_household_adult"
+                        label="Total number of members in your household (adult)"
+                        kannadaLabel="ನಿಮ್ಮ ಮನೆಯ ಸದಸ್ಯರ ಒಟ್ಟು ಸಂಖ್ಯೆ"
                         type="number"
                         required
-                        inputProps={{ inputMode: 'numeric', pattern: '[0-9]*', maxLength: 10 }}
-                        label="Phone Number"
-                        variant="outlined"
-                        color="common"
-                        onChange={(e) => {
-                          if (e.target.value.length <= 10) {
-                            setSendData({ ...sendData, Phone_number: e?.target?.value });
-                          }
-                        }}
-                        value={sendData?.Phone_number}
+                        inputProps={{ inputMode: 'numeric', pattern: '[0-9]*', maxLength: 2 }}
+                        placeholder="Number of members"
+                        onChange={handleInputChange}
+                        value={sendData.total_number_of_members_in_your_household_adult}
                       />
-                    </Stack>
-                  </CardContent>
-                </Card>
-                <Card style={{ marginTop: 40, backgroundColor: '#F6F8FB', borderRadius: 20 }}>
-                  <CardContent>
-                    <Typography style={{ color: '#ff7424' }}>
-                      Which of the following are natural resources? / ಕೆಳಗಿನವುಗಳಲ್ಲಿ ಯಾವುದು ನೈಸರ್ಗಿಕ ಸಂಪನ್ಮೂಲಗಳು? *
-                    </Typography>
-                   
-               
-                   
-                    <Stack mt={2}>
-                      <FormGroup>
-                        <FormControlLabel
-                          value="Soil/ಮಣ್ಣು"
-                          control={<Checkbox style={{ color: '#595959' }} />}
-                          label="Soil/ಮಣ್ಣು"
-                          onChange={(event) => handleresources('natural_resources', event)}
-                        />
-                        <FormControlLabel
-                          value="Water/ನೀರು"
-                          control={<Checkbox style={{ color: '#595959' }} />}
-                          label="Water/ನೀರು"
-                          onChange={(event) => handleresources('natural_resources', event)}
-                        />
-                        <FormControlLabel
-                          value="MotorCycle/ಮೋಟಾರ್ ಸೈಕಲ್"
-                          control={<Checkbox style={{ color: '#595959' }} />}
-                          label="MotorCycle/ಮೋಟಾರ್ ಸೈಕಲ್"
-                          onChange={(event) => handleresources('natural_resources', event)}
-                        />
-                        <FormControlLabel
-                          value="Money/ಹಣ"
-                          control={<Checkbox style={{ color: '#595959' }} />}
-                          label="Money/ಹಣ"
-                          onChange={(event) => handleresources('natural_resources', event)}
-                        />
-                        <FormControlLabel
-                          value="Trees/ಮರ"
-                          control={<Checkbox style={{ color: '#595959' }} />}
-                          label="Trees/ಮರ"
-                          onChange={(event) => handleresources('natural_resources', event)}
-                        />
-                        <FormControlLabel
-                          value="Borewell/ಬೋರ್ವೆಲ್"
-                          control={<Checkbox style={{ color: '#595959' }} />}
-                          label="Borewell/ಬೋರ್ವೆಲ್"
-                          onChange={(event) => handleresources('natural_resources', event)}
-                        />
-                        <FormControlLabel
-                          value="House/ಮನೆ"
-                          control={<Checkbox style={{ color: '#595959' }} />}
-                          label="House/ಮನೆ"
-                          onChange={(event) => handleresources('natural_resources', event)}
-                        />
-                      </FormGroup>
-                    </Stack>
-                  </CardContent>
-                </Card>
-                <Card style={{ marginTop: 40, backgroundColor: '#F6F8FB', borderRadius: 20 }}>
-                  <CardContent>
-                    <Typography style={{ color: '#ff7424' }}>
-                      How is change in state of natural resources impacting your life? / ನೈಸರ್ಗಿಕ ಸಂಪನ್ಮೂಲಗಳ
-                      ಸ್ಥಿತಿಯಲ್ಲಿನ ಬದಲಾವಣೆಯು ನಿಮ್ಮ ಜೀವನದ ಮೇಲೆ ಹೇಗೆ ಪರಿಣಾಮ ಬೀರುತ್ತದೆ *
-                    </Typography>
-                    <Stack mt={2}>
-                      <FormGroup>
-                        <FormControlLabel
-                          value="Quality of food degrading / ಆಹಾರದ ಗುಣಮಟ್ಟ ಕುಸಿಯುತ್ತಿದೆ"
-                          control={<Checkbox style={{ color: '#595959' }} />}
-                          label="Quality of food degrading / ಆಹಾರದ ಗುಣಮಟ್ಟ ಕುಸಿಯುತ್ತಿದೆ"
-                          onChange={(event) => handleresources('natural_resources_impacting_your_life', event)}
-                        />
-                        <FormControlLabel
-                          value="Negatively affecting agricultural income / ಕೃಷಿ ಆದಾಯದ ಮೇಲೆ ನಕಾರಾತ್ಮಕ ಪರಿಣಾಮ ಬೀರುತ್ತಿದೆ"
-                          control={<Checkbox style={{ color: '#595959' }} />}
-                          label="Negatively affecting agricultural income / ಕೃಷಿ ಆದಾಯದ ಮೇಲೆ ನಕಾರಾತ್ಮಕ ಪರಿಣಾಮ ಬೀರುತ್ತಿದೆ"
-                          onChange={(event) => handleresources('natural_resources_impacting_your_life', event)}
-                        />
-                        <FormControlLabel
-                          value="Drinking water scarcity / ಕುಡಿಯುವ ನೀರಿನ ಅಭಾವ"
-                          control={<Checkbox style={{ color: '#595959' }} />}
-                          label="Drinking water scarcity / ಕುಡಿಯುವ ನೀರಿನ ಅಭಾವ"
-                          onChange={(event) => handleresources('natural_resources_impacting_your_life', event)}
-                        />
-                        <FormControlLabel
-                          value="Frequent illness in children / ಮಕ್ಕಳಲ್ಲಿ ಆಗಾಗ್ಗೆ ಅನಾರೋಗ್ಯ"
-                          control={<Checkbox style={{ color: '#595959' }} />}
-                          label="Frequent illness in children / ಮಕ್ಕಳಲ್ಲಿ ಆಗಾಗ್ಗೆ ಅನಾರೋಗ್ಯ"
-                          onChange={(event) => handleresources('natural_resources_impacting_your_life', event)}
-                        />
-                        <FormControlLabel
-                          value="Bodily discomfort / ದೈಹಿಕ ಅಸ್ವಸ್ಥತೆ"
-                          control={<Checkbox style={{ color: '#595959' }} />}
-                          label="Bodily discomfort / ದೈಹಿಕ ಅಸ್ವಸ್ಥತೆ"
-                          onChange={(event) => handleresources('natural_resources_impacting_your_life', event)}
-                        />
-                        <FormControlLabel
-                          value="Loss of jobs/lack of work / ಉದ್ಯೋಗ ನಷ್ಟ/ಕೆಲಸದ ಕೊರತೆ"
-                          control={<Checkbox style={{ color: '#595959' }} />}
-                          label="Loss of jobs/lack of work / ಉದ್ಯೋಗ ನಷ್ಟ/ಕೆಲಸದ ಕೊರತೆ"
-                          onChange={(event) => handleresources('natural_resources_impacting_your_life', event)}
-                        />
-                        <FormControlLabel
-                          value="There is no impact on my life / ನನ್ನ ಜೀವನದ ಮೇಲೆ ಯಾವುದೇ ಪರಿಣಾಮವಿಲ್ಲ"
-                          control={<Checkbox style={{ color: '#595959' }} />}
-                          label="There is no impact on my life / ನನ್ನ ಜೀವನದ ಮೇಲೆ ಯಾವುದೇ ಪರಿಣಾಮವಿಲ್ಲ"
-                          onChange={(event) => handleresources('natural_resources_impacting_your_life', event)}
-                        />
-                      </FormGroup>
-                    </Stack>
-                  </CardContent>
-                </Card>
-                <Card style={{ marginTop: 40, backgroundColor: '#F6F8FB', borderRadius: 20 }}>
-                  <CardContent>
-                    <Stack mt={2}>
-                      <Typography style={{ color: '#ff7424' }}>
-                        Natural wealth for me is / ನನಗೆ ನೈಸರ್ಗಿಕ ಸಂಪತ್ತು *
-                      </Typography>
-                      <RadioGroup
-                        aria-labelledby="demo-radio-buttons-group-label"
-                        // defaultValue="Natural Resource"
-                        name="radio-buttons-group"
-                        value={wealth}
-                        onChange={wealthvalue}
-                      >
-                        <FormControlLabel
-                          value="to enjoy natural resource as a human being without any limits / ಯಾವುದೇ ಮಿತಿಯಿಲ್ಲದೆ ಮನುಷ್ಯನಂತೆ ನೈಸರ್ಗಿಕ ಸಂಪನ್ಮೂಲವನ್ನು ಆನಂದಿಸಲು"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="to enjoy natural resource as a human being without any limits / ಯಾವುದೇ ಮಿತಿಯಿಲ್ಲದೆ ಮನುಷ್ಯನಂತೆ ನೈಸರ್ಗಿಕ ಸಂಪನ್ಮೂಲವನ್ನು ಆನಂದಿಸಲು"
-                        />
-                        <FormControlLabel
-                          value="to enjoy natural resources while safeguarding it for the future generation / ಭವಿಷ್ಯದ ಪೀಳಿಗೆಗೆ ನೈಸರ್ಗಿಕ ಸಂಪನ್ಮೂಲಗಳನ್ನು ಸಂರಕ್ಷಿಸುವ ಮೂಲಕ ಆನಂದಿಸಲು"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="to enjoy natural resources while safeguarding it for the future generation / ಭವಿಷ್ಯದ ಪೀಳಿಗೆಗೆ ನೈಸರ್ಗಿಕ ಸಂಪನ್ಮೂಲಗಳನ್ನು ಸಂರಕ್ಷಿಸುವ ಮೂಲಕ ಆನಂದಿಸಲು "
-                        />
-                      </RadioGroup>
-                    </Stack>
-                  </CardContent>
-                </Card>
-                <Card style={{ marginTop: 40, backgroundColor: '#F6F8FB', borderRadius: 20 }}>
-                  <CardContent>
-                    <Stack mt={2}>
-                      <Typography style={{ color: '#ff7424' }}>
-                        Have you heard of "Climate Change" ?/ ನೀವು "ಹವಾಮಾನ ಬದಲಾವಣೆ" ಬಗ್ಗೆ ಕೇಳಿದ್ದೀರಾ? *
-                        {climateError ? <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText> : null}{' '}
-                      </Typography>
-                      <RadioGroup
-                        aria-labelledby="demo-radio-buttons-group-label"
-                        // defaultValue="Yes"
-                        name="radio-buttons-group"
-                        value={climate}
-                        onChange={climatechangevalue}
-                      >
-                        <FormControlLabel value="Yes" control={<Radio style={{ color: '#595959' }} />} label="Yes" />
-                        <FormControlLabel value="No" control={<Radio style={{ color: '#595959' }} />} label="No" />
-                        <FormControlLabel
-                          value="Maybe"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Maybe"
-                        />
-                      </RadioGroup>
-                    </Stack>
-                  </CardContent>
-                </Card>
-                {showClimateDiscription ? (
-                  <Card style={{ marginTop: 40, backgroundColor: '#F6F8FB', borderRadius: 20 }}>
-                    <CardContent>
-                      <Typography style={{ color: '#ff7424' }}>
-                        What do you know about it? / ಅದರ ಬಗ್ಗೆ ನಿನಗೇನು ಗೊತ್ತು *
-                      </Typography>
+                      <TextInput
+                        id="total_number_of_members_in_your_household_children"
+                        name="total_number_of_members_in_your_household_children"
+                        label="Total number of members in your household (children)"
+                        type="number"
+                        required
+                        inputProps={{ inputMode: 'numeric', pattern: '[0-9]*', maxLength: 2 }}
+                        placeholder="Number of members"
+                        onChange={handleInputChange}
+                        value={sendData.total_number_of_members_in_your_household_children}
+                      />
+                      <SelectInput
+                        id="house"
+                        name="house"
+                        label="House"
+                        kannadaLabel="ಮನೆ"
+                        required
+                        onChange={handleInputChange}
+                        value={sendData?.house}
+                        options={house}
+                      />
+
+                      <Typography style={{ color: '#ff7424' }}>Phone Number *</Typography>
                       <Stack mt={2} mb={2}>
                         <TextField
-                          id="Answe"
-                          label="Your Answer"
+                          id="Phone Number"
+                          type="number"
+                          required
+                          inputProps={{ inputMode: 'numeric', pattern: '[0-9]*', maxLength: 10 }}
+                          label="Phone Number"
                           variant="outlined"
                           color="common"
-                          onChange={(e) => setSendData({ ...sendData, What_do_you_know_about_it: e?.target?.value })}
-                          value={sendData?.What_do_you_know_about_it}
+                          onChange={(e) => {
+                            if (e.target.value.length <= 10) {
+                              setSendData({ ...sendData, Phone_number: e?.target?.value });
+                            }
+                          }}
+                          value={sendData?.Phone_number}
                         />
                       </Stack>
                     </CardContent>
                   </Card>
-                ) : null}
-
-                <Card style={{ marginTop: 40, backgroundColor: '#F6F8FB', borderRadius: 20 }}>
-                  <CardContent>
-                    <Stack mt={2}>
-                      <Typography style={{ color: '#ff7424' }}>
-                        Do you notice any change in the weather/climate in last 30 years? /ಕಳೆದ 30 ವರ್ಷಗಳಲ್ಲಿ
-                        ಹವಾಮಾನ/ಹವಾಮಾನದಲ್ಲಿ ಯಾವುದೇ ಬದಲಾವಣೆಯನ್ನು ನೀವು ಗಮನಿಸಿದ್ದೀರಾ? *
-                        {weatherError ? <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText> : null}{' '}
-                      </Typography>
-                      <RadioGroup
-                        aria-labelledby="demo-radio-buttons-group-label"
-                        // defaultValue="Natural Resource"
-                        name="radio-buttons-group"
-                        value={weather}
-                        onChange={weathervalue}
-                      >
-                        <FormControlLabel value="Yes" control={<Radio style={{ color: '#595959' }} />} label="Yes" />
-                        <FormControlLabel value="No" control={<Radio style={{ color: '#595959' }} />} label="No" />
-                        <FormControlLabel
-                          value="Maybe"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Maybe"
-                        />
-                      </RadioGroup>
-                    </Stack>
-                  </CardContent>
-                </Card>
-                <Card style={{ marginTop: 40, backgroundColor: '#F6F8FB', borderRadius: 20 }}>
-                  <CardContent>
-                    <Typography style={{ color: '#ff7424' }}>
-                      What kind of changes happened to the climate? / ಹವಾಮಾನದಲ್ಲಿ ಯಾವ ರೀತಿಯ ಬದಲಾವಣೆಗಳು ಸಂಭವಿಸಿದವು? *
-                    </Typography>
-                    <Stack mt={2}>
-                      <FormGroup>
-                        <FormControlLabel
-                          value="Excessive temperature / ಅತಿಯಾದ ತಾಪಮಾನ"
-                          control={<Checkbox style={{ color: '#595959' }} />}
-                          label="Excessive temperature / ಅತಿಯಾದ ತಾಪಮಾನ"
-                          onChange={(event) => handleresources('changes_happened_to_the_climate', event)}
-                        />
-                        <FormControlLabel
-                          value="Excessive cold / ವಿಪರೀತ ಚಳಿ"
-                          control={<Checkbox style={{ color: '#595959' }} />}
-                          label="Excessive cold / ವಿಪರೀತ ಚಳಿ"
-                          onChange={(event) => handleresources('changes_happened_to_the_climate', event)}
-                        />
-                        <FormControlLabel
-                          value="Frequent flood / ಆಗಾಗ್ಗೆ ಪ್ರವಾಹ"
-                          control={<Checkbox style={{ color: '#595959' }} />}
-                          label="Frequent flood / ಆಗಾಗ್ಗೆ ಪ್ರವಾಹ"
-                          onChange={(event) => handleresources('changes_happened_to_the_climate', event)}
-                        />
-                        <FormControlLabel
-                          value="Unseasonal rainfall / ಅಕಾಲಿಕ ಮಳೆ"
-                          control={<Checkbox style={{ color: '#595959' }} />}
-                          label="Unseasonal rainfall / ಅಕಾಲಿಕ ಮಳೆ"
-                          onChange={(event) => handleresources('changes_happened_to_the_climate', event)}
-                        />
-                        <FormControlLabel
-                          value="Water logging / ನೀರು ಲಾಗಿಂಗ್"
-                          control={<Checkbox style={{ color: '#595959' }} />}
-                          label="Water logging / ನೀರು ಲಾಗಿಂಗ್"
-                          onChange={(event) => handleresources('changes_happened_to_the_climate', event)}
-                        />
-                        <FormControlLabel
-                          value="Drying up of lakes,ponds and other water bodies / ಕೆರೆಗಳು, ಕೊಳಗಳು ಮತ್ತು ಇತರ ಜಲಮೂಲಗಳು ಒಣಗುತ್ತಿವೆ"
-                          control={<Checkbox style={{ color: '#595959' }} />}
-                          label="Drying up of lakes,ponds and other water bodies / ಕೆರೆಗಳು, ಕೊಳಗಳು ಮತ್ತು ಇತರ ಜಲಮೂಲಗಳು ಒಣಗುತ್ತಿವೆ"
-                          onChange={(event) => handleresources('changes_happened_to_the_climate', event)}
-                        />
-                        <FormControlLabel
-                          value="I don't know / ನನಗೆ ಗೊತ್ತಿಲ್ಲ"
-                          control={<Checkbox style={{ color: '#595959' }} />}
-                          label="I don't know / ನನಗೆ ಗೊತ್ತಿಲ್ಲ "
-                          onChange={(event) => handleresources('changes_happened_to_the_climate', event)}
-                        />
-                      </FormGroup>
-                    </Stack>
-                  </CardContent>
-                </Card>
-                <Card style={{ marginTop: 40, backgroundColor: '#F6F8FB', borderRadius: 20 }}>
-                  <CardContent>
-                    <Typography style={{ color: '#ff7424' }}>
-                      On a scale of 1 to 10 please rate,how much do you think climate change threatens your personal and
-                      family health and safety? / 1 ರಿಂದ 10 ರ ಪ್ರಮಾಣದಲ್ಲಿ ದಯವಿಟ್ಟು ರೇಟ್ ಮಾಡಿ, ಹವಾಮಾನ ಬದಲಾವಣೆಯು ನಿಮ್ಮ
-                      ವೈಯಕ್ತಿಕ ಮತ್ತು ಕುಟುಂಬದ ಆರೋಗ್ಯ ಮತ್ತು ಸುರಕ್ಷತೆಗೆ ಎಷ್ಟು ಅಪಾಯವನ್ನುಂಟುಮಾಡುತ್ತದೆ ಎಂದು ನೀವು ಭಾವಿಸುತ್ತೀರಿ
-                      *
-                      {climatechangeratingError ? (
-                        <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText>
-                      ) : null}{' '}
-                    </Typography>
-                    <Stack mt={2}>
-                      <RadioGroup
-                        aria-labelledby="demo-radio-buttons-group-label"
-                        // defaultValue="Natural Resource"
-                        name="radio-buttons-group"
-                        value={climatechangerating}
-                        onChange={ratingvalue}
-                      >
-                        <FormControlLabel value="1" control={<Radio style={{ color: '#595959' }} />} label="1" />
-                        <FormControlLabel value="2" control={<Radio style={{ color: '#595959' }} />} label="2" />
-                        <FormControlLabel value="3" control={<Radio style={{ color: '#595959' }} />} label="3" />
-                        <FormControlLabel value="4" control={<Radio style={{ color: '#595959' }} />} label="4" />
-                        <FormControlLabel value="5" control={<Radio style={{ color: '#595959' }} />} label="5" />
-                        <FormControlLabel value="6" control={<Radio style={{ color: '#595959' }} />} label="6" />
-                        <FormControlLabel value="7" control={<Radio style={{ color: '#595959' }} />} label="7" />
-                        <FormControlLabel value="8" control={<Radio style={{ color: '#595959' }} />} label="8" />
-                        <FormControlLabel value="9" control={<Radio style={{ color: '#595959' }} />} label="9" />
-                        <FormControlLabel value="10" control={<Radio style={{ color: '#595959' }} />} label="10" />
-                      </RadioGroup>
-                    </Stack>
-                  </CardContent>
-                </Card>
-
-                <Card style={{ marginTop: 40, backgroundColor: '#F6F8FB', borderRadius: 20 }}>
-                  <CardContent>
-                    <Stack mt={2}>
-                      <Typography style={{ color: '#ff7424' }}>
-                        Do you think anything can be tackle climate change? / ಹವಾಮಾನ ಬದಲಾವಣೆಯನ್ನು ಏನಾದರೂ ನಿಭಾಯಿಸಬಹುದು
-                        ಎಂದು ನೀವು ಭಾವಿಸುತ್ತೀರಾ?*
-                        {tackleclimatechangeError ? (
-                          <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText>
-                        ) : null}{' '}
-                      </Typography>
-                      <RadioGroup
-                        aria-labelledby="demo-radio-buttons-group-label"
-                        // defaultValue="Natural Resource"
-                        name="radio-buttons-group"
-                        value={tackleclimatechange}
-                        onChange={tacklevalue}
-                      >
-                        <FormControlLabel value="Yes" control={<Radio style={{ color: '#595959' }} />} label="Yes" />
-                        <FormControlLabel value="No" control={<Radio style={{ color: '#595959' }} />} label="No" />
-                        <FormControlLabel
-                          value="Maybe"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Maybe"
-                        />
-                      </RadioGroup>
-                    </Stack>
-                  </CardContent>
-                </Card>
-
-                <Card style={{ marginTop: 40, backgroundColor: '#F6F8FB', borderRadius: 20 }}>
-                  <CardContent>
-                    <Stack mt={2}>
-                      <Typography style={{ color: '#ff7424' }}>
-                        Do you think you would do something to tackle climate change? / ಹವಾಮಾನ ಬದಲಾವಣೆಯನ್ನು ನಿಭಾಯಿಸಲು
-                        ನೀವು ಏನಾದರೂ ಮಾಡುತ್ತೀರಿ ಎಂದು ನೀವು ಭಾವಿಸುತ್ತೀರಾ *
-                        {somethingtackleError ? (
-                          <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText>
-                        ) : null}{' '}
-                      </Typography>
-                      <RadioGroup
-                        aria-labelledby="demo-radio-buttons-group-label"
-                        // defaultValue="Natural Resource"
-                        name="radio-buttons-group"
-                        value={somethingtackle}
-                        onChange={handlesomethingtacklevalue}
-                      >
-                        <FormControlLabel value="Yes" control={<Radio style={{ color: '#595959' }} />} label="Yes" />
-                        <FormControlLabel value="No" control={<Radio style={{ color: '#595959' }} />} label="No" />
-                        <FormControlLabel
-                          value="Maybe"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Maybe"
-                        />
-                      </RadioGroup>
-                    </Stack>
-                  </CardContent>
-                </Card>
-                <Card style={{ marginTop: 40, backgroundColor: '#F6F8FB', borderRadius: 20 }}>
-                  <CardContent>
-                    <Typography style={{ color: '#ff7424' }}>
-                      What is the main source of water used by your house-hold for other purposes,such as cooking and
-                      hand washing? / ಅಡುಗೆ ಮತ್ತು ಕೈ ತೊಳೆಯುವಂತಹ ಇತರ ಉದ್ದೇಶಗಳಿಗಾಗಿ ನಿಮ್ಮ ಮನೆಯವರು ಬಳಸುವ ನೀರಿನ ಮುಖ್ಯ ಮೂಲ
-                      ಯಾವುದು? *
-                    </Typography>
-                    <Stack mt={2}>
-                      <FormGroup>
-                        <FormControlLabel
-                          value="Piped water to yard/plot / ಅಂಗಳ/ಪ್ಲಾಟ್‌ಗೆ ಪೈಪ್‌ಲೈನ್ ನೀರು"
-                          control={<Checkbox style={{ color: '#595959' }} />}
-                          label="Piped water to yard/plot / ಅಂಗಳ/ಪ್ಲಾಟ್‌ಗೆ ಪೈಪ್‌ಲೈನ್ ನೀರು"
-                          onChange={(event) => handleresources('main_source_of_water', event)}
-                        />
-                        <FormControlLabel
-                          value="Public tap/standpipe / ಸಾರ್ವಜನಿಕ ಟ್ಯಾಪ್/ಸ್ಟ್ಯಾಂಡ್ ಪೈಪ್"
-                          control={<Checkbox style={{ color: '#595959' }} />}
-                          label="Public tap/standpipe / ಸಾರ್ವಜನಿಕ ಟ್ಯಾಪ್/ಸ್ಟ್ಯಾಂಡ್ ಪೈಪ್"
-                          onChange={(event) => handleresources('main_source_of_water', event)}
-                        />
-                        <FormControlLabel
-                          value="Tubewell/borehole / ಕೊಳವೆಬಾವಿ"
-                          control={<Checkbox style={{ color: '#595959' }} />}
-                          label="Tubewell/borehole / ಕೊಳವೆಬಾವಿ"
-                          onChange={(event) => handleresources('main_source_of_water', event)}
-                        />
-                        <FormControlLabel
-                          value="Protected dug well / ಚೆನ್ನಾಗಿ ಅಗೆದು ರಕ್ಷಿಸಲಾಗಿದೆ"
-                          control={<Checkbox style={{ color: '#595959' }} />}
-                          label="Protected dug well / ಚೆನ್ನಾಗಿ ಅಗೆದು ರಕ್ಷಿಸಲಾಗಿದೆ"
-                          onChange={(event) => handleresources('main_source_of_water', event)}
-                        />
-                        <FormControlLabel
-                          value="Unprotected dug well / ರಕ್ಷಣೆಯಿಲ್ಲದ ಬಾವಿ ತೋಡಿದ್ದಾರೆ"
-                          control={<Checkbox style={{ color: '#595959' }} />}
-                          label="Unprotected dug well / ರಕ್ಷಣೆಯಿಲ್ಲದ ಬಾವಿ ತೋಡಿದ್ದಾರೆ"
-                          onChange={(event) => handleresources('main_source_of_water', event)}
-                        />
-                        <FormControlLabel
-                          value="Protected spring / ಸಂರಕ್ಷಿತ ವಸಂತ"
-                          control={<Checkbox style={{ color: '#595959' }} />}
-                          label="Protected spring / ಸಂರಕ್ಷಿತ ವಸಂತ "
-                          onChange={(event) => handleresources('main_source_of_water', event)}
-                        />
-                        <FormControlLabel
-                          value="Unprotected spring / ಅಸುರಕ್ಷಿತ ವಸಂತ"
-                          control={<Checkbox style={{ color: '#595959' }} />}
-                          label="Unprotected spring / ಅಸುರಕ್ಷಿತ ವಸಂತ"
-                          onChange={(event) => handleresources('main_source_of_water', event)}
-                        />
-                        <FormControlLabel
-                          value="Rainwater collection / ಮಳೆನೀರು ಸಂಗ್ರಹಣೆ"
-                          control={<Checkbox style={{ color: '#595959' }} />}
-                          label="Rainwater collection / ಮಳೆನೀರು ಸಂಗ್ರಹಣೆ"
-                          onChange={(event) => handleresources('main_source_of_water', event)}
-                        />
-                        <FormControlLabel
-                          value="Tanker-truck / ಟ್ಯಾಂಕರ್-ಟ್ರಕ್"
-                          control={<Checkbox style={{ color: '#595959' }} />}
-                          label="Tanker-truck / ಟ್ಯಾಂಕರ್-ಟ್ರಕ್"
-                          onChange={(event) => handleresources('main_source_of_water', event)}
-                        />
-                        <FormControlLabel
-                          value="Surface water (river,dam,lake,pond,stream,canal,irrigation channels) / ಮೇಲ್ಮೈ ನೀರು (ನದಿ, ಅಣೆಕಟ್ಟು, ಸರೋವರ, ಕೊಳ, ಹೊಳೆ, ಕಾಲುವೆ, ನೀರಾವರಿ ಕಾಲುವೆಗಳು)"
-                          control={
-                            <Checkbox
-                              style={{ color: '#595959' }}
-                              onChange={(event) => handleresources('main_source_of_water', event)}
-                            />
-                          }
-                          label="Surface water (river,dam,lake,pond,stream,canal,irrigation channels) / ಮೇಲ್ಮೈ ನೀರು (ನದಿ, ಅಣೆಕಟ್ಟು, ಸರೋವರ, ಕೊಳ, ಹೊಳೆ, ಕಾಲುವೆ, ನೀರಾವರಿ ಕಾಲುವೆಗಳು)"
-                        />
-                        <FormControlLabel
-                          value="Others / ಇತರರು"
-                          control={<Checkbox style={{ color: '#595959' }} />}
-                          label="Others / ಇತರರು"
-                          onChange={(event) => handleresources('main_source_of_water', event)}
-                        />
-                      </FormGroup>
-                    </Stack>
-                  </CardContent>
-                </Card>
-                <Card style={{ marginTop: 40, backgroundColor: '#F6F8FB', borderRadius: 20 }}>
-                  <CardContent>
-                    <Stack mt={2}>
-                      <Typography style={{ color: '#ff7424' }}>
-                        Which Statement shown below do you agree with? / ಕೆಳಗೆ ತೋರಿಸಿರುವ ಯಾವ ಹೇಳಿಕೆಯನ್ನು ನೀವು
-                        ಒಪ್ಪುತ್ತೀರಿ? *
-                        {groundwaterstatementError ? (
-                          <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText>
-                        ) : null}{' '}
-                      </Typography>
-                      <RadioGroup
-                        aria-labelledby="demo-radio-buttons-group-label"
-                        // defaultValue="Natural Resource"
-                        name="radio-buttons-group"
-                        value={groundwaterstatement}
-                        onChange={groundwatervalue}
-                      >
-                        <FormControlLabel
-                          value="Ground water can be drawn to how much ever extent we want to / ಅಂತರ್ಜಲವನ್ನು ನಾವು ಎಷ್ಟು ಪ್ರಮಾಣದಲ್ಲಿ ಬಯಸುತ್ತೇವೋ ಅಷ್ಟು ಪ್ರಮಾಣದಲ್ಲಿ ಎಳೆಯಬಹುದು"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Ground water can be drawn to how much ever extent we want to / ಅಂತರ್ಜಲವನ್ನು ನಾವು ಎಷ್ಟು ಪ್ರಮಾಣದಲ್ಲಿ ಬಯಸುತ್ತೇವೋ ಅಷ್ಟು ಪ್ರಮಾಣದಲ್ಲಿ ಎಳೆಯಬಹುದು"
-                        />
-                        <FormControlLabel
-                          value="The groundwater below my land solely belongs to me / ನನ್ನ ಭೂಮಿಯ ಕೆಳಗಿನ ಅಂತರ್ಜಲ ನನಗೆ ಮಾತ್ರ ಸೇರಿದ್ದು"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="The groundwater below my land solely belongs to me / ನನ್ನ ಭೂಮಿಯ ಕೆಳಗಿನ ಅಂತರ್ಜಲ ನನಗೆ ಮಾತ್ರ ಸೇರಿದ್ದು"
-                        />
-                        <FormControlLabel
-                          value="I should always consider the groundwater limit and other users around me before making decisions on its use / ಅದರ ಬಳಕೆಯ ಬಗ್ಗೆ ನಿರ್ಧಾರಗಳನ್ನು ತೆಗೆದುಕೊಳ್ಳುವ ಮೊದಲು ನಾನು ಯಾವಾಗಲೂ ಅಂತರ್ಜಲ ಮಿತಿ ಮತ್ತು ನನ್ನ ಸುತ್ತಲಿನ ಇತರ ಬಳಕೆದಾರರನ್ನು ಪರಿಗಣಿಸಬೇಕು"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="I should always consider the groundwater limit and other users around me before making decisions on its use / ಅದರ ಬಳಕೆಯ ಬಗ್ಗೆ ನಿರ್ಧಾರಗಳನ್ನು ತೆಗೆದುಕೊಳ್ಳುವ ಮೊದಲು ನಾನು ಯಾವಾಗಲೂ ಅಂತರ್ಜಲ ಮಿತಿ ಮತ್ತು ನನ್ನ ಸುತ್ತಲಿನ ಇತರ ಬಳಕೆದಾರರನ್ನು ಪರಿಗಣಿಸಬೇಕು"
-                        />
-                        <FormControlLabel
-                          value="Groundwater is a shared resource / ಅಂತರ್ಜಲವು ಹಂಚಿಕೆಯ ಸಂಪನ್ಮೂಲವಾಗಿದೆ"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Groundwater is a shared resource / ಅಂತರ್ಜಲವು ಹಂಚಿಕೆಯ ಸಂಪನ್ಮೂಲವಾಗಿದೆ"
-                        />
-                      </RadioGroup>
-                    </Stack>
-                  </CardContent>
-                </Card>
-                <Card style={{ marginTop: 40, backgroundColor: '#F6F8FB', borderRadius: 20 }}>
-                  <CardContent>
-                    <Stack mt={2}>
-                      <Typography style={{ color: '#ff7424' }}>
-                        How concerned are you about local water quality that you are consuming now in your village?/
-                        ನಿಮ್ಮ ಗ್ರಾಮದಲ್ಲಿ ಈಗ ನೀವು ಸೇವಿಸುತ್ತಿರುವ ಸ್ಥಳೀಯ ನೀರಿನ ಗುಣಮಟ್ಟದ ಬಗ್ಗೆ ನಿಮಗೆ ಎಷ್ಟು ಕಾಳಜಿ ಇದೆ*
-                        {waterqualityError ? (
-                          <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText>
-                        ) : null}{' '}
-                      </Typography>
-                      <RadioGroup
-                        aria-labelledby="demo-radio-buttons-group-label"
-                        // defaultValue="Natural Resource"
-                        name="radio-buttons-group"
-                        value={waterquality}
-                        onChange={waterqualityvalue}
-                      >
-                        <FormControlLabel
-                          value="Very Unconcerned / ತುಂಬಾ ಅನ್ಕನ್ಸರ್ನ್ಡ್"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Very Unconcerned / ತುಂಬಾ ಅನ್ಕನ್ಸರ್ನ್ಡ್"
-                        />
-                        <FormControlLabel
-                          value="Unconcerned/ಕಾಳಜಿಯಿಲ್ಲದ"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Unconcerned/ಕಾಳಜಿಯಿಲ್ಲದ"
-                        />
-                        <FormControlLabel
-                          value="Neutral/ತಟಸ್ಥ"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Neutral/ತಟಸ್ಥ"
-                        />
-                        <FormControlLabel
-                          value="Concerned/ಕಳವಳ ವ್ಯಕ್ತಪಡಿಸಿದ್ದಾರೆ"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Concerned/ಕಳವಳ ವ್ಯಕ್ತಪಡಿಸಿದ್ದಾರೆ"
-                        />
-                        <FormControlLabel
-                          value="Very Concerned/ತುಂಬಾ ಕಾಳಜಿ"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Very Concerned/ತುಂಬಾ ಕಾಳಜಿ"
-                        />
-                      </RadioGroup>
-                    </Stack>
-                  </CardContent>
-                </Card>
-
-                <Card style={{ marginTop: 40, backgroundColor: '#F6F8FB', borderRadius: 20 }}>
-                  <CardContent>
-                    <Stack mt={2}>
-                      <Typography style={{ color: '#ff7424' }}>
-                        My personal actions can affect water quality in my village? / ನನ್ನ ವೈಯಕ್ತಿಕ ಕ್ರಿಯೆಗಳು ನನ್ನ
-                        ಹಳ್ಳಿಯಲ್ಲಿ ನೀರಿನ ಗುಣಮಟ್ಟದ ಮೇಲೆ ಪರಿಣಾಮ ಬೀರಬಹುದೇ? *
-                        {wateraffectError ? (
-                          <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText>
-                        ) : null}{' '}
-                      </Typography>
-                      <RadioGroup
-                        aria-labelledby="demo-radio-buttons-group-label"
-                        // defaultValue="Natural Resource"
-                        name="radio-buttons-group"
-                        value={wateraffect}
-                        onChange={wateraffectvalue}
-                      >
-                        <FormControlLabel
-                          value="Strongly disagree / ಖಂಡಿತವಾಗಿ ಒಪ್ಪುವುದಿಲ್ಲ"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Strongly disagree / ಖಂಡಿತವಾಗಿ ಒಪ್ಪುವುದಿಲ್ಲ"
-                        />
-                        <FormControlLabel
-                          value="Disagree / ಒಪ್ಪುವುದಿಲ್ಲ"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Disagree / ಒಪ್ಪುವುದಿಲ್ಲ"
-                        />
-                        <FormControlLabel
-                          value="Neutral / ತಟಸ್ಥ"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Neutral / ತಟಸ್ಥ"
-                        />
-                        <FormControlLabel
-                          value="Agreee / ಒಪ್ಪುತ್ತೇನೆ"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Agreee / ಒಪ್ಪುತ್ತೇನೆ"
-                        />
-                        <FormControlLabel
-                          value="Strongly agree / ಬಲವಾಗಿ ಒಪ್ಪುತ್ತೇನೆ"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Strongly agree / ಬಲವಾಗಿ ಒಪ್ಪುತ್ತೇನೆ"
-                        />
-                      </RadioGroup>
-                    </Stack>
-                  </CardContent>
-                </Card>
-
-                <Card style={{ marginTop: 40, backgroundColor: '#F6F8FB', borderRadius: 20 }}>
-                  <CardContent>
-                    <Stack mt={2}>
-                      <Typography style={{ color: '#ff7424' }}>
-                        Do you think you take water conservation measures in your everyday life? / ನಿಮ್ಮ ದೈನಂದಿನ
-                        ಜೀವನದಲ್ಲಿ ನೀವು ನೀರಿನ ಸಂರಕ್ಷಣೆ ಕ್ರಮಗಳನ್ನು ತೆಗೆದುಕೊಳ್ಳುತ್ತೀರಿ ಎಂದು ನೀವು ಭಾವಿಸುತ್ತೀರಾ *
-                        {waterconservationError ? (
-                          <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText>
-                        ) : null}{' '}
-                      </Typography>
-                      <RadioGroup
-                        aria-labelledby="demo-radio-buttons-group-label"
-                        // defaultValue="Natural Resource"
-                        name="radio-buttons-group"
-                        value={waterconservation}
-                        onChange={conservationmeasures}
-                      >
-                        <FormControlLabel value="Yes" control={<Radio style={{ color: '#595959' }} />} label="Yes" />
-                        <FormControlLabel value="No" control={<Radio style={{ color: '#595959' }} />} label="No" />
-                        <FormControlLabel
-                          value="Maybe"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Maybe"
-                        />
-                      </RadioGroup>
-                    </Stack>
-                  </CardContent>
-                </Card>
-                {showWaterConsuDiscription ? (
                   <Card style={{ marginTop: 40, backgroundColor: '#F6F8FB', borderRadius: 20 }}>
                     <CardContent>
                       <Typography style={{ color: '#ff7424' }}>
-                        If yes,what kind of measures have you taken in the past? / ಹೌದು ಎಂದಾದರೆ, ನೀವು ಹಿಂದೆ ಯಾವ ರೀತಿಯ
-                        ಕ್ರಮಗಳನ್ನು ತೆಗೆದುಕೊಂಡಿದ್ದೀರಿ?*
+                        Which of the following are natural resources? / ಕೆಳಗಿನವುಗಳಲ್ಲಿ ಯಾವುದು ನೈಸರ್ಗಿಕ ಸಂಪನ್ಮೂಲಗಳು? *
+                      </Typography>
+
+                      <Stack mt={2}>
+                        <FormGroup>
+                          <FormControlLabel
+                            value="Soil/ಮಣ್ಣು"
+                            control={<Checkbox style={{ color: '#595959' }} />}
+                            label="Soil/ಮಣ್ಣು"
+                            onChange={(event) => handleresources('natural_resources', event)}
+                          />
+                          <FormControlLabel
+                            value="Water/ನೀರು"
+                            control={<Checkbox style={{ color: '#595959' }} />}
+                            label="Water/ನೀರು"
+                            onChange={(event) => handleresources('natural_resources', event)}
+                          />
+                          <FormControlLabel
+                            value="MotorCycle/ಮೋಟಾರ್ ಸೈಕಲ್"
+                            control={<Checkbox style={{ color: '#595959' }} />}
+                            label="MotorCycle/ಮೋಟಾರ್ ಸೈಕಲ್"
+                            onChange={(event) => handleresources('natural_resources', event)}
+                          />
+                          <FormControlLabel
+                            value="Money/ಹಣ"
+                            control={<Checkbox style={{ color: '#595959' }} />}
+                            label="Money/ಹಣ"
+                            onChange={(event) => handleresources('natural_resources', event)}
+                          />
+                          <FormControlLabel
+                            value="Trees/ಮರ"
+                            control={<Checkbox style={{ color: '#595959' }} />}
+                            label="Trees/ಮರ"
+                            onChange={(event) => handleresources('natural_resources', event)}
+                          />
+                          <FormControlLabel
+                            value="Borewell/ಬೋರ್ವೆಲ್"
+                            control={<Checkbox style={{ color: '#595959' }} />}
+                            label="Borewell/ಬೋರ್ವೆಲ್"
+                            onChange={(event) => handleresources('natural_resources', event)}
+                          />
+                          <FormControlLabel
+                            value="House/ಮನೆ"
+                            control={<Checkbox style={{ color: '#595959' }} />}
+                            label="House/ಮನೆ"
+                            onChange={(event) => handleresources('natural_resources', event)}
+                          />
+                        </FormGroup>
+                      </Stack>
+                    </CardContent>
+                  </Card>
+                  <Card style={{ marginTop: 40, backgroundColor: '#F6F8FB', borderRadius: 20 }}>
+                    <CardContent>
+                      <Typography style={{ color: '#ff7424' }}>
+                        How is change in state of natural resources impacting your life? / ನೈಸರ್ಗಿಕ ಸಂಪನ್ಮೂಲಗಳ
+                        ಸ್ಥಿತಿಯಲ್ಲಿನ ಬದಲಾವಣೆಯು ನಿಮ್ಮ ಜೀವನದ ಮೇಲೆ ಹೇಗೆ ಪರಿಣಾಮ ಬೀರುತ್ತದೆ *
+                      </Typography>
+                      <Stack mt={2}>
+                        <FormGroup>
+                          <FormControlLabel
+                            value="Quality of food degrading / ಆಹಾರದ ಗುಣಮಟ್ಟ ಕುಸಿಯುತ್ತಿದೆ"
+                            control={<Checkbox style={{ color: '#595959' }} />}
+                            label="Quality of food degrading / ಆಹಾರದ ಗುಣಮಟ್ಟ ಕುಸಿಯುತ್ತಿದೆ"
+                            onChange={(event) => handleresources('natural_resources_impacting_your_life', event)}
+                          />
+                          <FormControlLabel
+                            value="Negatively affecting agricultural income / ಕೃಷಿ ಆದಾಯದ ಮೇಲೆ ನಕಾರಾತ್ಮಕ ಪರಿಣಾಮ ಬೀರುತ್ತಿದೆ"
+                            control={<Checkbox style={{ color: '#595959' }} />}
+                            label="Negatively affecting agricultural income / ಕೃಷಿ ಆದಾಯದ ಮೇಲೆ ನಕಾರಾತ್ಮಕ ಪರಿಣಾಮ ಬೀರುತ್ತಿದೆ"
+                            onChange={(event) => handleresources('natural_resources_impacting_your_life', event)}
+                          />
+                          <FormControlLabel
+                            value="Drinking water scarcity / ಕುಡಿಯುವ ನೀರಿನ ಅಭಾವ"
+                            control={<Checkbox style={{ color: '#595959' }} />}
+                            label="Drinking water scarcity / ಕುಡಿಯುವ ನೀರಿನ ಅಭಾವ"
+                            onChange={(event) => handleresources('natural_resources_impacting_your_life', event)}
+                          />
+                          <FormControlLabel
+                            value="Frequent illness in children / ಮಕ್ಕಳಲ್ಲಿ ಆಗಾಗ್ಗೆ ಅನಾರೋಗ್ಯ"
+                            control={<Checkbox style={{ color: '#595959' }} />}
+                            label="Frequent illness in children / ಮಕ್ಕಳಲ್ಲಿ ಆಗಾಗ್ಗೆ ಅನಾರೋಗ್ಯ"
+                            onChange={(event) => handleresources('natural_resources_impacting_your_life', event)}
+                          />
+                          <FormControlLabel
+                            value="Bodily discomfort / ದೈಹಿಕ ಅಸ್ವಸ್ಥತೆ"
+                            control={<Checkbox style={{ color: '#595959' }} />}
+                            label="Bodily discomfort / ದೈಹಿಕ ಅಸ್ವಸ್ಥತೆ"
+                            onChange={(event) => handleresources('natural_resources_impacting_your_life', event)}
+                          />
+                          <FormControlLabel
+                            value="Loss of jobs/lack of work / ಉದ್ಯೋಗ ನಷ್ಟ/ಕೆಲಸದ ಕೊರತೆ"
+                            control={<Checkbox style={{ color: '#595959' }} />}
+                            label="Loss of jobs/lack of work / ಉದ್ಯೋಗ ನಷ್ಟ/ಕೆಲಸದ ಕೊರತೆ"
+                            onChange={(event) => handleresources('natural_resources_impacting_your_life', event)}
+                          />
+                          <FormControlLabel
+                            value="There is no impact on my life / ನನ್ನ ಜೀವನದ ಮೇಲೆ ಯಾವುದೇ ಪರಿಣಾಮವಿಲ್ಲ"
+                            control={<Checkbox style={{ color: '#595959' }} />}
+                            label="There is no impact on my life / ನನ್ನ ಜೀವನದ ಮೇಲೆ ಯಾವುದೇ ಪರಿಣಾಮವಿಲ್ಲ"
+                            onChange={(event) => handleresources('natural_resources_impacting_your_life', event)}
+                          />
+                        </FormGroup>
+                      </Stack>
+                    </CardContent>
+                  </Card>
+                  <Card style={{ marginTop: 40, backgroundColor: '#F6F8FB', borderRadius: 20 }}>
+                    <CardContent>
+                      <Stack mt={2}>
+                        <Typography style={{ color: '#ff7424' }}>
+                          Natural wealth for me is / ನನಗೆ ನೈಸರ್ಗಿಕ ಸಂಪತ್ತು *
+                        </Typography>
+                        <RadioGroup
+                          aria-labelledby="demo-radio-buttons-group-label"
+                          // defaultValue="Natural Resource"
+                          name="radio-buttons-group"
+                          value={wealth}
+                          onChange={wealthvalue}
+                        >
+                          <FormControlLabel
+                            value="to enjoy natural resource as a human being without any limits / ಯಾವುದೇ ಮಿತಿಯಿಲ್ಲದೆ ಮನುಷ್ಯನಂತೆ ನೈಸರ್ಗಿಕ ಸಂಪನ್ಮೂಲವನ್ನು ಆನಂದಿಸಲು"
+                            control={<Radio style={{ color: '#595959' }} />}
+                            label="to enjoy natural resource as a human being without any limits / ಯಾವುದೇ ಮಿತಿಯಿಲ್ಲದೆ ಮನುಷ್ಯನಂತೆ ನೈಸರ್ಗಿಕ ಸಂಪನ್ಮೂಲವನ್ನು ಆನಂದಿಸಲು"
+                          />
+                          <FormControlLabel
+                            value="to enjoy natural resources while safeguarding it for the future generation / ಭವಿಷ್ಯದ ಪೀಳಿಗೆಗೆ ನೈಸರ್ಗಿಕ ಸಂಪನ್ಮೂಲಗಳನ್ನು ಸಂರಕ್ಷಿಸುವ ಮೂಲಕ ಆನಂದಿಸಲು"
+                            control={<Radio style={{ color: '#595959' }} />}
+                            label="to enjoy natural resources while safeguarding it for the future generation / ಭವಿಷ್ಯದ ಪೀಳಿಗೆಗೆ ನೈಸರ್ಗಿಕ ಸಂಪನ್ಮೂಲಗಳನ್ನು ಸಂರಕ್ಷಿಸುವ ಮೂಲಕ ಆನಂದಿಸಲು "
+                          />
+                        </RadioGroup>
+                      </Stack>
+                    </CardContent>
+                  </Card>
+                  <Card style={{ marginTop: 40, backgroundColor: '#F6F8FB', borderRadius: 20 }}>
+                    <CardContent>
+                      <Stack mt={2}>
+                        <Typography style={{ color: '#ff7424' }}>
+                          Have you heard of "Climate Change" ?/ ನೀವು "ಹವಾಮಾನ ಬದಲಾವಣೆ" ಬಗ್ಗೆ ಕೇಳಿದ್ದೀರಾ? *
+                          {climateError ? <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText> : null}{' '}
+                        </Typography>
+                        <RadioGroup
+                          aria-labelledby="demo-radio-buttons-group-label"
+                          // defaultValue="Yes"
+                          name="radio-buttons-group"
+                          value={climate}
+                          onChange={climatechangevalue}
+                        >
+                          <FormControlLabel value="Yes" control={<Radio style={{ color: '#595959' }} />} label="Yes" />
+                          <FormControlLabel value="No" control={<Radio style={{ color: '#595959' }} />} label="No" />
+                          <FormControlLabel
+                            value="Maybe"
+                            control={<Radio style={{ color: '#595959' }} />}
+                            label="Maybe"
+                          />
+                        </RadioGroup>
+                      </Stack>
+                    </CardContent>
+                  </Card>
+                  {showClimateDiscription ? (
+                    <Card style={{ marginTop: 40, backgroundColor: '#F6F8FB', borderRadius: 20 }}>
+                      <CardContent>
+                        <Typography style={{ color: '#ff7424' }}>
+                          What do you know about it? / ಅದರ ಬಗ್ಗೆ ನಿನಗೇನು ಗೊತ್ತು *
+                        </Typography>
+                        <Stack mt={2} mb={2}>
+                          <TextField
+                            id="Answe"
+                            label="Your Answer"
+                            variant="outlined"
+                            color="common"
+                            onChange={(e) => setSendData({ ...sendData, What_do_you_know_about_it: e?.target?.value })}
+                            value={sendData?.What_do_you_know_about_it}
+                          />
+                        </Stack>
+                      </CardContent>
+                    </Card>
+                  ) : null}
+
+                  <Card style={{ marginTop: 40, backgroundColor: '#F6F8FB', borderRadius: 20 }}>
+                    <CardContent>
+                      <Stack mt={2}>
+                        <Typography style={{ color: '#ff7424' }}>
+                          Do you notice any change in the weather/climate in last 30 years? /ಕಳೆದ 30 ವರ್ಷಗಳಲ್ಲಿ
+                          ಹವಾಮಾನ/ಹವಾಮಾನದಲ್ಲಿ ಯಾವುದೇ ಬದಲಾವಣೆಯನ್ನು ನೀವು ಗಮನಿಸಿದ್ದೀರಾ? *
+                          {weatherError ? <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText> : null}{' '}
+                        </Typography>
+                        <RadioGroup
+                          aria-labelledby="demo-radio-buttons-group-label"
+                          // defaultValue="Natural Resource"
+                          name="radio-buttons-group"
+                          value={weather}
+                          onChange={weathervalue}
+                        >
+                          <FormControlLabel value="Yes" control={<Radio style={{ color: '#595959' }} />} label="Yes" />
+                          <FormControlLabel value="No" control={<Radio style={{ color: '#595959' }} />} label="No" />
+                          <FormControlLabel
+                            value="Maybe"
+                            control={<Radio style={{ color: '#595959' }} />}
+                            label="Maybe"
+                          />
+                        </RadioGroup>
+                      </Stack>
+                    </CardContent>
+                  </Card>
+                  <Card style={{ marginTop: 40, backgroundColor: '#F6F8FB', borderRadius: 20 }}>
+                    <CardContent>
+                      <Typography style={{ color: '#ff7424' }}>
+                        What kind of changes happened to the climate? / ಹವಾಮಾನದಲ್ಲಿ ಯಾವ ರೀತಿಯ ಬದಲಾವಣೆಗಳು ಸಂಭವಿಸಿದವು? *
+                      </Typography>
+                      <Stack mt={2}>
+                        <FormGroup>
+                          <FormControlLabel
+                            value="Excessive temperature / ಅತಿಯಾದ ತಾಪಮಾನ"
+                            control={<Checkbox style={{ color: '#595959' }} />}
+                            label="Excessive temperature / ಅತಿಯಾದ ತಾಪಮಾನ"
+                            onChange={(event) => handleresources('changes_happened_to_the_climate', event)}
+                          />
+                          <FormControlLabel
+                            value="Excessive cold / ವಿಪರೀತ ಚಳಿ"
+                            control={<Checkbox style={{ color: '#595959' }} />}
+                            label="Excessive cold / ವಿಪರೀತ ಚಳಿ"
+                            onChange={(event) => handleresources('changes_happened_to_the_climate', event)}
+                          />
+                          <FormControlLabel
+                            value="Frequent flood / ಆಗಾಗ್ಗೆ ಪ್ರವಾಹ"
+                            control={<Checkbox style={{ color: '#595959' }} />}
+                            label="Frequent flood / ಆಗಾಗ್ಗೆ ಪ್ರವಾಹ"
+                            onChange={(event) => handleresources('changes_happened_to_the_climate', event)}
+                          />
+                          <FormControlLabel
+                            value="Unseasonal rainfall / ಅಕಾಲಿಕ ಮಳೆ"
+                            control={<Checkbox style={{ color: '#595959' }} />}
+                            label="Unseasonal rainfall / ಅಕಾಲಿಕ ಮಳೆ"
+                            onChange={(event) => handleresources('changes_happened_to_the_climate', event)}
+                          />
+                          <FormControlLabel
+                            value="Water logging / ನೀರು ಲಾಗಿಂಗ್"
+                            control={<Checkbox style={{ color: '#595959' }} />}
+                            label="Water logging / ನೀರು ಲಾಗಿಂಗ್"
+                            onChange={(event) => handleresources('changes_happened_to_the_climate', event)}
+                          />
+                          <FormControlLabel
+                            value="Drying up of lakes,ponds and other water bodies / ಕೆರೆಗಳು, ಕೊಳಗಳು ಮತ್ತು ಇತರ ಜಲಮೂಲಗಳು ಒಣಗುತ್ತಿವೆ"
+                            control={<Checkbox style={{ color: '#595959' }} />}
+                            label="Drying up of lakes,ponds and other water bodies / ಕೆರೆಗಳು, ಕೊಳಗಳು ಮತ್ತು ಇತರ ಜಲಮೂಲಗಳು ಒಣಗುತ್ತಿವೆ"
+                            onChange={(event) => handleresources('changes_happened_to_the_climate', event)}
+                          />
+                          <FormControlLabel
+                            value="I don't know / ನನಗೆ ಗೊತ್ತಿಲ್ಲ"
+                            control={<Checkbox style={{ color: '#595959' }} />}
+                            label="I don't know / ನನಗೆ ಗೊತ್ತಿಲ್ಲ "
+                            onChange={(event) => handleresources('changes_happened_to_the_climate', event)}
+                          />
+                        </FormGroup>
+                      </Stack>
+                    </CardContent>
+                  </Card>
+                  <Card style={{ marginTop: 40, backgroundColor: '#F6F8FB', borderRadius: 20 }}>
+                    <CardContent>
+                      <Typography style={{ color: '#ff7424' }}>
+                        On a scale of 1 to 10 please rate,how much do you think climate change threatens your personal
+                        and family health and safety? / 1 ರಿಂದ 10 ರ ಪ್ರಮಾಣದಲ್ಲಿ ದಯವಿಟ್ಟು ರೇಟ್ ಮಾಡಿ, ಹವಾಮಾನ ಬದಲಾವಣೆಯು
+                        ನಿಮ್ಮ ವೈಯಕ್ತಿಕ ಮತ್ತು ಕುಟುಂಬದ ಆರೋಗ್ಯ ಮತ್ತು ಸುರಕ್ಷತೆಗೆ ಎಷ್ಟು ಅಪಾಯವನ್ನುಂಟುಮಾಡುತ್ತದೆ ಎಂದು ನೀವು
+                        ಭಾವಿಸುತ್ತೀರಿ *
+                        {climatechangeratingError ? (
+                          <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText>
+                        ) : null}{' '}
+                      </Typography>
+                      <Stack mt={2}>
+                        <RadioGroup
+                          aria-labelledby="demo-radio-buttons-group-label"
+                          // defaultValue="Natural Resource"
+                          name="radio-buttons-group"
+                          value={climatechangerating}
+                          onChange={ratingvalue}
+                        >
+                          <FormControlLabel value="1" control={<Radio style={{ color: '#595959' }} />} label="1" />
+                          <FormControlLabel value="2" control={<Radio style={{ color: '#595959' }} />} label="2" />
+                          <FormControlLabel value="3" control={<Radio style={{ color: '#595959' }} />} label="3" />
+                          <FormControlLabel value="4" control={<Radio style={{ color: '#595959' }} />} label="4" />
+                          <FormControlLabel value="5" control={<Radio style={{ color: '#595959' }} />} label="5" />
+                          <FormControlLabel value="6" control={<Radio style={{ color: '#595959' }} />} label="6" />
+                          <FormControlLabel value="7" control={<Radio style={{ color: '#595959' }} />} label="7" />
+                          <FormControlLabel value="8" control={<Radio style={{ color: '#595959' }} />} label="8" />
+                          <FormControlLabel value="9" control={<Radio style={{ color: '#595959' }} />} label="9" />
+                          <FormControlLabel value="10" control={<Radio style={{ color: '#595959' }} />} label="10" />
+                        </RadioGroup>
+                      </Stack>
+                    </CardContent>
+                  </Card>
+
+                  <Card style={{ marginTop: 40, backgroundColor: '#F6F8FB', borderRadius: 20 }}>
+                    <CardContent>
+                      <Stack mt={2}>
+                        <Typography style={{ color: '#ff7424' }}>
+                          Do you think anything can be tackle climate change? / ಹವಾಮಾನ ಬದಲಾವಣೆಯನ್ನು ಏನಾದರೂ ನಿಭಾಯಿಸಬಹುದು
+                          ಎಂದು ನೀವು ಭಾವಿಸುತ್ತೀರಾ?*
+                          {tackleclimatechangeError ? (
+                            <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText>
+                          ) : null}{' '}
+                        </Typography>
+                        <RadioGroup
+                          aria-labelledby="demo-radio-buttons-group-label"
+                          // defaultValue="Natural Resource"
+                          name="radio-buttons-group"
+                          value={tackleclimatechange}
+                          onChange={tacklevalue}
+                        >
+                          <FormControlLabel value="Yes" control={<Radio style={{ color: '#595959' }} />} label="Yes" />
+                          <FormControlLabel value="No" control={<Radio style={{ color: '#595959' }} />} label="No" />
+                          <FormControlLabel
+                            value="Maybe"
+                            control={<Radio style={{ color: '#595959' }} />}
+                            label="Maybe"
+                          />
+                        </RadioGroup>
+                      </Stack>
+                    </CardContent>
+                  </Card>
+
+                  <Card style={{ marginTop: 40, backgroundColor: '#F6F8FB', borderRadius: 20 }}>
+                    <CardContent>
+                      <Stack mt={2}>
+                        <Typography style={{ color: '#ff7424' }}>
+                          Do you think you would do something to tackle climate change? / ಹವಾಮಾನ ಬದಲಾವಣೆಯನ್ನು ನಿಭಾಯಿಸಲು
+                          ನೀವು ಏನಾದರೂ ಮಾಡುತ್ತೀರಿ ಎಂದು ನೀವು ಭಾವಿಸುತ್ತೀರಾ *
+                          {somethingtackleError ? (
+                            <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText>
+                          ) : null}{' '}
+                        </Typography>
+                        <RadioGroup
+                          aria-labelledby="demo-radio-buttons-group-label"
+                          // defaultValue="Natural Resource"
+                          name="radio-buttons-group"
+                          value={somethingtackle}
+                          onChange={handlesomethingtacklevalue}
+                        >
+                          <FormControlLabel value="Yes" control={<Radio style={{ color: '#595959' }} />} label="Yes" />
+                          <FormControlLabel value="No" control={<Radio style={{ color: '#595959' }} />} label="No" />
+                          <FormControlLabel
+                            value="Maybe"
+                            control={<Radio style={{ color: '#595959' }} />}
+                            label="Maybe"
+                          />
+                        </RadioGroup>
+                      </Stack>
+                    </CardContent>
+                  </Card>
+                  <Card style={{ marginTop: 40, backgroundColor: '#F6F8FB', borderRadius: 20 }}>
+                    <CardContent>
+                      <Typography style={{ color: '#ff7424' }}>
+                        What is the main source of water used by your house-hold for other purposes,such as cooking and
+                        hand washing? / ಅಡುಗೆ ಮತ್ತು ಕೈ ತೊಳೆಯುವಂತಹ ಇತರ ಉದ್ದೇಶಗಳಿಗಾಗಿ ನಿಮ್ಮ ಮನೆಯವರು ಬಳಸುವ ನೀರಿನ ಮುಖ್ಯ ಮೂಲ
+                        ಯಾವುದು? *
+                      </Typography>
+                      <Stack mt={2}>
+                        <FormGroup>
+                          <FormControlLabel
+                            value="Piped water to yard/plot / ಅಂಗಳ/ಪ್ಲಾಟ್‌ಗೆ ಪೈಪ್‌ಲೈನ್ ನೀರು"
+                            control={<Checkbox style={{ color: '#595959' }} />}
+                            label="Piped water to yard/plot / ಅಂಗಳ/ಪ್ಲಾಟ್‌ಗೆ ಪೈಪ್‌ಲೈನ್ ನೀರು"
+                            onChange={(event) => handleresources('main_source_of_water', event)}
+                          />
+                          <FormControlLabel
+                            value="Public tap/standpipe / ಸಾರ್ವಜನಿಕ ಟ್ಯಾಪ್/ಸ್ಟ್ಯಾಂಡ್ ಪೈಪ್"
+                            control={<Checkbox style={{ color: '#595959' }} />}
+                            label="Public tap/standpipe / ಸಾರ್ವಜನಿಕ ಟ್ಯಾಪ್/ಸ್ಟ್ಯಾಂಡ್ ಪೈಪ್"
+                            onChange={(event) => handleresources('main_source_of_water', event)}
+                          />
+                          <FormControlLabel
+                            value="Tubewell/borehole / ಕೊಳವೆಬಾವಿ"
+                            control={<Checkbox style={{ color: '#595959' }} />}
+                            label="Tubewell/borehole / ಕೊಳವೆಬಾವಿ"
+                            onChange={(event) => handleresources('main_source_of_water', event)}
+                          />
+                          <FormControlLabel
+                            value="Protected dug well / ಚೆನ್ನಾಗಿ ಅಗೆದು ರಕ್ಷಿಸಲಾಗಿದೆ"
+                            control={<Checkbox style={{ color: '#595959' }} />}
+                            label="Protected dug well / ಚೆನ್ನಾಗಿ ಅಗೆದು ರಕ್ಷಿಸಲಾಗಿದೆ"
+                            onChange={(event) => handleresources('main_source_of_water', event)}
+                          />
+                          <FormControlLabel
+                            value="Unprotected dug well / ರಕ್ಷಣೆಯಿಲ್ಲದ ಬಾವಿ ತೋಡಿದ್ದಾರೆ"
+                            control={<Checkbox style={{ color: '#595959' }} />}
+                            label="Unprotected dug well / ರಕ್ಷಣೆಯಿಲ್ಲದ ಬಾವಿ ತೋಡಿದ್ದಾರೆ"
+                            onChange={(event) => handleresources('main_source_of_water', event)}
+                          />
+                          <FormControlLabel
+                            value="Protected spring / ಸಂರಕ್ಷಿತ ವಸಂತ"
+                            control={<Checkbox style={{ color: '#595959' }} />}
+                            label="Protected spring / ಸಂರಕ್ಷಿತ ವಸಂತ "
+                            onChange={(event) => handleresources('main_source_of_water', event)}
+                          />
+                          <FormControlLabel
+                            value="Unprotected spring / ಅಸುರಕ್ಷಿತ ವಸಂತ"
+                            control={<Checkbox style={{ color: '#595959' }} />}
+                            label="Unprotected spring / ಅಸುರಕ್ಷಿತ ವಸಂತ"
+                            onChange={(event) => handleresources('main_source_of_water', event)}
+                          />
+                          <FormControlLabel
+                            value="Rainwater collection / ಮಳೆನೀರು ಸಂಗ್ರಹಣೆ"
+                            control={<Checkbox style={{ color: '#595959' }} />}
+                            label="Rainwater collection / ಮಳೆನೀರು ಸಂಗ್ರಹಣೆ"
+                            onChange={(event) => handleresources('main_source_of_water', event)}
+                          />
+                          <FormControlLabel
+                            value="Tanker-truck / ಟ್ಯಾಂಕರ್-ಟ್ರಕ್"
+                            control={<Checkbox style={{ color: '#595959' }} />}
+                            label="Tanker-truck / ಟ್ಯಾಂಕರ್-ಟ್ರಕ್"
+                            onChange={(event) => handleresources('main_source_of_water', event)}
+                          />
+                          <FormControlLabel
+                            value="Surface water (river,dam,lake,pond,stream,canal,irrigation channels) / ಮೇಲ್ಮೈ ನೀರು (ನದಿ, ಅಣೆಕಟ್ಟು, ಸರೋವರ, ಕೊಳ, ಹೊಳೆ, ಕಾಲುವೆ, ನೀರಾವರಿ ಕಾಲುವೆಗಳು)"
+                            control={
+                              <Checkbox
+                                style={{ color: '#595959' }}
+                                onChange={(event) => handleresources('main_source_of_water', event)}
+                              />
+                            }
+                            label="Surface water (river,dam,lake,pond,stream,canal,irrigation channels) / ಮೇಲ್ಮೈ ನೀರು (ನದಿ, ಅಣೆಕಟ್ಟು, ಸರೋವರ, ಕೊಳ, ಹೊಳೆ, ಕಾಲುವೆ, ನೀರಾವರಿ ಕಾಲುವೆಗಳು)"
+                          />
+                          <FormControlLabel
+                            value="Others / ಇತರರು"
+                            control={<Checkbox style={{ color: '#595959' }} />}
+                            label="Others / ಇತರರು"
+                            onChange={(event) => handleresources('main_source_of_water', event)}
+                          />
+                        </FormGroup>
+                      </Stack>
+                    </CardContent>
+                  </Card>
+                  <Card style={{ marginTop: 40, backgroundColor: '#F6F8FB', borderRadius: 20 }}>
+                    <CardContent>
+                      <Stack mt={2}>
+                        <Typography style={{ color: '#ff7424' }}>
+                          Which Statement shown below do you agree with? / ಕೆಳಗೆ ತೋರಿಸಿರುವ ಯಾವ ಹೇಳಿಕೆಯನ್ನು ನೀವು
+                          ಒಪ್ಪುತ್ತೀರಿ? *
+                          {groundwaterstatementError ? (
+                            <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText>
+                          ) : null}{' '}
+                        </Typography>
+                        <RadioGroup
+                          aria-labelledby="demo-radio-buttons-group-label"
+                          // defaultValue="Natural Resource"
+                          name="radio-buttons-group"
+                          value={groundwaterstatement}
+                          onChange={groundwatervalue}
+                        >
+                          <FormControlLabel
+                            value="Ground water can be drawn to how much ever extent we want to / ಅಂತರ್ಜಲವನ್ನು ನಾವು ಎಷ್ಟು ಪ್ರಮಾಣದಲ್ಲಿ ಬಯಸುತ್ತೇವೋ ಅಷ್ಟು ಪ್ರಮಾಣದಲ್ಲಿ ಎಳೆಯಬಹುದು"
+                            control={<Radio style={{ color: '#595959' }} />}
+                            label="Ground water can be drawn to how much ever extent we want to / ಅಂತರ್ಜಲವನ್ನು ನಾವು ಎಷ್ಟು ಪ್ರಮಾಣದಲ್ಲಿ ಬಯಸುತ್ತೇವೋ ಅಷ್ಟು ಪ್ರಮಾಣದಲ್ಲಿ ಎಳೆಯಬಹುದು"
+                          />
+                          <FormControlLabel
+                            value="The groundwater below my land solely belongs to me / ನನ್ನ ಭೂಮಿಯ ಕೆಳಗಿನ ಅಂತರ್ಜಲ ನನಗೆ ಮಾತ್ರ ಸೇರಿದ್ದು"
+                            control={<Radio style={{ color: '#595959' }} />}
+                            label="The groundwater below my land solely belongs to me / ನನ್ನ ಭೂಮಿಯ ಕೆಳಗಿನ ಅಂತರ್ಜಲ ನನಗೆ ಮಾತ್ರ ಸೇರಿದ್ದು"
+                          />
+                          <FormControlLabel
+                            value="I should always consider the groundwater limit and other users around me before making decisions on its use / ಅದರ ಬಳಕೆಯ ಬಗ್ಗೆ ನಿರ್ಧಾರಗಳನ್ನು ತೆಗೆದುಕೊಳ್ಳುವ ಮೊದಲು ನಾನು ಯಾವಾಗಲೂ ಅಂತರ್ಜಲ ಮಿತಿ ಮತ್ತು ನನ್ನ ಸುತ್ತಲಿನ ಇತರ ಬಳಕೆದಾರರನ್ನು ಪರಿಗಣಿಸಬೇಕು"
+                            control={<Radio style={{ color: '#595959' }} />}
+                            label="I should always consider the groundwater limit and other users around me before making decisions on its use / ಅದರ ಬಳಕೆಯ ಬಗ್ಗೆ ನಿರ್ಧಾರಗಳನ್ನು ತೆಗೆದುಕೊಳ್ಳುವ ಮೊದಲು ನಾನು ಯಾವಾಗಲೂ ಅಂತರ್ಜಲ ಮಿತಿ ಮತ್ತು ನನ್ನ ಸುತ್ತಲಿನ ಇತರ ಬಳಕೆದಾರರನ್ನು ಪರಿಗಣಿಸಬೇಕು"
+                          />
+                          <FormControlLabel
+                            value="Groundwater is a shared resource / ಅಂತರ್ಜಲವು ಹಂಚಿಕೆಯ ಸಂಪನ್ಮೂಲವಾಗಿದೆ"
+                            control={<Radio style={{ color: '#595959' }} />}
+                            label="Groundwater is a shared resource / ಅಂತರ್ಜಲವು ಹಂಚಿಕೆಯ ಸಂಪನ್ಮೂಲವಾಗಿದೆ"
+                          />
+                        </RadioGroup>
+                      </Stack>
+                    </CardContent>
+                  </Card>
+                  <Card style={{ marginTop: 40, backgroundColor: '#F6F8FB', borderRadius: 20 }}>
+                    <CardContent>
+                      <Stack mt={2}>
+                        <Typography style={{ color: '#ff7424' }}>
+                          How concerned are you about local water quality that you are consuming now in your village?/
+                          ನಿಮ್ಮ ಗ್ರಾಮದಲ್ಲಿ ಈಗ ನೀವು ಸೇವಿಸುತ್ತಿರುವ ಸ್ಥಳೀಯ ನೀರಿನ ಗುಣಮಟ್ಟದ ಬಗ್ಗೆ ನಿಮಗೆ ಎಷ್ಟು ಕಾಳಜಿ ಇದೆ*
+                          {waterqualityError ? (
+                            <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText>
+                          ) : null}{' '}
+                        </Typography>
+                        <RadioGroup
+                          aria-labelledby="demo-radio-buttons-group-label"
+                          // defaultValue="Natural Resource"
+                          name="radio-buttons-group"
+                          value={waterquality}
+                          onChange={waterqualityvalue}
+                        >
+                          <FormControlLabel
+                            value="Very Unconcerned / ತುಂಬಾ ಅನ್ಕನ್ಸರ್ನ್ಡ್"
+                            control={<Radio style={{ color: '#595959' }} />}
+                            label="Very Unconcerned / ತುಂಬಾ ಅನ್ಕನ್ಸರ್ನ್ಡ್"
+                          />
+                          <FormControlLabel
+                            value="Unconcerned/ಕಾಳಜಿಯಿಲ್ಲದ"
+                            control={<Radio style={{ color: '#595959' }} />}
+                            label="Unconcerned/ಕಾಳಜಿಯಿಲ್ಲದ"
+                          />
+                          <FormControlLabel
+                            value="Neutral/ತಟಸ್ಥ"
+                            control={<Radio style={{ color: '#595959' }} />}
+                            label="Neutral/ತಟಸ್ಥ"
+                          />
+                          <FormControlLabel
+                            value="Concerned/ಕಳವಳ ವ್ಯಕ್ತಪಡಿಸಿದ್ದಾರೆ"
+                            control={<Radio style={{ color: '#595959' }} />}
+                            label="Concerned/ಕಳವಳ ವ್ಯಕ್ತಪಡಿಸಿದ್ದಾರೆ"
+                          />
+                          <FormControlLabel
+                            value="Very Concerned/ತುಂಬಾ ಕಾಳಜಿ"
+                            control={<Radio style={{ color: '#595959' }} />}
+                            label="Very Concerned/ತುಂಬಾ ಕಾಳಜಿ"
+                          />
+                        </RadioGroup>
+                      </Stack>
+                    </CardContent>
+                  </Card>
+
+                  <Card style={{ marginTop: 40, backgroundColor: '#F6F8FB', borderRadius: 20 }}>
+                    <CardContent>
+                      <Stack mt={2}>
+                        <Typography style={{ color: '#ff7424' }}>
+                          My personal actions can affect water quality in my village? / ನನ್ನ ವೈಯಕ್ತಿಕ ಕ್ರಿಯೆಗಳು ನನ್ನ
+                          ಹಳ್ಳಿಯಲ್ಲಿ ನೀರಿನ ಗುಣಮಟ್ಟದ ಮೇಲೆ ಪರಿಣಾಮ ಬೀರಬಹುದೇ? *
+                          {wateraffectError ? (
+                            <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText>
+                          ) : null}{' '}
+                        </Typography>
+                        <RadioGroup
+                          aria-labelledby="demo-radio-buttons-group-label"
+                          // defaultValue="Natural Resource"
+                          name="radio-buttons-group"
+                          value={wateraffect}
+                          onChange={wateraffectvalue}
+                        >
+                          <FormControlLabel
+                            value="Strongly disagree / ಖಂಡಿತವಾಗಿ ಒಪ್ಪುವುದಿಲ್ಲ"
+                            control={<Radio style={{ color: '#595959' }} />}
+                            label="Strongly disagree / ಖಂಡಿತವಾಗಿ ಒಪ್ಪುವುದಿಲ್ಲ"
+                          />
+                          <FormControlLabel
+                            value="Disagree / ಒಪ್ಪುವುದಿಲ್ಲ"
+                            control={<Radio style={{ color: '#595959' }} />}
+                            label="Disagree / ಒಪ್ಪುವುದಿಲ್ಲ"
+                          />
+                          <FormControlLabel
+                            value="Neutral / ತಟಸ್ಥ"
+                            control={<Radio style={{ color: '#595959' }} />}
+                            label="Neutral / ತಟಸ್ಥ"
+                          />
+                          <FormControlLabel
+                            value="Agreee / ಒಪ್ಪುತ್ತೇನೆ"
+                            control={<Radio style={{ color: '#595959' }} />}
+                            label="Agreee / ಒಪ್ಪುತ್ತೇನೆ"
+                          />
+                          <FormControlLabel
+                            value="Strongly agree / ಬಲವಾಗಿ ಒಪ್ಪುತ್ತೇನೆ"
+                            control={<Radio style={{ color: '#595959' }} />}
+                            label="Strongly agree / ಬಲವಾಗಿ ಒಪ್ಪುತ್ತೇನೆ"
+                          />
+                        </RadioGroup>
+                      </Stack>
+                    </CardContent>
+                  </Card>
+
+                  <Card style={{ marginTop: 40, backgroundColor: '#F6F8FB', borderRadius: 20 }}>
+                    <CardContent>
+                      <Stack mt={2}>
+                        <Typography style={{ color: '#ff7424' }}>
+                          Do you think you take water conservation measures in your everyday life? / ನಿಮ್ಮ ದೈನಂದಿನ
+                          ಜೀವನದಲ್ಲಿ ನೀವು ನೀರಿನ ಸಂರಕ್ಷಣೆ ಕ್ರಮಗಳನ್ನು ತೆಗೆದುಕೊಳ್ಳುತ್ತೀರಿ ಎಂದು ನೀವು ಭಾವಿಸುತ್ತೀರಾ *
+                          {waterconservationError ? (
+                            <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText>
+                          ) : null}{' '}
+                        </Typography>
+                        <RadioGroup
+                          aria-labelledby="demo-radio-buttons-group-label"
+                          // defaultValue="Natural Resource"
+                          name="radio-buttons-group"
+                          value={waterconservation}
+                          onChange={conservationmeasures}
+                        >
+                          <FormControlLabel value="Yes" control={<Radio style={{ color: '#595959' }} />} label="Yes" />
+                          <FormControlLabel value="No" control={<Radio style={{ color: '#595959' }} />} label="No" />
+                          <FormControlLabel
+                            value="Maybe"
+                            control={<Radio style={{ color: '#595959' }} />}
+                            label="Maybe"
+                          />
+                        </RadioGroup>
+                      </Stack>
+                    </CardContent>
+                  </Card>
+                  {showWaterConsuDiscription ? (
+                    <Card style={{ marginTop: 40, backgroundColor: '#F6F8FB', borderRadius: 20 }}>
+                      <CardContent>
+                        <Typography style={{ color: '#ff7424' }}>
+                          If yes,what kind of measures have you taken in the past? / ಹೌದು ಎಂದಾದರೆ, ನೀವು ಹಿಂದೆ ಯಾವ ರೀತಿಯ
+                          ಕ್ರಮಗಳನ್ನು ತೆಗೆದುಕೊಂಡಿದ್ದೀರಿ?*
+                        </Typography>
+                        <Stack mt={2} mb={2}>
+                          <TextField
+                            id="Ans"
+                            label="Your Answer"
+                            required
+                            variant="outlined"
+                            color="common"
+                            onChange={(e) =>
+                              setSendData({ ...sendData, If_yes_what_kind_of_measures: e?.target?.value })
+                            }
+                            value={sendData?.If_yes_what_kind_of_measures}
+                          />
+                        </Stack>
+                      </CardContent>
+                    </Card>
+                  ) : null}
+
+                  <Card style={{ marginTop: 40, backgroundColor: '#F6F8FB', borderRadius: 20 }}>
+                    <CardContent>
+                      <Typography style={{ color: '#ff7424' }}>
+                        Can you list down impact of climate change on your land?/ನಿಮ್ಮ ಭೂಮಿಯ ಮೇಲೆ ಹವಾಮಾನ ಬದಲಾವಣೆಯ
+                        ಪರಿಣಾಮವನ್ನು ನೀವು ಪಟ್ಟಿ ಮಾಡಬಹುದೇ? *
                       </Typography>
                       <Stack mt={2} mb={2}>
                         <TextField
-                          id="Ans"
+                          id="Anse"
                           label="Your Answer"
                           required
                           variant="outlined"
                           color="common"
-                          onChange={(e) => setSendData({ ...sendData, If_yes_what_kind_of_measures: e?.target?.value })}
-                          value={sendData?.If_yes_what_kind_of_measures}
+                          onChange={(e) =>
+                            setSendData({ ...sendData, list_down_impact_of_climate_change: e?.target?.value })
+                          }
+                          value={sendData?.list_down_impact_of_climate_change}
                         />
                       </Stack>
                     </CardContent>
                   </Card>
-                ) : null}
 
-                <Card style={{ marginTop: 40, backgroundColor: '#F6F8FB', borderRadius: 20 }}>
-                  <CardContent>
-                    <Typography style={{ color: '#ff7424' }}>
-                      Can you list down impact of climate change on your land?/ನಿಮ್ಮ ಭೂಮಿಯ ಮೇಲೆ ಹವಾಮಾನ ಬದಲಾವಣೆಯ
-                      ಪರಿಣಾಮವನ್ನು ನೀವು ಪಟ್ಟಿ ಮಾಡಬಹುದೇ? *
-                    </Typography>
-                    <Stack mt={2} mb={2}>
-                      <TextField
-                        id="Anse"
-                        label="Your Answer"
-                        required
-                        variant="outlined"
-                        color="common"
-                        onChange={(e) =>
-                          setSendData({ ...sendData, list_down_impact_of_climate_change: e?.target?.value })
-                        }
-                        value={sendData?.list_down_impact_of_climate_change}
-                      />
-                    </Stack>
-                  </CardContent>
-                </Card>
-
-                <Card style={{ marginTop: 40, backgroundColor: '#F6F8FB', borderRadius: 20 }}>
-                  <CardContent>
-                    <Stack mt={2}>
-                      <Typography style={{ color: '#ff7424' }}>
-                        Bhasker is gifting his 6 acres land to children Meena and Keshav.Out of 6 acres, 3 acres is in
-                        P.Halli and another 3 acres is in K.Halli which are closeby. The 2 plots are situated in the
-                        borders of K.Halli and P.Halli. K.Halli and P.Halli is separated by a forest in between. Meena
-                        and Keshav plans to expand their land by clearing parts of the forest. Meena wants to build a
-                        school and keshav wants to build a shopping complex in the forest land. what do you think should
-                        be done here? / ಭಾಸ್ಕರ್ ಅವರು ತಮ್ಮ 6 ಎಕರೆ ಜಮೀನನ್ನು ಮಕ್ಕಳಾದ ಮೀನಾ ಮತ್ತು ಕೇಶವ್ ಅವರಿಗೆ ಉಡುಗೊರೆಯಾಗಿ
-                        ನೀಡುತ್ತಿದ್ದಾರೆ. 6 ಎಕರೆಯಲ್ಲಿ 3 ಎಕರೆ ಪಿ.ಹಳ್ಳಿಯಲ್ಲಿ ಮತ್ತು ಇನ್ನೊಂದು 3 ಎಕರೆ ಹತ್ತಿರವಿರುವ
-                        ಕೆ.ಹಳ್ಳಿಯಲ್ಲಿದೆ. 2 ಪ್ಲಾಟ್‌ಗಳು ಕೆ.ಹಳ್ಳಿ ಮತ್ತು ಪಿ.ಹಳ್ಳಿಯ ಗಡಿಯಲ್ಲಿವೆ. ಕೆ.ಹಳ್ಳಿ ಮತ್ತು ಪಿ.ಹಳ್ಳಿ ನಡುವೆ
-                        ಕಾಡಿನಿಂದ ಬೇರ್ಪಟ್ಟಿದೆ. ಮೀನಾ ಮತ್ತು ಕೇಶವ್ ಕಾಡಿನ ಭಾಗಗಳನ್ನು ತೆರವುಗೊಳಿಸುವ ಮೂಲಕ ತಮ್ಮ ಭೂಮಿಯನ್ನು
-                        ವಿಸ್ತರಿಸಲು ಯೋಜಿಸಿದ್ದಾರೆ. ಮೀನಾ ಅವರು ಶಾಲೆಯನ್ನು ನಿರ್ಮಿಸಲು ಬಯಸುತ್ತಾರೆ ಮತ್ತು ಕೇಶವ್ ಅವರು ಅರಣ್ಯ
-                        ಭೂಮಿಯಲ್ಲಿ ಶಾಪಿಂಗ್ ಕಾಂಪ್ಲೆಕ್ಸ್ ನಿರ್ಮಿಸಲು ಬಯಸುತ್ತಾರೆ. ಇಲ್ಲಿ ಏನು ಮಾಡಬೇಕು ಎಂದು ನೀವು ಯೋಚಿಸುತ್ತೀರಿ? *
-                        {landError ? <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText> : null}{' '}
-                      </Typography>
-                      <RadioGroup
-                        aria-labelledby="demo-radio-buttons-group-label"
-                        // defaultValue="Natural Resource"
-                        name="radio-buttons-group"
-                        value={land}
-                        onChange={handleland}
-                      >
-                        <FormControlLabel
-                          value="I support Meena as she is helping society by building a school for children of tthe village/ ಹಳ್ಳಿಯ ಮಕ್ಕಳಿಗಾಗಿ ಶಾಲೆ ನಿರ್ಮಿಸುವ ಮೂಲಕ ಸಮಾಜಕ್ಕೆ ಸಹಾಯ ಮಾಡುತ್ತಿರುವ ಮೀನಾ ಅವರನ್ನು ನಾನು ಬೆಂಬಲಿಸುತ್ತೇನೆ"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="I support Meena as she is helping society by building a school for children of tthe village/ ಹಳ್ಳಿಯ ಮಕ್ಕಳಿಗಾಗಿ ಶಾಲೆ ನಿರ್ಮಿಸುವ ಮೂಲಕ ಸಮಾಜಕ್ಕೆ ಸಹಾಯ ಮಾಡುತ್ತಿರುವ ಮೀನಾ ಅವರನ್ನು ನಾನು ಬೆಂಬಲಿಸುತ್ತೇನೆ"
-                        />
-                        <FormControlLabel
-                          value="I support Keshav as he is opening shopping opportunities for villagers/ನಾನು ಕೇಶವ್ ಅವರನ್ನು ಬೆಂಬಲಿಸುತ್ತೇನೆ ಏಕೆಂದರೆ ಅವರು ಹಳ್ಳಿಗರಿಗೆ ಶಾಪಿಂಗ್ ಅವಕಾಶಗಳನ್ನು ತೆರೆಯುತ್ತಾರೆ"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="I support Keshav as he is opening shopping opportunities for villagers/ನಾನು ಕೇಶವ್ ಅವರನ್ನು ಬೆಂಬಲಿಸುತ್ತೇನೆ ಏಕೆಂದರೆ ಅವರು ಹಳ್ಳಿಗರಿಗೆ ಶಾಪಿಂಗ್ ಅವಕಾಶಗಳನ್ನು ತೆರೆಯುತ್ತಾರೆ"
-                        />
-                        <FormControlLabel
-                          value="I won't support both,as forest land does'nt belong to them,it belongs to people of both villages, animals and the trees/ ನಾನು ಎರಡನ್ನೂ ಬೆಂಬಲಿಸುವುದಿಲ್ಲ, ಏಕೆಂದರೆ ಅರಣ್ಯ ಭೂಮಿ ಅವರಿಗೆ ಸೇರಿಲ್ಲ, ಅದು ಎರಡೂ ಹಳ್ಳಿಗಳ ಜನರಿಗೆ, ಪ್ರಾಣಿಗಳು ಮತ್ತು ಮರಗಳಿಗೆ ಸೇರಿದೆ"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="I won't support both,as forest land does'nt belong to them,it belongs to people of both villages, animals and the trees/ ನಾನು ಎರಡನ್ನೂ ಬೆಂಬಲಿಸುವುದಿಲ್ಲ, ಏಕೆಂದರೆ ಅರಣ್ಯ ಭೂಮಿ ಅವರಿಗೆ ಸೇರಿಲ್ಲ, ಅದು ಎರಡೂ ಹಳ್ಳಿಗಳ ಜನರಿಗೆ, ಪ್ರಾಣಿಗಳು ಮತ್ತು ಮರಗಳಿಗೆ ಸೇರಿದೆ."
-                        />
-                        <FormControlLabel
-                          value="I don't know what to decide / ಏನು ನಿರ್ಧರಿಸಬೇಕೆಂದು ನನಗೆ ತಿಳಿದಿಲ್ಲ"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="I don't know what to decide / ಏನು ನಿರ್ಧರಿಸಬೇಕೆಂದು ನನಗೆ ತಿಳಿದಿಲ್ಲ."
-                        />
-                      </RadioGroup>
-                    </Stack>
-                  </CardContent>
-                </Card>
-
-                <Card style={{ marginTop: 40, backgroundColor: '#F6F8FB', borderRadius: 20 }}>
-                  <CardContent>
-                    <Stack mt={2}>
-                      <Typography style={{ color: '#ff7424' }}>
-                        Which one according to you is right? / ನಿಮ್ಮ ಪ್ರಕಾರ ಯಾವುದು ಸರಿ *
-                        {treesError ? <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText> : null}{' '}
-                      </Typography>
-                      <RadioGroup
-                        aria-labelledby="demo-radio-buttons-group-label"
-                        // defaultValue="Natural Resource"
-                        name="radio-buttons-group"
-                        value={trees}
-                        onChange={handletrees}
-                      >
-                        <FormControlLabel
-                          value="Covering up a lake and constructing a building and earn more income/ಕೆರೆ ಒತ್ತುವರಿ ಮಾಡಿ ಕಟ್ಟಡ ನಿರ್ಮಿಸಿ ಹೆಚ್ಚಿನ ಆದಾಯ ಗಳಿಸುತ್ತಿದ್ದಾರೆ"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Covering up a lake and constructing a building and earn more income/ಕೆರೆ ಒತ್ತುವರಿ ಮಾಡಿ ಕಟ್ಟಡ ನಿರ್ಮಿಸಿ ಹೆಚ್ಚಿನ ಆದಾಯ ಗಳಿಸುತ್ತಿದ್ದಾರೆ."
-                        />
-                        <FormControlLabel
-                          value="Cutting trees to increase available land area for commercial activities improves standard of living / ವಾಣಿಜ್ಯ ಚಟುವಟಿಕೆಗಳಿಗಾಗಿ ಲಭ್ಯವಿರುವ ಭೂಪ್ರದೇಶವನ್ನು ಹೆಚ್ಚಿಸಲು ಮರಗಳನ್ನು ಕಡಿಯುವುದು ಜೀವನ ಮಟ್ಟವನ್ನು ಸುಧಾರಿಸುತ್ತದೆ"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Cutting trees to increase available land area for commercial activities improves standard of living / ವಾಣಿಜ್ಯ ಚಟುವಟಿಕೆಗಳಿಗಾಗಿ ಲಭ್ಯವಿರುವ ಭೂಪ್ರದೇಶವನ್ನು ಹೆಚ್ಚಿಸಲು ಮರಗಳನ್ನು ಕಡಿಯುವುದು ಜೀವನ ಮಟ್ಟವನ್ನು ಸುಧಾರಿಸುತ್ತದೆ."
-                        />
-                        <FormControlLabel
-                          value="Protect trees,lakes,reduce use of chemicals on land and protect your asset/ಮರಗಳು, ಸರೋವರಗಳನ್ನು ರಕ್ಷಿಸಿ, ಭೂಮಿಯಲ್ಲಿ ರಾಸಾಯನಿಕಗಳ ಬಳಕೆಯನ್ನು ಕಡಿಮೆ ಮಾಡಿ ಮತ್ತು ನಿಮ್ಮ ಆಸ್ತಿಯನ್ನು ರಕ್ಷಿಸಿ"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Protect trees,lakes,reduce use of chemicals on land and protect your asset/ಮರಗಳು, ಸರೋವರಗಳನ್ನು ರಕ್ಷಿಸಿ, ಭೂಮಿಯಲ್ಲಿ ರಾಸಾಯನಿಕಗಳ ಬಳಕೆಯನ್ನು ಕಡಿಮೆ ಮಾಡಿ ಮತ್ತು ನಿಮ್ಮ ಆಸ್ತಿಯನ್ನು ರಕ್ಷಿಸಿ."
-                        />
-                      </RadioGroup>
-                    </Stack>
-                  </CardContent>
-                </Card>
-
-                <Card style={{ marginTop: 40, backgroundColor: '#F6F8FB', borderRadius: 20 }}>
-                  <CardContent>
-                    <Stack mt={2}>
-                      <Typography style={{ color: '#ff7424' }}>
-                        Do you believe there is a connection between the food we eat,our health and climate change? /
-                        ನಾವು ತಿನ್ನುವ ಆಹಾರ, ನಮ್ಮ ಆರೋಗ್ಯ ಮತ್ತು ಹವಾಮಾನ ಬದಲಾವಣೆಯ ನಡುವೆ ಸಂಬಂಧವಿದೆ ಎಂದು ನೀವು ನಂಬುತ್ತೀರಾ? *
-                        {foodconnectionError ? (
-                          <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText>
-                        ) : null}{' '}
-                      </Typography>
-                      <RadioGroup
-                        aria-labelledby="demo-radio-buttons-group-label"
-                        // defaultValue="Natural Resource"
-                        name="radio-buttons-group"
-                        value={foodconnection}
-                        onChange={handlefoodconnection}
-                      >
-                        <FormControlLabel
-                          value="There is a connection between food and health/ಆಹಾರ ಮತ್ತು ಆರೋಗ್ಯದ ನಡುವೆ ಸಂಬಂಧವಿದೆ"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="There is a connection between food and health/ಆಹಾರ ಮತ್ತು ಆರೋಗ್ಯದ ನಡುವೆ ಸಂಬಂಧವಿದೆ"
-                        />
-                        <FormControlLabel
-                          value="There is a connection between all three/ಮೂರರ ನಡುವೆ ಸಂಬಂಧವಿದೆ"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="There is a connection between all three/ಮೂರರ ನಡುವೆ ಸಂಬಂಧವಿದೆ."
-                        />
-                        <FormControlLabel
-                          value="I do not see any connection between them/ಅವರ ನಡುವೆ ಯಾವುದೇ ಸಂಬಂಧವನ್ನು ನಾನು ನೋಡುತ್ತಿಲ್ಲ"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="I do not see any connection between them/ಅವರ ನಡುವೆ ಯಾವುದೇ ಸಂಬಂಧವನ್ನು ನಾನು ನೋಡುತ್ತಿಲ್ಲ."
-                        />
-                      </RadioGroup>
-                    </Stack>
-                  </CardContent>
-                </Card>
-                <Card style={{ marginTop: 40, backgroundColor: '#F6F8FB', borderRadius: 20 }}>
-                  <CardContent>
-                    <Typography style={{ color: '#ff7424' }}>
-                      Are there any native food you believe is environmentally friendly to plant and is good for
-                      health?Name any two / ಸಸ್ಯಗಳಿಗೆ ಪರಿಸರ ಸ್ನೇಹಿ ಮತ್ತು ಆರೋಗ್ಯಕ್ಕೆ ಒಳ್ಳೆಯದು ಎಂದು ನೀವು ನಂಬುವ ಯಾವುದೇ
-                      ಸ್ಥಳೀಯ ಆಹಾರವಿದೆಯೇ? ಯಾವುದಾದರೂ ಎರಡನ್ನು ಹೆಸರಿಸಿ *
-                    </Typography>
-                    <Stack mt={2} mb={2}>
-                      <TextField
-                        id="Answ"
-                        label="Your Answer"
-                        required
-                        variant="outlined"
-                        color="common"
-                        onChange={(e) =>
-                          setSendData({
-                            ...sendData,
-                            native_food_you_believe_is_envionmentally_friendly: e?.target?.value,
-                          })
-                        }
-                        value={sendData?.native_food_you_believe_is_envionmentally_friendly}
-                      />
-                    </Stack>
-                  </CardContent>
-                </Card>
-
-                <Card style={{ marginTop: 40, backgroundColor: '#F6F8FB', borderRadius: 20 }}>
-                  <CardContent>
-                    <Stack mt={2}>
-                      <Typography style={{ color: '#ff7424' }}>
-                        Which of the following household activity pollutes natural resources? / ಕೆಳಗಿನ ಯಾವ ಮನೆಯ
-                        ಚಟುವಟಿಕೆಯು ನೈಸರ್ಗಿಕ ಸಂಪನ್ಮೂಲಗಳನ್ನು ಕಲುಷಿತಗೊಳಿಸುತ್ತದೆ? *
-                        {householdactivityError ? (
-                          <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText>
-                        ) : null}{' '}
-                      </Typography>
-                      <RadioGroup
-                        aria-labelledby="demo-radio-buttons-group-label"
-                        // defaultValue="Natural Resource"
-                        name="radio-buttons-group"
-                        value={householdactivity}
-                        onChange={handlehouseholdactivity}
-                      >
-                        <FormControlLabel
-                          value="Consuming plastic packed biscuits,chocolates and chips/ಪ್ಲಾಸ್ಟಿಕ್ ಪ್ಯಾಕ್ ಮಾಡಿದ ಬಿಸ್ಕತ್ತುಗಳು, ಚಾಕೊಲೇಟ್‌ಗಳು ಮತ್ತು ಚಿಪ್‌ಗಳನ್ನು ಸೇವಿಸುವುದು"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Consuming plastic packed biscuits,chocolates and chips/ಪ್ಲಾಸ್ಟಿಕ್ ಪ್ಯಾಕ್ ಮಾಡಿದ ಬಿಸ್ಕತ್ತುಗಳು, ಚಾಕೊಲೇಟ್‌ಗಳು ಮತ್ತು ಚಿಪ್‌ಗಳನ್ನು ಸೇವಿಸುವುದು."
-                        />
-                        <FormControlLabel
-                          value="Body & hair cleansing liquids,soaps,tooth paste / ದೇಹ ಮತ್ತು ಕೂದಲು ಶುದ್ಧೀಕರಿಸುವ ದ್ರವಗಳು, ಸಾಬೂನುಗಳು, ಟೂತ್ ಪೇಸ್ಟ್"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Body & hair cleansing liquids,soaps,tooth paste / ದೇಹ ಮತ್ತು ಕೂದಲು ಶುದ್ಧೀಕರಿಸುವ ದ್ರವಗಳು, ಸಾಬೂನುಗಳು, ಟೂತ್ ಪೇಸ್ಟ್."
-                        />
-                        <FormControlLabel
-                          value="Use of coal,firewood or gas for cooking / ಅಡುಗೆಗೆ ಕಲ್ಲಿದ್ದಲು, ಉರುವಲು ಅಥವಾ ಅನಿಲದ ಬಳಕೆ"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Use of coal,firewood or gas for cooking / ಅಡುಗೆಗೆ ಕಲ್ಲಿದ್ದಲು, ಉರುವಲು ಅಥವಾ ಅನಿಲದ ಬಳಕೆ"
-                        />
-                        <FormControlLabel
-                          value="All of the above / ಮೇಲಿನ ಎಲ್ಲವೂ"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="All of the above / ಮೇಲಿನ ಎಲ್ಲವೂ"
-                        />
-                        <FormControlLabel
-                          value="None of the above / ಮೇಲಿನ ಯಾವುದೂ ಅಲ್ಲ"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="None of the above / ಮೇಲಿನ ಯಾವುದೂ ಅಲ್ಲ "
-                        />
-                        <FormControlLabel
-                          value="I don't know/ನನಗೆ ಗೊತ್ತಿಲ್ಲ"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="I don't know/ನನಗೆ ಗೊತ್ತಿಲ್ಲ"
-                        />
-                      </RadioGroup>
-                    </Stack>
-                  </CardContent>
-                </Card>
-                <Card style={{ marginTop: 40, backgroundColor: '#F6F8FB', borderRadius: 20 }}>
-                  <CardContent>
-                    <Stack mt={2}>
-                      <Typography style={{ color: '#ff7424' }}>
-                        Do you think there are alternatives in the household for materials that cause pollution? /
-                        ಮಾಲಿನ್ಯವನ್ನು ಉಂಟುಮಾಡುವ ವಸ್ತುಗಳಿಗೆ ಮನೆಯಲ್ಲಿ ಪರ್ಯಾಯಗಳಿವೆ ಎಂದು ನೀವು ಭಾವಿಸುತ್ತೀರಾ?*
-                        {pollutioncauseError ? (
-                          <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText>
-                        ) : null}{' '}
-                      </Typography>
-                      <RadioGroup
-                        aria-labelledby="demo-radio-buttons-group-label"
-                        // defaultValue="Natural Resource"
-                        name="radio-buttons-group"
-                        value={pollutioncause}
-                        onChange={handlepollutioncause}
-                      >
-                        <FormControlLabel value="Yes" control={<Radio style={{ color: '#595959' }} />} label="Yes" />
-                        <FormControlLabel value="No" control={<Radio style={{ color: '#595959' }} />} label="No" />
-                        <FormControlLabel
-                          value="Maybe"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Maybe"
-                        />
-                      </RadioGroup>
-                    </Stack>
-                  </CardContent>
-                </Card>
-                {showHouseHoldDiscription ? (
                   <Card style={{ marginTop: 40, backgroundColor: '#F6F8FB', borderRadius: 20 }}>
                     <CardContent>
-                      <Typography style={{ color: '#ff7424' }}>
-                        If yes, what are they? / ಹೌದು ಎಂದಾದರೆ, ಅವು ಯಾವುವು? *
-                      </Typography>
-                      <Stack mt={2} mb={2}>
-                        <TextField
-                          id="Answ"
-                          label="Your Answer"
-                          required
-                          variant="outlined"
-                          color="common"
-                          onChange={(e) => setSendData({ ...sendData, If_yes_what_are_they: e?.target?.value })}
-                          value={sendData?.If_yes_what_are_they}
-                        />
+                      <Stack mt={2}>
+                        <Typography style={{ color: '#ff7424' }}>
+                          Bhasker is gifting his 6 acres land to children Meena and Keshav.Out of 6 acres, 3 acres is in
+                          P.Halli and another 3 acres is in K.Halli which are closeby. The 2 plots are situated in the
+                          borders of K.Halli and P.Halli. K.Halli and P.Halli is separated by a forest in between. Meena
+                          and Keshav plans to expand their land by clearing parts of the forest. Meena wants to build a
+                          school and keshav wants to build a shopping complex in the forest land. what do you think
+                          should be done here? / ಭಾಸ್ಕರ್ ಅವರು ತಮ್ಮ 6 ಎಕರೆ ಜಮೀನನ್ನು ಮಕ್ಕಳಾದ ಮೀನಾ ಮತ್ತು ಕೇಶವ್ ಅವರಿಗೆ
+                          ಉಡುಗೊರೆಯಾಗಿ ನೀಡುತ್ತಿದ್ದಾರೆ. 6 ಎಕರೆಯಲ್ಲಿ 3 ಎಕರೆ ಪಿ.ಹಳ್ಳಿಯಲ್ಲಿ ಮತ್ತು ಇನ್ನೊಂದು 3 ಎಕರೆ ಹತ್ತಿರವಿರುವ
+                          ಕೆ.ಹಳ್ಳಿಯಲ್ಲಿದೆ. 2 ಪ್ಲಾಟ್‌ಗಳು ಕೆ.ಹಳ್ಳಿ ಮತ್ತು ಪಿ.ಹಳ್ಳಿಯ ಗಡಿಯಲ್ಲಿವೆ. ಕೆ.ಹಳ್ಳಿ ಮತ್ತು ಪಿ.ಹಳ್ಳಿ
+                          ನಡುವೆ ಕಾಡಿನಿಂದ ಬೇರ್ಪಟ್ಟಿದೆ. ಮೀನಾ ಮತ್ತು ಕೇಶವ್ ಕಾಡಿನ ಭಾಗಗಳನ್ನು ತೆರವುಗೊಳಿಸುವ ಮೂಲಕ ತಮ್ಮ ಭೂಮಿಯನ್ನು
+                          ವಿಸ್ತರಿಸಲು ಯೋಜಿಸಿದ್ದಾರೆ. ಮೀನಾ ಅವರು ಶಾಲೆಯನ್ನು ನಿರ್ಮಿಸಲು ಬಯಸುತ್ತಾರೆ ಮತ್ತು ಕೇಶವ್ ಅವರು ಅರಣ್ಯ
+                          ಭೂಮಿಯಲ್ಲಿ ಶಾಪಿಂಗ್ ಕಾಂಪ್ಲೆಕ್ಸ್ ನಿರ್ಮಿಸಲು ಬಯಸುತ್ತಾರೆ. ಇಲ್ಲಿ ಏನು ಮಾಡಬೇಕು ಎಂದು ನೀವು ಯೋಚಿಸುತ್ತೀರಿ?
+                          *{landError ? <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText> : null}{' '}
+                        </Typography>
+                        <RadioGroup
+                          aria-labelledby="demo-radio-buttons-group-label"
+                          // defaultValue="Natural Resource"
+                          name="radio-buttons-group"
+                          value={land}
+                          onChange={handleland}
+                        >
+                          <FormControlLabel
+                            value="I support Meena as she is helping society by building a school for children of tthe village/ ಹಳ್ಳಿಯ ಮಕ್ಕಳಿಗಾಗಿ ಶಾಲೆ ನಿರ್ಮಿಸುವ ಮೂಲಕ ಸಮಾಜಕ್ಕೆ ಸಹಾಯ ಮಾಡುತ್ತಿರುವ ಮೀನಾ ಅವರನ್ನು ನಾನು ಬೆಂಬಲಿಸುತ್ತೇನೆ"
+                            control={<Radio style={{ color: '#595959' }} />}
+                            label="I support Meena as she is helping society by building a school for children of tthe village/ ಹಳ್ಳಿಯ ಮಕ್ಕಳಿಗಾಗಿ ಶಾಲೆ ನಿರ್ಮಿಸುವ ಮೂಲಕ ಸಮಾಜಕ್ಕೆ ಸಹಾಯ ಮಾಡುತ್ತಿರುವ ಮೀನಾ ಅವರನ್ನು ನಾನು ಬೆಂಬಲಿಸುತ್ತೇನೆ"
+                          />
+                          <FormControlLabel
+                            value="I support Keshav as he is opening shopping opportunities for villagers/ನಾನು ಕೇಶವ್ ಅವರನ್ನು ಬೆಂಬಲಿಸುತ್ತೇನೆ ಏಕೆಂದರೆ ಅವರು ಹಳ್ಳಿಗರಿಗೆ ಶಾಪಿಂಗ್ ಅವಕಾಶಗಳನ್ನು ತೆರೆಯುತ್ತಾರೆ"
+                            control={<Radio style={{ color: '#595959' }} />}
+                            label="I support Keshav as he is opening shopping opportunities for villagers/ನಾನು ಕೇಶವ್ ಅವರನ್ನು ಬೆಂಬಲಿಸುತ್ತೇನೆ ಏಕೆಂದರೆ ಅವರು ಹಳ್ಳಿಗರಿಗೆ ಶಾಪಿಂಗ್ ಅವಕಾಶಗಳನ್ನು ತೆರೆಯುತ್ತಾರೆ"
+                          />
+                          <FormControlLabel
+                            value="I won't support both,as forest land does'nt belong to them,it belongs to people of both villages, animals and the trees/ ನಾನು ಎರಡನ್ನೂ ಬೆಂಬಲಿಸುವುದಿಲ್ಲ, ಏಕೆಂದರೆ ಅರಣ್ಯ ಭೂಮಿ ಅವರಿಗೆ ಸೇರಿಲ್ಲ, ಅದು ಎರಡೂ ಹಳ್ಳಿಗಳ ಜನರಿಗೆ, ಪ್ರಾಣಿಗಳು ಮತ್ತು ಮರಗಳಿಗೆ ಸೇರಿದೆ"
+                            control={<Radio style={{ color: '#595959' }} />}
+                            label="I won't support both,as forest land does'nt belong to them,it belongs to people of both villages, animals and the trees/ ನಾನು ಎರಡನ್ನೂ ಬೆಂಬಲಿಸುವುದಿಲ್ಲ, ಏಕೆಂದರೆ ಅರಣ್ಯ ಭೂಮಿ ಅವರಿಗೆ ಸೇರಿಲ್ಲ, ಅದು ಎರಡೂ ಹಳ್ಳಿಗಳ ಜನರಿಗೆ, ಪ್ರಾಣಿಗಳು ಮತ್ತು ಮರಗಳಿಗೆ ಸೇರಿದೆ."
+                          />
+                          <FormControlLabel
+                            value="I don't know what to decide / ಏನು ನಿರ್ಧರಿಸಬೇಕೆಂದು ನನಗೆ ತಿಳಿದಿಲ್ಲ"
+                            control={<Radio style={{ color: '#595959' }} />}
+                            label="I don't know what to decide / ಏನು ನಿರ್ಧರಿಸಬೇಕೆಂದು ನನಗೆ ತಿಳಿದಿಲ್ಲ."
+                          />
+                        </RadioGroup>
                       </Stack>
                     </CardContent>
                   </Card>
-                ) : null}
 
-                <Card style={{ marginTop: 40, backgroundColor: '#F6F8FB', borderRadius: 20 }}>
-                  <CardContent>
-                    <Stack mt={2}>
-                      <Typography style={{ color: '#ff7424' }}>
-                        Would you be willing to switch to these eco-friendly products and activities? / ಈ ಪರಿಸರ ಸ್ನೇಹಿ
-                        ಉತ್ಪನ್ನಗಳು ಮತ್ತು ಚಟುವಟಿಕೆಗಳಿಗೆ ಬದಲಾಯಿಸಲು ನೀವು ಸಿದ್ಧರಿದ್ದೀರಾ? *
-                        {productsError ? <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText> : null}{' '}
-                      </Typography>
-                      <RadioGroup
-                        aria-labelledby="demo-radio-buttons-group-label"
-                        // defaultValue="Natural Resource"
-                        name="radio-buttons-group"
-                        value={products}
-                        onChange={handleproducts}
-                      >
-                        <FormControlLabel value="Yes" control={<Radio style={{ color: '#595959' }} />} label="Yes" />
-                        <FormControlLabel value="No" control={<Radio style={{ color: '#595959' }} />} label="No" />
-                        <FormControlLabel
-                          value="Maybe"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Maybe"
-                        />
-                      </RadioGroup>
-                    </Stack>
-                  </CardContent>
-                </Card>
+                  <Card style={{ marginTop: 40, backgroundColor: '#F6F8FB', borderRadius: 20 }}>
+                    <CardContent>
+                      <Stack mt={2}>
+                        <Typography style={{ color: '#ff7424' }}>
+                          Which one according to you is right? / ನಿಮ್ಮ ಪ್ರಕಾರ ಯಾವುದು ಸರಿ *
+                          {treesError ? <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText> : null}{' '}
+                        </Typography>
+                        <RadioGroup
+                          aria-labelledby="demo-radio-buttons-group-label"
+                          // defaultValue="Natural Resource"
+                          name="radio-buttons-group"
+                          value={trees}
+                          onChange={handletrees}
+                        >
+                          <FormControlLabel
+                            value="Covering up a lake and constructing a building and earn more income/ಕೆರೆ ಒತ್ತುವರಿ ಮಾಡಿ ಕಟ್ಟಡ ನಿರ್ಮಿಸಿ ಹೆಚ್ಚಿನ ಆದಾಯ ಗಳಿಸುತ್ತಿದ್ದಾರೆ"
+                            control={<Radio style={{ color: '#595959' }} />}
+                            label="Covering up a lake and constructing a building and earn more income/ಕೆರೆ ಒತ್ತುವರಿ ಮಾಡಿ ಕಟ್ಟಡ ನಿರ್ಮಿಸಿ ಹೆಚ್ಚಿನ ಆದಾಯ ಗಳಿಸುತ್ತಿದ್ದಾರೆ."
+                          />
+                          <FormControlLabel
+                            value="Cutting trees to increase available land area for commercial activities improves standard of living / ವಾಣಿಜ್ಯ ಚಟುವಟಿಕೆಗಳಿಗಾಗಿ ಲಭ್ಯವಿರುವ ಭೂಪ್ರದೇಶವನ್ನು ಹೆಚ್ಚಿಸಲು ಮರಗಳನ್ನು ಕಡಿಯುವುದು ಜೀವನ ಮಟ್ಟವನ್ನು ಸುಧಾರಿಸುತ್ತದೆ"
+                            control={<Radio style={{ color: '#595959' }} />}
+                            label="Cutting trees to increase available land area for commercial activities improves standard of living / ವಾಣಿಜ್ಯ ಚಟುವಟಿಕೆಗಳಿಗಾಗಿ ಲಭ್ಯವಿರುವ ಭೂಪ್ರದೇಶವನ್ನು ಹೆಚ್ಚಿಸಲು ಮರಗಳನ್ನು ಕಡಿಯುವುದು ಜೀವನ ಮಟ್ಟವನ್ನು ಸುಧಾರಿಸುತ್ತದೆ."
+                          />
+                          <FormControlLabel
+                            value="Protect trees,lakes,reduce use of chemicals on land and protect your asset/ಮರಗಳು, ಸರೋವರಗಳನ್ನು ರಕ್ಷಿಸಿ, ಭೂಮಿಯಲ್ಲಿ ರಾಸಾಯನಿಕಗಳ ಬಳಕೆಯನ್ನು ಕಡಿಮೆ ಮಾಡಿ ಮತ್ತು ನಿಮ್ಮ ಆಸ್ತಿಯನ್ನು ರಕ್ಷಿಸಿ"
+                            control={<Radio style={{ color: '#595959' }} />}
+                            label="Protect trees,lakes,reduce use of chemicals on land and protect your asset/ಮರಗಳು, ಸರೋವರಗಳನ್ನು ರಕ್ಷಿಸಿ, ಭೂಮಿಯಲ್ಲಿ ರಾಸಾಯನಿಕಗಳ ಬಳಕೆಯನ್ನು ಕಡಿಮೆ ಮಾಡಿ ಮತ್ತು ನಿಮ್ಮ ಆಸ್ತಿಯನ್ನು ರಕ್ಷಿಸಿ."
+                          />
+                        </RadioGroup>
+                      </Stack>
+                    </CardContent>
+                  </Card>
 
-                <Card style={{ marginTop: 40, backgroundColor: '#F6F8FB', borderRadius: 20 }}>
-                  <CardContent>
-                    <Stack mt={2}>
-                      <Typography style={{ color: '#ff7424' }}>
-                        Would you be willing to make this switch to eco-friendly even if you have a pay a little more
-                        than what you pay for the chemicals? / ನೀವು ರಾಸಾಯನಿಕಗಳಿಗೆ ಪಾವತಿಸುವುದಕ್ಕಿಂತ ಸ್ವಲ್ಪ ಹೆಚ್ಚು
-                        ವೇತನವನ್ನು ಹೊಂದಿದ್ದರೂ ಸಹ ಪರಿಸರ ಸ್ನೇಹಿಯಾಗಿ ಈ ಬದಲಾವಣೆಯನ್ನು ಮಾಡಲು ನೀವು ಸಿದ್ಧರಿದ್ದೀರಾ *
-                        {paychemicalsError ? (
-                          <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText>
-                        ) : null}{' '}
-                      </Typography>
-                      <RadioGroup
-                        aria-labelledby="demo-radio-buttons-group-label"
-                        // defaultValue="Natural Resource"
-                        name="radio-buttons-group"
-                        value={paychemicals}
-                        onChange={handlechemicals}
-                      >
-                        <FormControlLabel value="Yes" control={<Radio style={{ color: '#595959' }} />} label="Yes" />
-                        <FormControlLabel value="No" control={<Radio style={{ color: '#595959' }} />} label="No" />
-                        <FormControlLabel
-                          value="Maybe"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Maybe"
-                        />
-                      </RadioGroup>
-                    </Stack>
-                  </CardContent>
-                </Card>
-                {showEcoFriendlyDiscription ? (
+                  <Card style={{ marginTop: 40, backgroundColor: '#F6F8FB', borderRadius: 20 }}>
+                    <CardContent>
+                      <Stack mt={2}>
+                        <Typography style={{ color: '#ff7424' }}>
+                          Do you believe there is a connection between the food we eat,our health and climate change? /
+                          ನಾವು ತಿನ್ನುವ ಆಹಾರ, ನಮ್ಮ ಆರೋಗ್ಯ ಮತ್ತು ಹವಾಮಾನ ಬದಲಾವಣೆಯ ನಡುವೆ ಸಂಬಂಧವಿದೆ ಎಂದು ನೀವು ನಂಬುತ್ತೀರಾ? *
+                          {foodconnectionError ? (
+                            <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText>
+                          ) : null}{' '}
+                        </Typography>
+                        <RadioGroup
+                          aria-labelledby="demo-radio-buttons-group-label"
+                          // defaultValue="Natural Resource"
+                          name="radio-buttons-group"
+                          value={foodconnection}
+                          onChange={handlefoodconnection}
+                        >
+                          <FormControlLabel
+                            value="There is a connection between food and health/ಆಹಾರ ಮತ್ತು ಆರೋಗ್ಯದ ನಡುವೆ ಸಂಬಂಧವಿದೆ"
+                            control={<Radio style={{ color: '#595959' }} />}
+                            label="There is a connection between food and health/ಆಹಾರ ಮತ್ತು ಆರೋಗ್ಯದ ನಡುವೆ ಸಂಬಂಧವಿದೆ"
+                          />
+                          <FormControlLabel
+                            value="There is a connection between all three/ಮೂರರ ನಡುವೆ ಸಂಬಂಧವಿದೆ"
+                            control={<Radio style={{ color: '#595959' }} />}
+                            label="There is a connection between all three/ಮೂರರ ನಡುವೆ ಸಂಬಂಧವಿದೆ."
+                          />
+                          <FormControlLabel
+                            value="I do not see any connection between them/ಅವರ ನಡುವೆ ಯಾವುದೇ ಸಂಬಂಧವನ್ನು ನಾನು ನೋಡುತ್ತಿಲ್ಲ"
+                            control={<Radio style={{ color: '#595959' }} />}
+                            label="I do not see any connection between them/ಅವರ ನಡುವೆ ಯಾವುದೇ ಸಂಬಂಧವನ್ನು ನಾನು ನೋಡುತ್ತಿಲ್ಲ."
+                          />
+                        </RadioGroup>
+                      </Stack>
+                    </CardContent>
+                  </Card>
                   <Card style={{ marginTop: 40, backgroundColor: '#F6F8FB', borderRadius: 20 }}>
                     <CardContent>
                       <Typography style={{ color: '#ff7424' }}>
-                        What do you think we should make this switch to eco-friendlly products? / ಪರಿಸರ ಸ್ನೇಹಿ
-                        ಉತ್ಪನ್ನಗಳಿಗೆ ನಾವು ಈ ಬದಲಾವಣೆಯನ್ನು ಮಾಡಬೇಕೆಂದು ನೀವು ಏನು ಯೋಚಿಸುತ್ತೀರಿ?*
+                        Are there any native food you believe is environmentally friendly to plant and is good for
+                        health?Name any two / ಸಸ್ಯಗಳಿಗೆ ಪರಿಸರ ಸ್ನೇಹಿ ಮತ್ತು ಆರೋಗ್ಯಕ್ಕೆ ಒಳ್ಳೆಯದು ಎಂದು ನೀವು ನಂಬುವ ಯಾವುದೇ
+                        ಸ್ಥಳೀಯ ಆಹಾರವಿದೆಯೇ? ಯಾವುದಾದರೂ ಎರಡನ್ನು ಹೆಸರಿಸಿ *
                       </Typography>
                       <Stack mt={2} mb={2}>
                         <TextField
@@ -1933,252 +1939,439 @@ useEffect(()=>{
                           variant="outlined"
                           color="common"
                           onChange={(e) =>
-                            setSendData({ ...sendData, this_switch_to_eco_friendly_products: e?.target?.value })
+                            setSendData({
+                              ...sendData,
+                              native_food_you_believe_is_envionmentally_friendly: e?.target?.value,
+                            })
                           }
-                          value={sendData?.this_switch_to_eco_friendly_products}
+                          value={sendData?.native_food_you_believe_is_envionmentally_friendly}
                         />
                       </Stack>
                     </CardContent>
                   </Card>
-                ) : null}
 
-                <Card style={{ marginTop: 40, backgroundColor: '#F6F8FB', borderRadius: 20 }}>
-                  <CardContent>
-                    <Stack mt={2}>
-                      <Typography style={{ color: '#ff7424' }}>
-                        Do you think developing simple-at-home solutions to climate change is a lot of effort? / ಹವಾಮಾನ
-                        ಬದಲಾವಣೆಗೆ ಸರಳವಾದ ಮನೆಯಲ್ಲೇ ಪರಿಹಾರಗಳನ್ನು ಅಭಿವೃದ್ಧಿಪಡಿಸುವುದು ಬಹಳಷ್ಟು ಪ್ರಯತ್ನ ಎಂದು ನೀವು ಭಾವಿಸುತ್ತೀರಾ
-                        *
-                        {climateffortError ? (
-                          <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText>
-                        ) : null}{' '}
-                      </Typography>
-                      <RadioGroup
-                        aria-labelledby="demo-radio-buttons-group-label"
-                        // defaultValue="Natural Resource"
-                        name="radio-buttons-group"
-                        value={climateffort}
-                        onChange={handleclimateffort}
-                      >
-                        <FormControlLabel value="Yes" control={<Radio style={{ color: '#595959' }} />} label="Yes" />
-                        <FormControlLabel value="No" control={<Radio style={{ color: '#595959' }} />} label="No" />
-                        <FormControlLabel
-                          value="Maybe"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Maybe"
-                        />
-                      </RadioGroup>
-                    </Stack>
-                  </CardContent>
-                </Card>
+                  <Card style={{ marginTop: 40, backgroundColor: '#F6F8FB', borderRadius: 20 }}>
+                    <CardContent>
+                      <Stack mt={2}>
+                        <Typography style={{ color: '#ff7424' }}>
+                          Which of the following household activity pollutes natural resources? / ಕೆಳಗಿನ ಯಾವ ಮನೆಯ
+                          ಚಟುವಟಿಕೆಯು ನೈಸರ್ಗಿಕ ಸಂಪನ್ಮೂಲಗಳನ್ನು ಕಲುಷಿತಗೊಳಿಸುತ್ತದೆ? *
+                          {householdactivityError ? (
+                            <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText>
+                          ) : null}{' '}
+                        </Typography>
+                        <RadioGroup
+                          aria-labelledby="demo-radio-buttons-group-label"
+                          // defaultValue="Natural Resource"
+                          name="radio-buttons-group"
+                          value={householdactivity}
+                          onChange={handlehouseholdactivity}
+                        >
+                          <FormControlLabel
+                            value="Consuming plastic packed biscuits,chocolates and chips/ಪ್ಲಾಸ್ಟಿಕ್ ಪ್ಯಾಕ್ ಮಾಡಿದ ಬಿಸ್ಕತ್ತುಗಳು, ಚಾಕೊಲೇಟ್‌ಗಳು ಮತ್ತು ಚಿಪ್‌ಗಳನ್ನು ಸೇವಿಸುವುದು"
+                            control={<Radio style={{ color: '#595959' }} />}
+                            label="Consuming plastic packed biscuits,chocolates and chips/ಪ್ಲಾಸ್ಟಿಕ್ ಪ್ಯಾಕ್ ಮಾಡಿದ ಬಿಸ್ಕತ್ತುಗಳು, ಚಾಕೊಲೇಟ್‌ಗಳು ಮತ್ತು ಚಿಪ್‌ಗಳನ್ನು ಸೇವಿಸುವುದು."
+                          />
+                          <FormControlLabel
+                            value="Body & hair cleansing liquids,soaps,tooth paste / ದೇಹ ಮತ್ತು ಕೂದಲು ಶುದ್ಧೀಕರಿಸುವ ದ್ರವಗಳು, ಸಾಬೂನುಗಳು, ಟೂತ್ ಪೇಸ್ಟ್"
+                            control={<Radio style={{ color: '#595959' }} />}
+                            label="Body & hair cleansing liquids,soaps,tooth paste / ದೇಹ ಮತ್ತು ಕೂದಲು ಶುದ್ಧೀಕರಿಸುವ ದ್ರವಗಳು, ಸಾಬೂನುಗಳು, ಟೂತ್ ಪೇಸ್ಟ್."
+                          />
+                          <FormControlLabel
+                            value="Use of coal,firewood or gas for cooking / ಅಡುಗೆಗೆ ಕಲ್ಲಿದ್ದಲು, ಉರುವಲು ಅಥವಾ ಅನಿಲದ ಬಳಕೆ"
+                            control={<Radio style={{ color: '#595959' }} />}
+                            label="Use of coal,firewood or gas for cooking / ಅಡುಗೆಗೆ ಕಲ್ಲಿದ್ದಲು, ಉರುವಲು ಅಥವಾ ಅನಿಲದ ಬಳಕೆ"
+                          />
+                          <FormControlLabel
+                            value="All of the above / ಮೇಲಿನ ಎಲ್ಲವೂ"
+                            control={<Radio style={{ color: '#595959' }} />}
+                            label="All of the above / ಮೇಲಿನ ಎಲ್ಲವೂ"
+                          />
+                          <FormControlLabel
+                            value="None of the above / ಮೇಲಿನ ಯಾವುದೂ ಅಲ್ಲ"
+                            control={<Radio style={{ color: '#595959' }} />}
+                            label="None of the above / ಮೇಲಿನ ಯಾವುದೂ ಅಲ್ಲ "
+                          />
+                          <FormControlLabel
+                            value="I don't know/ನನಗೆ ಗೊತ್ತಿಲ್ಲ"
+                            control={<Radio style={{ color: '#595959' }} />}
+                            label="I don't know/ನನಗೆ ಗೊತ್ತಿಲ್ಲ"
+                          />
+                        </RadioGroup>
+                      </Stack>
+                    </CardContent>
+                  </Card>
+                  <Card style={{ marginTop: 40, backgroundColor: '#F6F8FB', borderRadius: 20 }}>
+                    <CardContent>
+                      <Stack mt={2}>
+                        <Typography style={{ color: '#ff7424' }}>
+                          Do you think there are alternatives in the household for materials that cause pollution? /
+                          ಮಾಲಿನ್ಯವನ್ನು ಉಂಟುಮಾಡುವ ವಸ್ತುಗಳಿಗೆ ಮನೆಯಲ್ಲಿ ಪರ್ಯಾಯಗಳಿವೆ ಎಂದು ನೀವು ಭಾವಿಸುತ್ತೀರಾ?*
+                          {pollutioncauseError ? (
+                            <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText>
+                          ) : null}{' '}
+                        </Typography>
+                        <RadioGroup
+                          aria-labelledby="demo-radio-buttons-group-label"
+                          // defaultValue="Natural Resource"
+                          name="radio-buttons-group"
+                          value={pollutioncause}
+                          onChange={handlepollutioncause}
+                        >
+                          <FormControlLabel value="Yes" control={<Radio style={{ color: '#595959' }} />} label="Yes" />
+                          <FormControlLabel value="No" control={<Radio style={{ color: '#595959' }} />} label="No" />
+                          <FormControlLabel
+                            value="Maybe"
+                            control={<Radio style={{ color: '#595959' }} />}
+                            label="Maybe"
+                          />
+                        </RadioGroup>
+                      </Stack>
+                    </CardContent>
+                  </Card>
+                  {showHouseHoldDiscription ? (
+                    <Card style={{ marginTop: 40, backgroundColor: '#F6F8FB', borderRadius: 20 }}>
+                      <CardContent>
+                        <Typography style={{ color: '#ff7424' }}>
+                          If yes, what are they? / ಹೌದು ಎಂದಾದರೆ, ಅವು ಯಾವುವು? *
+                        </Typography>
+                        <Stack mt={2} mb={2}>
+                          <TextField
+                            id="Answ"
+                            label="Your Answer"
+                            required
+                            variant="outlined"
+                            color="common"
+                            onChange={(e) => setSendData({ ...sendData, If_yes_what_are_they: e?.target?.value })}
+                            value={sendData?.If_yes_what_are_they}
+                          />
+                        </Stack>
+                      </CardContent>
+                    </Card>
+                  ) : null}
 
-                <Card style={{ marginTop: 40, backgroundColor: '#F6F8FB', borderRadius: 20 }}>
-                  <CardContent>
-                    <Stack mt={2}>
-                      <Typography style={{ color: '#ff7424' }}>
-                        Have you ever taken, or do you regularly take,any action out of concern for climate change? /
-                        ಹವಾಮಾನ ಬದಲಾವಣೆಯ ಕಾಳಜಿಯಿಂದ ನೀವು ಎಂದಾದರೂ ತೆಗೆದುಕೊಂಡಿದ್ದೀರಾ ಅಥವಾ ನಿಯಮಿತವಾಗಿ ತೆಗೆದುಕೊಳ್ಳುತ್ತೀರಾ? *
-                        {climateactionError ? (
-                          <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText>
-                        ) : null}{' '}
-                      </Typography>
-                      <RadioGroup
-                        aria-labelledby="demo-radio-buttons-group-label"
-                        // defaultValue="Natural Resource"
-                        name="radio-buttons-group"
-                        value={climateaction}
-                        // onClick={}
-                        onChange={handleclimateaction}
-                      >
-                        <FormControlLabel value="Yes" control={<Radio style={{ color: '#595959' }} />} label="Yes" />
-                        <FormControlLabel value="No" control={<Radio style={{ color: '#595959' }} />} label="No" />
-                        <FormControlLabel
-                          value="Maybe"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Maybe"
-                        />
-                      </RadioGroup>
-                    </Stack>
-                  </CardContent>
-                </Card>
-                {showClimateChangeDiscription ? (
+                  <Card style={{ marginTop: 40, backgroundColor: '#F6F8FB', borderRadius: 20 }}>
+                    <CardContent>
+                      <Stack mt={2}>
+                        <Typography style={{ color: '#ff7424' }}>
+                          Would you be willing to switch to these eco-friendly products and activities? / ಈ ಪರಿಸರ ಸ್ನೇಹಿ
+                          ಉತ್ಪನ್ನಗಳು ಮತ್ತು ಚಟುವಟಿಕೆಗಳಿಗೆ ಬದಲಾಯಿಸಲು ನೀವು ಸಿದ್ಧರಿದ್ದೀರಾ? *
+                          {productsError ? (
+                            <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText>
+                          ) : null}{' '}
+                        </Typography>
+                        <RadioGroup
+                          aria-labelledby="demo-radio-buttons-group-label"
+                          // defaultValue="Natural Resource"
+                          name="radio-buttons-group"
+                          value={products}
+                          onChange={handleproducts}
+                        >
+                          <FormControlLabel value="Yes" control={<Radio style={{ color: '#595959' }} />} label="Yes" />
+                          <FormControlLabel value="No" control={<Radio style={{ color: '#595959' }} />} label="No" />
+                          <FormControlLabel
+                            value="Maybe"
+                            control={<Radio style={{ color: '#595959' }} />}
+                            label="Maybe"
+                          />
+                        </RadioGroup>
+                      </Stack>
+                    </CardContent>
+                  </Card>
+
+                  <Card style={{ marginTop: 40, backgroundColor: '#F6F8FB', borderRadius: 20 }}>
+                    <CardContent>
+                      <Stack mt={2}>
+                        <Typography style={{ color: '#ff7424' }}>
+                          Would you be willing to make this switch to eco-friendly even if you have a pay a little more
+                          than what you pay for the chemicals? / ನೀವು ರಾಸಾಯನಿಕಗಳಿಗೆ ಪಾವತಿಸುವುದಕ್ಕಿಂತ ಸ್ವಲ್ಪ ಹೆಚ್ಚು
+                          ವೇತನವನ್ನು ಹೊಂದಿದ್ದರೂ ಸಹ ಪರಿಸರ ಸ್ನೇಹಿಯಾಗಿ ಈ ಬದಲಾವಣೆಯನ್ನು ಮಾಡಲು ನೀವು ಸಿದ್ಧರಿದ್ದೀರಾ *
+                          {paychemicalsError ? (
+                            <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText>
+                          ) : null}{' '}
+                        </Typography>
+                        <RadioGroup
+                          aria-labelledby="demo-radio-buttons-group-label"
+                          // defaultValue="Natural Resource"
+                          name="radio-buttons-group"
+                          value={paychemicals}
+                          onChange={handlechemicals}
+                        >
+                          <FormControlLabel value="Yes" control={<Radio style={{ color: '#595959' }} />} label="Yes" />
+                          <FormControlLabel value="No" control={<Radio style={{ color: '#595959' }} />} label="No" />
+                          <FormControlLabel
+                            value="Maybe"
+                            control={<Radio style={{ color: '#595959' }} />}
+                            label="Maybe"
+                          />
+                        </RadioGroup>
+                      </Stack>
+                    </CardContent>
+                  </Card>
+                  {showEcoFriendlyDiscription ? (
+                    <Card style={{ marginTop: 40, backgroundColor: '#F6F8FB', borderRadius: 20 }}>
+                      <CardContent>
+                        <Typography style={{ color: '#ff7424' }}>
+                          What do you think we should make this switch to eco-friendlly products? / ಪರಿಸರ ಸ್ನೇಹಿ
+                          ಉತ್ಪನ್ನಗಳಿಗೆ ನಾವು ಈ ಬದಲಾವಣೆಯನ್ನು ಮಾಡಬೇಕೆಂದು ನೀವು ಏನು ಯೋಚಿಸುತ್ತೀರಿ?*
+                        </Typography>
+                        <Stack mt={2} mb={2}>
+                          <TextField
+                            id="Answ"
+                            label="Your Answer"
+                            required
+                            variant="outlined"
+                            color="common"
+                            onChange={(e) =>
+                              setSendData({ ...sendData, this_switch_to_eco_friendly_products: e?.target?.value })
+                            }
+                            value={sendData?.this_switch_to_eco_friendly_products}
+                          />
+                        </Stack>
+                      </CardContent>
+                    </Card>
+                  ) : null}
+
+                  <Card style={{ marginTop: 40, backgroundColor: '#F6F8FB', borderRadius: 20 }}>
+                    <CardContent>
+                      <Stack mt={2}>
+                        <Typography style={{ color: '#ff7424' }}>
+                          Do you think developing simple-at-home solutions to climate change is a lot of effort? /
+                          ಹವಾಮಾನ ಬದಲಾವಣೆಗೆ ಸರಳವಾದ ಮನೆಯಲ್ಲೇ ಪರಿಹಾರಗಳನ್ನು ಅಭಿವೃದ್ಧಿಪಡಿಸುವುದು ಬಹಳಷ್ಟು ಪ್ರಯತ್ನ ಎಂದು ನೀವು
+                          ಭಾವಿಸುತ್ತೀರಾ *
+                          {climateffortError ? (
+                            <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText>
+                          ) : null}{' '}
+                        </Typography>
+                        <RadioGroup
+                          aria-labelledby="demo-radio-buttons-group-label"
+                          // defaultValue="Natural Resource"
+                          name="radio-buttons-group"
+                          value={climateffort}
+                          onChange={handleclimateffort}
+                        >
+                          <FormControlLabel value="Yes" control={<Radio style={{ color: '#595959' }} />} label="Yes" />
+                          <FormControlLabel value="No" control={<Radio style={{ color: '#595959' }} />} label="No" />
+                          <FormControlLabel
+                            value="Maybe"
+                            control={<Radio style={{ color: '#595959' }} />}
+                            label="Maybe"
+                          />
+                        </RadioGroup>
+                      </Stack>
+                    </CardContent>
+                  </Card>
+
+                  <Card style={{ marginTop: 40, backgroundColor: '#F6F8FB', borderRadius: 20 }}>
+                    <CardContent>
+                      <Stack mt={2}>
+                        <Typography style={{ color: '#ff7424' }}>
+                          Have you ever taken, or do you regularly take,any action out of concern for climate change? /
+                          ಹವಾಮಾನ ಬದಲಾವಣೆಯ ಕಾಳಜಿಯಿಂದ ನೀವು ಎಂದಾದರೂ ತೆಗೆದುಕೊಂಡಿದ್ದೀರಾ ಅಥವಾ ನಿಯಮಿತವಾಗಿ ತೆಗೆದುಕೊಳ್ಳುತ್ತೀರಾ? *
+                          {climateactionError ? (
+                            <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText>
+                          ) : null}{' '}
+                        </Typography>
+                        <RadioGroup
+                          aria-labelledby="demo-radio-buttons-group-label"
+                          // defaultValue="Natural Resource"
+                          name="radio-buttons-group"
+                          value={climateaction}
+                          // onClick={}
+                          onChange={handleclimateaction}
+                        >
+                          <FormControlLabel value="Yes" control={<Radio style={{ color: '#595959' }} />} label="Yes" />
+                          <FormControlLabel value="No" control={<Radio style={{ color: '#595959' }} />} label="No" />
+                          <FormControlLabel
+                            value="Maybe"
+                            control={<Radio style={{ color: '#595959' }} />}
+                            label="Maybe"
+                          />
+                        </RadioGroup>
+                      </Stack>
+                    </CardContent>
+                  </Card>
+                  {showClimateChangeDiscription ? (
+                    <Card style={{ marginTop: 40, backgroundColor: '#F6F8FB', borderRadius: 20 }}>
+                      <CardContent>
+                        <Typography style={{ color: '#ff7424' }}>
+                          If yes,what did you do/are you doing?/ಹೌದು ಎಂದಾದರೆ, ನೀವು ಏನು ಮಾಡಿದ್ದೀರಿ/ನೀವು ಮಾಡುತ್ತಿದ್ದೀರಿ? *
+                        </Typography>
+                        <Stack mt={2} mb={2}>
+                          <TextField
+                            id="Answ"
+                            label="Your Answer"
+                            required
+                            variant="outlined"
+                            color="common"
+                            onChange={(e) =>
+                              setSendData({ ...sendData, If_yes_what_did_you_do_are_you_doing: e?.target?.value })
+                            }
+                            value={sendData?.If_yes_what_did_you_do_are_you_doing}
+                          />
+                        </Stack>
+                      </CardContent>
+                    </Card>
+                  ) : null}
+
+                  <Card style={{ marginTop: 40, backgroundColor: '#F6F8FB', borderRadius: 20 }}>
+                    <CardContent>
+                      <Stack mt={2}>
+                        <Typography style={{ color: '#ff7424' }}>
+                          Do you know what natural resource of your community needs immediate attention and measures of
+                          conservation (forest,lake,pond,park etc)? / ನಿಮ್ಮ ಸಮುದಾಯದ ಯಾವ ನೈಸರ್ಗಿಕ ಸಂಪನ್ಮೂಲಕ್ಕೆ ತಕ್ಷಣದ ಗಮನ
+                          ಮತ್ತು ಸಂರಕ್ಷಣೆಯ ಕ್ರಮಗಳ ಅಗತ್ಯವಿದೆ ಎಂದು ನಿಮಗೆ ತಿಳಿದಿದೆಯೇ (ಅರಣ್ಯ, ಸರೋವರ, ಕೊಳ, ಉದ್ಯಾನವನ ಇತ್ಯಾದಿ) *
+                          {initiativemeasuresError ? (
+                            <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText>
+                          ) : null}{' '}
+                        </Typography>
+                        <RadioGroup
+                          aria-labelledby="demo-radio-buttons-group-label"
+                          // defaultValue="Natural Resource"
+                          name="radio-buttons-group"
+                          value={initiativemeasures}
+                          onChange={handleinitiativemeasures}
+                        >
+                          <FormControlLabel value="Yes" control={<Radio style={{ color: '#595959' }} />} label="Yes" />
+                          <FormControlLabel value="No" control={<Radio style={{ color: '#595959' }} />} label="No" />
+                          <FormControlLabel
+                            value="Maybe"
+                            control={<Radio style={{ color: '#595959' }} />}
+                            label="Maybe"
+                          />
+                        </RadioGroup>
+                      </Stack>
+                    </CardContent>
+                  </Card>
+                  {showpark ? (
+                    <Card style={{ marginTop: 40, backgroundColor: '#F6F8FB', borderRadius: 20 }}>
+                      <CardContent>
+                        <Typography style={{ color: '#ff7424' }}>
+                          If yes,what is that resource? / ಹೌದು ಎಂದಾದರೆ, ಆ ಸಂಪನ್ಮೂಲ ಯಾವುದು?*
+                        </Typography>
+                        <Stack mt={2} mb={2}>
+                          <TextField
+                            id="Answ"
+                            label="Your Answer"
+                            variant="outlined"
+                            color="common"
+                            onChange={(e) =>
+                              setSendData({ ...sendData, If_yes_what_is_that_resource: e?.target?.value })
+                            }
+                            value={sendData?.If_yes_what_is_that_resource}
+                          />
+                        </Stack>
+                      </CardContent>
+                    </Card>
+                  ) : null}
+
                   <Card style={{ marginTop: 40, backgroundColor: '#F6F8FB', borderRadius: 20 }}>
                     <CardContent>
                       <Typography style={{ color: '#ff7424' }}>
-                        If yes,what did you do/are you doing?/ಹೌದು ಎಂದಾದರೆ, ನೀವು ಏನು ಮಾಡಿದ್ದೀರಿ/ನೀವು ಮಾಡುತ್ತಿದ್ದೀರಿ? *
+                        What is your goal you want to achieve with regard to natural resource conservation in your
+                        village? / ನಿಮ್ಮ ಗ್ರಾಮದಲ್ಲಿ ನೈಸರ್ಗಿಕ ಸಂಪನ್ಮೂಲ ಸಂರಕ್ಷಣೆಗೆ ಸಂಬಂಧಿಸಿದಂತೆ ನೀವು ಸಾಧಿಸಲು ಬಯಸುವ ನಿಮ್ಮ
+                        ಗುರಿ ಏನು? *
                       </Typography>
                       <Stack mt={2} mb={2}>
                         <TextField
                           id="Answ"
-                          label="Your Answer"
-                          required
-                          variant="outlined"
                           color="common"
+                          label="Your Answer"
+                          variant="outlined"
                           onChange={(e) =>
-                            setSendData({ ...sendData, If_yes_what_did_you_do_are_you_doing: e?.target?.value })
+                            setSendData({
+                              ...sendData,
+                              achieve_with_regard_to_natural_resource_conservation: e?.target?.value,
+                            })
                           }
-                          value={sendData?.If_yes_what_did_you_do_are_you_doing}
+                          value={sendData?.achieve_with_regard_to_natural_resource_conservation}
                         />
                       </Stack>
                     </CardContent>
                   </Card>
-                ) : null}
 
-                <Card style={{ marginTop: 40, backgroundColor: '#F6F8FB', borderRadius: 20 }}>
-                  <CardContent>
-                    <Stack mt={2}>
-                      <Typography style={{ color: '#ff7424' }}>
-                        Do you know what natural resource of your community needs immediate attention and measures of
-                        conservation (forest,lake,pond,park etc)? / ನಿಮ್ಮ ಸಮುದಾಯದ ಯಾವ ನೈಸರ್ಗಿಕ ಸಂಪನ್ಮೂಲಕ್ಕೆ ತಕ್ಷಣದ ಗಮನ
-                        ಮತ್ತು ಸಂರಕ್ಷಣೆಯ ಕ್ರಮಗಳ ಅಗತ್ಯವಿದೆ ಎಂದು ನಿಮಗೆ ತಿಳಿದಿದೆಯೇ (ಅರಣ್ಯ, ಸರೋವರ, ಕೊಳ, ಉದ್ಯಾನವನ ಇತ್ಯಾದಿ) *
-                        {initiativemeasuresError ? (
-                          <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText>
-                        ) : null}{' '}
-                      </Typography>
-                      <RadioGroup
-                        aria-labelledby="demo-radio-buttons-group-label"
-                        // defaultValue="Natural Resource"
-                        name="radio-buttons-group"
-                        value={initiativemeasures}
-                        onChange={handleinitiativemeasures}
-                      >
-                        <FormControlLabel value="Yes" control={<Radio style={{ color: '#595959' }} />} label="Yes" />
-                        <FormControlLabel value="No" control={<Radio style={{ color: '#595959' }} />} label="No" />
-                        <FormControlLabel
-                          value="Maybe"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Maybe"
-                        />
-                      </RadioGroup>
-                    </Stack>
-                  </CardContent>
-                </Card>
-                {showpark ? (
                   <Card style={{ marginTop: 40, backgroundColor: '#F6F8FB', borderRadius: 20 }}>
                     <CardContent>
-                      <Typography style={{ color: '#ff7424' }}>
-                        If yes,what is that resource? / ಹೌದು ಎಂದಾದರೆ, ಆ ಸಂಪನ್ಮೂಲ ಯಾವುದು?*
-                      </Typography>
-                      <Stack mt={2} mb={2}>
-                        <TextField
-                          id="Answ"
-                          label="Your Answer"
-                          variant="outlined"
-                          color="common"
-                          onChange={(e) => setSendData({ ...sendData, If_yes_what_is_that_resource: e?.target?.value })}
-                          value={sendData?.If_yes_what_is_that_resource}
-                        />
+                      <Stack mt={2}>
+                        <Typography style={{ color: '#ff7424' }}>
+                          Have you seen anyone in the village take a initiative to conserve the environment of your
+                          village? / ನಿಮ್ಮ ಗ್ರಾಮದ ಪರಿಸರವನ್ನು ಸಂರಕ್ಷಿಸಲು ಗ್ರಾಮದಲ್ಲಿ ಯಾರಾದರೂ ಮುಂದಾಗಿರುವುದನ್ನು ನೀವು
+                          ನೋಡಿದ್ದೀರಾ *
+                          {environmentError ? (
+                            <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText>
+                          ) : null}{' '}
+                        </Typography>
+                        <RadioGroup
+                          aria-labelledby="demo-radio-buttons-group-label"
+                          // defaultValue="Natural Resource"
+                          name="radio-buttons-group"
+                          value={environment}
+                          onChange={conservenvironment}
+                        >
+                          <FormControlLabel value="Yes" control={<Radio style={{ color: '#595959' }} />} label="Yes" />
+                          <FormControlLabel value="No" control={<Radio style={{ color: '#595959' }} />} label="No" />
+                          <FormControlLabel
+                            value="Maybe"
+                            control={<Radio style={{ color: '#595959' }} />}
+                            label="Maybe"
+                          />
+                        </RadioGroup>
                       </Stack>
                     </CardContent>
                   </Card>
-                ) : null}
+                  <Card style={{ marginTop: 40, backgroundColor: '#F6F8FB', borderRadius: 20 }}>
+                    <CardContent>
+                      <Stack mt={2}>
+                        <Typography style={{ color: '#ff7424' }}>
+                          Have you seen anyone in the village take a initiative to conserve the environment of your
+                          village? / ನಿಮ್ಮ ಗ್ರಾಮದ ಪರಿಸರವನ್ನು ಸಂರಕ್ಷಿಸಲು ಗ್ರಾಮದಲ್ಲಿ ಯಾರಾದರೂ ಮುಂದಾಗಿರುವುದನ್ನು ನೀವು
+                          ನೋಡಿದ್ದೀರಾ? *
+                          {communitytogetherError ? (
+                            <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText>
+                          ) : null}{' '}
+                        </Typography>
+                        <RadioGroup
+                          aria-labelledby="demo-radio-buttons-group-label"
+                          // defaultValue="Natural Resource"
+                          name="radio-buttons-group"
+                          value={communitytogether}
+                          onChange={communityvalue}
+                        >
+                          <FormControlLabel
+                            value="Strongly Agree/ಬಲವಾಗಿ ಒಪ್ಪುತ್ತೇನೆ"
+                            control={<Radio style={{ color: '#595959' }} />}
+                            label="Strongly Agree/ಬಲವಾಗಿ ಒಪ್ಪುತ್ತೇನೆ"
+                          />
+                          <FormControlLabel
+                            value="Agree / ಒಪ್ಪುತ್ತೇನೆ"
+                            control={<Radio style={{ color: '#595959' }} />}
+                            label="Agree / ಒಪ್ಪುತ್ತೇನೆ"
+                          />
+                          <FormControlLabel
+                            value="Neutral / ತಟಸ್ಥ"
+                            control={<Radio style={{ color: '#595959' }} />}
+                            label="Neutral / ತಟಸ್ಥ"
+                          />
+                          <FormControlLabel
+                            value="Disagree / ಒಪ್ಪುವುದಿಲ್ಲ"
+                            control={<Radio style={{ color: '#595959' }} />}
+                            label="Disagree / ಒಪ್ಪುವುದಿಲ್ಲ"
+                          />
+                          <FormControlLabel
+                            value="Strongly Disagree / ಖಂಡಿತವಾಗಿ ಒಪ್ಪುವುದಿಲ್ಲ"
+                            control={<Radio style={{ color: '#595959' }} />}
+                            label="Strongly Disagree / ಖಂಡಿತವಾಗಿ ಒಪ್ಪುವುದಿಲ್ಲ"
+                          />
+                        </RadioGroup>
+                      </Stack>
+                    </CardContent>
+                  </Card>
 
-                <Card style={{ marginTop: 40, backgroundColor: '#F6F8FB', borderRadius: 20 }}>
-                  <CardContent>
-                    <Typography style={{ color: '#ff7424' }}>
-                      What is your goal you want to achieve with regard to natural resource conservation in your
-                      village? / ನಿಮ್ಮ ಗ್ರಾಮದಲ್ಲಿ ನೈಸರ್ಗಿಕ ಸಂಪನ್ಮೂಲ ಸಂರಕ್ಷಣೆಗೆ ಸಂಬಂಧಿಸಿದಂತೆ ನೀವು ಸಾಧಿಸಲು ಬಯಸುವ ನಿಮ್ಮ
-                      ಗುರಿ ಏನು? *
-                    </Typography>
-                    <Stack mt={2} mb={2}>
-                      <TextField
-                        id="Answ"
-                        color="common"
-                        label="Your Answer"
-                        variant="outlined"
-                        onChange={(e) =>
-                          setSendData({
-                            ...sendData,
-                            achieve_with_regard_to_natural_resource_conservation: e?.target?.value,
-                          })
-                        }
-                        value={sendData?.achieve_with_regard_to_natural_resource_conservation}
-                      />
-                    </Stack>
-                  </CardContent>
-                </Card>
-
-                <Card style={{ marginTop: 40, backgroundColor: '#F6F8FB', borderRadius: 20 }}>
-                  <CardContent>
-                    <Stack mt={2}>
-                      <Typography style={{ color: '#ff7424' }}>
-                        Have you seen anyone in the village take a initiative to conserve the environment of your
-                        village? / ನಿಮ್ಮ ಗ್ರಾಮದ ಪರಿಸರವನ್ನು ಸಂರಕ್ಷಿಸಲು ಗ್ರಾಮದಲ್ಲಿ ಯಾರಾದರೂ ಮುಂದಾಗಿರುವುದನ್ನು ನೀವು
-                        ನೋಡಿದ್ದೀರಾ *
-                        {environmentError ? (
-                          <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText>
-                        ) : null}{' '}
-                      </Typography>
-                      <RadioGroup
-                        aria-labelledby="demo-radio-buttons-group-label"
-                        // defaultValue="Natural Resource"
-                        name="radio-buttons-group"
-                        value={environment}
-                        onChange={conservenvironment}
-                      >
-                        <FormControlLabel value="Yes" control={<Radio style={{ color: '#595959' }} />} label="Yes" />
-                        <FormControlLabel value="No" control={<Radio style={{ color: '#595959' }} />} label="No" />
-                        <FormControlLabel
-                          value="Maybe"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Maybe"
-                        />
-                      </RadioGroup>
-                    </Stack>
-                  </CardContent>
-                </Card>
-                <Card style={{ marginTop: 40, backgroundColor: '#F6F8FB', borderRadius: 20 }}>
-                  <CardContent>
-                    <Stack mt={2}>
-                      <Typography style={{ color: '#ff7424' }}>
-                        Have you seen anyone in the village take a initiative to conserve the environment of your
-                        village? / ನಿಮ್ಮ ಗ್ರಾಮದ ಪರಿಸರವನ್ನು ಸಂರಕ್ಷಿಸಲು ಗ್ರಾಮದಲ್ಲಿ ಯಾರಾದರೂ ಮುಂದಾಗಿರುವುದನ್ನು ನೀವು
-                        ನೋಡಿದ್ದೀರಾ? *
-                        {communitytogetherError ? (
-                          <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText>
-                        ) : null}{' '}
-                      </Typography>
-                      <RadioGroup
-                        aria-labelledby="demo-radio-buttons-group-label"
-                        // defaultValue="Natural Resource"
-                        name="radio-buttons-group"
-                        value={communitytogether}
-                        onChange={communityvalue}
-                      >
-                        <FormControlLabel
-                          value="Strongly Agree/ಬಲವಾಗಿ ಒಪ್ಪುತ್ತೇನೆ"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Strongly Agree/ಬಲವಾಗಿ ಒಪ್ಪುತ್ತೇನೆ"
-                        />
-                        <FormControlLabel
-                          value="Agree / ಒಪ್ಪುತ್ತೇನೆ"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Agree / ಒಪ್ಪುತ್ತೇನೆ"
-                        />
-                        <FormControlLabel
-                          value="Neutral / ತಟಸ್ಥ"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Neutral / ತಟಸ್ಥ"
-                        />
-                        <FormControlLabel
-                          value="Disagree / ಒಪ್ಪುವುದಿಲ್ಲ"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Disagree / ಒಪ್ಪುವುದಿಲ್ಲ"
-                        />
-                        <FormControlLabel
-                          value="Strongly Disagree / ಖಂಡಿತವಾಗಿ ಒಪ್ಪುವುದಿಲ್ಲ"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Strongly Disagree / ಖಂಡಿತವಾಗಿ ಒಪ್ಪುವುದಿಲ್ಲ"
-                        />
-                      </RadioGroup>
-                    </Stack>
-                  </CardContent>
-                </Card>
-
-                {/* -------------------------------- */}
-              </CardContent>
-            </Card>
-          </Grid>}
+                  {/* -------------------------------- */}
+                </CardContent>
+              </Card>
+            </Grid>
+          )}
         </form>
       </Dialog>
     </div>
