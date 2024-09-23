@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"strings"
 )
 
 func GetGreenBaselineSurvey(w http.ResponseWriter, r *http.Request, db *sql.DB) {
@@ -31,6 +32,7 @@ func GetGreenBaselineSurvey(w http.ResponseWriter, r *http.Request, db *sql.DB) 
 		json.NewEncoder(w).Encode(map[string]interface{}{"code": http.StatusBadRequest, "message": "Failed to unmarshal", "success": false, "error": err.Error()})
 		return
 	}
+	var naturalResources, naturalResourcesImpactingYourLife, ifYesWhatAreThey, primaryOccupation, secondaryOccupation, dailyClimateAction, ecoFriendlyPracticesDetails, menstruationProductsUsed, soilObservationsIfNoChanges, reasonsForLackOfNutritionalFood, usePesticidesFertilizers, communityGovernmentEnvironmentInitiatives, changesHappenedToTheClimate, climateChangeThreatensPersonalFamilyHealthSafety, doSomethingToTackleClimateChange, mainSourceOfWater, achieveWithRegardToNaturalResourceConservation, mainProductsServicesUsed string
 
 	query := fmt.Sprintf(`
     SELECT 
@@ -162,17 +164,17 @@ func GetGreenBaselineSurvey(w http.ResponseWriter, r *http.Request, db *sql.DB) 
 			&queryData.NameOfTheRespondent,
 			&queryData.VillageName,
 			&queryData.PhoneNumber,
-			&queryData.NaturalResources,
-			&queryData.NaturalResourcesImpactingYourLife,
+			&naturalResources,
+			&naturalResourcesImpactingYourLife,
 			&queryData.NaturalWealth,
 			&queryData.ClimateChange,
 			&queryData.WhatDoYouKnowAboutIt,
 			&queryData.ChangeInTheWeatherClimate,
-			&queryData.ChangesHappenedToTheClimate,
-			&queryData.ClimateChangeThreatensPersonalFamilyHealthSafety,
+			&changesHappenedToTheClimate,
+			&climateChangeThreatensPersonalFamilyHealthSafety,
 			&queryData.DoneToTackleClimateChange,
-			&queryData.DoSomethingToTackleClimateChange,
-			&queryData.MainSourceOfWater,
+			&doSomethingToTackleClimateChange,
+			&mainSourceOfWater,
 			&queryData.ShownBelowDoYouAgreeWith,
 			&queryData.HowConcernedLocalWaterQuality,
 			&queryData.PersonalActionsCanAffectWaterQuality,
@@ -185,7 +187,7 @@ func GetGreenBaselineSurvey(w http.ResponseWriter, r *http.Request, db *sql.DB) 
 			&queryData.NativeFoodYouBelieveIsEnvironmentallyFriendly,
 			&queryData.HouseholdActivityPollutesNaturalResources,
 			&queryData.AlternativesHouseholdMaterialsCausePollution,
-			&queryData.IfYesWhatAreThey,
+			&ifYesWhatAreThey,
 			&queryData.EcoFriendlyProductsAndActivities,
 			&queryData.LittleMoreThanWhatYouPayForTheChemicals,
 			&queryData.ThisSwitchToEcoFriendlyProducts,
@@ -194,7 +196,7 @@ func GetGreenBaselineSurvey(w http.ResponseWriter, r *http.Request, db *sql.DB) 
 			&queryData.IfYesWhatDidYouDoAreYouDoing,
 			&queryData.NaturalResourceCommunityImmediateAttentionMeasures,
 			&queryData.IfYesWhatIsThatResource,
-			&queryData.AchieveWithRegardToNaturalResourceConservation,
+			&achieveWithRegardToNaturalResourceConservation,
 			&queryData.InitiativeToConserveTheEnvironment,
 			&queryData.CommunityTogetherAchieveMyConservationGoal,
 			&queryData.EntryDate,
@@ -218,8 +220,8 @@ func GetGreenBaselineSurvey(w http.ResponseWriter, r *http.Request, db *sql.DB) 
 			&queryData.MaritalStatus,
 			&queryData.Education,
 			&queryData.PhoneType,
-			&queryData.PrimaryOccupation,
-			&queryData.SecondaryOccupation,
+			&primaryOccupation,
+			&secondaryOccupation,
 			&queryData.WomenOccupation,
 			&queryData.HouseholdMigrationLastYear,
 			&queryData.MigrantSendsRemittances,
@@ -227,33 +229,33 @@ func GetGreenBaselineSurvey(w http.ResponseWriter, r *http.Request, db *sql.DB) 
 			&queryData.LandAcres,
 			&queryData.MonthlyExpenditure,
 			&queryData.MonthlyIncome,
-			&queryData.DailyClimateAction,
+			&dailyClimateAction,
 			&queryData.RunsEnterprise,
 			&queryData.EcoFriendlyPracticesEnterprise,
-			&queryData.EcoFriendlyPracticesDetails,
+			&ecoFriendlyPracticesDetails,
 			&queryData.WasteSegregationAtHome,
 			&queryData.IsMenstruating,
-			&queryData.MenstruationProductsUsed,
+			&menstruationProductsUsed,
 			&queryData.SanitaryDisposalMethod,
 			&queryData.SoilChangesOverYears,
-			&queryData.SoilObservationsIfNoChanges,
+			&soilObservationsIfNoChanges,
 			&queryData.EssentialCharacteristicsFertileSoil,
 			&queryData.MainCropGrown,
 			&queryData.AccessToNutritionalFood,
-			&queryData.ReasonsForLackOfNutritionalFood,
+			&reasonsForLackOfNutritionalFood,
 			&queryData.IdentifyTreesInCommunity,
 			&queryData.TreeNamesInCommunity,
 			&queryData.FoodProduction,
 			&queryData.SellProduceLocalMarket,
-			&queryData.UsePesticidesFertilizers,
-			&queryData.CommunityGovernmentEnvironment,
+			&usePesticidesFertilizers,
+			&communityGovernmentEnvironmentInitiatives,
 			&queryData.ConserveLocalSeeds,
 			&queryData.NaturalResourceConservationGoal,
 			&queryData.Goal,
 			&queryData.MobilizedCommunityForConservation,
 			&queryData.GreenActionInCommunity,
 			&queryData.DetailsOfGreenAction,
-			&queryData.MainProductsServicesUsed,
+			&mainProductsServicesUsed,
 			&queryData.HouseholdWasteManagement,
 			&queryData.WasteCategoriesProduced,
 			&queryData.AccessToDailyLivingProducts,
@@ -263,6 +265,25 @@ func GetGreenBaselineSurvey(w http.ResponseWriter, r *http.Request, db *sql.DB) 
 			json.NewEncoder(w).Encode(map[string]interface{}{"code": http.StatusInternalServerError, "message": "Database Scan Error", "success": false, "error": err.Error()})
 			return
 		}
+		queryData.NaturalResources = strings.Split(naturalResources, ",")
+		queryData.NaturalResourcesImpactingYourLife = strings.Split(naturalResourcesImpactingYourLife, ",")
+		queryData.IfYesWhatAreThey = strings.Split(ifYesWhatAreThey, ",")
+		queryData.PrimaryOccupation = strings.Split(primaryOccupation, ",")
+		queryData.SecondaryOccupation = strings.Split(secondaryOccupation, ",")
+		queryData.DailyClimateAction = strings.Split(dailyClimateAction, ",")
+		queryData.EcoFriendlyPracticesDetails = strings.Split(ecoFriendlyPracticesDetails, ",")
+		queryData.MenstruationProductsUsed = strings.Split(menstruationProductsUsed, ",")
+		queryData.SoilObservationsIfNoChanges = strings.Split(soilObservationsIfNoChanges, ",")
+		queryData.ReasonsForLackOfNutritionalFood = strings.Split(reasonsForLackOfNutritionalFood, ",")
+		queryData.UsePesticidesFertilizers = strings.Split(usePesticidesFertilizers, ",")
+		queryData.CommunityGovernmentEnvironment = strings.Split(communityGovernmentEnvironmentInitiatives, ",")
+		queryData.ChangesHappenedToTheClimate = strings.Split(changesHappenedToTheClimate, ",")
+		queryData.ClimateChangeThreatensPersonalFamilyHealthSafety = strings.Split(climateChangeThreatensPersonalFamilyHealthSafety, ",")
+		queryData.DoSomethingToTackleClimateChange = strings.Split(doSomethingToTackleClimateChange, ",")
+		queryData.MainSourceOfWater = strings.Split(mainSourceOfWater, ",")
+		//queryData.Wateryouconsumesafe = strings.Split(wateryouconsumesafe, ",")
+		queryData.MainProductsServicesUsed = strings.Split(mainProductsServicesUsed, ",")
+		queryData.AchieveWithRegardToNaturalResourceConservation = strings.Split(achieveWithRegardToNaturalResourceConservation, ",")
 
 		response = append(response, queryData)
 	}

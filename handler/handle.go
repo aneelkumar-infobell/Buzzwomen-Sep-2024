@@ -115,9 +115,9 @@ func HandleFunc() {
 		sep.Addnagarikasurvey(w, r, db)
 	}))
 	//---------------------------Get Gelathi List----------------------------------
-	apiRouter.Handle("/getSpoorthiForm", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
+	apiRouter.HandleFunc("/getSpoorthiForm", func(w http.ResponseWriter, r *http.Request) {
 		sep.GetBuzzSpoorthiProgramBaseline(w, r, db)
-	}))
+	})
 	apiRouter.HandleFunc("/creatProjectFunder", func(w http.ResponseWriter, r *http.Request) {
 		p.CreateProjectNfunder(w, r, db)
 	})
