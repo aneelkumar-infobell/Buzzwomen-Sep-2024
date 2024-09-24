@@ -1,7 +1,8 @@
 import React from 'react';
-import { Typography, Stack, Select, MenuItem } from '@mui/material';
+import { Typography, Stack, Select, MenuItem, Card, CardContent } from '@mui/material';
 
 const SelectInput = ({
+  card = true,
   id,
   name,
   label,
@@ -15,29 +16,44 @@ const SelectInput = ({
   optionLabelKey = 'name',
   optionValueKey = 'id',
 }) => {
-  return (
+  const SelectContent = () => (
     <Stack mb={3}>
       <Typography style={{ color: '#ff7424' }}>
         {label} {kannadaLabel && `${kannadaLabel} `}
         {required && '*'}
       </Typography>
       <Select
+        key={id}
         id={id}
         name={name}
         color={color}
         label={label}
         variant={variant}
-        required={required}
+        // required={required}
         onChange={onChange}
         value={value || ''}
       >
         {options.map((option) => (
-          <MenuItem key={option[optionValueKey]} value={option[optionValueKey]}>
+          <MenuItem key={option[optionValueKey]} value={option[optionLabelKey]}>
             {option[optionLabelKey]}
           </MenuItem>
         ))}
       </Select>
     </Stack>
+  );
+
+  return (
+    <>
+      {card ? (
+        <Card style={{ marginTop: 40, backgroundColor: '#F6F8FB', borderRadius: 20 }}>
+          <CardContent>
+            <SelectContent />
+          </CardContent>
+        </Card>
+      ) : (
+        <SelectContent />
+      )}
+    </>
   );
 };
 
