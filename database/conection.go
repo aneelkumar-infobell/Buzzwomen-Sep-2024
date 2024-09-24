@@ -18,7 +18,6 @@ func Connect() *sql.DB {
 	// Define the maximum number of allowed connections
 
 	//dbUrl := "root:root@tcp(localhost:3306)/bdms_staff"
-	//dbUrl := "bdms_staff_admin:sfhakjfhyiqundfgs3765827635@tcp(buzzwomendatabase-new.cixgcssswxvx.ap-south-1.rds.amazonaws.com:3306)/bdms_staff"
 
 	maxConnections := 100000
 	// Create a new MySQL connection pool

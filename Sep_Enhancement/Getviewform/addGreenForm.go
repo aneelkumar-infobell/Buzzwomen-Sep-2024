@@ -100,7 +100,7 @@ type GreenBaselineSurvey struct {
 	DoneToTackleClimateChange                          string   `json:"done_to_tackle_climate_change"`
 	DoSomethingToTackleClimateChange                   []string `json:"do_something_to_tackle_climate_change"`
 	MainSourceOfWater                                  []string `json:"main_source_of_water"`
-	Wateryouconsumesafe                                []string `json:"water_you_consume_safe"`
+	Wateryouconsumesafe                                string   `json:"water_you_consume_safe"`
 	EcoFriendlyProductsAndActivities                   string   `json:"eco_friendly_products_and_activities"`
 	LittleMoreThanWhatYouPayForTheChemicals            string   `json:"little_more_than_what_you_pay_for_the_chemicals"`
 	ConserveLocalSeeds                                 string   `json:"conserve_local_seeds"`
@@ -307,7 +307,7 @@ func AddGreensurvey(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 			queryData.DoneToTackleClimateChange,
 			strings.Join(queryData.DoSomethingToTackleClimateChange, ","),
 			strings.Join(queryData.MainSourceOfWater, ","),
-			strings.Join(queryData.Wateryouconsumesafe, ","),
+			queryData.Wateryouconsumesafe,
 			queryData.EcoFriendlyProductsAndActivities,
 			queryData.LittleMoreThanWhatYouPayForTheChemicals,
 			queryData.ConserveLocalSeeds,
