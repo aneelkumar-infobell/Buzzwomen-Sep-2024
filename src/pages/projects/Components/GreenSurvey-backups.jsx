@@ -181,9 +181,7 @@ export default function GreenSurvey(props) {
   const [communitytogetherError, setCommunitytogetherError] = useState(false);
 
   // Save data to local storage
-
   const saveDataLocally = (key, data) => {
- 
       const existingData = localStorage.getItem('green');
       const parsedData = existingData ? JSON.parse(existingData) : [];
       const newData = { ...data}; // Replace with your own data object
