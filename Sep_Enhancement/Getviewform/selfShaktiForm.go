@@ -18,7 +18,7 @@ type TrainingParticipant struct {
 	Occupation                        string   `json:"occupation"`
 	HusbandOccupation                 string   `json:"husbandOccupation"`
 	SavingGoal                        string   `json:"saving_goal"`
-	Caste                             string   `json:"caste"`
+	Caste                             int      `json:"caste"`
 	NumOfChildren                     string   `json:"numOfChildren"`
 	Income                            string   `json:"income"`
 	Savings                           string   `json:"savings"`
@@ -272,7 +272,7 @@ func GetSelfShaktiBaselineSurvey(w http.ResponseWriter, r *http.Request, db *sql
     COALESCE(partOfCollective, '') AS partOfCollective,
     COALESCE(importantToShareTheirProb, '') AS importantToShareTheirProb,
     COALESCE(shareLearningWithCommunity, '') AS shareLearningWithCommunity,
-COALESCE(isSurveyDone, 0) AS isSurveyDone,
+	COALESCE(isSurveyDone, 0) AS isSurveyDone,
     COALESCE(household_books_accounts, '') AS household_books_accounts,
     COALESCE(accounts_for_Self_Enterprises, '') AS accounts_for_Self_Enterprises,
     COALESCE(account_household, '') AS account_household,
@@ -346,7 +346,7 @@ COALESCE(isSurveyDone, 0) AS isSurveyDone,
     COALESCE(Primary_occupation_of_household, 'None') AS Primary_occupation_of_household
 FROM 
     training_participants
-    WHERE isSurveyDone= 0 and id = %d`, req.ParticipantID)
+    WHERE isSurveyDone= 1 and id = %d`, req.ParticipantID)
 
 	rows, err := db.Query(query)
 

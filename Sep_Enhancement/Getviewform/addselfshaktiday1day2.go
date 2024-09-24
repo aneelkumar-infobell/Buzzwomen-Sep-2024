@@ -24,7 +24,7 @@ type Selfshekthi struct {
 	House                             string   `json:"house"`
 	Roof                              string   `json:"roof"`
 	RationCard                        string   `json:"ration_card"`
-	Caste                             string   `json:"caste"`
+	Caste                             int      `json:"caste"`
 	SubCastName                       string   `json:"sub_cast_name"`
 	Religion                          string   `json:"religion"`
 	MaritalStatus                     string   `json:"marital_status"`
