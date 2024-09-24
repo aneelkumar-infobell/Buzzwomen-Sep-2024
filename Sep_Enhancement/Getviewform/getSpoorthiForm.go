@@ -94,6 +94,12 @@ type ParticipantData struct {
 	FeedbackFromCommunityMembers                    string   `json:"feedback_from_community_members"`
 	GoalsAsGelathi                                  string   `json:"goals_as_gelathi"`
 	WillingToTakePartLocalElections                 string   `json:"willing_to_take_part_local_elections"`
+	CalmBeforeReactionD                             string   `json:"calm_before_reaction_d"`
+	ShoutAtOthersD                                  string   `json:"shout_at_others_d"`
+	WalkOutWithoutListeningD                        string   `json:"walk_out_without_listening_d"`
+	AskToLeaveImmediatelyD                          string   `json:"ask_to_leave_immediately_d"`
+	PatientlyListenUnderstandD                      string   `json:"patiently_listen_understand_d"`
+	CalmDisagreementArticulationD                   string   `json:"calm_disagreement_articulation_d"`
 }
 
 // var data []Querydata
@@ -202,7 +208,14 @@ func GetBuzzSpoorthiProgramBaseline(w http.ResponseWriter, r *http.Request, db *
         COALESCE(takes_feedback_from_community_members, '') AS takes_feedback_from_community_members,
         COALESCE(feedback_from_community_members, '') AS feedback_from_community_members,
         COALESCE(goals_as_gelathi, '') AS goals_as_gelathi,
-        COALESCE(willing_to_take_part_local_elections, '') AS willing_to_take_part_local_elections
+        COALESCE(willing_to_take_part_local_elections, '') AS willing_to_take_part_local_elections,
+		COALESCE(calm_before_reaction_d, '') AS calm_before_reaction_d,
+COALESCE(shout_at_others_d, '') AS shout_at_others_d,
+COALESCE(walk_out_without_listening_d, '') AS walk_out_without_listening_d,
+COALESCE(ask_to_leave_immediately_d, '') AS ask_to_leave_immediately_d,
+COALESCE(patiently_listen_understand_d, '') AS patiently_listen_understand_d,
+COALESCE(calm_disagreement_articulation_d, '') AS calm_disagreement_articulation_d
+
     FROM SpoorthiBaselineQuestionnaire
     WHERE partcipantId = %d`, req.PartcipantID)
 
@@ -299,6 +312,12 @@ func GetBuzzSpoorthiProgramBaseline(w http.ResponseWriter, r *http.Request, db *
 			&queryData.FeedbackFromCommunityMembers,
 			&queryData.GoalsAsGelathi,
 			&queryData.WillingToTakePartLocalElections,
+			&queryData.CalmBeforeReactionD,
+			&queryData.ShoutAtOthersD,
+			&queryData.WalkOutWithoutListeningD,
+			&queryData.AskToLeaveImmediatelyD,
+			&queryData.PatientlyListenUnderstandD,
+			&queryData.CalmDisagreementArticulationD,
 		)
 		queryData.LeadershipSkillsReasonYes = strings.Split(leadershipSkillsReasonYes, ",")
 		queryData.DealWithAngrySituation = strings.Split(dealWithAngrySituation, ",")

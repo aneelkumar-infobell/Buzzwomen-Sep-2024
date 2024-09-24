@@ -86,6 +86,12 @@ type addSpoorthiBaselineQuestionnaire struct {
 	FeedbackFromCommunityMembers             string   `json:"feedback_from_community_members"`
 	GoalsAsGelathi                           string   `json:"goals_as_gelathi"`
 	WillingToTakePartLocalElections          string   `json:"willing_to_take_part_local_elections"`
+	CalmBeforeReactionD                      string   `json:"calm_before_reaction_d"`
+	ShoutAtOthersD                           string   `json:"shout_at_others_d"`
+	WalkOutWithoutListeningD                 string   `json:"walk_out_without_listening_d"`
+	AskToLeaveImmediatelyD                   string   `json:"ask_to_leave_immediately_d"`
+	PatientlyListenUnderstandD               string   `json:"patiently_listen_understand_d"`
+	CalmDisagreementArticulationD            string   `json:"calm_disagreement_articulation_d"`
 }
 
 type Response3 struct {
@@ -219,8 +225,15 @@ community_members_takes_seriously,
 takes_feedback_from_community_members,
 feedback_from_community_members,
 goals_as_gelathi,
-willing_to_take_part_local_elections)
-VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`
+willing_to_take_part_local_elections,
+calm_before_reaction_d ,
+    shout_at_others_d ,
+    walk_out_without_listening_d ,
+    ask_to_leave_immediately_d ,
+    patiently_listen_understand_d ,
+    calm_disagreement_articulation_d
+)
+VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`
 
 		_, err := DB.Exec(addStatement,
 			request.ParticipantID,
@@ -295,6 +308,12 @@ VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,
 			request.FeedbackFromCommunityMembers,
 			request.GoalsAsGelathi,
 			request.WillingToTakePartLocalElections,
+			request.CalmBeforeReactionD,
+			request.ShoutAtOthersD,
+			request.WalkOutWithoutListeningD,
+			request.AskToLeaveImmediatelyD,
+			request.PatientlyListenUnderstandD,
+			request.CalmDisagreementArticulationD,
 		)
 
 		if err != nil {
