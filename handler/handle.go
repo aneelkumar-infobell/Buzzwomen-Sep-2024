@@ -404,7 +404,7 @@ func HandleFunc() {
 		t2.GetDemoGraphy(w, r, db)
 	}))
 
-	apiRouter.Handle("/createProject", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
+	apiRouter.HandleFunc("/createProject", (func(w http.ResponseWriter, r *http.Request) {
 		t2.CreateProject(w, r, db)
 	}))
 	apiRouter.Handle("/getGFAssignedBatch", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
