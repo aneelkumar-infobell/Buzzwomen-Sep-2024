@@ -79,6 +79,7 @@ type Participant struct {
 	Day2             string `json:"day2"`
 	Enroll           string `json:"enroll"`
 	Final_save       string `json:"final_save"`
+	Day2survey       string `json:"day2survey"`
 	GelathiRecomm    string `json:"gelathiRecomm"`
 	IsSurveyDone     bool   `json:"isSurveyDone"`
 	Participant_id   string `json:"participant_id"`
@@ -180,6 +181,7 @@ func GetTrainingBatchData(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 	var p request1
 	err1 := json.NewDecoder(r.Body).Decode(&p)
 	if err1 != nil {
+		fmt.Println("err184", err1)
 		log.Println(err1)
 		w.WriteHeader(http.StatusBadRequest)
 		json.NewEncoder(w).Encode(map[string]interface{}{"Status": "400 Bad Request", "Message": err1})
@@ -230,6 +232,7 @@ func GetTrainingBatchData(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 
 	rows, err := DB.Query(query)
 	if err != nil {
+		fmt.Println("err18", err)
 		log.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
 		json.NewEncoder(w).Encode(map[string]interface{}{"Status": "400 Bad Request....", "Message": err})
@@ -260,6 +263,7 @@ func GetTrainingBatchData(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 		)
 
 		if err != nil {
+			fmt.Println("err4", err)
 			log.Println(err)
 			w.WriteHeader(http.StatusBadRequest)
 			json.NewEncoder(w).Encode(map[string]interface{}{"Status": "400 Bad Request123", "Message": err})
@@ -284,6 +288,7 @@ func GetTrainingBatchData(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 
 	trainerResult, err := DB.Query(trainerQuery)
 	if err != nil {
+		fmt.Println("r184", err)
 		log.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
 		json.NewEncoder(w).Encode(map[string]interface{}{"Status": "400 Bad Request111", "Message": err})
@@ -296,6 +301,7 @@ func GetTrainingBatchData(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 		err := trainerResult.Scan(&trainerName)
 
 		if err != nil {
+			fmt.Println("er4", err)
 			log.Println(err)
 			w.WriteHeader(http.StatusBadRequest)
 			json.NewEncoder(w).Encode(map[string]interface{}{"Status": "400 Bad Request", "Message": err})
@@ -335,6 +341,7 @@ func GetTrainingBatchData(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 			&batch.UserID,
 		)
 		if err != nil {
+			fmt.Println("err18aaaaaa4", err)
 			log.Println(err)
 			w.WriteHeader(http.StatusBadRequest)
 			json.NewEncoder(w).Encode(map[string]interface{}{"Status": "400 Bad Request", "Message": err})
@@ -479,7 +486,7 @@ func GetTrainingBatchData(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 	// response := make(map[string]interface{})
 
 	// Get participants
-	fields = "tr_part.id as participant_id, IFNULL(tr_part.firstName, '') as participant_name, tr_part.gelathiRecomm, tr_part.day2, IF(tr_part.saving_amt = '' or tr_part.saving_amt is null,0,1) as final_save,tr_part.isSurveyDone,tr_part.enroll"
+	fields = "tr_part.id as participant_id, IFNULL(tr_part.firstName, '') as participant_name, tr_part.gelathiRecomm, tr_part.day2, IF(tr_part.saving_amt = '' or tr_part.saving_amt is null,0,1) as final_save,tr_part.isSurveyDone,tr_part.enroll, IF(tr_part.has_personal_account = '' or tr_part.has_personal_account is null,0,1) as day2survey"
 	queryParticipant := fmt.Sprintf("SELECT %s FROM training_participants tr_part WHERE tr_part.tb_id = %s", fields, id)
 	resultParticipant, err := DB.Query(queryParticipant)
 	if err != nil {
@@ -489,7 +496,7 @@ func GetTrainingBatchData(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 	}
 	defer resultParticipant.Close()
 
-	var participant_id, participant_name, gelathiRecomm, final_save string
+	var participant_id, participant_name, gelathiRecomm, final_save, day2survey string
 	var day2 int
 	var isSurveyDone bool
 	var enroll string
@@ -498,7 +505,7 @@ func GetTrainingBatchData(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 	for resultParticipant.Next() {
 		// var participant Participant
 
-		err := resultParticipant.Scan(&participant_id, &participant_name, &gelathiRecomm, &day2, &final_save, &isSurveyDone, &enroll)
+		err := resultParticipant.Scan(&participant_id, &participant_name, &gelathiRecomm, &day2, &final_save, &isSurveyDone, &enroll, &day2survey)
 		if err != nil {
 			w.WriteHeader(http.StatusBadRequest)
 			json.NewEncoder(w).Encode(map[string]interface{}{"Message": err, "Status Code": "400 Bad Request"})
@@ -510,6 +517,7 @@ func GetTrainingBatchData(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 		par.GelathiRecomm = gelathiRecomm
 		par.Day2 = fmt.Sprint(day2)
 		par.Final_save = final_save
+		par.Day2survey = day2survey
 		par.IsSurveyDone = isSurveyDone
 		par.Enroll = enroll
 		participants = append(participants, par)
