@@ -6,169 +6,163 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"strings"
 )
 
 type TrainingParticipant struct {
-	ID string `json:"id"`
-
-	FirstName         string `json:"firstName"`
-	DOB               string `json:"dob"`
-	Age               string `json:"age"`
-	HusbandName       string `json:"husbandName"`
-	Occupation        string `json:"occupation"`
-	HusbandOccupation string `json:"husbandOccupation"`
-	SavingGoal        string `json:"saving_goal"`
-	Caste             string `json:"caste"`
-
-	NumOfChildren string `json:"numOfChildren"`
-	Income        string `json:"income"`
-	Savings       string `json:"savings"`
-
-	Education      string `json:"education"`
-	ContactNo      string `json:"contact_no"`
-	VoterID        string `json:"voter_id"`
-	BusinessIncome string `json:"business_income"`
-	BusinessProfit string `json:"business_profit"`
-	SavingAmt      string `json:"saving_amt"`
-	BankAcc        string `json:"bank_acc"`
-
-	NameOfSHG                  string `json:"nameOfSHG"`
-	TypeOfEnterprise           string `json:"typeOfEnterprise"`
-	WifeIncomeMonthly          string `json:"wifeIncomeMonthly"`
-	WifeSavingsMonthly         string `json:"wifeSavingsMonthly"`
-	PersonOfWorth              string `json:"personOfWorth"`
-	GoodQuality                string `json:"goodQuality"`
-	AmFailure                  string `json:"amFailure"`
-	HaveGoal                   string `json:"haveGoal"`
-	Goal                       string `json:"goal"`
-	PathwayToGoal              string `json:"pathwayToGoal"`
-	DisheartenedToProblems     string `json:"disheartenedToProblems"`
-	SolutionToProblems         string `json:"solutionToProblems"`
-	ImplementationPlan         string `json:"implementationPlan"`
-	NoChoiceForSolution        string `json:"noChoiceForSolution"`
-	ProfitForSarees            string `json:"profitForSarees"`
-	AnnualLoanInterest         string `json:"annualLoanInterest"`
-	SaveRegularly              string `json:"saveRegularly"`
-	WhereSaveMoney             string `json:"whereSaveMoney"`
-	FrequencyOfSaving          string `json:"frequencyOfSaving"`
-	OwnAsset                   string `json:"ownAsset"`
-	SeparateFinancialAsset     string `json:"separateFinancialAsset"`
-	SpendMoney                 string `json:"spendMoney"`
-	HaveLoan                   string `json:"haveLoan"`
-	LoanOnWhoseName            string `json:"loanOnWhoseName"`
-	GovernmentBank             string `json:"governmentBank"`
-	PrivateBank                string `json:"privateBank"`
-	LocalMFI                   string `json:"localMFI"`
-	NGO                        string `json:"ngo"`
-	MoneyLender                string `json:"moneyLender"`
-	Middleman                  string `json:"middleman"`
-	AgroProcessors             string `json:"agroProcessors"`
-	Parents                    string `json:"parents"`
-	Relatives                  string `json:"relatives"`
-	Neighbours                 string `json:"neighbours"`
-	Friends                    string `json:"friends"`
-	SocialWelfareDepartments   string `json:"socialWelfareDepartments"`
-	Coorperatives              string `json:"cooperatives"`
-	Others                     string `json:"others"`
-	OwnIncomeGeneration        string `json:"ownIncomeGeneration"`
-	FamilyIncomeGeneration     string `json:"familyIncomeGeneration"`
-	EducationReason            string `json:"educationReason"`
-	FutureEmployment           string `json:"futureEmployment"`
-	OwnMarriage                string `json:"ownMarriage"`
-	BrotherMarriage            string `json:"brotherMarriage"`
-	PersonalExpenses           string `json:"personalExpenses"`
-	HouseholdUse               string `json:"householdUse"`
-	HouseRepair                string `json:"houseRepair"`
-	Medical                    string `json:"medical"`
-	Festival                   string `json:"festival"`
-	ReasonOthersToBorrowLoan   string `json:"reasonOthersToBorrowLoan"`
-	SpecificGoalForSavings     string `json:"specificGoalForSavings"`
-	HowMuchSaveToAchieve       string `json:"howMuchSaveToAchieve"`
-	EducationDecision          string `json:"educationDecision"`
-	AccessToHealtcare          string `json:"accessToHealtcare"`
-	AccessToCredit             string `json:"accessToCredit"`
-	SavingMoney                string `json:"savingMoney"`
-	AssetPurchase              string `json:"assetPurchase"`
-	DayTodayExpenditure        string `json:"dayTodayExpenditure"`
-	Livelihood                 string `json:"livelihood"`
-	PartOfCollective           string `json:"partOfCollective"`
-	ImportantToShareTheirProb  string `json:"importantToShareTheirProb"`
-	ShareLearningWithCommunity string `json:"shareLearningWithCommunity"`
-
-	IsSurveyDone string `json:"isSurveyDone"`
-
-	HouseholdBooksAccounts     string `json:"household_books_accounts"`
-	AccountsForSelfEnterprises string `json:"accounts_for_Self_Enterprises"`
-	AccountHousehold           string `json:"account_household"`
-	AccountBusiness            string `json:"account_business"`
-
-	District                          string  `json:"district"`
-	Taluk                             string  `json:"taluk"`
-	GramPanchayat                     string  `json:"gram_panchayat"`
-	VillageName                       string  `json:"village_name"`
-	House                             string  `json:"house"`
-	Roof                              string  `json:"roof"`
-	RationCard                        string  `json:"ration_card"`
-	SubCastName                       string  `json:"sub_cast_name"`
-	Religion                          string  `json:"religion"`
-	MaritalStatus                     string  `json:"marital_status"`
-	PrimaryOccupation                 string  `json:"primary_occupation"`
-	SecondaryOccupation               string  `json:"secondary_occupation"`
-	SoleEarnerFamily                  string  `json:"sole_earner_family"`
-	MigrationProfile                  string  `json:"migration_profile"`
-	HouseholdMigrationLastYear        string  `json:"household_migration_last_year"`
-	MigrantSendsRemittance            string  `json:"migrant_sends_remittance"`
-	FinancialLiteracy                 string  `json:"financial_literacy"`
-	LiabilitiesOrAssets               string  `json:"liabilities_or_assets"`
-	BookkeepingEntry                  string  `json:"bookkeeping_entry"`
-	LoanType                          string  `json:"loan_type"`
-	AnnualInterestRate                string  `json:"annual_interest_rate"`
-	InterestPaymentDue                string  `json:"interest_payment_due"`
-	ProfitMade                        string  `json:"profit_made"`
-	PersonalAccount                   string  `json:"personal_account"`
-	HasPersonalAccount                string  `json:"has_personal_account"`
-	BankAccountUsageFrequency         string  `json:"bank_account_usage_frequency"`
-	MoneyDecisionMaker                string  `json:"money_decision_maker"`
-	MonthlyExpensePlan                string  `json:"monthly_expense_plan"`
-	MonthlyExpenseAmount              string  `json:"monthly_expense_amount"`
-	MaintainExpenseRecord             string  `json:"maintain_expense_record"`
-	IndividualSavings                 string  `json:"individual_savings"`
-	MonthlySavingsIndividual          string  `json:"monthly_savings_individual"`
-	AnnualSavingsHousehold            string  `json:"annual_savings_household"`
-	ConfidentSpendSavings             string  `json:"confident_spend_savings"`
-	Loans                             string  `json:"loans"`
-	LoanTakenBy                       string  `json:"loan_taken_by"`
-	AmountBorrowed                    string  `json:"amount_borrowed"`
-	PurposeOfLoan                     string  `json:"purpose_of_loan"`
-	Source                            string  `json:"source"`
-	RateOfInterest                    string  `json:"rate_of_interest"`
-	ExpensesExceedIncomeLastYear      string  `json:"expenses_exceed_income_last_year"`
-	IncomeLossDuration                string  `json:"income_loss_duration"`
-	Goals                             string  `json:"goals"`
-	FinancialGoalsSet                 string  `json:"financial_goals_set"`
-	ShortTermGoal                     string  `json:"short_term_goal"`
-	LongTermGoal                      string  `json:"long_term_goal"`
-	Enterprise                        string  `json:"enterprise"`
-	FamilyBusiness                    string  `json:"family_business"`
-	WantToStartEnterprise             string  `json:"want_to_start_enterprise"`
-	EnterpriseType                    string  `json:"enterprise_type"`
-	NumEmployeesPaid                  string  `json:"num_employees_paid"`
-	IndividualInvolvementNature       string  `json:"individual_involvement_nature"`
-	EnterpriseMonthlyIncome           string  `json:"enterprise_monthly_income"`
-	EnterpriseIsProfitable            string  `json:"enterprise_is_profitable"`
-	MonthlyProfit                     string  `json:"monthly_profit"`
-	DecisionMaking                    string  `json:"decision_making"`
-	DecisionSay                       string  `json:"decision_say"`
-	MenstrualHygieneEnv               string  `json:"menstrual_hygiene_env"`
-	EnvFriendlyPractices              string  `json:"env_friendly_practices"`
-	MenstrualProductUsed              string  `json:"menstrual_product_used"`
-	MenstrualDisposalMethod           string  `json:"menstrual_disposal_method"`
-	CookingFuelType                   string  `json:"cooking_fuel_type"`
-	WomensOccupation                  string  `json:"womens_occupation"`
-	MonthlyWomenIncome                float64 `json:"monthly_women_income"`
-	SourceOfThisIncome                string  `json:"source_of_this_income"`
-	SecondaryOccupationOfTheHousehold string  `json:"secondary_occupation_of_the_household"`
-	PrimaryOccupationOfHousehold      string  `json:"primary_occupation_of_the_household"`
+	ID                                string   `json:"id"`
+	FirstName                         string   `json:"firstName"`
+	DOB                               string   `json:"dob"`
+	Age                               string   `json:"age"`
+	HusbandName                       string   `json:"husbandName"`
+	Occupation                        string   `json:"occupation"`
+	HusbandOccupation                 string   `json:"husbandOccupation"`
+	SavingGoal                        string   `json:"saving_goal"`
+	Caste                             int      `json:"caste"`
+	NumOfChildren                     string   `json:"numOfChildren"`
+	Income                            string   `json:"income"`
+	Savings                           string   `json:"savings"`
+	Education                         string   `json:"education"`
+	ContactNo                         string   `json:"contact_no"`
+	VoterID                           string   `json:"voter_id"`
+	BusinessIncome                    string   `json:"business_income"`
+	BusinessProfit                    string   `json:"business_profit"`
+	SavingAmt                         string   `json:"saving_amt"`
+	BankAcc                           string   `json:"bank_acc"`
+	NameOfSHG                         string   `json:"nameOfSHG"`
+	TypeOfEnterprise                  string   `json:"typeOfEnterprise"`
+	WifeIncomeMonthly                 string   `json:"wifeIncomeMonthly"`
+	WifeSavingsMonthly                string   `json:"wifeSavingsMonthly"`
+	PersonOfWorth                     string   `json:"personOfWorth"`
+	GoodQuality                       string   `json:"goodQuality"`
+	AmFailure                         string   `json:"amFailure"`
+	HaveGoal                          string   `json:"haveGoal"`
+	Goal                              string   `json:"goal"`
+	PathwayToGoal                     string   `json:"pathwayToGoal"`
+	DisheartenedToProblems            string   `json:"disheartenedToProblems"`
+	SolutionToProblems                string   `json:"solutionToProblems"`
+	ImplementationPlan                string   `json:"implementationPlan"`
+	NoChoiceForSolution               string   `json:"noChoiceForSolution"`
+	ProfitForSarees                   string   `json:"profitForSarees"`
+	AnnualLoanInterest                string   `json:"annualLoanInterest"`
+	SaveRegularly                     string   `json:"saveRegularly"`
+	WhereSaveMoney                    string   `json:"whereSaveMoney"`
+	FrequencyOfSaving                 string   `json:"frequencyOfSaving"`
+	OwnAsset                          string   `json:"ownAsset"`
+	SeparateFinancialAsset            string   `json:"separateFinancialAsset"`
+	SpendMoney                        string   `json:"spendMoney"`
+	HaveLoan                          string   `json:"haveLoan"`
+	LoanOnWhoseName                   string   `json:"loanOnWhoseName"`
+	GovernmentBank                    string   `json:"governmentBank"`
+	PrivateBank                       string   `json:"privateBank"`
+	LocalMFI                          string   `json:"localMFI"`
+	NGO                               string   `json:"ngo"`
+	MoneyLender                       string   `json:"moneyLender"`
+	Middleman                         string   `json:"middleman"`
+	AgroProcessors                    string   `json:"agroProcessors"`
+	Parents                           string   `json:"parents"`
+	Relatives                         string   `json:"relatives"`
+	Neighbours                        string   `json:"neighbours"`
+	Friends                           string   `json:"friends"`
+	SocialWelfareDepartments          string   `json:"socialWelfareDepartments"`
+	Coorperatives                     string   `json:"cooperatives"`
+	Others                            string   `json:"others"`
+	OwnIncomeGeneration               string   `json:"ownIncomeGeneration"`
+	FamilyIncomeGeneration            string   `json:"familyIncomeGeneration"`
+	EducationReason                   string   `json:"educationReason"`
+	FutureEmployment                  string   `json:"futureEmployment"`
+	OwnMarriage                       string   `json:"ownMarriage"`
+	BrotherMarriage                   string   `json:"brotherMarriage"`
+	PersonalExpenses                  string   `json:"personalExpenses"`
+	HouseholdUse                      string   `json:"householdUse"`
+	HouseRepair                       string   `json:"houseRepair"`
+	Medical                           string   `json:"medical"`
+	Festival                          string   `json:"festival"`
+	ReasonOthersToBorrowLoan          string   `json:"reasonOthersToBorrowLoan"`
+	SpecificGoalForSavings            string   `json:"specificGoalForSavings"`
+	HowMuchSaveToAchieve              string   `json:"howMuchSaveToAchieve"`
+	EducationDecision                 string   `json:"educationDecision"`
+	AccessToHealtcare                 string   `json:"accessToHealtcare"`
+	AccessToCredit                    string   `json:"accessToCredit"`
+	SavingMoney                       string   `json:"savingMoney"`
+	AssetPurchase                     string   `json:"assetPurchase"`
+	DayTodayExpenditure               string   `json:"dayTodayExpenditure"`
+	Livelihood                        string   `json:"livelihood"`
+	PartOfCollective                  string   `json:"partOfCollective"`
+	ImportantToShareTheirProb         string   `json:"importantToShareTheirProb"`
+	ShareLearningWithCommunity        string   `json:"shareLearningWithCommunity"`
+	IsSurveyDone                      string   `json:"isSurveyDone"`
+	HouseholdBooksAccounts            string   `json:"household_books_accounts"`
+	AccountsForSelfEnterprises        string   `json:"accounts_for_Self_Enterprises"`
+	AccountHousehold                  string   `json:"account_household"`
+	AccountBusiness                   string   `json:"account_business"`
+	District                          string   `json:"district"`
+	Taluk                             string   `json:"taluk"`
+	GramPanchayat                     string   `json:"gram_panchayat"`
+	VillageName                       string   `json:"village_name"`
+	House                             string   `json:"house"`
+	Roof                              string   `json:"roof"`
+	RationCard                        string   `json:"ration_card"`
+	SubCastName                       string   `json:"sub_cast_name"`
+	Religion                          string   `json:"religion"`
+	MaritalStatus                     string   `json:"marital_status"`
+	PrimaryOccupation                 string   `json:"primary_occupation"`
+	SecondaryOccupation               string   `json:"secondary_occupation"`
+	SoleEarnerFamily                  string   `json:"sole_earner_family"`
+	MigrationProfile                  string   `json:"migration_profile"`
+	HouseholdMigrationLastYear        string   `json:"household_migration_last_year"`
+	MigrantSendsRemittance            string   `json:"migrant_sends_remittance"`
+	FinancialLiteracy                 string   `json:"financial_literacy"`
+	LiabilitiesOrAssets               []string `json:"liabilities_or_assets"`
+	BookkeepingEntry                  []string `json:"bookkeeping_entry"`
+	LoanType                          []string `json:"loan_type"`
+	AnnualInterestRate                string   `json:"annual_interest_rate"`
+	InterestPaymentDue                string   `json:"interest_payment_due"`
+	ProfitMade                        string   `json:"profit_made"`
+	PersonalAccount                   string   `json:"personal_account"`
+	HasPersonalAccount                string   `json:"has_personal_account"`
+	BankAccountUsageFrequency         []string `json:"bank_account_usage_frequency"`
+	MoneyDecisionMaker                []string `json:"money_decision_maker"`
+	MonthlyExpensePlan                string   `json:"monthly_expense_plan"`
+	MonthlyExpenseAmount              string   `json:"monthly_expense_amount"`
+	MaintainExpenseRecord             string   `json:"maintain_expense_record"`
+	IndividualSavings                 string   `json:"individual_savings"`
+	MonthlySavingsIndividual          string   `json:"monthly_savings_individual"`
+	AnnualSavingsHousehold            string   `json:"annual_savings_household"`
+	ConfidentSpendSavings             string   `json:"confident_spend_savings"`
+	Loans                             string   `json:"loans"`
+	LoanTakenBy                       []string `json:"loan_taken_by"`
+	AmountBorrowed                    string   `json:"amount_borrowed"`
+	PurposeOfLoan                     []string `json:"purpose_of_loan"`
+	Source                            []string `json:"source"`
+	RateOfInterest                    string   `json:"rate_of_interest"`
+	ExpensesExceedIncomeLastYear      []string `json:"expenses_exceed_income_last_year"`
+	IncomeLossDuration                []string `json:"income_loss_duration"`
+	Goals                             string   `json:"goals"`
+	FinancialGoalsSet                 string   `json:"financial_goals_set"`
+	ShortTermGoal                     string   `json:"short_term_goal"`
+	LongTermGoal                      string   `json:"long_term_goal"`
+	Enterprise                        string   `json:"enterprise"`
+	FamilyBusiness                    string   `json:"family_business"`
+	WantToStartEnterprise             string   `json:"want_to_start_enterprise"`
+	EnterpriseType                    []string `json:"enterprise_type"`
+	NumEmployeesPaid                  string   `json:"num_employees_paid"`
+	IndividualInvolvementNature       []string `json:"individual_involvement_nature"`
+	EnterpriseMonthlyIncome           string   `json:"enterprise_monthly_income"`
+	EnterpriseIsProfitable            string   `json:"enterprise_is_profitable"`
+	MonthlyProfit                     string   `json:"monthly_profit"`
+	DecisionMaking                    string   `json:"decision_making"`
+	DecisionSay                       []string `json:"decision_say"`
+	MenstrualHygieneEnv               string   `json:"menstrual_hygiene_env"`
+	EnvFriendlyPractices              []string `json:"env_friendly_practices"`
+	MenstrualProductUsed              []string `json:"menstrual_product_used"`
+	MenstrualDisposalMethod           []string `json:"menstrual_disposal_method"`
+	CookingFuelType                   []string `json:"cooking_fuel_type"`
+	WomensOccupation                  string   `json:"womens_occupation"`
+	MonthlyWomenIncome                float64  `json:"monthly_women_income"`
+	SourceOfThisIncome                string   `json:"source_of_this_income"`
+	SecondaryOccupationOfTheHousehold string   `json:"secondary_occupation_of_the_household"`
+	PrimaryOccupationOfHousehold      string   `json:"primary_occupation_of_the_household"`
 }
 
 func GetSelfShaktiBaselineSurvey(w http.ResponseWriter, r *http.Request, db *sql.DB) {
@@ -278,7 +272,7 @@ func GetSelfShaktiBaselineSurvey(w http.ResponseWriter, r *http.Request, db *sql
     COALESCE(partOfCollective, '') AS partOfCollective,
     COALESCE(importantToShareTheirProb, '') AS importantToShareTheirProb,
     COALESCE(shareLearningWithCommunity, '') AS shareLearningWithCommunity,
-COALESCE(isSurveyDone, 0) AS isSurveyDone,
+	COALESCE(isSurveyDone, 0) AS isSurveyDone,
     COALESCE(household_books_accounts, '') AS household_books_accounts,
     COALESCE(accounts_for_Self_Enterprises, '') AS accounts_for_Self_Enterprises,
     COALESCE(account_household, '') AS account_household,
@@ -352,7 +346,7 @@ COALESCE(isSurveyDone, 0) AS isSurveyDone,
     COALESCE(Primary_occupation_of_household, 'None') AS Primary_occupation_of_household
 FROM 
     training_participants
-    WHERE isSurveyDone= 0 and id = %d`, req.ParticipantID)
+    WHERE isSurveyDone= 1 and id = %d`, req.ParticipantID)
 
 	rows, err := db.Query(query)
 
@@ -366,6 +360,7 @@ FROM
 
 	for rows.Next() {
 		var participant TrainingParticipant
+		var liabilitiesOrAssets, bookkeepingEntry, loanType, bankAccountUsageFrequency, moneyDecisionMaker, loanTakenBy, purposeOfLoan, source, expensesExceedIncomeLastYear, incomeLossDuration, enterpriseType, individualInvolvementNature, decisionSay, envFriendlyPractices, menstrualProductUsed, menstrualDisposalMethod, cookingFuelType string
 
 		err := rows.Scan(
 			&participant.ID,
@@ -471,16 +466,16 @@ FROM
 			&participant.HouseholdMigrationLastYear,
 			&participant.MigrantSendsRemittance,
 			&participant.FinancialLiteracy,
-			&participant.LiabilitiesOrAssets,
-			&participant.BookkeepingEntry,
-			&participant.LoanType,
+			&liabilitiesOrAssets, // Scan as a string
+			&bookkeepingEntry,    // Scan as a string
+			&loanType,            // Scan as a string
 			&participant.AnnualInterestRate,
 			&participant.InterestPaymentDue,
 			&participant.ProfitMade,
 			&participant.PersonalAccount,
 			&participant.HasPersonalAccount,
-			&participant.BankAccountUsageFrequency,
-			&participant.MoneyDecisionMaker,
+			&bankAccountUsageFrequency, // Scan as a string
+			&moneyDecisionMaker,        // Scan as a string
 			&participant.MonthlyExpensePlan,
 			&participant.MonthlyExpenseAmount,
 			&participant.MaintainExpenseRecord,
@@ -489,13 +484,13 @@ FROM
 			&participant.AnnualSavingsHousehold,
 			&participant.ConfidentSpendSavings,
 			&participant.Loans,
-			&participant.LoanTakenBy,
+			&loanTakenBy, // Scan as a string
 			&participant.AmountBorrowed,
-			&participant.PurposeOfLoan,
-			&participant.Source,
+			&purposeOfLoan, // Scan as a string
+			&source,        // Scan as a string
 			&participant.RateOfInterest,
-			&participant.ExpensesExceedIncomeLastYear,
-			&participant.IncomeLossDuration,
+			&expensesExceedIncomeLastYear, // Scan as a string
+			&incomeLossDuration,           // Scan as a string
 			&participant.Goals,
 			&participant.FinancialGoalsSet,
 			&participant.ShortTermGoal,
@@ -503,19 +498,19 @@ FROM
 			&participant.Enterprise,
 			&participant.FamilyBusiness,
 			&participant.WantToStartEnterprise,
-			&participant.EnterpriseType,
+			&enterpriseType, // Scan as a string
 			&participant.NumEmployeesPaid,
-			&participant.IndividualInvolvementNature,
+			&individualInvolvementNature, // Scan as a string
 			&participant.EnterpriseMonthlyIncome,
 			&participant.EnterpriseIsProfitable,
 			&participant.MonthlyProfit,
 			&participant.DecisionMaking,
-			&participant.DecisionSay,
+			&decisionSay, // Scan as a string
 			&participant.MenstrualHygieneEnv,
-			&participant.EnvFriendlyPractices,
-			&participant.MenstrualProductUsed,
-			&participant.MenstrualDisposalMethod,
-			&participant.CookingFuelType,
+			&envFriendlyPractices,    // Scan as a string
+			&menstrualProductUsed,    // Scan as a string
+			&menstrualDisposalMethod, // Scan as a string
+			&cookingFuelType,         // Scan as a string
 			&participant.WomensOccupation,
 			&participant.MonthlyWomenIncome,
 			&participant.SourceOfThisIncome,
@@ -527,6 +522,23 @@ FROM
 			json.NewEncoder(w).Encode(map[string]interface{}{"code": http.StatusInternalServerError, "message": "Database Scan Error", "success": false, "error": err.Error()})
 			return
 		}
+		participant.LiabilitiesOrAssets = strings.Split(liabilitiesOrAssets, ",")
+		participant.BookkeepingEntry = strings.Split(bookkeepingEntry, ",")
+		participant.LoanType = strings.Split(loanType, ",")
+		participant.BankAccountUsageFrequency = strings.Split(bankAccountUsageFrequency, ",")
+		participant.MoneyDecisionMaker = strings.Split(moneyDecisionMaker, ",")
+		participant.LoanTakenBy = strings.Split(loanTakenBy, ",")
+		participant.PurposeOfLoan = strings.Split(purposeOfLoan, ",")
+		participant.Source = strings.Split(source, ",")
+		participant.ExpensesExceedIncomeLastYear = strings.Split(expensesExceedIncomeLastYear, ",")
+		participant.IncomeLossDuration = strings.Split(incomeLossDuration, ",")
+		participant.EnterpriseType = strings.Split(enterpriseType, ",")
+		participant.IndividualInvolvementNature = strings.Split(individualInvolvementNature, ",")
+		participant.DecisionSay = strings.Split(decisionSay, ",")
+		participant.EnvFriendlyPractices = strings.Split(envFriendlyPractices, ",")
+		participant.MenstrualProductUsed = strings.Split(menstrualProductUsed, ",")
+		participant.MenstrualDisposalMethod = strings.Split(menstrualDisposalMethod, ",")
+		participant.CookingFuelType = strings.Split(cookingFuelType, ",")
 
 		response = append(response, participant)
 	}
