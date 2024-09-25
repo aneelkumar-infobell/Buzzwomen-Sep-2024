@@ -1,7 +1,17 @@
 import { Card, CardContent, Checkbox, FormControlLabel, FormGroup, Stack, Typography } from '@mui/material';
 import React from 'react';
 
-const MultipleChoice = ({ card = true, label, kannadaLabel = '', name, required, handleResources, options }) => {
+const MultipleChoice = ({
+  card = true,
+  label,
+  kannadaLabel = '',
+  name,
+  required,
+  handleResources,
+  options,
+  disabled = false,
+  selectedOption = [],
+}) => {
   return (
     <>
       {card ? (
@@ -14,6 +24,8 @@ const MultipleChoice = ({ card = true, label, kannadaLabel = '', name, required,
               name={name}
               handleResources={handleResources}
               options={options}
+              selectedOption={selectedOption}
+              disabled={disabled}
             />
           </CardContent>
         </Card>
@@ -21,17 +33,28 @@ const MultipleChoice = ({ card = true, label, kannadaLabel = '', name, required,
         <MultipleChoiceContent
           label={label}
           kannadaLabel={kannadaLabel}
-          // required={required}
+          required={required}
           name={name}
           handleResources={handleResources}
           options={options}
+          selectedOption={selectedOption}
+          disabled={disabled}
         />
       )}
     </>
   );
 };
 
-const MultipleChoiceContent = ({ label, kannadaLabel, required, name, handleResources, options }) => (
+const MultipleChoiceContent = ({
+  label,
+  kannadaLabel,
+  required,
+  name,
+  handleResources,
+  options,
+  selectedOption,
+  disabled,
+}) => (
   <>
     <Typography style={{ color: '#ff7424' }}>
       {label}
@@ -44,7 +67,7 @@ const MultipleChoiceContent = ({ label, kannadaLabel, required, name, handleReso
           <FormControlLabel
             key={value.id}
             value={value.name}
-            control={<Checkbox style={{ color: '#595959' }} />}
+            control={<Checkbox disabled checked={selectedOption.includes(value.name)} style={{ color: '#595959' }} />}
             label={value.name}
             onChange={(event) => handleResources(name, event)}
           />
