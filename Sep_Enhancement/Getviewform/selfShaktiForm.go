@@ -228,7 +228,7 @@ func GetSelfShaktiBaselineSurvey(w http.ResponseWriter, r *http.Request, db *sql
     COALESCE(numOfChildren, '') AS numOfChildren,
     COALESCE(income, '') AS income,
     COALESCE(savings, '') AS savings,
-    COALESCE(education, '') AS education,
+    COALESCE(education, 0) AS education,
     COALESCE(contact_no, '') AS contact_no,
     COALESCE(voter_id, '') AS voter_id,
     COALESCE(business_income, '') AS business_income,
