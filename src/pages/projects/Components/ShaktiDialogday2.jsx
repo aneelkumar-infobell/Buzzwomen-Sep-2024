@@ -202,7 +202,7 @@ countsuggestedgelathi();
               <CloseIcon />
             </IconButton>
             <Typography sx={{ ml: 2, flex: 1,color:"white" }} variant="h6" component="div">
-              Self Shakti  working
+              Self Shakti  
             </Typography>
           </Toolbar>
         </AppBar>

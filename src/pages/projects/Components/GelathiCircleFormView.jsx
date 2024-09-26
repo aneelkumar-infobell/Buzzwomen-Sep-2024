@@ -80,11 +80,8 @@ export default function GelathiCircleFormView({
   const [bringtogether, setbringTogether] = React.useState('');
   const [conflicts, setConflicts] = React.useState('');
   const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
-  const [sendData, setSendData] = useState(
- 
-   
-  );
-  const [formData , setFormData] = useState(
+  
+  const [sendData , setSendData] = useState(
     {
       "partcipantId": "",
       "GelathiId": "",
@@ -212,62 +209,10 @@ const  handleClickOpen = () => {
     setShowForm(false);
   };
  
-  useEffect(()=>{
 
-    const existingData = localStorage.getItem('spoorthi');
-  
-        const parsedData = existingData ? JSON.parse(existingData) : [];
-  
-        if(parsedData?.length){
-  
-          parsedData.map(item=>{
-  
-            if(
-              item?.partcipantId=== id
-              // || item?.partcipantId===props?.itm.gelathi_id
-              ){
-  
-              setSendData(item);
-  
-              setIsFormPresentLocally(true)
-  
-            }
-  
-          })
-  
-        }
-  
-  },[])
 
-//   const saveDataLocally = (key, data) => {
-  
- 
 
-//     const existingData = localStorage.getItem('spoorthi');
-//     const parsedData = existingData ? JSON.parse(existingData) : [];
-//     const newData = data; // Replace with your own data object
-//     parsedData.push(newData);
-//     const updatedData = parsedData;
 
-//     localStorage.setItem('spoorthi', updatedData);
-
-//     console.log("i called and store ", updatedData)
-
-//   // localStorage.setItem(key, JSON.stringify(data));
-
-// };
-
-const saveDataLocally = (key, data) => {
- 
-  const existingData = localStorage.getItem('spoorthi');
-  const parsedData = existingData ? JSON.parse(existingData) : [];
-  const newData = data; // Replace with your own data object
-  parsedData.push(newData);
-  const updatedData = JSON.stringify(parsedData);
-  localStorage.setItem('spoorthi', updatedData);
-  componentreloadmethod();
-// localStorage.setItem(key, JSON.stringify(data));
-};
   const isOnline = () => {
     return navigator.onLine;
   };
@@ -303,7 +248,7 @@ console.log(id ,"datadatadata")
       .then(function (response) {
         console.log(response.data ,"response.dataresponse.data")
         const participantData = response.data;
-        setFormData(participantData.data)
+        setSendData(participantData.data)
       })
       .catch(function (error) {
         // console.log(error);
@@ -323,12 +268,10 @@ console.log(id ,"datadatadata")
     // getDistrict()
     getSpoorthiFormTOView()
   },[])
-useEffect(()=>{
 
-},[sendData])
-  console.log(formData ,"formDataformData", sendData)
+ 
+console.log(sendData ,"sendData")
 
-  console.log(sendData ,"sendData")
   return (
     <div>
       <Stack style={{ flexDirection: 'row', float: 'right' }} mb={2}>
@@ -349,18 +292,9 @@ useEffect(()=>{
             {(isOnline())? <Iconify icon="material-symbols:arrow-back-rounded" />:<div style={{borderRadius:5}}> 🡠</div>}
             </IconButton>
             <Typography sx={{ ml: 2, flex: 1, color: 'inherit' }} variant="h6" component="div">
-              Spoorthi Baseline Questionnaire 
+              View Spoorthi Baseline Questionnaire 
             </Typography>
-            <Button
-              edge="end"
-              type="submit"
-              onClick={() => {
-                // console.log('save');
-              }}
-              color="inherit"
-            >
-             {(isOnline())? <Iconify icon="material-symbols:save" width={30} height={30} />:"save"}
-            </Button>
+            
           </Toolbar>
           {(loader)? 
           <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '70vh' }}>
@@ -369,7 +303,11 @@ useEffect(()=>{
            <DialogContent dividers={scroll === 'paper'} sx={{ background: '#f9fafb' }}>
             <DialogContentText id="scroll-dialog-description" tabIndex={-1}>
               <Grid style={{ margin: 10 }}>
-                {/* <Card mt={1} style={{ marginTop: 10, borderRadius: 20 }}>
+                {/* old version     */}
+              { 
+              (sendData?.spoorthi_session_number != "")?
+              <>
+              <Card mt={1} style={{ marginTop: 10, borderRadius: 20 }}>
                   <CardContent>
                     <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
                       Surveyor's email address *
@@ -379,15 +317,324 @@ useEffect(()=>{
                         id="Email"
                         disabled
                         label="Your Answer"
-                        onChange={(e) => {
-                          setSendData({ ...sendData, email_address: e?.target?.value });
-                        }}
+                      value={sendData.email_address}
                         variant="outlined"
                         color="common"
                       />
                     </Stack>
                   </CardContent>
-                </Card> */}
+                </Card>
+                   <Card mt={1} style={{ marginTop: 10, borderRadius: 20 }}>
+                  <CardContent>
+                    <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+                      Name of the Gelathi Facilitator/  /ಗೆಳತಿ ಆಯೋಜಕನ ಹೆಸರು*
+                    </Typography>
+                    <Stack mt={2} mb={2}>
+                    <TextField
+                        id="twoquestions"
+                        label="Your Answer"
+                        disabled
+                       value={sendData.gelathiId}
+                        variant="outlined"
+                        color="common"
+                      />
+                     
+                   
+                    </Stack>
+                  </CardContent>
+                </Card>
+                <Card style={{ marginTop: 10, borderRadius: 20 }}>
+                  <CardContent>
+                    <Stack mt={2}>
+                      <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+                        Spoorthi Session Number/ಸ್ಪೂರ್ತಿ ಸೆಷನ್ಸಂಖ್ಯೆ * (Tick the Spoorthi in which you are collecting
+                        the data)
+                    
+                      </Typography>
+                      <Stack mt={2} mb={2}>
+                      <TextField
+                        id="twoquestions"
+                        label="Your Answer"
+                        disabled
+                       value={sendData.spoorthi_session_number}
+                        variant="outlined"
+                        color="common"
+                      />
+                    </Stack>
+                    </Stack>
+                  </CardContent>
+                </Card>
+                 <Card style={{ marginTop: 10, borderRadius: 20 }}>
+                  <CardContent>
+                    <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+                      Can you list down three of your skills/ ನಿಮ್ಮ ಮೂರು ಕೌಶಲ್ಯಗಳನ್ನು ನೀವು ಪಟ್ಟಿ ಮಾಡಬಹುದು?
+                    </Typography>
+                    <Stack mt={2} mb={2}>
+                      <TextField
+                        id="skillslist"
+                        label="Your Answer"
+                        disabled
+                       value={sendData.list_down_your_skills}
+                        variant="outlined"
+                        color="common"
+                      />
+                    </Stack>
+                  </CardContent>
+                </Card>
+                <Card style={{ marginTop: 10, borderRadius: 20 }}>
+                  <CardContent>
+                    <Stack mt={2}>
+                      <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+                        I have used my skills to overcome my challenges/ನನ್ನ ಸವಾಲುಗಳನ್ನು ಜಯಿಸಲು ನಾನು ನನ್ನ ಕೌಶಲ್ಯವನ್ನು
+                        ಬಳಸಿದ್ದೇನೆ
+                      
+                      </Typography>
+                      <Stack mt={2} mb={2}>
+                      <TextField
+                        id="twoquestions"
+                        label="Your Answer"
+                        disabled
+                       value={sendData.skills_to_overcome_my_challenges}
+                        variant="outlined"
+                        color="common"
+                      />
+                    </Stack>
+                    </Stack>
+                  </CardContent>
+                </Card>
+   <Card style={{ marginTop: 10, borderRadius: 20 }}>
+                  <CardContent>
+                    <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+                      State one instance of when you used your skills and resources to combat your challenge/ನಿಮ್ಮ
+                      ಸವಾಲನ್ನು ಎದುರಿಸಲು ನಿಮ್ಮ ಕೌಶಲ್ಯ ಮತ್ತು ಸಂಪನ್ಮೂಲಗಳನ್ನು ನೀವು ಬಳಸಿದಾಗ ಒಂದು ಉದಾಹರಣೆಯನ್ನು ತಿಳಿಸಿ
+                    </Typography>
+                    <Stack mt={2} mb={2}>
+                      <TextField
+                        id="skillsresources"
+                        label="Your Answer"
+                        disabled
+                      value={sendData.used_skills_resources_combat_challenge}
+                        variant="outlined"
+                        color="common"
+                      />
+                    </Stack>
+                  </CardContent>
+                </Card>
+                <Card style={{ marginTop: 10, borderRadius: 20 }}>
+                  <CardContent>
+                    <Stack mt={2}>
+                      <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+                        ನಮ್ಮ ಹಳ್ಳಿಯಲ್ಲಿರುವ ಕಸದ ಗುಡ್ಡೆ ಹಾದುಹೋಗುವಾಗ ನನಗೆ ಸದಾ ಬೇಸರವಾಗುತ್ತಿತ್ತು . ಈ ಪ್ರದೇಶವು, ನಮ್ಮಿಂ ದಲೇ
+                        ತುಂಬಾ ಕೆಟ್ಟ ದಾಗಿ ದುರ್ವಾಸನೆ ಬೀರುತ್ತಿದೆ ಎಂದು ನನಗೆ ತಿಳಿದಿತ್ತು . ಆದರೆ, ಅದರ ಬಗ್ಗೆ ನನಗೆ ಏನುಮಾಡಬೇಕೆಂ ದು
+                        ತಿಳಿದಿರಲಿಲ್ಲ . ಕಸವು ಪರಿಸರಕ್ಕೆ ದೊಡ್ಡ ಅಪಾಯವಾಗಿದೆ. ಇವು ಬಳಸಿದ ಪೇಪರ್, ಟಿಫಿನ್ ಪ್ಯಾ ಕಿಂ ಗಳು, ಪ್ಲಾಸ್ಟಿ
+                        ಕ್ ಚೀಲಗಳು, ಐಸ್ ಕ್ರೀ ಮೊದಿಕೆಗಳು, ಬಾಟಲ್ ಕ್ಯಾ ನ್ಗಳು,ಮರಗಳಿಂದ ಬಿದ್ದ ಎಲೆಗಳು ಮತ್ತು ಇನ್ನೂ ವಿವಿಧಮೂಲಗಳಿಂದ
+                        ಬರುತ್ತದೆ. ಕಸವು ಆವರಣವನ್ನು ಕೊಳಕು, ಅಶುದ್ಧ ಗೊಳಿಸುತ್ತದೆ ಮತ್ತು ರೋಗಗಳನ್ನು ಹುಟ್ಟು ಹಾಕುತ್ತದೆ ಎಂದು ನನಗೆ
+                        ತಿಳಿದಿದೆ. ಎಸೆಯಲ್ಪಟ್ಟ ಬಹಳಷ್ಟು ಕಸವು ನವೀಕರಿಸಬಹುದಾದ ಮತ್ತು ಮರುಬಳಕೆಮಾಡಬಹುದಾದ ಕಾಗದ,ಲೋಹಗಳು ಮತ್ತು
+                        ಗಾಜಿನಂತಹ ವಸ್ತುಗಳನ್ನು ಒಳಗೊಂಡಿರುತ್ತದೆ, ಅದನ್ನು ಹತ್ತಿರದ ಮರುಬಳಕೆ ಕೇಂದ್ರ ಕ್ಕೆ ಕಳುಹಿಸಬಹುದು ಅಥವಾ
+                        ಜಂಕೀಲರ್ಗೆ ವಿಲೇವಾರಿಮಾಡಬಹುದು. ಇಂದಿನಿಂದ, ನಾನು ನನಗೆ ತಿಳಿದಿರುವ ವಸ್ತುಗಳನ್ನು ಮರುಬಳಕೆಮಾಡಲು ಪ್ರಯತ್ನಿ
+                        ಸುತ್ತೇ ನೆ.Did you listen to the paragraph
+                      
+                      </Typography>
+                      <RadioGroup
+                        aria-labelledby="demo-radio-buttons-group-label"
+                        name="radio-buttons-group"
+                        value={sendData.listen_paragraph}
+                    
+                      >
+                        <FormControlLabel value="Yes" control={<Radio style={{ color: '#595959' }} />} label="Yes" />
+                        <FormControlLabel value="No" control={<Radio style={{ color: '#595959' }} />} label="No" />
+                      </RadioGroup>
+                    </Stack>
+                  </CardContent>
+                </Card>
+                <Card style={{ marginTop: 10, borderRadius: 20 }}>
+                  <CardContent>
+                    <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+                      Please summarize the main points of the paragraph?/ಮೇಲಿನ ಪರಿಚ್ಚೇ ದದ ಮುಖ್ಯ ಅಂಶಗಳನ್ನು
+                      ನೀವುಸಂಕ್ಷಿಪ್ತವಾಗಿ ತಿಳಿಸಿ. (ಸತ್ಯ ತೆ ಮತ್ತು ಭಾವನೆಗಳೆರಡನ್ನೂ ವಿಶ್ಲೇ ಷಿಸುವುದು)
+                    </Typography>
+                    <Stack mt={2} mb={2}>
+                      <TextField
+                        id="parapoints"
+                        label="Your Answer"
+                        disabled
+                       value={sendData.summarize_main_points_paragraph}
+                        variant="outlined"
+                        color="common"
+                      />
+                    </Stack>
+                  </CardContent>
+                </Card>
+                <Card style={{ marginTop: 10, borderRadius: 20 }}>
+                  <CardContent>
+                    <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+                      Please ask two questions that can help you understand the previous paragraph better?/ಹಿಂದಿನ
+                      ಪರಿಚ್ಛೇ ದವನ್ನು ಚೆನ್ನಾಗಿ ಅರ್ಥಮಾಡಿಕೊಳ್ಳಲು ನಿಮಗೆ ಸಹಾಯ ಮಾಡುವ ಎರಡು ಪ್ರಶ್ನೆ ನೀವು ಕೇಳಿ.
+                    </Typography>
+                    <Stack mt={2} mb={2}>
+                      <TextField
+                        id="twoquestions"
+                        label="Your Answer"
+                        disabled
+                      value={sendData.ask_two_questions_help_you_understand}
+                        variant="outlined"
+                        color="common"
+                      />
+                    </Stack>
+                  </CardContent>
+                </Card>
+                  <Card style={{ marginTop: 10, borderRadius: 20 }}>
+                  <CardContent>
+                    <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+                      Please name three infrastructure of your village?/ಗ್ರಾಮದಲ್ಲಿ ಇರುವ ಮೂರುಮೂಲಸೌಕರ್ಯಗಳನ್ನು ಹೆಸರಿಸಿ.
+                    </Typography>
+                    <Stack mt={2} mb={2}>
+                      <TextField
+                        id="twoquestions"
+                        label="Your Answer"
+                        disabled
+                       value={sendData.three_infrastructure_of_your_village}
+                        variant="outlined"
+                        color="common"
+                      />
+                    </Stack>
+                  </CardContent>
+                </Card>
+           
+                 <Card style={{ marginTop: 10, borderRadius: 20 }}>
+                  <CardContent>
+                    <Stack mt={2}>
+                      <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+                        I Know the need of my community/ನನ್ನ ಸಮುದಾಯದ ಅವಶ್ಯಕತೆ ನನಗೆ ತಿಳಿದಿದೆ
+                      
+                      </Typography>
+                      <Stack mt={2} mb={2}>
+                      <TextField
+                        id="twoquestions"
+                        label="Your Answer"
+                        disabled
+                       value={sendData.know_the_need_of_my_community}
+                        variant="outlined"
+                        color="common"
+                      />
+                    </Stack>
+                    </Stack>
+                  </CardContent>
+                </Card>
+                 <Card style={{ marginTop: 10, borderRadius: 20 }}>
+                  <CardContent>
+                    <Stack mt={2}>
+                      <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+                        I have come together with other community members to make a change in our community
+                        infrastructure/ನಮ್ಮ ಸಮುದಾಯದ ಮೂಲಸೌಕರ್ಯದಲ್ಲಿ ಬದಲಾವಣೆ ಮಾಡಲು ನಾನು ಇತರ ಸಮುದಾಯದ ಸದಸ್ಯರೊಂದಿಗೆ
+                        ಸೇರಿಕೊಂಡಿದ್ದೇನೆ
+                    
+                      </Typography>
+                      <Stack mt={2} mb={2}>
+                      <TextField
+                        id="twoquestions"
+                        label="Your Answer"
+                        disabled
+                       value={sendData.together_community_members_community_infrastructure}
+                        variant="outlined"
+                        color="common"
+                      />
+                    </Stack>
+                    </Stack>
+                  </CardContent>
+                </Card>
+                 <Card style={{ marginTop: 10, borderRadius: 20 }}>
+                  <CardContent>
+                    <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+                      Tell us about one instance when you came together with other community members to make a change in
+                      the community infrastructure/ಸಮುದಾಯದ ಮೂಲಸೌಕರ್ಯದಲ್ಲಿ ಬದಲಾವಣೆಯನ್ನು ಮಾಡಲು ನೀವು ಇತರ ಸಮುದಾಯದ
+                      ಸದಸ್ಯರೊಂದಿಗೆ ಸೇರಿಕೊಂಡಾಗ ಒಂದು ಉದಾಹರಣೆಯ ಕುರಿತು ನಮಗೆ ತಿಳಿಸಿ
+                    </Typography>
+                    <Stack mt={2} mb={2}>
+                      <TextField
+                        id="instance"
+                        label="Your Answer"
+                        disabled
+                      value={sendData.with_other_community_infrastructure}
+                        variant="outlined"
+                        color="common"
+                      />
+                    </Stack>
+                  </CardContent>
+                </Card>
+                  <Card style={{ marginTop: 10, borderRadius: 20 }}>
+                  <CardContent>
+                    <Stack mt={2}>
+                      <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+                        When you want to bring someone together and want to get an action done/ನೀವು ಯಾರನ್ನಾದರೂ ಒಟ್ಟಿಗೆ
+                        ಸೇರಿಸಲು ಬಯಸಿದಾಗ ಮತ್ತು ಕ್ರಿಯೆಯನ್ನು ಮಾಡಲು ಬಯಸಿದಾಗ
+                      
+                      </Typography>
+                      <Stack mt={2} mb={2}>
+                      <TextField
+                        id="twoquestions"
+                        label="Your Answer"
+                        disabled
+                       value={sendData.bring_someone_together}
+                        variant="outlined"
+                        color="common"
+                      />
+                    </Stack>
+                    </Stack>
+                  </CardContent>
+                </Card>
+                 <Card style={{ marginTop: 10, borderRadius: 20 }}>
+                  <CardContent>
+                    <Stack mt={2}>
+                      <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+                        At the end of a conflict it matters to me that the other person's interest/need has been met as
+                        well as mine / ಘರ್ಷಣೆಯ ಕೊನೆಯಲ್ಲಿ ಇನ್ನೊಬ್ಬರ ಆಸಕ್ತಿ/ಅವಶ್ಯಕತೆ ನನ್ನ ಜೊತೆಗೆ ಪೂರೈಸಲ್ಪಟ್ಟಿದೆ ಎಂಬುದು
+                        ನನಗೆ ಮುಖ್ಯವಾಗಿದೆ
+                     
+                      </Typography>
+                      <Stack mt={2} mb={2}>
+                      <TextField
+                        id="twoquestions"
+                        label="Your Answer"
+                        disabled
+                       value={sendData.conflict_matters_interest_mine}
+                        variant="outlined"
+                        color="common"
+                      />
+                    </Stack>
+                    </Stack>
+                  </CardContent>
+                </Card>
+                 <Card style={{ marginTop: 10, borderRadius: 20 }}>
+                  <CardContent>
+                    <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+                      There is a puja at my house and I am sitting for it. Suddenly, my neighbour plays loud and
+                      inappropriate music which disturbs the puja. How will you talk to your neighbour on the grivance
+                      you have with them?/ನನ್ನ ಮನೆಯಲ್ಲಿ ಪೂಜೆ ಇದೆ ಅದಕ್ಕಾಗಿ ಕುಳಿತಿದ್ದೇನೆ. ಇದ್ದಕ್ಕಿದ್ದಂತೆ, ನನ್ನ
+                      ನೆರೆಹೊರೆಯವರು ಜೋರಾಗಿ ಮತ್ತು ಅನುಚಿತವಾದ ಸಂಗೀತವನ್ನು ನುಡಿಸುತ್ತಾರೆ ಅದು ಪೂಜೆಗೆ ಅಡ್ಡಿಪಡಿಸುತ್ತದೆ. ನಿಮ್ಮ
+                      ನೆರೆಹೊರೆಯವರೊಂದಿಗೆ ನೀವು ಹೊಂದಿರುವ ಕುಂದುಕೊರತೆಯ ಬಗ್ಗೆ ನೀವು ಹೇಗೆ ಮಾತನಾಡುತ್ತೀರಿ?
+                    </Typography>
+                    <Stack mt={2} mb={2}>
+                      <TextField
+                        id="instance"
+                        label="Your Answer"
+                        disabled
+                      value={sendData.there_puja_at_my_house}
+                        variant="outlined"
+                        color="common"
+                      />
+                    </Stack>
+                  </CardContent>
+                </Card>
+
+                </>:
+                <>
+
+
+
+                     {/* new version  */}
+                          {/* new version  */}
+                               {/* new version  */}
                 <Card mt={1} style={{ marginTop: 10, borderRadius: 20 }}>
                   <CardContent>
                     <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
@@ -406,27 +653,7 @@ useEffect(()=>{
                     </Stack>
                   </CardContent>
                 </Card>
-                {/* <Card mt={1} style={{ marginTop: 10, borderRadius: 20 }}>
-                  <CardContent>
-                    <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
-                      Name of the Gelathi Facilitator/  /ಗೆಳತಿ ಆಯೋಜಕನ ಹೆಸರು*
-                    </Typography>
-                    <Stack mt={2} mb={2}>
-                      <Select
-                        color="common"
-                        label="Choose Gelathi Facilitator"
-                        variant="standard"
-                        disabled
-                        onChange={(e) => setSendData({ ...sendData, GelathiId: e?.target?.value })}
-                        value={sendData?.GelathiId}
-                      >
-                        {vyaapar?.list?.map((itm) => {
-                          return <MenuItem value={itm?.id}>{itm?.first_name}</MenuItem>;
-                        })}
-                      </Select>
-                    </Stack>
-                  </CardContent>
-                </Card> */}
+             
 
                 <Card mt={1} style={{ marginTop: 10, borderRadius: 20 }}>
                   <CardContent>
@@ -446,56 +673,7 @@ useEffect(()=>{
                     </Stack>
                   </CardContent>
                 </Card>
-                 {/* <Card style={{ marginTop: 10, borderRadius: 20 }}>
-                  <CardContent>
-                    <Stack mt={2}>
-                      <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
-                        Spoorthi Session Number/ಸ್ಪೂರ್ತಿ ಸೆಷನ್ಸಂಖ್ಯೆ * (Tick the Spoorthi in which you are collecting
-                        the data)
-                        {sessionValueError ? (
-                          <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText>
-                        ) : null}{' '}
-                      </Typography>
-                      <RadioGroup
-                        aria-labelledby="demo-radio-buttons-group-label"
-                        name="radio-buttons-group"
-                        value={selectedValue}
-                        onChange={sessionValue}
-                       >
-                        <FormControlLabel
-                          value="Session 1"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Session 1"
-                        />
-                        <FormControlLabel
-                          value="Session 2"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Session 2"
-                        />
-                        <FormControlLabel
-                          value="Session 3"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Session 3"
-                        />
-                        <FormControlLabel
-                          value="Session 4"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Session 4"
-                        />
-                        <FormControlLabel
-                          value="Session 5"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Session 5"
-                        />
-                        <FormControlLabel
-                          value="Session 6"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Session 6"
-                        />
-                      </RadioGroup>
-                    </Stack>
-                  </CardContent>
-                </Card> */}
+                 
 
 <Card mt={1} style={{ marginTop: 10, borderRadius: 20 }}>
   <CardContent>
@@ -514,25 +692,7 @@ useEffect(()=>{
                     </Stack>
   </CardContent>
 </Card>
-                {/* <Card style={{ marginTop: 10, borderRadius: 20 }}>
-                  <CardContent>
-                    <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
-                      Can you list down three of your skills/ ನಿಮ್ಮ ಮೂರು ಕೌಶಲ್ಯಗಳನ್ನು ನೀವು ಪಟ್ಟಿ ಮಾಡಬಹುದು?
-                    </Typography>
-                    <Stack mt={2} mb={2}>
-                      <TextField
-                        id="skillslist"
-                        label="Your Answer"
-                        disabled
-                        onChange={(e) => {
-                          setSendData({ ...sendData, list_down_your_skills: e?.target?.value });
-                        }}
-                        variant="outlined"
-                        color="common"
-                      />
-                    </Stack>
-                  </CardContent>
-                </Card> */}
+               
             
 <Card mt={1} style={{ marginTop: 10, borderRadius: 20 }}>
   <CardContent>
@@ -569,25 +729,7 @@ useEffect(()=>{
                     </Stack>
                   </CardContent>
                 </Card>
-                 {/* <Card style={{ marginTop: 10, borderRadius: 20 }}>
-                  <CardContent>
-                    <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
-                      State one instance of when you used your skills and resources to combat your challenge/ನಿಮ್ಮ
-                      ಸವಾಲನ್ನು ಎದುರಿಸಲು ನಿಮ್ಮ ಕೌಶಲ್ಯ ಮತ್ತು ಸಂಪನ್ಮೂಲಗಳನ್ನು ನೀವು ಬಳಸಿದಾಗ ಒಂದು ಉದಾಹರಣೆಯನ್ನು ತಿಳಿಸಿ
-                    </Typography>
-                    <Stack mt={2} mb={2}>
-                      <TextField
-                        id="skillsresources"
-                        label="Your Answer"
-                        onChange={(e) => {
-                          setSendData({ ...sendData, used_skills_resources_combat_challenge: e?.target?.value });
-                        }}
-                        variant="outlined"
-                        color="common"
-                      />
-                    </Stack>
-                  </CardContent>
-                </Card> */}
+              
                   <Card style={{ marginTop: 10, borderRadius: 20 }}>
                   <CardContent>
                     <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
@@ -762,24 +904,7 @@ useEffect(()=>{
                     </Stack>
   </CardContent>
 </Card>
-                {/* <Card style={{ marginTop: 10, borderRadius: 20 }}>
-                  <CardContent>
-                    <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
-                      Please name three infrastructure of your village?/ಗ್ರಾಮದಲ್ಲಿ ಇರುವ ಮೂರುಮೂಲಸೌಕರ್ಯಗಳನ್ನು ಹೆಸರಿಸಿ.
-                    </Typography>
-                    <Stack mt={2} mb={2}>
-                      <TextField
-                        id="twoquestions"
-                        label="Your Answer"
-                        onChange={(e) => {
-                          setSendData({ ...sendData, three_infrastructure_of_your_village: e?.target?.value });
-                        }}
-                        variant="outlined"
-                        color="common"
-                      />
-                    </Stack>
-                  </CardContent>
-                </Card> */}
+              
               <Card mt={1} style={{ marginTop: 10, borderRadius: 20 }}>
   <CardContent>
     <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
@@ -798,50 +923,7 @@ useEffect(()=>{
                     </Stack>
   </CardContent>
 </Card>
-                {/* <Card style={{ marginTop: 10, borderRadius: 20 }}>
-                  <CardContent>
-                    <Stack mt={2}>
-                      <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
-                        I Know the need of my community/ನನ್ನ ಸಮುದಾಯದ ಅವಶ್ಯಕತೆ ನನಗೆ ತಿಳಿದಿದೆ
-                        {communityError ? (
-                          <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText>
-                        ) : null}{' '}
-                      </Typography>
-                      <RadioGroup
-                        aria-labelledby="demo-radio-buttons-group-label"
-                        name="radio-buttons-group"
-                        value={community}
-                        onChange={communityvalue}
-                      >
-                        <FormControlLabel
-                          value="Strongly Agree"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Strongly Agree"
-                        />
-                        <FormControlLabel
-                          value="Agree"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Agree"
-                        />
-                        <FormControlLabel
-                          value="Neutral"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Neutral"
-                        />
-                        <FormControlLabel
-                          value="Strongly Disagree"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Strongly Disagree"
-                        />
-                        <FormControlLabel
-                          value="Disagree"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Disagree"
-                        />
-                      </RadioGroup>
-                    </Stack>
-                  </CardContent>
-                </Card> */}
+               
                    <Card style={{ marginTop: 10, borderRadius: 20 }}>
                   <CardContent>
                     <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
@@ -858,52 +940,7 @@ useEffect(()=>{
                     </Stack>
                   </CardContent>
                 </Card>
-                {/* <Card style={{ marginTop: 10, borderRadius: 20 }}>
-                  <CardContent>
-                    <Stack mt={2}>
-                      <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
-                        I have come together with other community members to make a change in our community
-                        infrastructure/ನಮ್ಮ ಸಮುದಾಯದ ಮೂಲಸೌಕರ್ಯದಲ್ಲಿ ಬದಲಾವಣೆ ಮಾಡಲು ನಾನು ಇತರ ಸಮುದಾಯದ ಸದಸ್ಯರೊಂದಿಗೆ
-                        ಸೇರಿಕೊಂಡಿದ್ದೇನೆ
-                        {communitymemError ? (
-                          <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText>
-                        ) : null}{' '}
-                      </Typography>
-                      <RadioGroup
-                        aria-labelledby="demo-radio-buttons-group-label"
-                        name="radio-buttons-group"
-                        value={communitymem}
-                        onChange={communitymemvalue}
-                      >
-                        <FormControlLabel
-                          value="Strongly Agree"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Strongly Agree"
-                        />
-                        <FormControlLabel
-                          value="Agree"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Agree"
-                        />
-                        <FormControlLabel
-                          value="Neutral"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Neutral"
-                        />
-                        <FormControlLabel
-                          value="Strongly Disagree"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Strongly Disagree"
-                        />
-                        <FormControlLabel
-                          value="Disagree"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Disagree"
-                        />
-                      </RadioGroup>
-                    </Stack>
-                  </CardContent>
-                </Card> */}
+               
                 
                 <Card style={{ marginTop: 10, borderRadius: 20 }}>
                   <CardContent>
@@ -921,26 +958,7 @@ useEffect(()=>{
                     </Stack>
                   </CardContent>
                 </Card>
-                {/* <Card style={{ marginTop: 10, borderRadius: 20 }}>
-                  <CardContent>
-                    <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
-                      Tell us about one instance when you came together with other community members to make a change in
-                      the community infrastructure/ಸಮುದಾಯದ ಮೂಲಸೌಕರ್ಯದಲ್ಲಿ ಬದಲಾವಣೆಯನ್ನು ಮಾಡಲು ನೀವು ಇತರ ಸಮುದಾಯದ
-                      ಸದಸ್ಯರೊಂದಿಗೆ ಸೇರಿಕೊಂಡಾಗ ಒಂದು ಉದಾಹರಣೆಯ ಕುರಿತು ನಮಗೆ ತಿಳಿಸಿ
-                    </Typography>
-                    <Stack mt={2} mb={2}>
-                      <TextField
-                        id="instance"
-                        label="Your Answer"
-                        onChange={(e) => {
-                          setSendData({ ...sendData, with_other_community_infrastructure: e?.target?.value });
-                        }}
-                        variant="outlined"
-                        color="common"
-                      />
-                    </Stack>
-                  </CardContent>
-                </Card> */}
+               
                
 <Card mt={1} style={{ marginTop: 10, borderRadius: 20 }}>
   <CardContent>
@@ -960,46 +978,7 @@ useEffect(()=>{
                     </Stack>
   </CardContent>
 </Card>
-                {/* <Card style={{ marginTop: 10, borderRadius: 20 }}>
-                  <CardContent>
-                    <Stack mt={2}>
-                      <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
-                        When you want to bring someone together and want to get an action done/ನೀವು ಯಾರನ್ನಾದರೂ ಒಟ್ಟಿಗೆ
-                        ಸೇರಿಸಲು ಬಯಸಿದಾಗ ಮತ್ತು ಕ್ರಿಯೆಯನ್ನು ಮಾಡಲು ಬಯಸಿದಾಗ
-                        {bringtogetherError ? (
-                          <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText>
-                        ) : null}{' '}
-                      </Typography>
-                      <RadioGroup
-                        aria-labelledby="demo-radio-buttons-group-label"
-                        name="radio-buttons-group"
-                        value={bringtogether}
-                        onChange={bringtogethervalue}
-                      >
-                        <FormControlLabel
-                          value="Most often I am successful"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Most often I am successful"
-                        />
-                        <FormControlLabel
-                          value="I am successful at doing this"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="I am successful at doing this"
-                        />
-                        <FormControlLabel
-                          value="I struggle to bring women together"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="I struggle to bring women together"
-                        />
-                        <FormControlLabel
-                          value="I am successful at getting women together but not getting an action done"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="I am successful at getting women together but not getting an action done"
-                        />
-                      </RadioGroup>
-                    </Stack>
-                  </CardContent>
-                </Card> */}
+              
               <Card mt={1} style={{ marginTop: 10, borderRadius: 20 }}>
   <CardContent>
     <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
@@ -1018,52 +997,7 @@ useEffect(()=>{
                     </Stack>
   </CardContent>
 </Card>
-                {/* <Card style={{ marginTop: 10, borderRadius: 20 }}>
-                  <CardContent>
-                    <Stack mt={2}>
-                      <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
-                        At the end of a conflict it matters to me that the other person's interest/need has been met as
-                        well as mine / ಘರ್ಷಣೆಯ ಕೊನೆಯಲ್ಲಿ ಇನ್ನೊಬ್ಬರ ಆಸಕ್ತಿ/ಅವಶ್ಯಕತೆ ನನ್ನ ಜೊತೆಗೆ ಪೂರೈಸಲ್ಪಟ್ಟಿದೆ ಎಂಬುದು
-                        ನನಗೆ ಮುಖ್ಯವಾಗಿದೆ
-                        {conflictsError ? (
-                          <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText>
-                        ) : null}{' '}
-                      </Typography>
-                      <RadioGroup
-                        aria-labelledby="demo-radio-buttons-group-label"
-                        name="radio-buttons-group"
-                        value={conflicts}
-                        onChange={Conflictvalue}
-                      >
-                        <FormControlLabel
-                          value="Strongly Agree"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Strongly Agree"
-                        />
-                        <FormControlLabel
-                          value="Agree"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Agree"
-                        />
-                        <FormControlLabel
-                          value="Neutral"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Neutral"
-                        />
-                        <FormControlLabel
-                          value="Strongly Disagree"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Strongly Disagree"
-                        />
-                        <FormControlLabel
-                          value="Disagree"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Disagree"
-                        />
-                      </RadioGroup>
-                    </Stack>
-                  </CardContent>
-                </Card> */}
+               
                 <Card style={{ marginTop: 10, borderRadius: 20 }}>
                   <CardContent>
                     <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
@@ -1081,28 +1015,7 @@ useEffect(()=>{
                     </Stack>
                   </CardContent>
                 </Card>
-                {/* <Card style={{ marginTop: 10, borderRadius: 20 }}>
-                  <CardContent>
-                    <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
-                      There is a puja at my house and I am sitting for it. Suddenly, my neighbour plays loud and
-                      inappropriate music which disturbs the puja. How will you talk to your neighbour on the grivance
-                      you have with them?/ನನ್ನ ಮನೆಯಲ್ಲಿ ಪೂಜೆ ಇದೆ ಅದಕ್ಕಾಗಿ ಕುಳಿತಿದ್ದೇನೆ. ಇದ್ದಕ್ಕಿದ್ದಂತೆ, ನನ್ನ
-                      ನೆರೆಹೊರೆಯವರು ಜೋರಾಗಿ ಮತ್ತು ಅನುಚಿತವಾದ ಸಂಗೀತವನ್ನು ನುಡಿಸುತ್ತಾರೆ ಅದು ಪೂಜೆಗೆ ಅಡ್ಡಿಪಡಿಸುತ್ತದೆ. ನಿಮ್ಮ
-                      ನೆರೆಹೊರೆಯವರೊಂದಿಗೆ ನೀವು ಹೊಂದಿರುವ ಕುಂದುಕೊರತೆಯ ಬಗ್ಗೆ ನೀವು ಹೇಗೆ ಮಾತನಾಡುತ್ತೀರಿ?
-                    </Typography>
-                    <Stack mt={2} mb={2}>
-                      <TextField
-                        id="instance"
-                        label="Your Answer"
-                        onChange={(e) => {
-                          setSendData({ ...sendData, There_puja_at_my_house: e?.target?.value });
-                        }}
-                        variant="outlined"
-                        color="common"
-                      />
-                    </Stack>
-                  </CardContent>
-                </Card> */}
+               
                  <Card mt={1} style={{ marginTop: 10, borderRadius: 20 }}>
                   <CardContent>
                     <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
@@ -1538,8 +1451,8 @@ useEffect(()=>{
                   </CardContent>
                 </Card>
                 
-                <br />
-              </Grid>
+               
+             
               <Card style={{ marginTop: 10, borderRadius: 20 }}>
                   <CardContent>
                     <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
@@ -1833,6 +1746,9 @@ useEffect(()=>{
                     </Stack>
                   </CardContent>
                 </Card>
+                
+                </>}
+                </Grid>
             </DialogContentText>
           </DialogContent>}
         </form>

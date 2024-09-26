@@ -519,7 +519,7 @@ console.log(participantId); // This will be undefined if participantdata is unde
               <CloseIcon />
             </IconButton>
             <Typography sx={{ ml: 2, flex: 1, color: "inherit" }} variant="h6" component="div" >
-              Update Participant Detail working
+              Update Participant Detail 
             </Typography>
 
             <Button autoFocus color="inherit"

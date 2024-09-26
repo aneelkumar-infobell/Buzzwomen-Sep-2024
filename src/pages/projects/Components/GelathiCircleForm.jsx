@@ -924,7 +924,7 @@ console.log ("comming")
       // handleClose();
     }
      else {
-      alert('Please Select The Optionworking why this is comming. ');
+      alert('Please Select The Option why this is comming. ');
     }
   }
    else{
@@ -980,7 +980,7 @@ console.log ("comming")
       componentreloadmethod();
       handleClose();
     }else{
-      alert("Please Select The Option working")
+      alert("Please Select The Option ")
 
     }
   }
