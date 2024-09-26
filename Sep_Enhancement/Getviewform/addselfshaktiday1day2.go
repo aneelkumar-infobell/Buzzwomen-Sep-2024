@@ -28,7 +28,7 @@ type Selfshekthi struct {
 	SubCastName                  string   `json:"sub_cast_name"`
 	Religion                     string   `json:"religion"`
 	MaritalStatus                string   `json:"marital_status"`
-	EducationLevel               string   `json:"education_level"` // Added field for education level
+	EducationLevel               int      `json:"education_level"` // Added field for education level
 	PrimaryOccupation            string   `json:"primary_occupation"`
 	SecondaryOccupation          string   `json:"secondary_occupation"`
 	MonthlyHouseholdExpenditure  float64  `json:"monthly_household_expenditure"` // Added field for monthly expenditure
