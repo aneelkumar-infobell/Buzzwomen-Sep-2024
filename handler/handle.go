@@ -115,35 +115,35 @@ func HandleFunc() {
 		sep.Addnagarikasurvey(w, r, db)
 	}))
 	//---------------------------Get Gelathi List----------------------------------
-	apiRouter.HandleFunc("/getSpoorthiForm", func(w http.ResponseWriter, r *http.Request) {
+	apiRouter.Handle("/getSpoorthiForm", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		sep.GetBuzzSpoorthiProgramBaseline(w, r, db)
-	})
-	apiRouter.HandleFunc("/creatProjectFunder", func(w http.ResponseWriter, r *http.Request) {
+	}))
+	apiRouter.Handle("/creatProjectFunder", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		p.CreateProjectNfunder(w, r, db)
-	})
-	apiRouter.HandleFunc("/assignNewFunder", func(w http.ResponseWriter, r *http.Request) {
+	}))
+	apiRouter.Handle("/assignNewFunder", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		p.AssignNewFunder(w, r, db)
-	})
-	apiRouter.HandleFunc("/getGreenBaselineSurvey", func(w http.ResponseWriter, r *http.Request) {
+	}))
+	apiRouter.Handle("/getGreenBaselineSurvey", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		sep.GetGreenBaselineSurvey(w, r, db)
-	})
-	apiRouter.HandleFunc("/addVyaparBaselineSurvey", func(w http.ResponseWriter, r *http.Request) {
+	}))
+	apiRouter.Handle("/addVyaparBaselineSurvey", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		sep.AddVyaparsurvey(w, r, db)
-	})
-	apiRouter.HandleFunc("/getVyaparBaselineSurvey", func(w http.ResponseWriter, r *http.Request) {
+	}))
+	apiRouter.Handle("/getVyaparBaselineSurvey", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		sep.GetVyaparBaselineSurvey(w, r, db)
-	})
-	apiRouter.HandleFunc("/getSelfShaktiBaselineSurvey", func(w http.ResponseWriter, r *http.Request) {
+	}))
+	apiRouter.Handle("/getSelfShaktiBaselineSurvey", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		sep.GetSelfShaktiBaselineSurvey(w, r, db)
-	})
+	}))
 
 	apiRouter.Handle("/getNagarikaProgramQuestionnaire", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		sep.GetNagarikaProgramQuestionnaire(w, r, db)
 	}))
 
-	apiRouter.HandleFunc("/addGreensurvey", func(w http.ResponseWriter, r *http.Request) {
+	apiRouter.Handle("/addGreensurvey", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		sep.AddGreensurvey(w, r, db)
-	})
+	}))
 
 	apiRouter.Handle("/addQualityAssessmentForm", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		q.AddQualityAssessmentForm(w, r, db)
@@ -218,12 +218,12 @@ func HandleFunc() {
 	}))
 
 	//---------------------attendence of spoorthi----------------------------------
-	apiRouter.HandleFunc("/allAttendence", (func(w http.ResponseWriter, r *http.Request) {
+	apiRouter.Handle("/allAttendence", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		p.AllAttendence(w, r, db)
 	}))
 
 	//---------------------Add buzz vyapar----------------------------------
-	apiRouter.HandleFunc("/addBuzzVyapar", (func(w http.ResponseWriter, r *http.Request) {
+	apiRouter.Handle("/addBuzzVyapar", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		a.Addbuzzvyapar(w, r, db)
 	}))
 
@@ -284,7 +284,7 @@ func HandleFunc() {
 	}))
 
 	//---------------------gelathiProgram dashboard----------------------------------
-	apiRouter.HandleFunc("/gelathiProgramDashboard", (func(w http.ResponseWriter, r *http.Request) {
+	apiRouter.Handle("/gelathiProgramDashboard", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		sp.GelathiProgramDashboard1(w, r, db)
 	}))
 
@@ -406,18 +406,18 @@ func HandleFunc() {
 		t2.GetDemoGraphy(w, r, db)
 	}))
 
-	apiRouter.HandleFunc("/createProject", (func(w http.ResponseWriter, r *http.Request) {
+	apiRouter.Handle("/createProject", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		t2.CreateProject(w, r, db)
 	}))
 	apiRouter.Handle("/getGFAssignedBatch", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		t2.GetGFAssignedBatch(w, r, db)
 	}))
 
-	apiRouter.HandleFunc("/createGFSessions", (func(w http.ResponseWriter, r *http.Request) {
+	apiRouter.Handle("/createGFSessions", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		p.CreateGFSessions(w, r, db)
 	}))
 
-	apiRouter.HandleFunc("/getGFSessionsNew", (func(w http.ResponseWriter, r *http.Request) {
+	apiRouter.Handle("/getGFSessionsNew", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		p.GetGFSessionsNew1(w, r, db)
 	}))
 
@@ -428,9 +428,9 @@ func HandleFunc() {
 	apiRouter.Handle("/addSurveyData", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		t2.AddSurveydata(w, r, db)
 	}))
-	apiRouter.HandleFunc("/addselfshakti", func(w http.ResponseWriter, r *http.Request) {
+	apiRouter.Handle("/addselfshakti", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		sep.AddSelfshaktiday1day2data(w, r, db)
-	})
+	}))
 	//-------------------Endpoint for adding data to QAF---------------------------------------
 	apiRouter.Handle("/getBuses", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		t2.GetBuses(w, r, db)
@@ -479,7 +479,7 @@ func HandleFunc() {
 		t4.GetFunderList(w, r, db)
 	}))
 
-	apiRouter.HandleFunc("/projectFunderList", (func(w http.ResponseWriter, r *http.Request) {
+	apiRouter.Handle("/projectFunderList", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		sep.GetFunderProjectList(w, r, db)
 	}))
 	//-------------------Endpoint for adding data to QAF---------------------------------------
@@ -512,10 +512,10 @@ func HandleFunc() {
 		t3.EditUser(w, r, db)
 	}))
 	//-------------------Endpoint for adding data to QAF--------------------------------
-	apiRouter.HandleFunc("/setEnrollGelathi", (func(w http.ResponseWriter, r *http.Request) {
+	apiRouter.Handle("/setEnrollGelathi", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		t3.SetEnrollGelathi(w, r, db)
 	}))
-	apiRouter.HandleFunc("/setEnrollGelathinew", (func(w http.ResponseWriter, r *http.Request) {
+	apiRouter.Handle("/setEnrollGelathinew", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		p.SetEnrollGelathinew1(w, r, db)
 	}))
 
@@ -754,11 +754,11 @@ func HandleFunc() {
 		t5.UpdateTa(w, r, db)
 	}))
 	//---------------------AddSpoorthiBaselineQuestionnaire----------------------------------
-	apiRouter.HandleFunc("/addSpoorthiBaselineQuestionnaire", func(w http.ResponseWriter, r *http.Request) {
+	apiRouter.Handle("/addSpoorthiBaselineQuestionnaire", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		t5.AddSpoorthiBaselineQuestionnaire(w, r, db)
-	})
+	}))
 	//---------------------AddGreenBaselineSurvey----------------------------------
-	apiRouter.HandleFunc("/addGreenBaselineSurvey", (func(w http.ResponseWriter, r *http.Request) {
+	apiRouter.Handle("/addGreenBaselineSurvey", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		t5.AddGreenBaselineSurvey(w, r, db)
 	}))
 	//---------------------UploadTrainingPhotos----------------------------------
@@ -833,7 +833,7 @@ func HandleFunc() {
 		t5.CreateGFSessionNew1(w, r, db)
 	})).Methods("POST")
 
-	apiRouter.HandleFunc("/createGFSessionsnew2", (func(w http.ResponseWriter, r *http.Request) {
+	apiRouter.Handle("/createGFSessionsnew2", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		p.CreateGFSessionsnew2(w, r, db)
 	})).Methods("POST")
 	// handler := cors.Default().Handler(apiRouter)
