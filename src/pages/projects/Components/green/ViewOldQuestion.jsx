@@ -42,6 +42,7 @@ import {
   whatAreThosePractices,
   whatHaveYouNoticed,
   Which_following_are_natural_resources,
+  Which_following_are_natural_resourcesOld,
   Which_of_the_following_natural_resources_of_your_community_needs_immediate_attention_and_measures_of_conservation,
   Which_one_according_to_you_is_right,
   WhichMainCropDoYouGrow,
@@ -116,7 +117,7 @@ const ViewOldQuestion = ({ sendData, handleInputChange, handleResources }) => {
             required
             disabled
             handleResources={handleResources}
-            options={Which_following_are_natural_resources}
+            options={Which_following_are_natural_resourcesOld}
             selectedOption={sendData.natural_resources}
           />
           <MultipleChoice
