@@ -91,9 +91,6 @@ func GetGFSessionsNew1(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 			where += fmt.Sprintf(" AND user_id = '%s'", data.GelathiID)
 		}
 
-		if data.Funder != "" {
-			where += fmt.Sprintf(" AND mp.funderid = '%s'", data.Funder)
-		}
 		// var funderid string
 		// if data.Funder != "" {
 		// 	err := DB.QueryRow("select funderID from project where id = ?", data.ProjectID).Scan(&funderid)
@@ -152,25 +149,54 @@ func GetGFSessionsNew1(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 			stringOpsIds[i] = strconv.Itoa(id)
 		}
 		result := strings.Join(stringOpsIds, ",")
-
-		totalPagesSQL := "SELECT COUNT(DISTINCT primary_id) FROM tbl_poa tb join multiple_funder mp on mp.funderid=tb.funderid WHERE tb.project_id IN (" + result + ") AND tb.type = '2' " + condition + " " + where + " " + searchFilter
-		fmt.Println("totalPagesSQL", totalPagesSQL)
-		rows, err = DB.Query(totalPagesSQL)
-		if err != nil {
-			log.Println(err)
-			w.WriteHeader(http.StatusInternalServerError)
-			json.NewEncoder(w).Encode(map[string]interface{}{"Status": "500 Internal Server Error", "Message": err.Error()})
-			return
-		}
 		var total_rows int
-		for rows.Next() {
-			rows.Scan(&total_rows)
-		}
-		total_pages := math.Ceil(float64(total_rows) / float64(no_of_records))
-		_ = total_pages
-		fields = "DISTINCT primary_id as gf_session_id, name as gf_session_name, COALESCE(tb_id,0), DATE_FORMAT(date, '%d-%m-%Y %h:%i %p') as plan_date, status"
-		query = fmt.Sprintf("SELECT %s, date FROM tbl_poa tb join multiple_funder mp on mp.funderid=tb.funderid WHERE  tb.project_id IN (%s) AND tb.type = '2' %s %s %s ORDER BY date DESC", fields, result, condition, where, searchFilter)
+		// ==================================================================
+		if data.Funder != "" {
+			if data.Funder != "" {
+				where += fmt.Sprintf(" AND mp.funderid = '%s'", data.Funder)
+			}
 
+			totalPagesSQL := "SELECT COUNT(DISTINCT primary_id) FROM tbl_poa tb join multiple_funder mp on mp.funderid=tb.funderid WHERE tb.project_id IN (" + result + ") AND tb.type = '2' " + condition + " " + where + " " + searchFilter
+			fmt.Println("totalPagesSQL", totalPagesSQL)
+			rows, err = DB.Query(totalPagesSQL)
+			if err != nil {
+				log.Println(err)
+				w.WriteHeader(http.StatusInternalServerError)
+				json.NewEncoder(w).Encode(map[string]interface{}{"Status": "500 Internal Server Error", "Message": err.Error()})
+				return
+			}
+
+			for rows.Next() {
+				rows.Scan(&total_rows)
+			}
+			total_pages := math.Ceil(float64(total_rows) / float64(no_of_records))
+			_ = total_pages
+			fields = "DISTINCT primary_id as gf_session_id, name as gf_session_name, COALESCE(tb_id,0), DATE_FORMAT(date, '%d-%m-%Y %h:%i %p') as plan_date, status"
+			query = fmt.Sprintf("SELECT %s, date FROM tbl_poa tb join multiple_funder mp on mp.funderid=tb.funderid WHERE  tb.project_id IN (%s) AND tb.type = '2' %s %s %s ORDER BY date DESC", fields, result, condition, where, searchFilter)
+
+		} else {
+
+			totalPagesSQL := "SELECT COUNT(DISTINCT primary_id) FROM tbl_poa tb  WHERE tb.project_id IN (" + result + ") AND tb.type = '2' " + condition + " " + where + " " + searchFilter
+			fmt.Println("totalPagesSQL", totalPagesSQL)
+			rows, err = DB.Query(totalPagesSQL)
+			if err != nil {
+				log.Println(err)
+				w.WriteHeader(http.StatusInternalServerError)
+				json.NewEncoder(w).Encode(map[string]interface{}{"Status": "500 Internal Server Error", "Message": err.Error()})
+				return
+			}
+			//var total_rows int
+			for rows.Next() {
+				rows.Scan(&total_rows)
+			}
+			total_pages := math.Ceil(float64(total_rows) / float64(no_of_records))
+			_ = total_pages
+			fields = "DISTINCT primary_id as gf_session_id, name as gf_session_name, COALESCE(tb_id,0), DATE_FORMAT(date, '%d-%m-%Y %h:%i %p') as plan_date, status"
+			query = fmt.Sprintf("SELECT %s, date FROM tbl_poa tb  WHERE  tb.project_id IN (%s) AND tb.type = '2' %s %s %s ORDER BY date DESC", fields, result, condition, where, searchFilter)
+
+		}
+
+		// ==============================================================
 		fmt.Println("query", query)
 		type data struct {
 			GFSessionID   string `json:"gf_session_id"`
