@@ -568,6 +568,7 @@ export default function projectMultiDrawer({
                   }}
                 />
               ) : batch?.data?.day2_completed == '1' ? (
+                <>
                 <Day2Completed
                   batch={batch}
                   shown={shown}
@@ -575,6 +576,8 @@ export default function projectMultiDrawer({
                     setShown(e);
                   }}
                 />
+                
+                </>
               ) : null}
 
               <Card

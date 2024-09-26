@@ -31,6 +31,7 @@ import { baseURL } from 'src/utils/api';
 import EditParticipantdata from './Editparticipantdata';
 import { useAuth } from 'src/AuthContext';
 import GelathiCircleForm from './GelathiCircleForm';
+import ViewSlefShakthiForm from './ViewSlefShakthiForm';
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -45,6 +46,7 @@ export default function Day2Completed({ shown, setShown, batch }) {
 const userid = JSON.parse(sessionStorage.getItem('userDetails'))?.role
   const [checkData,setCheckData]=React.useState('');
   const [shopwShakthiForm ,setShowShakkthiForm] = useState(false)
+  const [selectedParticipant, setSelectedParticipant] = useState(null);
   const handleOpenFilter = () => {
     setOpenFilter(true); 
    
@@ -81,13 +83,15 @@ if( batch?.data?.id){
     setShown(false)
     setOpen(false);
   };
-const handlesurvey =()=>{
-    // alert('Survey was done')
-    setShowShakkthiForm(true)
-}
-const handleShakformClose = ()=>{
-  setShowShakkthiForm(false)
-}
+
+  const handlesurvey = (itm) => {
+    setSelectedParticipant(itm); // Set itm data to state
+    setShowShakkthiForm(true); // Show the Shakti form
+};
+const handleShakformClose = () => {
+  setShowShakkthiForm(false);
+  setSelectedParticipant(null); // Clear the state when closing the form
+};
   const getTrainingBatch = async =>{
         
    
@@ -210,11 +214,23 @@ countsuggestedgelathi();
                  
                     </div>
  {(itm?.gelathiRecomm=='1')?<IconButton><Iconify icon="mdi:tick-circle" style={{color:'green'}}></Iconify></IconButton>:null}
-                {(userid==5 &&  itm?.final_save=='1')? <><Checkbox defaultChecked disabled/><IconButton style={{color:'#ff7424'}} onClick={handleedit}><Iconify  icon="material-symbols:edit"></Iconify></IconButton></> :
+                {(userid==5  &&  itm?.final_save=='1')? <><Checkbox defaultChecked disabled/><IconButton style={{color:'#ff7424'}} onClick={handleedit}><Iconify  icon="material-symbols:edit"></Iconify></IconButton></> :
                 null} 
-                 {(userid==4 && itm?.isSurveyDone=='1')?<><Checkbox defaultChecked disabled/><IconButton >
-          <Iconify icon="charm:notes-tick" width={20} height={20} color="green" onClick={handlesurvey}/>
-        </IconButton></>:null} 
+                 {(userid==4 ||userid==12 ||userid==3 ||userid==1 && itm?.isSurveyDone=='1' || itm?.final_save == "1")?
+                 <><Checkbox defaultChecked disabled/>
+                 <IconButton >
+          <Iconify icon="charm:notes-tick" width={20} height={20} color="green" onClick={() => handlesurvey(itm)}/>
+        </IconButton>
+        </>
+        // :
+  //       (userid==4 ||userid==12 ||userid==3 ||userid==1 && itm?.final_save=='1')? 
+  //          <><Checkbox defaultChecked disabled/>
+  //          <IconButton >
+  //   <Iconify icon="charm:notes-tick" width={20} height={20} color="green" onClick={() => handlesurvey(itm)}/>
+  // </IconButton>
+  // </>
+        
+        : null} 
                   </CardActions>
                 </CardContent>
               </Card>
@@ -222,19 +238,26 @@ countsuggestedgelathi();
         )
     })
 }
-{shopwShakthiForm && (
-              <GelathiCircleForm
-                // index={selectedFromIndex.index}
-                // reloadmethod={reloadmethod}
-                // itm={itm } 
-                // clcikData={clcikData}
-                // circleData={circleData}
-                // singleCircleData={singleCircleData}
-                // id={selectedFromIndex.id}
-                setShowForm={handleShakformClose}
-                // componentreloadmethod={componentreloadmethod}
-                // gelathiDrawerReloder={gelathiDrawerReloder}
-              />
+{shopwShakthiForm && selectedParticipant && (
+        <ViewSlefShakthiForm
+          setShowForm={handleShakformClose}
+          open ={shopwShakthiForm}
+          editSession={shopwShakthiForm}
+          participantData={selectedParticipant}
+        />
+   
+              // <GelathiCircleForm
+              //   // index={selectedFromIndex.index}
+              //   // reloadmethod={reloadmethod}
+              //   // itm={itm } 
+              //   // clcikData={clcikData}
+              //   // circleData={circleData}
+              //   // singleCircleData={singleCircleData}
+              //   // id={selectedFromIndex.id}
+              //   setShowForm={handleShakformClose}
+              //   // componentreloadmethod={componentreloadmethod}
+              //   // gelathiDrawerReloder={gelathiDrawerReloder}
+              // />
             )}
       </Dialog>
     </div>

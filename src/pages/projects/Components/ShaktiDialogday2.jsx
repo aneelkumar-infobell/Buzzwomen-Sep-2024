@@ -202,7 +202,7 @@ countsuggestedgelathi();
               <CloseIcon />
             </IconButton>
             <Typography sx={{ ml: 2, flex: 1,color:"white" }} variant="h6" component="div">
-              Self Shakti 
+              Self Shakti  working
             </Typography>
           </Toolbar>
         </AppBar>
@@ -253,7 +253,7 @@ countsuggestedgelathi();
                       addParticipant(itm)
                     }} {...label} />:<><Checkbox defaultChecked onClick={()=>{
                         DeleteParticipant(itm)
-                      }} /><Iconify icon="material-symbols:edit" width={20} height={20}></Iconify></>}
+                      }} /><Iconify icon="material-symbols:edit" width={20} height={20}> </Iconify></>}
                   </CardActions>
                 </CardContent>
               </Card>
@@ -267,6 +267,7 @@ countsuggestedgelathi();
               <Card >
                 <CardContent >
                   <CardActions sx={{borderRadius:0}}>
+                    
                     <div  style={{width:'90vw',display:'flex',position:'relative',padding:'8px'}} >
                      
                       <Typography variant="subtitle2" onClick={()=>{handleOpenFilter();
@@ -282,10 +283,19 @@ countsuggestedgelathi();
                     }} {...label} />:<><Checkbox defaultChecked onClick={()=>{
                         DeleteParticipant(itm)
                       }} /> 
-                      {(itm?.final_save=='0')?<IconButton onClick={()=>{setEditsession(true);
+                      {(itm?.final_save=='0'  )?
+                      <>
+                  { (itm?.day2survey== '0')?   <IconButton onClick={()=>{setEditsession(true);
                         setParticipant({id:itm?.participant_id})}} 
-                        style={{right:-20}}><Iconify 
-                         icon="material-symbols:edit"></Iconify></IconButton>:
+                        style={{right:-20,color:'red'}}><Iconify 
+                         icon="material-symbols:edit"></Iconify></IconButton>
+                        :(itm?.day2survey== '1')?
+                        <IconButton style={{right:-20,color:'#ff7424'}} onClick={handleedit}>
+                          <Iconify icon="material-symbols:edit"></Iconify></IconButton>
+                          :null
+                        }
+                         </>
+                         :
                          <IconButton style={{right:-20,color:'#ff7424'}} onClick={handleedit}>
                           <Iconify icon="material-symbols:edit"></Iconify></IconButton>}</>}
                  

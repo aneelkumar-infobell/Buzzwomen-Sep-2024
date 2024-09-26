@@ -58,7 +58,6 @@ export default function ShaktiForm({itm ,reloadFUnction}) {
   const [expenditure, setexpenditure] = React.useState(false);
   const [moneysave, setmoneysave] = React.useState(false);
   const [savemoney, setsavemoney] = React.useState(false);
-  const [education, seteducation] = React.useState(false);
   const [purchase, setpurchase] = React.useState(false);
   const [sharelearning, setsharelearning] = React.useState(false);
   const [shareproblems, setshareproblems] = React.useState(false);
@@ -109,6 +108,8 @@ export default function ShaktiForm({itm ,reloadFUnction}) {
     borrowedmoney: [],
   });
 
+  const [caste,setCaste] = useState([]);
+  const [education,setEducation] = useState([]);
   const workOptions = [
     { id: 1, name: "My work" },
     { id: 2, name: "Savings from household expenditure" },
@@ -374,7 +375,7 @@ const secondaryIncomeOptions = [
     "monthly_household_expenditure": null,
     "monthly_household_income": null,
     "sole_earner_family": "",
-    "source": "",
+    "source": [],
     "secondary_occupation_of_the_household" :"",
      
             "primary_occupation_of_the_household": "",
@@ -406,23 +407,23 @@ console.log(sendData , "senDatasenData" )
     "house": sendData.house_name,
     "roof": sendData.roof_name,
     "ration_card": sendData.ration_card_name,
-    "caste": sendData.cast_category_name,
+    "caste": parseInt(sendData.cast_category),
     "sub_cast_name": sendData.sub_cast_name,
     "religion": sendData.religion_name,
     "marital_status":sendData.material_status_name,
-    "education_level": sendData.education_name,
+    "education_level": parseInt(sendData.education),
     "primary_occupation": sendData.primary_occupation_of_the_household_name,
     "monthly_household_expenditure":parseFloat(sendData.monthly_household_expenditure) ,
     "monthly_household_income": parseFloat(sendData.monthly_household_income),
     "sole_earner_family": sendData.sole_earner_family,
-    "source": sendData.source_of_this_income_name,
+    // "source": sendData.source_of_this_income_name,
     "secondary_occupation_of_the_household":sendData?.secondary_occupation_of_the_household_name,
     "primary_occupation_of_the_household": sendData.primary_occupation_of_the_household_name,
     "womens_occupation": sendData.womens_occupation_name,
     "monthly_women_income": parseFloat(sendData.monthly_women_income),
     "source_of_this_income":sendData.source_of_this_income_name,
     "religion":sendData.religion_name,
-    "education_level":sendData.education_name,
+ 
     
 
       
@@ -580,23 +581,23 @@ console.log(data ,"data")
       "house": sendData.house_name,
       "roof": sendData.roof_name,
       "ration_card": sendData.ration_card_name,
-      "caste": sendData.cast_category_name,
+      "caste":parseInt(sendData.cast_category),
       "sub_cast_name": sendData.sub_cast_name,
       "religion": sendData.religion_name,
       "marital_status":sendData.material_status_name,
-      "education_level": sendData.education_name,
+      "education_level": parseInt(sendData.education),
       "primary_occupation": sendData.primary_occupation_name,
       "monthly_household_expenditure":parseFloat(sendData.monthly_household_expenditure) ,
       "monthly_household_income": parseFloat(sendData.monthly_household_income),
       "sole_earner_family": sendData.sole_earner_family,
-      "source": sendData.source_of_this_income_name,
+      // "source": sendData.source_of_this_income_name,
       "secondary_occupation_of_the_household":sendData.secondary_occupation_of_the_household_name,
       "primary_occupation_of_the_household": sendData.primary_occupation_of_the_household_name,
       "womens_occupation": sendData.womens_occupation_name,
       "monthly_women_income": parseFloat(sendData.monthly_women_income),
       "source_of_this_income":sendData.source_of_this_income_name,
       "religion":sendData.religion_name,
-      "education_level":sendData.education_name,
+   
       
   
         
@@ -880,6 +881,51 @@ useEffect(() => {
   gelathinamelist();
  
 }, []);
+
+useEffect(() => {
+  casted();
+  educationd();
+  
+}, [])
+const casted = async =>{
+  var config = {
+    method: 'post',
+  maxBodyLength: Infinity,
+    url: baseURL + 'getCaste',
+    headers: { 
+      'Authorization': `${apikey}`
+    }
+  };
+  
+    axios(config)
+    .then(function (response) {
+      setCaste(response.data?.data)
+    })
+    .catch(function (error) {
+      // console.log(error);
+    });
+}
+const educationd = async =>{
+  var config = {
+    method: 'post',
+  maxBodyLength: Infinity,
+    url: baseURL + 'getEducation',
+    headers: {
+       'Authorization': `${apikey}`
+     }
+  };
+  
+    axios(config)
+    .then(function (response) {
+      setEducation(response.data?.list)
+    })
+    .catch(function (error) {
+      // console.log(error);
+      
+    });
+    
+}
+
   return (
     <>
       {/* <Button variant="outlined" onClick={handleClickOpen}>
@@ -1042,7 +1088,10 @@ useEffect(() => {
                         color="common"
                       />
                     </Stack>
-                    <Card style={{ marginTop: 10, borderRadius: 20 }}>
+                   
+                  </CardContent>
+                </Card>
+                <Card style={{ marginTop: 10, borderRadius: 20 }}>
                   <CardContent>
                     <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
                     Total number of members in your household (adult)
@@ -1050,6 +1099,7 @@ useEffect(() => {
                     </Typography>
                     <Stack mt={2} mb={2}>
                       <TextField
+                       type="number"
                         id="skillsresources"
                         label="Your Answer"
                         onChange={(e) => {
@@ -1068,6 +1118,7 @@ useEffect(() => {
                     </Typography>
                     <Stack mt={2} mb={2}>
                       <TextField
+                       type="number"
                         id="skillsresources"
                         label="Your Answer"
                         onChange={(e) => {
@@ -1079,9 +1130,6 @@ useEffect(() => {
                     </Stack>
                   </CardContent>
                 </Card>
-                  </CardContent>
-                </Card>
-       
 <Card mt={1} style={{ marginTop: 10, borderRadius: 20 }}>
   <CardContent>
     <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
@@ -1181,14 +1229,14 @@ useEffect(() => {
         variant="standard"
         required
         onChange={(e) => {
-          const selectedOption = casteOptions.find(option => option.id === e.target.value);
+          const selectedOption = caste.find(option => option.id === e.target.value);
          setSendData({ ...sendData, cast_category: selectedOption.id, cast_category_name: selectedOption?.name  });
       
          console.log(selectedOption); }}
         value={sendData?.cast_category}
       >
         {/* Map the houseOptions to the dropdown */}
-        {casteOptions.map((itm) => (
+        {caste.map((itm) => (
           <MenuItem key={itm.id} value={itm.id}>
             {itm.name}
           </MenuItem>
@@ -1251,6 +1299,7 @@ useEffect(() => {
                     </Typography>
                     <Stack mt={2} mb={2}>
                       <TextField
+                       type="number"
                         id="twoquestions"
                         label="Your Answer"
                         onChange={(e) => {
@@ -1304,14 +1353,14 @@ useEffect(() => {
         variant="standard"
         required
         onChange={(e) => {
-          const selectedOption = educationOptions.find(option => option.id === e.target.value);
+          const selectedOption = education.find(option => option.id === e.target.value);
          setSendData({ ...sendData, education: selectedOption.id, education_name: selectedOption?.name  });
       
          console.log(selectedOption); }}
         value={sendData?.education}
       >
         {/* Map the educationOptions to the dropdown */}
-        {educationOptions.map((itm) => (
+        {education.map((itm) => (
           <MenuItem key={itm.id} value={itm.id}>
             {itm.name}
           </MenuItem>
@@ -1421,6 +1470,7 @@ useEffect(() => {
                       <TextField
                         id="Email"
                         required
+                         type="number"
                         label="Your answer"
                         onChange={(e) => {
                           setSendData({ ...sendData, monthly_women_income: e?.target?.value });
@@ -1474,6 +1524,7 @@ useEffect(() => {
                         id="Email"
                         required
                         label="Your answer"
+                         type="number"
                         onChange={(e) => {
                           setSendData({ ...sendData, monthly_household_expenditure: e?.target?.value });
                         }}
@@ -1496,6 +1547,7 @@ useEffect(() => {
                       <TextField
                         id="Email"
                         required
+                        type="number"
                         label="Your answer"
                         onChange={(e) => {
                           setSendData({ ...sendData, monthly_household_income: e?.target?.value });
