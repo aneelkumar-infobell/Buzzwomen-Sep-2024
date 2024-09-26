@@ -193,7 +193,7 @@ const getData = (itm, i) => {
                     selected &&(selected?.type=='Field Associates') && <> <Chip style={{ backgroundColor: '#ffd796', color: '#000' }}label={`${selected?.type} : ${selected?.itm?.name} `} onDelete={() => { handleDelete(selected) }} /><br/>&nbsp;</>
             }
                    <Card><CardContent style={{fontWeight:700}}>Project Name : {data1.project_name}</CardContent> </Card><br/>
-            <Typography style={{fontWeight:500,marginLeft:2}}>Enrolled Gelathis working({count})</Typography> 
+            <Typography style={{fontWeight:500,marginLeft:2}}>Enrolled Gelathis({count})</Typography> 
             {/* <Stack direction="row" flexWrap="wrap-reverse" alignItems="center" justifyContent="flex-end" sx={{ mb: 5 }}> */}
             <Stack direction="row" spacing={1} flexShrink={0} sx={{ my: 1 }}>
                 <ParticipantDrawer

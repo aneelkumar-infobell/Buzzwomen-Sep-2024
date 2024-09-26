@@ -242,7 +242,7 @@ const [openbusChecklist,setOpenBusChecklist] = useState(false);
                         </TableCell>
                       </TableRow>
                       <TableRow style={styles.tableRowStyle}>
-                        <TableCell>Project Status</TableCell>
+                        <TableCell>Project Status </TableCell>
                         <TableCell>:&nbsp; {data1.project_status} </TableCell>
                       </TableRow>
                     </TableBody>
@@ -574,7 +574,7 @@ const [openbusChecklist,setOpenBusChecklist] = useState(false);
                   userDetails == 3 ||
                   userDetails == 4 ||
                   userDetails == 13 ||
-                  userDetails == 6 ? (
+                  userDetails == 6  || userDetails == 12? (
                     <Link
                       to="/dashboard/projects/enrolledGelathi"
                       state={{ id: data1?.project_id }}
@@ -603,7 +603,8 @@ const [openbusChecklist,setOpenBusChecklist] = useState(false);
                   userDetails == 3 ||
                   userDetails == 4 ||
                   userDetails == 13 ||
-                  userDetails == 6 ? (
+                  userDetails == 6 
+                  || userDetails == 12? (
                     <br />
                   ) : null}
                   {userDetails == 1 ||
