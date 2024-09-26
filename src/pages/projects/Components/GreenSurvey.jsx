@@ -84,7 +84,7 @@ import {
   WomensOccupation,
   yesNoMaybe,
   yesOrNo,
-} from './GreenSurveySelectOptions';
+} from './green/GreenSurveySelectOptions';
 import MultipleChoice from 'src/components/MultipleChoice';
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -97,7 +97,7 @@ export default function GreenSurvey(props) {
   const [value, setValue] = React.useState(false);
   const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
   const [sendData, setSendData] = useState({
-    partcipantId: props?.itm?.id || props?.itm.gelathi_id,
+    participantId: props?.itm?.id || props?.itm.gelathi_id,
     email: '',
     name_of_the_surveyor: '',
     name_of_the_respondent: '',
@@ -235,7 +235,7 @@ export default function GreenSurvey(props) {
       sendData.participantId = parseInt(sendData.participantId);
       var config = {
         method: 'post',
-        url: baseURL + 'addGreenBaselineSurvey',
+        url: baseURL + 'addGreensurvey',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `${apikey}`,

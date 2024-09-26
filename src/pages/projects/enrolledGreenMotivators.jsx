@@ -29,6 +29,7 @@ import Snackbar from '@mui/material/Snackbar';
 import { baseURL } from 'src/utils/api';
 import { useAuth } from 'src/AuthContext';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
+import ViewGreenSurvey from './Components/ViewGreenSurvey';
 export default function enrolledGreenMotivatorsList() {
   const { apikey } = useAuth();
   const { state } = useLocation();
@@ -291,7 +292,8 @@ export default function enrolledGreenMotivatorsList() {
                     {role == 4 ? (
                       itm?.is_survey ? (
                         <IconButton style={{ float: 'right', right: 30 }}>
-                          <Iconify icon="clarity:form-line" color="green" />
+                          
+                          <ViewGreenSurvey itm={itm} changeState={changeState} />
                         </IconButton>
                       ) : (
                         <GreenSurvey itm={itm} changeState={changeState} />

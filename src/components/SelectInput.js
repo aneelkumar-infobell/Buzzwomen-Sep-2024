@@ -15,10 +15,11 @@ const SelectInput = ({
   options,
   optionLabelKey = 'name',
   optionValueKey = 'id',
+  disabled = false,
 }) => {
   const SelectContent = () => (
     <Stack mb={3}>
-      <Typography style={{ color: '#ff7424' }}>
+      <Typography style={{ color: '#ff7424', paddingBottom: '10px', paddingTop: '10px' }}>
         {label} {kannadaLabel && `${kannadaLabel} `}
         {required && '*'}
       </Typography>
@@ -29,7 +30,8 @@ const SelectInput = ({
         color={color}
         label={label}
         variant={variant}
-        // required={required}
+        required={required}
+        disabled={disabled}
         onChange={onChange}
         value={value || ''}
       >

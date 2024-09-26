@@ -245,7 +245,7 @@ export const Which_following_are_natural_resources = [
   { id: 5, name: 'Money    ಹಣ' },
   { id: 6, name: 'House   ಮನೆ ' },
   { id: 7, name: 'Trees    ಮರಗಳು ' },
-  { id: 8, name: 'Electricity   ವಿದ್ಯುತ್   ' },
+  { id: 8, name: 'Electricity   ವಿದ್ಯುತ್' },
 ];
 
 export const What_kind_of_change_to_climate_do_you_think_has_happened = [
@@ -265,6 +265,15 @@ export const How_is_the_change_in_state_of_natural_resources_impacting_your_life
   { id: 5, name: 'Increase in migration   ವಲಸೆಯಲ್ಲಿ ಹೆಚ್ಚಳ' },
   { id: 6, name: 'Other   ಇತರೆ' },
   { id: 7, name: 'No impact   ಪರಿಣಾಮವಿಲ್ಲ' },
+];
+export const How_is_the_change_in_state_of_natural_resources_impacting_your_life_oldQues = [
+  { id: 1, name: 'Quality of food degrading / ಆಹಾರದ ಗುಣಮಟ್ಟ ಕುಸಿಯುತ್ತಿದೆ' },
+  { id: 2, name: 'Negatively affecting agricultural income / ಕೃಷಿ ಆದಾಯದ ಮೇಲೆ ನಕಾರಾತ್ಮಕ ಪರಿಣಾಮ ಬೀರುತ್ತಿದೆ' },
+  { id: 3, name: 'Drinking water scarcity / ಕುಡಿಯುವ ನೀರಿನ ಅಭಾವ' },
+  { id: 4, name: 'Frequent illness in children / ಮಕ್ಕಳಲ್ಲಿ ಆಗಾಗ್ಗೆ ಅನಾರೋಗ್ಯ' },
+  { id: 5, name: 'Bodily discomfort / ದೈಹಿಕ ಅಸ್ವಸ್ಥತೆ' },
+  { id: 6, name: 'Loss of jobs/lack of work / ಉದ್ಯೋಗ ನಷ್ಟ/ಕೆಲಸದ ಕೊರತೆ' },
+  { id: 7, name: 'There is no impact on my life / ನನ್ನ ಜೀವನದ ಮೇಲೆ ಯಾವುದೇ ಪರಿಣಾಮವಿಲ್ಲ' },
 ];
 
 export const According_to_you_whose_responsibility_is_it_to_tackle_climate_change = [
@@ -330,4 +339,132 @@ export const Can_you_name_the_categories_of_waste_you_produce = [
   { id: 4, name: 'Plastic / hazardous waste such as sanitary napkins' },
   { id: 5, name: 'Agricultural waste' },
   { id: 6, name: 'Other _________' },
+];
+export const Natural_Wealth = [
+  {
+    id: 1,
+    name: 'to enjoy natural resource as a human being without any limits / ಯಾವುದೇ ಮಿತಿಯಿಲ್ಲದೆ ಮನುಷ್ಯನಂತೆ ನೈಸರ್ಗಿಕ ಸಂಪನ್ಮೂಲವನ್ನು ಆನಂದಿಸಲು',
+  },
+  {
+    id: 2,
+    name: 'to enjoy natural resources while safeguarding it for the future generation / ಭವಿಷ್ಯದ ಪೀಳಿಗೆಗೆ ನೈಸರ್ಗಿಕ ಸಂಪನ್ಮೂಲಗಳನ್ನು ಸಂರಕ್ಷಿಸುವ ಮೂಲಕ ಆನಂದಿಸಲು',
+  },
+];
+
+export const changes_happened_to_the_climate = [
+  { id: 1, name: 'Excessive temperature / ಅತಿಯಾದ ತಾಪಮಾನ' },
+  { id: 2, name: 'Excessive cold / ವಿಪರೀತ ಚಳಿ' },
+  { id: 3, name: 'Frequent flood / ಆಗಾಗ್ಗೆ ಪ್ರವಾಹ' },
+  { id: 4, name: 'Unseasonal rainfall / ಅಕಾಲಿಕ ಮಳೆ' },
+  { id: 5, name: 'Water logging / ನೀರು ಲಾಗಿಂಗ್' },
+  { id: 6, name: 'Drying up of lakes,ponds and other water bodies / ಕೆರೆಗಳು, ಕೊಳಗಳು ಮತ್ತು ಇತರ ಜಲಮೂಲಗಳು ಒಣಗುತ್ತಿವೆ' },
+  { id: 7, name: "I don't know / ನನಗೆ ಗೊತ್ತಿಲ್ಲ" },
+];
+export const oneToTen = [
+  { id: 1, name: 1 },
+  { id: 2, name: 2 },
+  { id: 3, name: 3 },
+  { id: 4, name: 4 },
+  { id: 5, name: 5 },
+  { id: 6, name: 6 },
+  { id: 7, name: 7 },
+  { id: 8, name: 8 },
+  { id: 9, name: 9 },
+  { id: 10, name: 10 },
+];
+export const main_source_of_water = [
+  { id: 1, name: 'Piped water to yard/plot / ಅಂಗಳ/ಪ್ಲಾಟ್‌ಗೆ ಪೈಪ್‌ಲೈನ್ ನೀರು' },
+  { id: 2, name: 'Public tap/standpipe / ಸಾರ್ವಜನಿಕ ಟ್ಯಾಪ್/ಸ್ಟ್ಯಾಂಡ್ ಪೈಪ್' },
+  { id: 3, name: 'Protected dug well / ಚೆನ್ನಾಗಿ ಅಗೆದು ರಕ್ಷಿಸಲಾಗಿದೆ' },
+  { id: 4, name: 'Unprotected dug well / ರಕ್ಷಣೆಯಿಲ್ಲದ ಬಾವಿ ತೋಡಿದ್ದಾರೆ' },
+  { id: 5, name: 'Protected spring / ಸಂರಕ್ಷಿತ ವಸಂತ' },
+  { id: 6, name: 'Unprotected spring / ಅಸುರಕ್ಷಿತ ವಸಂತ' },
+  { id: 7, name: 'Rainwater collection / ಮಳೆನೀರು ಸಂಗ್ರಹಣೆ' },
+  { id: 8, name: 'Tanker-truck / ಟ್ಯಾಂಕರ್-ಟ್ರಕ್' },
+  {
+    id: 9,
+    name: 'Surface water (river,dam,lake,pond,stream,canal,irrigation channels) / ಮೇಲ್ಮೈ ನೀರು (ನದಿ, ಅಣೆಕಟ್ಟು, ಸರೋವರ, ಕೊಳ, ಹೊಳೆ, ಕಾಲುವೆ, ನೀರಾವರಿ ಕಾಲುವೆಗಳು)',
+  },
+  { id: 10, name: 'Others / ಇತರರು' },
+];
+export const shown_below_do_you_agree_with = [
+  {
+    id: 1,
+    name: 'Ground water can be drawn to how much ever extent we want to / ಅಂತರ್ಜಲವನ್ನು ನಾವು ಎಷ್ಟು ಪ್ರಮಾಣದಲ್ಲಿ ಬಯಸುತ್ತೇವೋ ಅಷ್ಟು ಪ್ರಮಾಣದಲ್ಲಿ ಎಳೆಯಬಹುದು',
+  },
+  { id: 2, name: 'The groundwater below my land solely belongs to me / ನನ್ನ ಭೂಮಿಯ ಕೆಳಗಿನ ಅಂತರ್ಜಲ ನನಗೆ ಮಾತ್ರ ಸೇರಿದ್ದು' },
+  {
+    id: 3,
+    name: 'I should always consider the groundwater limit and other users around me before making decisions on its use / ಅದರ ಬಳಕೆಯ ಬಗ್ಗೆ ನಿರ್ಧಾರಗಳನ್ನು ತೆಗೆದುಕೊಳ್ಳುವ ಮೊದಲು ನಾನು ಯಾವಾಗಲೂ ಅಂತರ್ಜಲ ಮಿತಿ ಮತ್ತು ನನ್ನ ಸುತ್ತಲಿನ ಇತರ ಬಳಕೆದಾರರನ್ನು ಪರಿಗಣಿಸಬೇಕು',
+  },
+  { id: 4, name: 'Groundwater is a shared resource / ಅಂತರ್ಜಲವು ಹಂಚಿಕೆಯ ಸಂಪನ್ಮೂಲವಾಗಿದೆ' },
+];
+export const How_concerned_local_water_quality = [
+  { id: 1, name: 'Very Unconcerned / ತುಂಬಾ ಅನ್ಕನ್ಸರ್ನ್ಡ್' },
+  { id: 2, name: 'Unconcerned/ಕಾಳಜಿಯಿಲ್ಲದ' },
+  { id: 3, name: 'Neutral/ತಟಸ್ಥ' },
+  { id: 4, name: 'Concerned/ಕಳವಳ ವ್ಯಕ್ತಪಡಿಸಿದ್ದಾರೆ' },
+  { id: 5, name: 'Very Concerned/ತುಂಬಾ ಕಾಳಜಿ' },
+];
+export const personal_actions_can_affect_water_quality = [
+  { id: 1, name: 'Strongly disagree / ಖಂಡಿತವಾಗಿ ಒಪ್ಪುವುದಿಲ್ಲ' },
+  { id: 2, name: 'Disagree / ಒಪ್ಪುವುದಿಲ್ಲ' },
+  { id: 3, name: 'Neutral / ತಟಸ್ಥ' },
+  { id: 4, name: 'Agreee / ಒಪ್ಪುತ್ತೇನೆ' },
+  { id: 5, name: 'Strongly agree / ಬಲವಾಗಿ ಒಪ್ಪುತ್ತೇನೆ' },
+];
+export const gifting_his_6_acres_land_to_children = [
+  {
+    id: 1,
+    name: 'I support Meena as she is helping society by building a school for children of tthe village/ ಹಳ್ಳಿಯ ಮಕ್ಕಳಿಗಾಗಿ ಶಾಲೆ ನಿರ್ಮಿಸುವ ಮೂಲಕ ಸಮಾಜಕ್ಕೆ ಸಹಾಯ ಮಾಡುತ್ತಿರುವ ಮೀನಾ ಅವರನ್ನು ನಾನು ಬೆಂಬಲಿಸುತ್ತೇನೆ',
+  },
+  {
+    id: 1,
+    name: 'I support Keshav as he is opening shopping opportunities for villagers/ನಾನು ಕೇಶವ್ ಅವರನ್ನು ಬೆಂಬಲಿಸುತ್ತೇನೆ ಏಕೆಂದರೆ ಅವರು ಹಳ್ಳಿಗರಿಗೆ ಶಾಪಿಂಗ್ ಅವಕಾಶಗಳನ್ನು ತೆರೆಯುತ್ತಾರೆ',
+  },
+  {
+    id: 1,
+    name: "I won't support both,as forest land does'nt belong to them,it belongs to people of both villages, animals and the trees/ ನಾನು ಎರಡನ್ನೂ ಬೆಂಬಲಿಸುವುದಿಲ್ಲ, ಏಕೆಂದರೆ ಅರಣ್ಯ ಭೂಮಿ ಅವರಿಗೆ ಸೇರಿಲ್ಲ, ಅದು ಎರಡೂ ಹಳ್ಳಿಗಳ ಜನರಿಗೆ, ಪ್ರಾಣಿಗಳು ಮತ್ತು ಮರಗಳಿಗೆ ಸೇರಿದೆ",
+  },
+  { id: 1, name: "I don't know what to decide / ಏನು ನಿರ್ಧರಿಸಬೇಕೆಂದು ನನಗೆ ತಿಳಿದಿಲ್ಲ" },
+];
+export const Which_one_according_to_you_is_right = [
+  {
+    id: 1,
+    name: 'Covering up a lake and constructing a building and earn more income/ಕೆರೆ ಒತ್ತುವರಿ ಮಾಡಿ ಕಟ್ಟಡ ನಿರ್ಮಿಸಿ ಹೆಚ್ಚಿನ ಆದಾಯ ಗಳಿಸುತ್ತಿದ್ದಾರೆ',
+  },
+  {
+    id: 2,
+    name: 'Cutting trees to increase available land area for commercial activities improves standard of living / ವಾಣಿಜ್ಯ ಚಟುವಟಿಕೆಗಳಿಗಾಗಿ ಲಭ್ಯವಿರುವ ಭೂಪ್ರದೇಶವನ್ನು ಹೆಚ್ಚಿಸಲು ಮರಗಳನ್ನು ಕಡಿಯುವುದು ಜೀವನ ಮಟ್ಟವನ್ನು ಸುಧಾರಿಸುತ್ತದೆ',
+  },
+  {
+    id: 3,
+    name: 'Protect trees,lakes,reduce use of chemicals on land and protect your asset/ಮರಗಳು, ಸರೋವರಗಳನ್ನು ರಕ್ಷಿಸಿ, ಭೂಮಿಯಲ್ಲಿ ರಾಸಾಯನಿಕಗಳ ಬಳಕೆಯನ್ನು ಕಡಿಮೆ ಮಾಡಿ ಮತ್ತು ನಿಮ್ಮ ಆಸ್ತಿಯನ್ನು ರಕ್ಷಿಸಿ',
+  },
+];
+export const believe_connection_between_the_food_health_climate = [
+  { id: 1, name: 'There is a connection between food and health/ಆಹಾರ ಮತ್ತು ಆರೋಗ್ಯದ ನಡುವೆ ಸಂಬಂಧವಿದೆ' },
+  { id: 2, name: 'There is a connection between all three/ಮೂರರ ನಡುವೆ ಸಂಬಂಧವಿದೆ' },
+  { id: 3, name: 'I do not see any connection between them/ಅವರ ನಡುವೆ ಯಾವುದೇ ಸಂಬಂಧವನ್ನು ನಾನು ನೋಡುತ್ತಿಲ್ಲ' },
+];
+export const household_activity_pollutes_natural_resources = [
+  {
+    id: 1,
+    name: 'Consuming plastic packed biscuits,chocolates and chips/ಪ್ಲಾಸ್ಟಿಕ್ ಪ್ಯಾಕ್ ಮಾಡಿದ ಬಿಸ್ಕತ್ತುಗಳು, ಚಾಕೊಲೇಟ್‌ಗಳು ಮತ್ತು ಚಿಪ್‌ಗಳನ್ನು ಸೇವಿಸುವುದು',
+  },
+  {
+    id: 2,
+    name: 'Body & hair cleansing liquids,soaps,tooth paste / ದೇಹ ಮತ್ತು ಕೂದಲು ಶುದ್ಧೀಕರಿಸುವ ದ್ರವಗಳು, ಸಾಬೂನುಗಳು, ಟೂತ್ ಪೇಸ್ಟ್',
+  },
+  { id: 3, name: 'Use of coal,firewood or gas for cooking / ಅಡುಗೆಗೆ ಕಲ್ಲಿದ್ದಲು, ಉರುವಲು ಅಥವಾ ಅನಿಲದ ಬಳಕೆ' },
+  { id: 4, name: 'All of the above / ಮೇಲಿನ ಎಲ್ಲವೂ' },
+  { id: 5, name: 'None of the above / ಮೇಲಿನ ಯಾವುದೂ ಅಲ್ಲ' },
+  { id: 6, name: "I don't know/ನನಗೆ ಗೊತ್ತಿಲ್ಲ" },
+];
+export const community_together_achieve_my_conservation_goal = [
+  { id: 1, name: 'Strongly Agree/ಬಲವಾಗಿ ಒಪ್ಪುತ್ತೇನೆ' },
+  { id: 2, name: 'Agree / ಒಪ್ಪುತ್ತೇನೆ' },
+  { id: 3, name: 'Neutral / ತಟಸ್ಥ' },
+  { id: 4, name: 'Disagree / ಒಪ್ಪುವುದಿಲ್ಲ' },
+  { id: 5, name: 'Strongly Disagree / ಖಂಡಿತವಾಗಿ ಒಪ್ಪುವುದಿಲ್ಲ' },
 ];
