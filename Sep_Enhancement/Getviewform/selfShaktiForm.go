@@ -11,6 +11,7 @@ import (
 
 type TrainingParticipant struct {
 	ID                           string   `json:"id"`
+	GelathiRecomm                int      `json:"gelathiRecommend"`
 	FirstName                    string   `json:"firstName"`
 	DOB                          string   `json:"dob"`
 	Age                          string   `json:"age"`
@@ -217,6 +218,7 @@ func GetSelfShaktiBaselineSurvey(w http.ResponseWriter, r *http.Request, db *sql
 	query := fmt.Sprintf(`
     SELECT 
     COALESCE(id, '') AS id,
+	COALESCE(gelathiRecomm, 0) AS gelathiRecomm,
     COALESCE(firstName, '') AS firstName,
     COALESCE(dob, '') AS dob,
     COALESCE(age, '') AS age,
@@ -412,6 +414,7 @@ FROM
 
 		err := rows.Scan(
 			&participant.ID,
+			&participant.GelathiRecomm,
 			&participant.FirstName,
 			&participant.DOB,
 			&participant.Age,
