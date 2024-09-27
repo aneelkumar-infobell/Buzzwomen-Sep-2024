@@ -50,6 +50,7 @@ func isAuthorized(endpoint func(http.ResponseWriter, *http.Request)) http.Handle
 				}
 				return mySigningKey, nil
 			})
+
 			if err != nil {
 				w.WriteHeader(http.StatusBadRequest)
 				json.NewEncoder(w).Encode(map[string]interface{}{"Status": "400 Bad Request", "Message": "Invalid Authorization", "Error": err.Error()})
@@ -115,7 +116,7 @@ func HandleFunc() {
 		sep.Addnagarikasurvey(w, r, db)
 	}))
 	//---------------------------Get Gelathi List----------------------------------
-	apiRouter.Handle("/getSpoorthiForm", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
+	apiRouter.HandleFunc("/getSpoorthiForm", (func(w http.ResponseWriter, r *http.Request) {
 		sep.GetBuzzSpoorthiProgramBaseline(w, r, db)
 	}))
 	apiRouter.Handle("/creatProjectFunder", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
@@ -754,7 +755,7 @@ func HandleFunc() {
 		t5.UpdateTa(w, r, db)
 	}))
 	//---------------------AddSpoorthiBaselineQuestionnaire----------------------------------
-	apiRouter.Handle("/addSpoorthiBaselineQuestionnaire", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
+	apiRouter.HandleFunc("/addSpoorthiBaselineQuestionnaire", (func(w http.ResponseWriter, r *http.Request) {
 		t5.AddSpoorthiBaselineQuestionnaire(w, r, db)
 	}))
 	//---------------------AddGreenBaselineSurvey----------------------------------

@@ -13,7 +13,7 @@ import (
 )
 
 type addSpoorthiBaselineQuestionnaire struct {
-	ParticipantID                          string `json:"partcipantId"`
+	ParticipantID                          int    `json:"partcipantId"`
 	GelathiID                              string `json:"GelathiId"`
 	Email                                  string `json:"email_address"`
 	EntryDate                              string `json:"entry_date"`
@@ -34,64 +34,64 @@ type addSpoorthiBaselineQuestionnaire struct {
 	ConflictMattersInterestMine            string `json:"conflict_matters_interest_mine"`
 	TherePujaAtMyHouse                     string `json:"There_puja_at_my_house"`
 
-	District                                 string   `json:"district"`
-	Taluk                                    string   `json:"taluk"`
-	GramPanchayat                            string   `json:"gram_panchayat"`
-	VillageName                              string   `json:"village_name"`
-	TotalAdultsNoOfMemberHousehold           string   `json:"total_adults_no_of_member_household"`
-	TotalChildrenNoOfMemberHousehold         string   `json:"total_children_no_of_member_household"`
-	House                                    string   `json:"house"`
-	RationCard                               string   `json:"ration_card"`
-	CastCategory                             string   `json:"cast_category"`
-	MotherTongue                             string   `json:"mother_tongue"`
-	Religion                                 string   `json:"religion"`
-	Age                                      string   `json:"age"`
-	MaterialStatus                           string   `json:"material_status"`
-	Education                                string   `json:"education"`
-	PhoneNumber                              string   `json:"phone_number"`
-	CurrentEconomicActivityPrimaryOccupation string   `json:"current_economic_activity_primary_occupation"`
-	SecondaryOccupationHousehold             string   `json:"secondary_occupation_household"`
-	WomensOccupation                         string   `json:"womens_occupation"`
-	SkillsMotivation                         string   `json:"skills_motivation"`
-	ThreeReasonsBecomeGelathi                string   `json:"three_reasons_become_gelathi"`
-	GoalsAchieveAsGelathi                    string   `json:"goals_achieve_as_gelathi"`
-	GoalsAsLeaderNextYear                    string   `json:"goals_as_leader_next_year"`
-	GoalsForTenYears                         string   `json:"goals_for_ten_years"`
-	Community                                string   `json:"community"`
-	SupportFeelings                          string   `json:"support_feelings"`
-	MeetingsDayFeelings                      string   `json:"meetings_day_feelings"`
-	DealWithAngrySituation                   []string `json:"deal_with_angry_situation"`
-	ImpatientWithUnclearComm                 string   `json:"impatient_with_unclear_comm"`
-	SayYesWhenUnsureOfInstructions           string   `json:"say_yes_when_unsure_of_instructions"`
-	Confidence                               string   `json:"confidence"`
-	PersistedWhenOthersQuit                  string   `json:"persisted_when_others_quit"`
-	NarrateInstance                          string   `json:"narrate_instance"`
-	GoalPersistenceInstance                  string   `json:"goal_persistence_instance"`
-	TaskResponse                             string   `json:"task_response"`
-	ChallengeReaction                        string   `json:"challenge_reaction"`
-	ConflictManagement                       string   `json:"conflict_management"`
-	ConflictHandling                         string   `json:"conflict_handling"`
-	SolutionAgreeableToOthers                string   `json:"solution_agreeable_to_others"`
-	SenseOfSisterhood                        string   `json:"sense_of_sisterhood"`
-	QualitiesOfGoodGelathi                   string   `json:"qualities_of_good_gelathi"`
-	MembersEmotionalBond                     string   `json:"members_emotional_bond"`
-	MembersDiscussPersonalIssues             string   `json:"members_discuss_personal_issues"`
-	CopingMechanismsWhenSad                  string   `json:"coping_mechanisms_when_sad"`
-	PossessLeadershipSkills                  string   `json:"possess_leadership_skills"`
-	LeadershipSkillsReasonYes                []string `json:"leadership_skills_reason_yes"`
-	LeadershipSkillsReasonNo                 string   `json:"leadership_skills_reason_no"`
-	LeadershipSkills                         string   `json:"leadership_skills"`
-	CommunityMembersTakesSeriously           string   `json:"community_members_takes_seriously"`
-	TakesFeedbackFromCommunityMembers        string   `json:"takes_feedback_from_community_members"`
-	FeedbackFromCommunityMembers             string   `json:"feedback_from_community_members"`
-	GoalsAsGelathi                           string   `json:"goals_as_gelathi"`
-	WillingToTakePartLocalElections          string   `json:"willing_to_take_part_local_elections"`
-	CalmBeforeReactionD                      string   `json:"calm_before_reaction_d"`
-	ShoutAtOthersD                           string   `json:"shout_at_others_d"`
-	WalkOutWithoutListeningD                 string   `json:"walk_out_without_listening_d"`
-	AskToLeaveImmediatelyD                   string   `json:"ask_to_leave_immediately_d"`
-	PatientlyListenUnderstandD               string   `json:"patiently_listen_understand_d"`
-	CalmDisagreementArticulationD            string   `json:"calm_disagreement_articulation_d"`
+	District                                 string `json:"district"`
+	Taluk                                    string `json:"taluk"`
+	GramPanchayat                            string `json:"gram_panchayat"`
+	VillageName                              string `json:"village_name"`
+	TotalAdultsNoOfMemberHousehold           string `json:"total_adults_no_of_member_household"`
+	TotalChildrenNoOfMemberHousehold         string `json:"total_children_no_of_member_household"`
+	House                                    string `json:"house"`
+	RationCard                               string `json:"ration_card"`
+	CastCategory                             string `json:"cast_category"`
+	MotherTongue                             string `json:"mother_tongue"`
+	Religion                                 string `json:"religion"`
+	Age                                      string `json:"age"`
+	MaterialStatus                           string `json:"material_status"`
+	Education                                string `json:"education"`
+	PhoneNumber                              string `json:"phone_number"`
+	CurrentEconomicActivityPrimaryOccupation string `json:"current_economic_activity_primary_occupation"`
+	SecondaryOccupationHousehold             string `json:"secondary_occupation_household"`
+	WomensOccupation                         string `json:"womens_occupation"`
+	SkillsMotivation                         string `json:"skills_motivation"`
+	ThreeReasonsBecomeGelathi                string `json:"three_reasons_become_gelathi"`
+	GoalsAchieveAsGelathi                    string `json:"goals_achieve_as_gelathi"`
+	GoalsAsLeaderNextYear                    string `json:"goals_as_leader_next_year"`
+	GoalsForTenYears                         string `json:"goals_for_ten_years"`
+	Community                                string `json:"community"`
+	SupportFeelings                          string `json:"support_feelings"`
+	MeetingsDayFeelings                      string `json:"meetings_day_feelings"`
+	//DealWithAngrySituation                   []string `json:"deal_with_angry_situation"`
+	ImpatientWithUnclearComm          string   `json:"impatient_with_unclear_comm"`
+	SayYesWhenUnsureOfInstructions    string   `json:"say_yes_when_unsure_of_instructions"`
+	Confidence                        string   `json:"confidence"`
+	PersistedWhenOthersQuit           string   `json:"persisted_when_others_quit"`
+	NarrateInstance                   string   `json:"narrate_instance"`
+	GoalPersistenceInstance           string   `json:"goal_persistence_instance"`
+	TaskResponse                      string   `json:"task_response"`
+	ChallengeReaction                 string   `json:"challenge_reaction"`
+	ConflictManagement                string   `json:"conflict_management"`
+	ConflictHandling                  string   `json:"conflict_handling"`
+	SolutionAgreeableToOthers         string   `json:"solution_agreeable_to_others"`
+	SenseOfSisterhood                 string   `json:"sense_of_sisterhood"`
+	QualitiesOfGoodGelathi            string   `json:"qualities_of_good_gelathi"`
+	MembersEmotionalBond              string   `json:"members_emotional_bond"`
+	MembersDiscussPersonalIssues      string   `json:"members_discuss_personal_issues"`
+	CopingMechanismsWhenSad           string   `json:"coping_mechanisms_when_sad"`
+	PossessLeadershipSkills           string   `json:"possess_leadership_skills"`
+	LeadershipSkillsReasonYes         []string `json:"leadership_skills_reason_yes"`
+	LeadershipSkillsReasonNo          string   `json:"leadership_skills_reason_no"`
+	LeadershipSkills                  string   `json:"leadership_skills"`
+	CommunityMembersTakesSeriously    string   `json:"community_members_takes_seriously"`
+	TakesFeedbackFromCommunityMembers string   `json:"takes_feedback_from_community_members"`
+	FeedbackFromCommunityMembers      string   `json:"feedback_from_community_members"`
+	GoalsAsGelathi                    string   `json:"goals_as_gelathi"`
+	WillingToTakePartLocalElections   string   `json:"willing_to_take_part_local_elections"`
+	CalmBeforeReactionD               string   `json:"calm_before_reaction_d"`
+	ShoutAtOthersD                    string   `json:"shout_at_others_d"`
+	WalkOutWithoutListeningD          string   `json:"walk_out_without_listening_d"`
+	AskToLeaveImmediatelyD            string   `json:"ask_to_leave_immediately_d"`
+	PatientlyListenUnderstandD        string   `json:"patiently_listen_understand_d"`
+	CalmDisagreementArticulationD     string   `json:"calm_disagreement_articulation_d"`
 }
 
 type Response3 struct {
@@ -140,7 +140,7 @@ func AddSpoorthiBaselineQuestionnaire(w http.ResponseWriter, r *http.Request, DB
 		return
 	}
 
-	if request.ParticipantID != "" && request.GelathiID != "" {
+	if request.ParticipantID > 0 && request.GelathiID != "" {
 		var name string
 		var date time.Time
 		DB.QueryRow("SELECT name from location where id=1").Scan(&name)
@@ -200,7 +200,7 @@ goals_for_ten_years,
 community,
 support_feelings,
 meetings_day_feelings,
-deal_with_angry_situation,
+
 impatient_with_unclear_comm,
 say_yes_when_unsure_of_instructions,
 confidence,
@@ -218,7 +218,7 @@ members_emotional_bond,
 members_discuss_personal_issues,
 coping_mechanisms_when_sad,
 possess_leadership_skills,
-leadership_skills_reason_yes,
+ leadership_skills_reason_yes,
 leadership_skills_reason_no,
 leadership_skills,
 community_members_takes_seriously,
@@ -233,7 +233,7 @@ calm_before_reaction_d ,
     patiently_listen_understand_d ,
     calm_disagreement_articulation_d
 )
-VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`
+VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`
 
 		_, err := DB.Exec(addStatement,
 			request.ParticipantID,
@@ -282,7 +282,7 @@ VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,
 			request.Community,
 			request.SupportFeelings,
 			request.MeetingsDayFeelings,
-			strings.Join(request.DealWithAngrySituation, ", "),
+			//strings.Join(request.DealWithAngrySituation, ", "),
 			request.ImpatientWithUnclearComm,
 			request.SayYesWhenUnsureOfInstructions,
 			request.Confidence,
