@@ -100,6 +100,8 @@ type ParticipantData struct {
 	AskToLeaveImmediatelyD                          string   `json:"ask_to_leave_immediately_d"`
 	PatientlyListenUnderstandD                      string   `json:"patiently_listen_understand_d"`
 	CalmDisagreementArticulationD                   string   `json:"calm_disagreement_articulation_d"`
+	MonthlyHouseExpend                              int      `json:"monthly_house_expend"`
+	MonthlyHouseIncome                              int      `json:"monthly_house_income"`
 }
 
 // var data []Querydata
@@ -214,7 +216,10 @@ COALESCE(shout_at_others_d, '') AS shout_at_others_d,
 COALESCE(walk_out_without_listening_d, '') AS walk_out_without_listening_d,
 COALESCE(ask_to_leave_immediately_d, '') AS ask_to_leave_immediately_d,
 COALESCE(patiently_listen_understand_d, '') AS patiently_listen_understand_d,
-COALESCE(calm_disagreement_articulation_d, '') AS calm_disagreement_articulation_d
+COALESCE(calm_disagreement_articulation_d, '') AS calm_disagreement_articulation_d,
+COALESCE(monthly_house_expend, '') AS monthly_house_expend,
+COALESCE(monthly_house_income, '') AS monthly_house_income
+
 
     FROM SpoorthiBaselineQuestionnaire
     WHERE partcipantId = %d`, req.PartcipantID)
@@ -318,6 +323,8 @@ COALESCE(calm_disagreement_articulation_d, '') AS calm_disagreement_articulation
 			&queryData.AskToLeaveImmediatelyD,
 			&queryData.PatientlyListenUnderstandD,
 			&queryData.CalmDisagreementArticulationD,
+			&queryData.MonthlyHouseExpend,
+			&queryData.MonthlyHouseIncome,
 		)
 		queryData.LeadershipSkillsReasonYes = strings.Split(leadershipSkillsReasonYes, ",")
 		queryData.DealWithAngrySituation = strings.Split(dealWithAngrySituation, ",")
