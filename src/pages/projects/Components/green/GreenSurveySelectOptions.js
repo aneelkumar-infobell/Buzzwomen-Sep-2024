@@ -247,6 +247,15 @@ export const Which_following_are_natural_resources = [
   { id: 7, name: 'Trees    ಮರಗಳು ' },
   { id: 8, name: 'Electricity   ವಿದ್ಯುತ್' },
 ];
+export const Which_following_are_natural_resourcesOld = [
+  { id: 1, name: 'Water/ನೀರು' },
+  { id: 2, name: 'Soil/ಮಣ್ಣು' },
+  { id: 3, name: 'MotorCycle/ಮೋಟಾರ್ ಸೈಕಲ್' },
+  { id: 4, name: 'Money/ಹಣ' },
+  { id: 5, name: 'Trees/ಮರ' },
+  { id: 6, name: 'Borewell/ಬೋರ್ವೆಲ್' },
+  { id: 7, name: 'House/ಮನೆ' },
+];
 
 export const What_kind_of_change_to_climate_do_you_think_has_happened = [
   { id: 1, name: 'Excessive heat   ವಿಪರೀತ ಶೆಕೆ' },
@@ -347,7 +356,11 @@ export const Natural_Wealth = [
   },
   {
     id: 2,
-    name: 'to enjoy natural resources while safeguarding it for the future generation / ಭವಿಷ್ಯದ ಪೀಳಿಗೆಗೆ ನೈಸರ್ಗಿಕ ಸಂಪನ್ಮೂಲಗಳನ್ನು ಸಂರಕ್ಷಿಸುವ ಮೂಲಕ ಆನಂದಿಸಲು',
+    name: 'to enjoy natural resources while safeguarding it for the future generation / ಭವಿಷ್ಯದ ಪೀಳಿಗೆಗೆ ನೈಸರ್ಗಿಕ ಸಂಪನ್ಮೂಲಗಳನ್ನು ಸಂರಕ್ಷಿಸುವ ಮೂಲಕ ಆನಂದಿಸಲ',
+  },
+  {
+    id: 3,
+    name: 'to enjoy natural resources while safeguarding it for the future generation / ಭವಿಷ್ಯದ ಪೀಳಿಗೆಗೆ ನೈಸರ್ಗ',
   },
 ];
 
