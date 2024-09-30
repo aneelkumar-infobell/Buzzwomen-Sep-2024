@@ -289,10 +289,9 @@ export default function enrolledGreenMotivatorsList() {
                 <div variant="subtitle1" gutterBottom>
                   {` Gelathi Name : ${itm?.gelathiname}`}
                   <div>
-                    {role == 4 ? (
+                    {role == 1 || role == 3 || role == 12 || role == 4 ? (
                       itm?.is_survey ? (
                         <IconButton style={{ float: 'right', right: 30 }}>
-                          
                           <ViewGreenSurvey itm={itm} changeState={changeState} />
                         </IconButton>
                       ) : (

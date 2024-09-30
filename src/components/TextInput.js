@@ -1,3 +1,4 @@
+import React from 'react';
 import { Card, CardContent, Stack, TextField, Typography } from '@mui/material';
 
 const TextInput = ({
@@ -11,8 +12,28 @@ const TextInput = ({
   required,
   placeholder = '',
   disabled = false,
+  type = 'text',
+  inputProps,
+  InputProps,
+  maxLength,
 }) => {
-  // Custom input function for rendering the Stack with the TextField and label
+  const handleChange = (event) => {
+    let newValue = event.target.value;
+    if (type === 'number' && maxLength) {
+      newValue = newValue.replace(/\D/g, '');
+      newValue = newValue.slice(0, maxLength);
+      newValue = newValue || '0';
+    }
+
+    onChange({
+      ...event,
+      target: {
+        ...event.target,
+        name,
+        value: newValue,
+      },
+    });
+  };
   const customInput = () => (
     <Stack mb={3}>
       <Typography style={{ color: '#ff7424', paddingBottom: '10px', paddingTop: '10px' }}>
@@ -21,14 +42,25 @@ const TextInput = ({
       </Typography>
       <TextField
         id={id}
+        type={type}
         label={placeholder}
         required={required}
         disabled={disabled}
         variant="outlined"
         color="common"
         name={name}
-        onChange={onChange}
+        maxLength={maxLength}
+        onChange={handleChange}
         value={value || ''}
+        InputProps={{
+          ...InputProps,
+          inputProps: {
+            ...inputProps,
+            ...InputProps?.inputProps,
+            inputMode: type === 'number' ? 'numeric' : inputProps?.inputMode,
+            pattern: type === 'number' ? '[0-9]*' : inputProps?.pattern,
+          },
+        }}
       />
     </Stack>
   );

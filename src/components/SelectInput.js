@@ -36,7 +36,7 @@ const SelectInput = ({
         value={value || ''}
       >
         {options.map((option) => (
-          <MenuItem key={option[optionValueKey]} value={option[optionLabelKey]}>
+          <MenuItem data-id={option[optionValueKey]} key={option[optionValueKey]} value={option[optionLabelKey]}>
             {option[optionLabelKey]}
           </MenuItem>
         ))}

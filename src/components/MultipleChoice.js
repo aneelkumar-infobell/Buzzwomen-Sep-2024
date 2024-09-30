@@ -67,7 +67,13 @@ const MultipleChoiceContent = ({
           <FormControlLabel
             key={value.id}
             value={value.name}
-            control={<Checkbox disabled checked={selectedOption.includes(value.name)} style={{ color: '#595959' }} />}
+            control={
+              <Checkbox
+                disabled={disabled}
+                {...(selectedOption?.includes(value.name) && { checked: true })}
+                style={{ color: '#595959' }}
+              />
+            }
             label={value.name}
             onChange={(event) => handleResources(name, event)}
           />

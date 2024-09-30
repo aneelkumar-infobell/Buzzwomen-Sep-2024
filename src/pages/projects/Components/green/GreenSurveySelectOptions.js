@@ -85,9 +85,9 @@ export const currentEconomicActivity = [
   { id: 3, name: 'Farm wage worker ಕೃಷಿ ಕೂಲಿ ಕಾರ್ಮಿಕ' },
   {
     id: 4,
-    name: 'Non farm sector wage worker like factory worker, sales girl, domestic worker ಕಾರ್ಖಾನೆಯ ಕೆಲಸಗಾರ, ಮಾರಾಟದ ಹುಡುಗಿ, ಮನೆಕೆಲಸದಂತಹ ಕೃಷಿಯೇತರ ವಲಯದ ಕೂಲಿ ಕೆಲಸಗಾರ',
+    name: 'Non farm sector wage worker like factory worker - sales girl - domestic worker ಕಾರ್ಖಾನೆಯ ಕೆಲಸಗಾರ - ಮಾರಾಟದ ಹುಡುಗಿ - ಮನೆಕೆಲಸದಂತಹ ಕೃಷಿಯೇತರ ವಲಯದ ಕೂಲಿ ಕೆಲಸಗಾರ',
   },
-  { id: 5, name: 'Business/Self employed like tailor, shop owner, ಟೈಲರ್, ಅಂಗಡಿ ಮಾಲೀಕರು, ವ್ಯಾಪಾರ/ಸ್ವಯಂ ಉದ್ಯೋಗಿ' },
+  { id: 5, name: 'Business/Self employed like tailor - shop owner - ಟೈಲರ್ - ಅಂಗಡಿ ಮಾಲೀಕರು - ವ್ಯಾಪಾರ/ಸ್ವಯಂ ಉದ್ಯೋಗಿ' },
   { id: 6, name: 'Government employee ಸರ್ಕಾರಿ ಉದ್ಯೋಗಿ' },
   { id: 7, name: 'Private company employee ಖಾಸಗಿ ಕಂಪನಿ ಉದ್ಯೋಗಿ' },
   { id: 8, name: 'Housewife ಗೃಹಿಣಿ' },
@@ -102,9 +102,9 @@ export const secondaryOccupationHousehold = [
   { id: 3, name: 'Farm wage worker  ಕೃಷಿ ಕೂಲಿ ಕಾರ್ಮಿಕ' },
   {
     id: 4,
-    name: 'Non farm sector wage worker like factory worker, sales girl, domestic worker  ಕಾರ್ಖಾನೆಯ ಕೆಲಸಗಾರ, ಮಾರಾಟದ ಹುಡುಗಿ, ಮನೆಕೆಲಸದಂತಹ ಕೃಷಿಯೇತರ ವಲಯದ ಕೂಲಿ ಕೆಲಸಗಾರ',
+    name: 'Non farm sector wage worker like factory worker - sales girl - domestic worker  ಕಾರ್ಖಾನೆಯ ಕೆಲಸಗಾರ - ಮಾರಾಟದ ಹುಡುಗಿ - ಮನೆಕೆಲಸದಂತಹ ಕೃಷಿಯೇತರ ವಲಯದ ಕೂಲಿ ಕೆಲಸಗಾರ',
   },
-  { id: 5, name: 'Business/Self employed like tailor, shop owner,  ಟೈಲರ್, ಅಂಗಡಿ ಮಾಲೀಕರು, ವ್ಯಾಪಾರ/ಸ್ವಯಂ ಉದ್ಯೋಗಿ' },
+  { id: 5, name: 'Business/Self employed like tailor - shop owner -  ಟೈಲರ್ - ಅಂಗಡಿ ಮಾಲೀಕರು - ವ್ಯಾಪಾರ/ಸ್ವಯಂ ಉದ್ಯೋಗಿ' },
   { id: 6, name: 'Government employee  ಸರ್ಕಾರಿ ಉದ್ಯೋಗಿ' },
   { id: 7, name: 'Private company employee  ಖಾಸಗಿ ಕಂಪನಿ ಉದ್ಯೋಗಿ' },
   { id: 8, name: 'Trading  ವ್ಯಾಪಾರ' },
@@ -115,9 +115,9 @@ export const WomensOccupation = [
   { id: 3, name: 'Farm wage worker ಕೃಷಿ ಕೂಲಿ ಕಾರ್ಮಿಕ' },
   {
     id: 4,
-    name: 'Non farm sector wage worker like factory worker, sales girl, domestic worker ಕಾರ್ಖಾನೆಯ ಕೆಲಸಗಾರ, ಮಾರಾಟಗಾರ್ತಿ, ಮನೆಕೆಲಸದಂತಹ ಕೃಷಿಯೇತರ ವಲಯದ ಕೂಲಿ ಕೆಲಸಗಾರ',
+    name: 'Non farm sector wage worker like factory worker - sales girl - domestic worker ಕಾರ್ಖಾನೆಯ ಕೆಲಸಗಾರ - ಮಾರಾಟಗಾರ್ತಿ - ಮನೆಕೆಲಸದಂತಹ ಕೃಷಿಯೇತರ ವಲಯದ ಕೂಲಿ ಕೆಲಸಗಾರ',
   },
-  { id: 5, name: 'Business/Self employed like tailor, shop owner,  ಟೈಲರ್, ಅಂಗಡಿ ಮಾಲೀಕರು, ವ್ಯಾಪಾರ/ಸ್ವಯಂ ಉದ್ಯೋಗಿ' },
+  { id: 5, name: 'Business/Self employed like tailor - shop owner -  ಟೈಲರ್ - ಅಂಗಡಿ ಮಾಲೀಕರು - ವ್ಯಾಪಾರ/ಸ್ವಯಂ ಉದ್ಯೋಗಿ' },
   { id: 6, name: 'Government employee  ಸರ್ಕಾರಿ ಉದ್ಯೋಗಿ' },
   { id: 7, name: 'Private company employee ಖಾಸಗಿ ಕಂಪನಿ ಉದ್ಯೋಗಿ' },
   { id: 8, name: 'Housewife ಗೃಹಿಣಿ' },
@@ -176,7 +176,7 @@ export const whatAreThosePractices = [
 export const segregateYourWasteAtHome = [
   {
     id: 1,
-    name: 'Yes , I segregate wet waste from dry waste ಹೌದು, ನಾನು ಒಣ ತ್ಯಾಜ್ಯದಿಂದ ಹಸಿ   ತ್ಯಾಜ್ಯವನ್ನು ಪ್ರತ್ಯೇಕಿಸುತ್ತೇನೆ',
+    name: 'Yes , I segregate wet waste from dry waste ಹೌದು - ನಾನು ಒಣ ತ್ಯಾಜ್ಯದಿಂದ ಹಸಿ   ತ್ಯಾಜ್ಯವನ್ನು ಪ್ರತ್ಯೇಕಿಸುತ್ತೇನೆ',
   },
   { id: 2, name: 'No, i put them all together ಇಲ್ಲ, ನಾನು ಎಲ್ಲವನ್ನೂ ಒಟ್ಟಿಗೆ ಹಾಕುತ್ತೇನೆ.' },
 ];
@@ -253,7 +253,7 @@ export const What_kind_of_change_to_climate_do_you_think_has_happened = [
   { id: 2, name: 'Excessive cold   ವಿಪರೀತ ಚಳಿ' },
   { id: 3, name: 'Frequent flood  ಆಗಾಗ್ಗೆ ಪ್ರವಾಹ' },
   { id: 4, name: 'Unseasonal rainfall  ಅಕಾಲಿಕ ಮಳೆ' },
-  { id: 5, name: 'Drying up of lakes, ponds and other water bodies   ಕೆರೆಗಳು, ಕೊಳಗಳು ಮತ್ತು ಇತರ ಜಲಮೂಲಗಳು ಒಣಗುತ್ತಿವೆ' },
+  { id: 5, name: 'Drying up of lakes - ponds and other water bodies   ಕೆರೆಗಳು - ಕೊಳಗಳು ಮತ್ತು ಇತರ ಜಲಮೂಲಗಳು ಒಣಗುತ್ತಿವೆ' },
   { id: 6, name: 'Other  ಇತರೆ' },
   { id: 7, name: 'No major change observed  ಯಾವುದೇ ಪ್ರಮುಖ ಬದಲಾವಣೆ ಕಂಡುಬಂದಿಲ್ಲ' },
 ];
@@ -296,7 +296,7 @@ export const What_is_the_main_source_of_water_used_by_your_household_for_domesti
   { id: 7, name: 'Tanker-truck     ಟ್ಯಾಂಕರ್-ಟ್ರಕ್' },
   {
     id: 8,
-    name: 'Surface water (river, dam, lake, pond, stream, canal, irrigation channels) ಮೇಲ್ಮೈ ನೀರು (ನದಿ, ಅಣೆಕಟ್ಟು, ಸರೋವರ, ಕೊಳ, ಹೊಳೆ, ಕಾಲುವೆ, ನೀರಾವರಿ ಕಾಲುವೆಗಳು)',
+    name: 'Surface water (river - dam - lake - pond - stream - canal - irrigation channels) ಮೇಲ್ಮೈ ನೀರು (ನದಿ - ಅಣೆಕಟ್ಟು - ಸರೋವರ - ಕೊಳ - ಹೊಳೆ - ಕಾಲುವೆ - ನೀರಾವರಿ ಕಾಲುವೆಗಳು)',
   },
   { id: 9, name: 'Other  ಇತರೆ' },
 ];
@@ -308,7 +308,7 @@ export const Do_you_think_the_water_you_consume_is_safe = [
 export const Which_of_the_following_natural_resources_of_your_community_needs_immediate_attention_and_measures_of_conservation =
   [
     { id: 1, name: 'Forest   ಅರಣ್ಯ' },
-    { id: 2, name: 'Lake, pond   ಕೆರೆ, ಕೊಳ' },
+    { id: 2, name: 'Lake - pond   ಕೆರೆ, ಕೊಳ' },
     { id: 3, name: 'Park   ಉದ್ಯಾನವನ' },
     { id: 4, name: 'Land  ಭೂಮಿ' },
   ];
@@ -338,7 +338,7 @@ export const Can_you_name_the_categories_of_waste_you_produce = [
   { id: 3, name: 'Recyclable waste such as glass and plastic bottles' },
   { id: 4, name: 'Plastic / hazardous waste such as sanitary napkins' },
   { id: 5, name: 'Agricultural waste' },
-  { id: 6, name: 'Other _________' },
+  { id: 6, name: 'Other' },
 ];
 export const Natural_Wealth = [
   {
@@ -357,7 +357,7 @@ export const changes_happened_to_the_climate = [
   { id: 3, name: 'Frequent flood / ಆಗಾಗ್ಗೆ ಪ್ರವಾಹ' },
   { id: 4, name: 'Unseasonal rainfall / ಅಕಾಲಿಕ ಮಳೆ' },
   { id: 5, name: 'Water logging / ನೀರು ಲಾಗಿಂಗ್' },
-  { id: 6, name: 'Drying up of lakes,ponds and other water bodies / ಕೆರೆಗಳು, ಕೊಳಗಳು ಮತ್ತು ಇತರ ಜಲಮೂಲಗಳು ಒಣಗುತ್ತಿವೆ' },
+  { id: 6, name: 'Drying up of lakes -ponds and other water bodies / ಕೆರೆಗಳು - ಕೊಳಗಳು ಮತ್ತು ಇತರ ಜಲಮೂಲಗಳು ಒಣಗುತ್ತಿವೆ' },
   { id: 7, name: "I don't know / ನನಗೆ ಗೊತ್ತಿಲ್ಲ" },
 ];
 export const oneToTen = [
@@ -383,7 +383,7 @@ export const main_source_of_water = [
   { id: 8, name: 'Tanker-truck / ಟ್ಯಾಂಕರ್-ಟ್ರಕ್' },
   {
     id: 9,
-    name: 'Surface water (river,dam,lake,pond,stream,canal,irrigation channels) / ಮೇಲ್ಮೈ ನೀರು (ನದಿ, ಅಣೆಕಟ್ಟು, ಸರೋವರ, ಕೊಳ, ಹೊಳೆ, ಕಾಲುವೆ, ನೀರಾವರಿ ಕಾಲುವೆಗಳು)',
+    name: 'Surface water (river - dam - lake - pond - stream - canal - irrigation channels) / ಮೇಲ್ಮೈ ನೀರು (ನದಿ -  ಅಣೆಕಟ್ಟು -  ಸರೋವರ -  ಕೊಳ -  ಹೊಳೆ -  ಕಾಲುವೆ -  ನೀರಾವರಿ ಕಾಲುವೆಗಳು)',
   },
   { id: 10, name: 'Others / ಇತರರು' },
 ];
@@ -424,7 +424,7 @@ export const gifting_his_6_acres_land_to_children = [
   },
   {
     id: 1,
-    name: "I won't support both,as forest land does'nt belong to them,it belongs to people of both villages, animals and the trees/ ನಾನು ಎರಡನ್ನೂ ಬೆಂಬಲಿಸುವುದಿಲ್ಲ, ಏಕೆಂದರೆ ಅರಣ್ಯ ಭೂಮಿ ಅವರಿಗೆ ಸೇರಿಲ್ಲ, ಅದು ಎರಡೂ ಹಳ್ಳಿಗಳ ಜನರಿಗೆ, ಪ್ರಾಣಿಗಳು ಮತ್ತು ಮರಗಳಿಗೆ ಸೇರಿದೆ",
+    name: "I won't support both - as forest land does'nt belong to them -it belongs to people of both villages - animals and the trees/ ನಾನು ಎರಡನ್ನೂ ಬೆಂಬಲಿಸುವುದಿಲ್ಲ - ಏಕೆಂದರೆ ಅರಣ್ಯ ಭೂಮಿ ಅವರಿಗೆ ಸೇರಿಲ್ಲ - ಅದು ಎರಡೂ ಹಳ್ಳಿಗಳ ಜನರಿಗೆ - ಪ್ರಾಣಿಗಳು ಮತ್ತು ಮರಗಳಿಗೆ ಸೇರಿದೆ",
   },
   { id: 1, name: "I don't know what to decide / ಏನು ನಿರ್ಧರಿಸಬೇಕೆಂದು ನನಗೆ ತಿಳಿದಿಲ್ಲ" },
 ];
@@ -450,13 +450,13 @@ export const believe_connection_between_the_food_health_climate = [
 export const household_activity_pollutes_natural_resources = [
   {
     id: 1,
-    name: 'Consuming plastic packed biscuits,chocolates and chips/ಪ್ಲಾಸ್ಟಿಕ್ ಪ್ಯಾಕ್ ಮಾಡಿದ ಬಿಸ್ಕತ್ತುಗಳು, ಚಾಕೊಲೇಟ್‌ಗಳು ಮತ್ತು ಚಿಪ್‌ಗಳನ್ನು ಸೇವಿಸುವುದು',
+    name: 'Consuming plastic packed biscuits -chocolates and chips/ಪ್ಲಾಸ್ಟಿಕ್ ಪ್ಯಾಕ್ ಮಾಡಿದ ಬಿಸ್ಕತ್ತುಗಳು - ಚಾಕೊಲೇಟ್‌ಗಳು ಮತ್ತು ಚಿಪ್‌ಗಳನ್ನು ಸೇವಿಸುವುದು',
   },
   {
     id: 2,
-    name: 'Body & hair cleansing liquids,soaps,tooth paste / ದೇಹ ಮತ್ತು ಕೂದಲು ಶುದ್ಧೀಕರಿಸುವ ದ್ರವಗಳು, ಸಾಬೂನುಗಳು, ಟೂತ್ ಪೇಸ್ಟ್',
+    name: 'Body & hair cleansing liquids -soaps -tooth paste / ದೇಹ ಮತ್ತು ಕೂದಲು ಶುದ್ಧೀಕರಿಸುವ ದ್ರವಗಳು - ಸಾಬೂನುಗಳು - ಟೂತ್ ಪೇಸ್ಟ್',
   },
-  { id: 3, name: 'Use of coal,firewood or gas for cooking / ಅಡುಗೆಗೆ ಕಲ್ಲಿದ್ದಲು, ಉರುವಲು ಅಥವಾ ಅನಿಲದ ಬಳಕೆ' },
+  { id: 3, name: 'Use of coal -firewood or gas for cooking / ಅಡುಗೆಗೆ ಕಲ್ಲಿದ್ದಲು - ಉರುವಲು ಅಥವಾ ಅನಿಲದ ಬಳಕೆ' },
   { id: 4, name: 'All of the above / ಮೇಲಿನ ಎಲ್ಲವೂ' },
   { id: 5, name: 'None of the above / ಮೇಲಿನ ಯಾವುದೂ ಅಲ್ಲ' },
   { id: 6, name: "I don't know/ನನಗೆ ಗೊತ್ತಿಲ್ಲ" },
