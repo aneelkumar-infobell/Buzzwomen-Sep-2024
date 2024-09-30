@@ -142,9 +142,9 @@ func HandleFunc() {
 		sep.GetNagarikaProgramQuestionnaire(w, r, db)
 	}))
 
-	apiRouter.Handle("/addGreensurvey", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
+	apiRouter.HandleFunc("/addGreensurvey", func(w http.ResponseWriter, r *http.Request) {
 		sep.AddGreensurvey(w, r, db)
-	}))
+	})
 
 	apiRouter.Handle("/addQualityAssessmentForm", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		q.AddQualityAssessmentForm(w, r, db)
