@@ -51,7 +51,7 @@ type Selfshekthi struct {
 	MonthlyExpensePlan           string   `json:"monthly_expense_plan"`
 	MonthlyExpenseAmount         float64  `json:"monthly_expense_amount"`
 	MaintainExpenseRecord        string   `json:"maintain_expense_record"` // Changed to bool for better representation
-	IndividualSavings            float64  `json:"individual_savings"`
+	IndividualSavings            string   `json:"individual_savings"`
 	MonthlySavingsIndividual     float64  `json:"monthly_savings_individual"`
 	AnnualSavingsHousehold       float64  `json:"annual_savings_household"`
 	ConfidentSpendSavings        string   `json:"confident_spend_savings"`
