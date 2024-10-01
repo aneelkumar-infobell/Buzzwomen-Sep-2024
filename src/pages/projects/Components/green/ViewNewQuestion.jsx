@@ -41,7 +41,87 @@ import SelectInput from 'src/components/SelectInput';
 import MultipleChoice from 'src/components/MultipleChoice';
 import { Grid, Card, CardContent } from '@mui/material';
 import Typography from '@mui/material/Typography';
+import { useState } from 'react';
+import { useEffect } from 'react';
+import { baseURL } from 'src/utils/api';
+import { useAuth } from 'src/AuthContext';
+import axios from 'axios';
 const ViewNewQuestion = ({ sendData, handleInputChange, handleResources }) => {
+  const { apikey } = useAuth();
+  const [district, setDistrict] = useState([]);
+  const [taluk, setTaluk] = useState([]);
+  const [village, setVillage] = useState([]);
+  useEffect(() => {
+    getState();
+  }, []);
+  const getState = async (id) => {
+    var data = JSON.stringify({
+      country_id: '1',
+      state_id: JSON.stringify(3),
+    });
+    var config = {
+      method: 'post',
+      url: baseURL + 'getLocation',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `${apikey}`,
+      },
+      data: data,
+    };
+    axios(config)
+      .then(function (response) {
+        setDistrict(response.data.list);
+      })
+      .catch(function (error) {
+        // console.log(error);
+      });
+  };
+  const getDistrict = async (district, districtId) => {
+    var data = JSON.stringify({
+      country_id: '1',
+      state_id: JSON.stringify(3),
+      district_id: JSON.stringify(districtId),
+      district_name: district,
+    });
+    var config = {
+      method: 'post',
+      url: baseURL + 'getLocation',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `${apikey}`,
+      },
+      data: data,
+    };
+    axios(config)
+      .then(function (response) {
+        setTaluk(response.data.list);
+      })
+      .catch(function (error) {
+        //  console.log(error);
+      });
+  };
+  const villageList = async (taluk_id) => {
+    var data = JSON.stringify({
+      taluk_id: parseInt(taluk_id),
+      search: '',
+    });
+    var config = {
+      method: 'post',
+      url: baseURL + 'getVillageList',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `${apikey}`,
+      },
+      data: data,
+    };
+    axios(config)
+      .then(function (response) {
+        setVillage(response.data.list);
+      })
+      .catch(function (error) {
+        // console.log(error);
+      });
+  };
   return (
     <Grid>
       <Card>
@@ -68,7 +148,7 @@ const ViewNewQuestion = ({ sendData, handleInputChange, handleResources }) => {
             onChange={handleInputChange}
             value={sendData?.name_of_the_surveyor}
           />
-          <SelectInput
+          <TextInput
             id="district_name"
             name="district_name"
             label="Districts name"
@@ -77,9 +157,8 @@ const ViewNewQuestion = ({ sendData, handleInputChange, handleResources }) => {
             disabled
             onChange={handleInputChange}
             value={sendData?.district_name}
-            options={districtsOptions}
           />
-          <SelectInput
+          <TextInput
             id="taluk_name"
             name="taluk_name"
             label="Taluks name"
@@ -88,20 +167,9 @@ const ViewNewQuestion = ({ sendData, handleInputChange, handleResources }) => {
             disabled
             onChange={handleInputChange}
             value={sendData?.taluk_name}
-            options={districtsOptions}
           />
-          <SelectInput
-            id="panchayat_name"
-            name="panchayat_name"
-            label="Panchayat name"
-            kannadaLabel="ಪಂಚಾಯತ್ ಹೆಸರು"
-            required
-            disabled
-            onChange={handleInputChange}
-            value={sendData?.panchayat_name}
-            options={districtsOptions}
-          />
-          <SelectInput
+
+          <TextInput
             id="village_name"
             name="village_name"
             label="Village name"
@@ -110,9 +178,17 @@ const ViewNewQuestion = ({ sendData, handleInputChange, handleResources }) => {
             disabled
             onChange={handleInputChange}
             value={sendData?.village_name}
-            options={districtsOptions}
           />
-
+          <TextInput
+            id="panchayat_name"
+            name="panchayat_name"
+            label="Panchayat name"
+            kannadaLabel="ಪಂಚಾಯತ್ ಹೆಸರು"
+            required
+            disabled
+            onChange={handleInputChange}
+            value={sendData?.panchayat_name}
+          />
           <TextInput
             id="adult_members"
             name="adult_members"
@@ -139,7 +215,7 @@ const ViewNewQuestion = ({ sendData, handleInputChange, handleResources }) => {
             value={sendData.children_members}
           />
 
-          <SelectInput
+          <TextInput
             id="house"
             name="house"
             label="House"
@@ -150,7 +226,7 @@ const ViewNewQuestion = ({ sendData, handleInputChange, handleResources }) => {
             value={sendData?.house}
             options={house}
           />
-          <SelectInput
+          <TextInput
             id="roof"
             name="roof"
             label="Roof"
@@ -161,7 +237,7 @@ const ViewNewQuestion = ({ sendData, handleInputChange, handleResources }) => {
             value={sendData?.roof}
             options={roof}
           />
-          <SelectInput
+          <TextInput
             id="ration_card"
             name="ration_card"
             label="Ration card"
@@ -172,7 +248,7 @@ const ViewNewQuestion = ({ sendData, handleInputChange, handleResources }) => {
             value={sendData?.ration_card}
             options={rationCard}
           />
-          <SelectInput
+          <TextInput
             id="cast"
             name="cast"
             label="Caste Category"
@@ -183,7 +259,7 @@ const ViewNewQuestion = ({ sendData, handleInputChange, handleResources }) => {
             value={sendData?.cast}
             options={casteCategory}
           />
-          <SelectInput
+          <TextInput
             id="mother_tongue"
             name="mother_tongue"
             label="Mother Tongue"
@@ -194,7 +270,7 @@ const ViewNewQuestion = ({ sendData, handleInputChange, handleResources }) => {
             value={sendData?.mother_tongue}
             options={motherTongue}
           />
-          <SelectInput
+          <TextInput
             id="religion"
             name="religion"
             label="religion"
@@ -219,7 +295,7 @@ const ViewNewQuestion = ({ sendData, handleInputChange, handleResources }) => {
             value={sendData.age}
           />
 
-          <SelectInput
+          <TextInput
             id="marital_status"
             name="marital_status"
             label="Marital Status"
@@ -230,7 +306,7 @@ const ViewNewQuestion = ({ sendData, handleInputChange, handleResources }) => {
             value={sendData?.marital_status}
             options={maritalStatus}
           />
-          <SelectInput
+          <TextInput
             id="education"
             name="education"
             label="Education"
@@ -241,7 +317,7 @@ const ViewNewQuestion = ({ sendData, handleInputChange, handleResources }) => {
             value={sendData?.education}
             options={education}
           />
-          <SelectInput
+          <TextInput
             id="phone_type"
             name="phone_type"
             label="Phone type"
@@ -288,7 +364,7 @@ const ViewNewQuestion = ({ sendData, handleInputChange, handleResources }) => {
             options={secondaryOccupationHousehold}
             selectedOption={sendData.secondary_occupation}
           />
-          <SelectInput
+          <TextInput
             id="womens_occupation"
             name="womens_occupation"
             label="Women's Occupation"
@@ -299,7 +375,7 @@ const ViewNewQuestion = ({ sendData, handleInputChange, handleResources }) => {
             value={sendData?.womens_occupation}
             options={WomensOccupation}
           />
-          <SelectInput
+          <TextInput
             id="household_migration_last_year"
             name="household_migration_last_year"
             label="Has anyone in your household migrated in the last 1 year for work?  "
@@ -310,7 +386,7 @@ const ViewNewQuestion = ({ sendData, handleInputChange, handleResources }) => {
             value={sendData?.household_migration_last_year}
             options={yesOrNo}
           />
-          <SelectInput
+          <TextInput
             id="migrant_sends_remittances"
             name="migrant_sends_remittances"
             label="Does the migrant member send remittances to the household? Y/N "
@@ -321,7 +397,7 @@ const ViewNewQuestion = ({ sendData, handleInputChange, handleResources }) => {
             value={sendData?.migrant_sends_remittances}
             options={yesOrNo}
           />
-          <SelectInput
+          <TextInput
             id="household_owns_land"
             name="household_owns_land"
             label="Does your household have a land?"
@@ -385,7 +461,7 @@ const ViewNewQuestion = ({ sendData, handleInputChange, handleResources }) => {
                 options={dayToDayLifeCombatClimateChange}
                 selectedOption={sendData.daily_climate_action}
               />
-              <SelectInput
+              <TextInput
                 card={false}
                 id="runs_enterprise"
                 name="runs_enterprise"
@@ -397,7 +473,7 @@ const ViewNewQuestion = ({ sendData, handleInputChange, handleResources }) => {
                 value={sendData?.runs_enterprise}
                 options={yesOrNo}
               />
-              <SelectInput
+              <TextInput
                 card={false}
                 id="eco_friendly_practices_enterprise"
                 name="eco_friendly_practices_enterprise"
@@ -421,7 +497,7 @@ const ViewNewQuestion = ({ sendData, handleInputChange, handleResources }) => {
                 selectedOption={sendData.eco_friendly_practices_details}
               />
 
-              <SelectInput
+              <TextInput
                 card={false}
                 id="waste_segregation_at_home"
                 name="waste_segregation_at_home"
@@ -433,7 +509,7 @@ const ViewNewQuestion = ({ sendData, handleInputChange, handleResources }) => {
                 value={sendData?.waste_segregation_at_home}
                 options={segregateYourWasteAtHome}
               />
-              <SelectInput
+              <TextInput
                 card={false}
                 id="is_menstruating"
                 name="is_menstruating"
@@ -458,7 +534,7 @@ const ViewNewQuestion = ({ sendData, handleInputChange, handleResources }) => {
                 selectedOption={sendData.menstruation_products_used}
               />
 
-              <SelectInput
+              <TextInput
                 card={false}
                 id="sanitary_disposal_method"
                 name="sanitary_disposal_method"
@@ -470,7 +546,7 @@ const ViewNewQuestion = ({ sendData, handleInputChange, handleResources }) => {
                 value={sendData?.sanitary_disposal_method}
                 options={disposeYourSanitaryPad}
               />
-              <SelectInput
+              <TextInput
                 card={false}
                 id="soil_changes_over_years"
                 name="soil_changes_over_years"
@@ -495,7 +571,7 @@ const ViewNewQuestion = ({ sendData, handleInputChange, handleResources }) => {
                 selectedOption={sendData.soil_observations_if_no_changes}
               />
 
-              <SelectInput
+              <TextInput
                 card={false}
                 id="essential_characteristics_of_fertile_soil"
                 name="essential_characteristics_of_fertile_soil"
@@ -507,7 +583,7 @@ const ViewNewQuestion = ({ sendData, handleInputChange, handleResources }) => {
                 value={sendData?.essential_characteristics_of_fertile_soil}
                 options={yesOrNo}
               />
-              <SelectInput
+              <TextInput
                 card={false}
                 id="main_crop_grown"
                 name="main_crop_grown"
@@ -519,7 +595,7 @@ const ViewNewQuestion = ({ sendData, handleInputChange, handleResources }) => {
                 value={sendData?.main_crop_grown}
                 options={WhichMainCropDoYouGrow}
               />
-              <SelectInput
+              <TextInput
                 card={false}
                 id="access_to_nutritional_food"
                 name="access_to_nutritional_food"
@@ -550,7 +626,7 @@ const ViewNewQuestion = ({ sendData, handleInputChange, handleResources }) => {
                 II. Community Awareness Questions II. ಸಮುದಾಯ ಜಾಗೃತಿ ಪ್ರಶ್ನೆಗಳು
               </Typography>
 
-              <SelectInput
+              <TextInput
                 card={false}
                 id="identify_trees_in_community"
                 name="identify_trees_in_community"
@@ -576,7 +652,7 @@ const ViewNewQuestion = ({ sendData, handleInputChange, handleResources }) => {
                 onChange={handleInputChange}
                 value={sendData.tree_names_in_community}
               />
-              <SelectInput
+              <TextInput
                 card={false}
                 id="food_production"
                 name="food_production"
@@ -588,7 +664,7 @@ const ViewNewQuestion = ({ sendData, handleInputChange, handleResources }) => {
                 value={sendData?.food_production}
                 options={yesOrNo}
               />
-              <SelectInput
+              <TextInput
                 card={false}
                 id="sell_produce_local_market"
                 name="sell_produce_local_market"
@@ -600,7 +676,7 @@ const ViewNewQuestion = ({ sendData, handleInputChange, handleResources }) => {
                 value={sendData?.sell_produce_local_market}
                 options={yesOrNo}
               />
-              <SelectInput
+              <TextInput
                 card={false}
                 id="this_switch_to_eco_friendly_products"
                 name="this_switch_to_eco_friendly_products"
@@ -653,7 +729,7 @@ const ViewNewQuestion = ({ sendData, handleInputChange, handleResources }) => {
                 options={Which_following_are_natural_resources}
                 selectedOption={sendData.natural_resources}
               />
-              <SelectInput
+              <TextInput
                 card={false}
                 id="climate_change"
                 name="climate_change"
@@ -687,7 +763,7 @@ const ViewNewQuestion = ({ sendData, handleInputChange, handleResources }) => {
                 options={How_is_the_change_in_state_of_natural_resources_impacting_your_life}
                 selectedOption={sendData.climate_change_threatens_personal_family_health_safety}
               />
-              <SelectInput
+              <TextInput
                 card={false}
                 id="done_to_tackle_climate_change"
                 name="done_to_tackle_climate_change"
@@ -721,7 +797,7 @@ const ViewNewQuestion = ({ sendData, handleInputChange, handleResources }) => {
                 options={What_is_the_main_source_of_water_used_by_your_household_for_domestic_purposes}
                 selectedOption={sendData.main_source_of_water}
               />
-              <SelectInput
+              <TextInput
                 card={false}
                 id="water_you_consume_safe"
                 name="water_you_consume_safe"
@@ -733,7 +809,7 @@ const ViewNewQuestion = ({ sendData, handleInputChange, handleResources }) => {
                 value={sendData?.water_you_consume_safe}
                 options={Do_you_think_the_water_you_consume_is_safe}
               />
-              <SelectInput
+              <TextInput
                 card={false}
                 id="eco_friendly_products_and_activities"
                 name="eco_friendly_products_and_activities"
@@ -745,7 +821,7 @@ const ViewNewQuestion = ({ sendData, handleInputChange, handleResources }) => {
                 value={sendData?.eco_friendly_products_and_activities}
                 options={yesOrNo}
               />
-              <SelectInput
+              <TextInput
                 card={false}
                 id="little_more_than_what_you_pay_for_the_chemicals"
                 name="little_more_than_what_you_pay_for_the_chemicals"
@@ -757,7 +833,7 @@ const ViewNewQuestion = ({ sendData, handleInputChange, handleResources }) => {
                 value={sendData?.little_more_than_what_you_pay_for_the_chemicals}
                 options={yesOrNo}
               />
-              <SelectInput
+              <TextInput
                 card={false}
                 id="conserve_local_seeds"
                 name="conserve_local_seeds"
@@ -788,7 +864,7 @@ const ViewNewQuestion = ({ sendData, handleInputChange, handleResources }) => {
                 }
                 selectedOption={sendData.achieve_with_regard_to_natural_resource_conservation}
               />
-              <SelectInput
+              <TextInput
                 card={false}
                 id="natural_resource_conservation_goal"
                 name="natural_resource_conservation_goal"
@@ -813,7 +889,7 @@ const ViewNewQuestion = ({ sendData, handleInputChange, handleResources }) => {
                 onChange={handleInputChange}
                 value={sendData.goal}
               />
-              <SelectInput
+              <TextInput
                 card={false}
                 id="mobilized_community_for_conservation"
                 name="mobilized_community_for_conservation"
@@ -825,7 +901,7 @@ const ViewNewQuestion = ({ sendData, handleInputChange, handleResources }) => {
                 value={sendData?.mobilized_community_for_conservation}
                 options={yesOrNo}
               />
-              <SelectInput
+              <TextInput
                 card={false}
                 id="green_action_in_community"
                 name="green_action_in_community"
@@ -859,7 +935,7 @@ const ViewNewQuestion = ({ sendData, handleInputChange, handleResources }) => {
                 options={What_are_the_main_products_and_services_that_you_use_in_your_everyday_life}
                 selectedOption={sendData.main_products_services_used}
               />
-              <SelectInput
+              <TextInput
                 card={false}
                 id="household_waste_management"
                 name="household_waste_management"
@@ -871,7 +947,7 @@ const ViewNewQuestion = ({ sendData, handleInputChange, handleResources }) => {
                 value={sendData?.household_waste_management}
                 options={How_do_you_manage_waste_in_your_household}
               />
-              <SelectInput
+              <TextInput
                 card={false}
                 id="waste_categories_produced"
                 name="waste_categories_produced"
@@ -883,7 +959,7 @@ const ViewNewQuestion = ({ sendData, handleInputChange, handleResources }) => {
                 value={sendData?.waste_categories_produced}
                 options={Can_you_name_the_categories_of_waste_you_produce}
               />
-              <SelectInput
+              <TextInput
                 card={false}
                 id="access_to_daily_living_products"
                 name="access_to_daily_living_products"

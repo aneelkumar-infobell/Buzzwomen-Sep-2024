@@ -285,11 +285,20 @@ export default function GreenSurvey(props) {
   });
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    console.log('handleInputChange called:', name, value);
     setSendData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
+    if (name === 'district_name') {
+      const selectedDistrict = district.find((d) => d.name === value);
+      const districtId = selectedDistrict ? selectedDistrict.id : null;
+      getDistrict(value, districtId);
+    }
+    if (name === 'taluk_name') {
+      const selectedTaluk = taluk.find((d) => d.name === value);
+      const talukId = selectedTaluk ? selectedTaluk.id : null;
+      villageList(talukId);
+    }
   };
   const handleResources = (label, event) => {
     var updatedList = [...sendData[label]];
@@ -300,6 +309,7 @@ export default function GreenSurvey(props) {
     }
     let tempData = { ...sendData };
     tempData[label] = updatedList;
+    console.log(updatedList);
     setSendData(tempData);
   };
   const handleform = () => {
@@ -310,7 +320,81 @@ export default function GreenSurvey(props) {
     setLoader(true);
   };
   const [isFormPresentLocally, setIsFormPresentLocally] = useState(false);
-
+  const [states, setStates] = useState([]);
+  const [district, setDistrict] = useState([]);
+  const [taluk, setTaluk] = useState([]);
+  const [village, setVillage] = useState([]);
+  useEffect(() => {
+    getState();
+  }, []);
+  const getState = async (id) => {
+    var data = JSON.stringify({
+      country_id: '1',
+      state_id: JSON.stringify(3),
+    });
+    var config = {
+      method: 'post',
+      url: baseURL + 'getLocation',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `${apikey}`,
+      },
+      data: data,
+    };
+    axios(config)
+      .then(function (response) {
+        setDistrict(response.data.list);
+      })
+      .catch(function (error) {
+        // console.log(error);
+      });
+  };
+  const getDistrict = async (district, districtId) => {
+    var data = JSON.stringify({
+      country_id: '1',
+      state_id: JSON.stringify(3),
+      district_id: JSON.stringify(districtId),
+      district_name: district,
+    });
+    var config = {
+      method: 'post',
+      url: baseURL + 'getLocation',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `${apikey}`,
+      },
+      data: data,
+    };
+    axios(config)
+      .then(function (response) {
+        setTaluk(response.data.list);
+      })
+      .catch(function (error) {
+        //  console.log(error);
+      });
+  };
+  const villageList = async (taluk_id) => {
+    var data = JSON.stringify({
+      taluk_id: parseInt(taluk_id),
+      search: '',
+    });
+    var config = {
+      method: 'post',
+      url: baseURL + 'getVillageList',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `${apikey}`,
+      },
+      data: data,
+    };
+    axios(config)
+      .then(function (response) {
+        setVillage(response.data.list);
+      })
+      .catch(function (error) {
+        // console.log(error);
+      });
+  };
   return (
     <div>
       {isOnline() ? (
@@ -543,7 +627,7 @@ export default function GreenSurvey(props) {
                     required
                     onChange={handleInputChange}
                     value={sendData?.district_name}
-                    options={districtsOptions}
+                    options={district}
                   />
                   <SelectInput
                     id="taluk_name"
@@ -553,17 +637,7 @@ export default function GreenSurvey(props) {
                     required
                     onChange={handleInputChange}
                     value={sendData?.taluk_name}
-                    options={districtsOptions}
-                  />
-                  <SelectInput
-                    id="panchayat_name"
-                    name="panchayat_name"
-                    label="Panchayat name"
-                    kannadaLabel="ಪಂಚಾಯತ್ ಹೆಸರು"
-                    required
-                    onChange={handleInputChange}
-                    value={sendData?.panchayat_name}
-                    options={districtsOptions}
+                    options={taluk}
                   />
                   <SelectInput
                     id="village_name"
@@ -573,9 +647,18 @@ export default function GreenSurvey(props) {
                     required
                     onChange={handleInputChange}
                     value={sendData?.village_name}
-                    options={districtsOptions}
+                    options={village}
                   />
-
+                  <TextInput
+                    id="panchayat_name"
+                    placeholder="Your Answer"
+                    label="Panchayat name"
+                    kannadaLabel="ಪಂಚಾಯತ್ ಹೆಸರು"
+                    required
+                    name="panchayat_name"
+                    onChange={handleInputChange}
+                    value={sendData?.panchayat_name}
+                  />
                   <TextInput
                     id="adult_members"
                     name="adult_members"
@@ -583,7 +666,7 @@ export default function GreenSurvey(props) {
                     kannadaLabel="ನಿಮ್ಮ ಮನೆಯ ಸದಸ್ಯರ ಒಟ್ಟು ಸಂಖ್ಯೆ"
                     type="number"
                     required
-                    inputProps={{ inputMode: 'numeric', pattern: '[0-9]*', maxLength: 2 }}
+                    maxLength={2}
                     placeholder="Your Answer"
                     onChange={handleInputChange}
                     value={sendData.adult_members}
@@ -594,7 +677,7 @@ export default function GreenSurvey(props) {
                     label="Total number of members in your household (children)"
                     type="number"
                     required
-                    inputProps={{ inputMode: 'numeric', pattern: '[0-9]*', maxLength: 2 }}
+                    maxLength={2}
                     placeholder="Your Answer"
                     onChange={handleInputChange}
                     value={sendData.children_members}
@@ -653,7 +736,7 @@ export default function GreenSurvey(props) {
                   <SelectInput
                     id="religion"
                     name="religion"
-                    label="religion"
+                    label="Religion"
                     kannadaLabel="ಧರ್ಮ"
                     required
                     onChange={handleInputChange}
@@ -667,7 +750,7 @@ export default function GreenSurvey(props) {
                     label="Age  ವಯಸ್ಸು"
                     type="number"
                     required
-                    inputProps={{ inputMode: 'numeric', pattern: '[0-9]*', maxLength: 2 }}
+                    maxLength={2}
                     placeholder="Your Answer"
                     onChange={handleInputChange}
                     value={sendData.age}
@@ -710,7 +793,7 @@ export default function GreenSurvey(props) {
                     label="Phone Number  ದೂರವಾಣಿ ಸಂಖ್ಯೆ"
                     type="number"
                     required
-                    inputProps={{ inputMode: 'numeric', pattern: '[0-9]*', maxLength: 2 }}
+                    maxLength={10}
                     placeholder="Your Answer"
                     onChange={handleInputChange}
                     value={sendData.phone_number}
@@ -781,7 +864,7 @@ export default function GreenSurvey(props) {
                     label="How much land do you have ( in acres)?"
                     type="number"
                     required
-                    inputProps={{ inputMode: 'numeric', maxLength: 100 }}
+                    maxLength={5}
                     placeholder="Your Answer"
                     onChange={handleInputChange}
                     value={sendData.land_acres}
@@ -792,7 +875,6 @@ export default function GreenSurvey(props) {
                     label="Monthly household expenditure (in Rs) ಮಾಸಿಕ ಮನೆಯ ಖರ್ಚು (ರೂ.ಗಳಲ್ಲಿ)"
                     type="number"
                     required
-                    inputProps={{ inputMode: 'numeric', maxLength: 100 }}
                     placeholder="Your Answer"
                     onChange={handleInputChange}
                     value={sendData.monthly_expenditure}
@@ -803,7 +885,6 @@ export default function GreenSurvey(props) {
                     label="Monthly household income(in Rs.)  ಮಾಸಿಕ ಮನೆಯ ಆದಾಯ(ರೂ.ಗಳಲ್ಲಿ)"
                     type="number"
                     required
-                    inputProps={{ inputMode: 'numeric', maxLength: 100 }}
                     placeholder="Your Answer"
                     onChange={handleInputChange}
                     value={sendData.monthly_income}
@@ -811,7 +892,9 @@ export default function GreenSurvey(props) {
 
                   <Card style={{ marginTop: 40, backgroundColor: '#F6F8FB', borderRadius: 20 }}>
                     <CardContent>
-                      <Typography style={{ color: '#ff7424' }}>
+                      <Typography
+                        style={{ color: '#ff7424', textAlign: 'center', paddingBottom: '20px', fontSize: '20px' }}
+                      >
                         l.Behaviour and Skills l.ನಡವಳಿಕೆ ಮತ್ತು ಕೌಶಲ್ಯಗಳು
                       </Typography>
 
@@ -968,7 +1051,9 @@ export default function GreenSurvey(props) {
                   </Card>
                   <Card style={{ marginTop: 40, backgroundColor: '#F6F8FB', borderRadius: 20 }}>
                     <CardContent>
-                      <Typography style={{ color: '#ff7424' }}>
+                      <Typography
+                        style={{ color: '#ff7424', textAlign: 'center', paddingBottom: '20px', fontSize: '20px' }}
+                      >
                         II. Community Awareness Questions II. ಸಮುದಾಯ ಜಾಗೃತಿ ಪ್ರಶ್ನೆಗಳು
                       </Typography>
 
@@ -1051,7 +1136,9 @@ export default function GreenSurvey(props) {
                   </Card>
                   <Card style={{ marginTop: 40, backgroundColor: '#F6F8FB', borderRadius: 20 }}>
                     <CardContent>
-                      <Typography style={{ color: '#ff7424' }}>
+                      <Typography
+                        style={{ color: '#ff7424', textAlign: 'center', paddingBottom: '20px', fontSize: '20px' }}
+                      >
                         III.Knowledge related questions from the curriculum III. ಪಠ್ಯಕ್ರಮದಿಂದ ಜ್ಞಾನ ಸಂಬಂಧಿತ ಪ್ರಶ್ನೆಗಳು
                       </Typography>
 
@@ -1170,7 +1257,11 @@ export default function GreenSurvey(props) {
                   </Card>
                   <Card style={{ marginTop: 40, backgroundColor: '#F6F8FB', borderRadius: 20 }}>
                     <CardContent>
-                      <Typography style={{ color: '#ff7424' }}>IV. Green Village IV. ಹಸಿರು ಗ್ರಾಮ</Typography>
+                      <Typography
+                        style={{ color: '#ff7424', textAlign: 'center', paddingBottom: '20px', fontSize: '20px' }}
+                      >
+                        IV. Green Village IV. ಹಸಿರು ಗ್ರಾಮ
+                      </Typography>
 
                       <MultipleChoice
                         card={false}

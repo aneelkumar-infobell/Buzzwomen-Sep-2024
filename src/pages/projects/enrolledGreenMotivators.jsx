@@ -292,7 +292,6 @@ export default function enrolledGreenMotivatorsList() {
                     {role == 4 || role == 3 || role == 12 || role == 1 ? (
                       itm?.is_survey ? (
                         <IconButton style={{ float: 'right', right: 30 }}>
-                          
                           <ViewGreenSurvey itm={itm} changeState={changeState} />
                         </IconButton>
                       ) : (
