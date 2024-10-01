@@ -284,7 +284,7 @@ console.log(sendData ,"sendData")
         <form
           onSubmit={(e) => {
             e.preventDefault();
-            // gelathicircleformdata();
+            // gelathicirclesenddata();
           }}
         >
           <Toolbar sx={{ bgcolor: '#ff7424', color: 'white' }}>
@@ -646,7 +646,7 @@ console.log(sendData ,"sendData")
                         disabled
                         label="Your Answer"
                        
-                        value={formData?.email_address}
+                        value={sendData?.email_address}
                         variant="outlined"
                         color="common"
                       />
@@ -772,7 +772,7 @@ console.log(sendData ,"sendData")
                         onChange={(e) => {
                           setSendData({ ...sendData, email_address: e?.target?.value });
                         }}
-                        value={formData?.email_address}
+                        value={sendData?.email_address}
                         variant="outlined"
                         color="common"
                       />
@@ -825,7 +825,7 @@ console.log(sendData ,"sendData")
                         disabled
                         label="Your Answer"
                        
-                        value={formData?.house}
+                        value={sendData?.house}
                         variant="outlined"
                         color="common"
                       />
@@ -844,7 +844,7 @@ console.log(sendData ,"sendData")
                         disabled
                         label="Your Answer"
                     
-                        value={formData?.ration_card}
+                        value={sendData?.ration_card}
                         variant="outlined"
                         color="common"
                       />
@@ -861,7 +861,7 @@ console.log(sendData ,"sendData")
                       <TextField
                         id="parapoints"
                         label="Your Answer"
-                        value={formData?.summarize_main_points_paragraph}
+                        value={sendData?.summarize_main_points_paragraph}
                         variant="outlined"
                         color="common"
                       />
@@ -878,7 +878,7 @@ console.log(sendData ,"sendData")
                       <TextField
                         id="twoquestions"
                         label="Your Answer"
-                        value={formData?.ask_two_questions_help_you_understand}
+                        value={sendData?.ask_two_questions_help_you_understand}
                         variant="outlined"
                         color="common"
                       />
@@ -897,7 +897,7 @@ console.log(sendData ,"sendData")
                         disabled
                         label="Your Answer"
                       
-                        value={formData?.cast_category}
+                        value={sendData?.cast_category}
                         variant="outlined"
                         color="common"
                       />
@@ -916,7 +916,7 @@ console.log(sendData ,"sendData")
                         disabled
                         label="Your Answer"
                       
-                        value={formData?.religion}
+                        value={sendData?.religion}
                         variant="outlined"
                         color="common"
                       />
@@ -933,7 +933,7 @@ console.log(sendData ,"sendData")
                       <TextField
                         id="twoquestions"
                         label="Your Answer"
-                        value={formData?.mother_tongue}
+                        value={sendData?.mother_tongue}
                         variant="outlined"
                         color="common"
                       />
@@ -951,7 +951,7 @@ console.log(sendData ,"sendData")
                       <TextField
                         id="twoquestions"
                         label="Your Answer"
-                        value={formData?.age}
+                        value={sendData?.age}
                         variant="outlined"
                         color="common"
                       />
@@ -971,7 +971,7 @@ console.log(sendData ,"sendData")
                         disabled
                         label="Your Answer"
                        
-                        value={formData?.material_status}
+                        value={sendData?.material_status}
                         variant="outlined"
                         color="common"
                       />
@@ -990,7 +990,7 @@ console.log(sendData ,"sendData")
                         disabled
                         label="Your Answer"
                      
-                        value={formData?.education}
+                        value={sendData?.education}
                         variant="outlined"
                         color="common"
                       />
@@ -1008,7 +1008,7 @@ console.log(sendData ,"sendData")
                         id="twoquestions"
                         label="Your Answer"
                       
-                        value={formData?.phone_number}
+                        value={sendData?.phone_number}
                         variant="outlined"
                         color="common"
                       />
@@ -1029,7 +1029,7 @@ console.log(sendData ,"sendData")
                         disabled
                         label="Your Answer"
                      
-                        value={formData?.current_economic_activity_primary_occupation}
+                        value={sendData?.current_economic_activity_primary_occupation}
                         variant="outlined"
                         color="common"
                       />
@@ -1068,6 +1068,44 @@ console.log(sendData ,"sendData")
                         disabled
                         label="Your Answer"
                         value={sendData?.womens_occupation}
+                        variant="outlined"
+                        color="common"
+                      />
+                    </Stack>
+                  </CardContent>
+                </Card>
+                <Card style={{ marginTop: 10, borderRadius: 20 }}>
+                  <CardContent>
+                    <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+                    Monthly household expenditure (in Rs)   
+                    ಮಾಸಿಕ ಮನೆಯ ಖರ್ಚು (ರೂ.ಗಳಲ್ಲಿ)
+                    </Typography>
+                    <Stack mt={2} mb={2}>
+                      <TextField
+                        id="twoquestions"
+                        label="Your Answer"
+                        type="number"
+                        disabled
+                        value={sendData?.monthly_house_expend}
+                        variant="outlined"
+                        color="common"
+                      />
+                    </Stack>
+                  </CardContent>
+                </Card>
+                <Card style={{ marginTop: 10, borderRadius: 20 }}>
+                  <CardContent>
+                    <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+                    Monthly household income(in Rs.)   
+                    ಮಾಸಿಕ ಮನೆಯ ಆದಾಯ(ರೂ.ಗಳಲ್ಲಿ)
+                    </Typography>
+                    <Stack mt={2} mb={2}>
+                      <TextField
+                        id="twoquestions"
+                        label="Your Answer"
+                          type="number"
+                          disabled
+                      value={sendData?.monthly_house_income}
                         variant="outlined"
                         color="common"
                       />
@@ -1125,7 +1163,7 @@ console.log(sendData ,"sendData")
                         disabled
                         label="Your Answer"
                         
-                        value={formData?.goals_achieve_as_gelathi}
+                        value={sendData?.goals_achieve_as_gelathi}
                         variant="outlined"
                         color="common"
                       />
@@ -1215,20 +1253,106 @@ console.log(sendData ,"sendData")
                   </CardContent>
                 </Card>
 
+              
                 <Card style={{ marginTop: 10, borderRadius: 20 }}>
                   <CardContent>
                     <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
                     When someone makes you angry, how do you deal with the situation? (Multiple answers allowed)/ಯಾರಾದರೂ ನಿಮ್ಮನ್ನು ಕೋಪಗೊಳಿಸಿದಾಗ, ನೀವು ಪರಿಸ್ಥಿತಿಯನ್ನು ಹೇಗೆ ಎದುರಿಸುತ್ತೀರಿ? (ಬಹು ಉತ್ತರಗಳನ್ನು ಅನುಮತಿಸಲಾಗಿದೆ)
                     </Typography>
-                    <Stack mt={2} mb={2}>
-                      <TextField
-                        id="twoquestions"
-                        label="Your Answer"
-                        value={sendData?.deal_with_angry_situation}
-                        variant="outlined"
-                        color="common"
-                      />
-                    </Stack>
+                   
+
+                    <Stack mt={2}>
+  <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+    I calm myself first and don't react immediately? (Yes/No)
+    ನಾನು ಮೊದಲು ನನ್ನನ್ನು ಶಾಂತಗೊಳಿಸುತ್ತೇನೆ ಮತ್ತು ತಕ್ಷಣ ಪ್ರತಿಕ್ರಿಯಿಸುವುದಿಲ್ಲವೇ? (ಹೌದು /ಇಲ್ಲ)
+  </Typography>
+  <RadioGroup
+    aria-labelledby="demo-radio-buttons-group-label"
+    name="radio-buttons-group"
+    value={sendData?.calm_before_reaction_d} // Bind the value from state
+    // Inline state update
+  >
+    <FormControlLabel value="Yes" control={<Radio style={{ color: '#595959' }} />} label="Yes" />
+    <FormControlLabel value="No" control={<Radio style={{ color: '#595959' }} />} label="No" />
+  </RadioGroup>
+</Stack>
+<Stack mt={2}>
+  <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+  I shout at them  (Yes/No)
+  ನಾನು ಅವರನ್ನು ಕೂಗುತ್ತೇನೆ (ಹೌದು /ಇಲ್ಲ)</Typography>
+  <RadioGroup
+    aria-labelledby="demo-radio-buttons-group-label"
+    name="radio-buttons-group"
+    value={sendData?.shout_at_others_d} // Bind the value from state
+   disabled// Inline state update
+  >
+    <FormControlLabel value="Yes" control={<Radio style={{ color: '#595959' }} />} label="Yes" />
+    <FormControlLabel value="No" control={<Radio style={{ color: '#595959' }} />} label="No" />
+  </RadioGroup>
+</Stack>
+
+<Stack mt={2}>
+  <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+  I walk out without listening to them  (Yes/No)
+  ನಾನು ಅವರ ಮಾತನ್ನು ಕೇಳದೆ ಹೊರನಡೆಯುತ್ತೇನೆ (ಹೌದು /ಇಲ್ಲ)</Typography>
+  <RadioGroup
+    aria-labelledby="demo-radio-buttons-group-label"
+    name="radio-buttons-group"
+    value={sendData?.walk_out_without_listening_d} // Bind the value from state
+    disabled// Inline state update
+  >
+    <FormControlLabel value="Yes" control={<Radio style={{ color: '#595959' }} />} label="Yes" />
+    <FormControlLabel value="No" control={<Radio style={{ color: '#595959' }} />} label="No" />
+  </RadioGroup>
+</Stack>
+<Stack mt={2}>
+  <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+
+  I ask them to leave immediately (Yes/No)
+ನಾನು ಅವರನ್ನು ತಕ್ಷಣ ಹೊರಡಲು ಕೇಳುತ್ತೇನೆ (ಹೌದು /ಇಲ್ಲ)
+</Typography>
+  <RadioGroup
+    aria-labelledby="demo-radio-buttons-group-label"
+    name="radio-buttons-group"
+    value={sendData?.ask_to_leave_immediately_d} // Bind the value from state
+   disabled // Inline state update
+  >
+    <FormControlLabel value="Yes" control={<Radio style={{ color: '#595959' }} />} label="Yes" />
+    <FormControlLabel value="No" control={<Radio style={{ color: '#595959' }} />} label="No" />
+  </RadioGroup>
+</Stack>
+<Stack mt={2}>
+  <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+  I try to listen to them patiently and make an attempt to understand their perspective (Yes/No)
+ನಾನು ಅವರನ್ನು ತಾಳ್ಮೆಯಿಂದ ಕೇಳಲು ಪ್ರಯತ್ನಿಸುತ್ತೇನೆ ಮತ್ತು ಅವರ ದೃಷ್ಟಿಕೋನವನ್ನು ಅರ್ಥಮಾಡಿಕೊಳ್ಳಲು ಪ್ರಯತ್ನಿಸುತ್ತೇನೆ (ಹೌದು /ಇಲ್ಲ)
+</Typography>
+  <RadioGroup
+    aria-labelledby="demo-radio-buttons-group-label"
+    name="radio-buttons-group"
+    value={sendData?.patiently_listen_understand_d} // Bind the value from state
+   disabled// Inline state update
+  >
+    <FormControlLabel value="Yes" control={<Radio style={{ color: '#595959' }} />} label="Yes" />
+    <FormControlLabel value="No" control={<Radio style={{ color: '#595959' }} />} label="No" />
+  </RadioGroup>
+</Stack>
+<Stack mt={2}>
+  <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+
+  I articulate my disagreement with them calmly after sometime (Yes/No)
+ಸ್ವಲ್ಪ ಸಮಯದ ನಂತರ ನಾನು ಅವರೊಂದಿಗೆ ನನ್ನ ಭಿನ್ನಾಭಿಪ್ರಾಯವನ್ನು ಶಾಂತವಾಗಿ ವ್ಯಕ್ತಪಡಿಸುತ್ತೇನೆ (ಹೌದು /ಇಲ್ಲ)
+</Typography>
+  <RadioGroup
+    aria-labelledby="demo-radio-buttons-group-label"
+    name="radio-buttons-group"
+    value={sendData?.calm_disagreement_articulation_d} // Bind the value from state
+   disabled// Inline state update
+  >
+    <FormControlLabel value="Yes" control={<Radio style={{ color: '#595959' }} />} label="Yes" />
+    <FormControlLabel value="No" control={<Radio style={{ color: '#595959' }} />} label="No" />
+  </RadioGroup>
+</Stack>
+
                   </CardContent>
                 </Card>
                 <Card style={{ marginTop: 10, borderRadius: 20 }}>

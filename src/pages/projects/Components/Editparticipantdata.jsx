@@ -613,30 +613,23 @@ console.log(participantId); // This will be undefined if participantdata is unde
                   
                 <Stack mt={1}>
                 <Typography variant="subtitle2" style={{ color: '#ff7424' }}>  
-                      Has anyone in your household migrated in the last 1 year for work? Y/N/ನಿಮ್ಮ ಮನೆಯಲ್ಲಿ ಯಾರಾದರೂ ಕೆಲಸಕ್ಕಾಗಿ ಕಳೆದ 1 ವರ್ಷದಲ್ಲಿ ವಲಸೆ ಹೋಗಿದ್ದಾರೆಯೇ? ಹೌದು ಅಲ್ಲ</Typography>
-                <Typography>
+                      Has anyone in your household migrated in the last 1 year for work? Y/N/ನಿಮ್ಮ ಮನೆಯಲ್ಲಿ ಯಾರಾದರೂ ಕೆಲಸಕ್ಕಾಗಿ ಕಳೆದ 1 ವರ್ಷದಲ್ಲಿ ವಲಸೆ ಹೋಗಿದ್ದಾರೆಯೇ? ಹೌದು /ಇಲ್ಲ</Typography>
+               
 
-                  {BankError ? <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText> : null}{' '}
-                </Typography>
-                <RadioGroup
-                  aria-labelledby="demo-radio-buttons-group-label"
-                  name="radio-buttons-group"
-                  value={sendData.household_migration_last_year}
-                  onChange={(e, ) => { const value = e.target.value; setSendData({ ...sendData, household_migration_last_year: value }) }}
-
-                >
-                  <div style={{ display: "flex" }}>
-                  <FormControlLabel
-            value="No"
-            control={<Radio style={{ color: "#595959" }} />}
-            label="No"
-          />
-          <FormControlLabel
-            value="Yes"
-            control={<Radio style={{ color: "#595959" }} />}
-            label="Yes"/>
-                  </div>
-                </RadioGroup>
+                <Select
+            value={sendData.household_migration_last_year}
+            onChange={(event) => setSendData((prevData) => ({
+              ...prevData,
+              household_migration_last_year: event.target.value,
+            }))}
+               variant="standard"
+            style={{ marginTop: 10 }}
+          >
+           
+            <MenuItem value="Yes">Yes</MenuItem>
+            <MenuItem value="No">No</MenuItem>
+          </Select>
+               
               </Stack>
                
                 </CardContent>
@@ -646,34 +639,35 @@ console.log(participantId); // This will be undefined if participantdata is unde
               <Stack mt={1}>
                  <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
                   Does the migrant member send remittances to the household? Y/N
-                  /ವಲಸಿಗ ಸದಸ್ಯರು ಮನೆಗೆ ಹಣ ಕಳುಹಿಸುತ್ತಾರೆಯೇ? ಹೌದು ಅಲ್ಲ</Typography>
-                <Typography>
-
-                  {BankError ? <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText> : null}{' '}
-                </Typography>
-                <RadioGroup
-                 value={sendData.migrant_sends_remittance}
-                  aria-labelledby="demo-radio-buttons-group-label"
-                  name="radio-buttons-group"
-                  onChange={(e) => { 
-                    const value = e.target.value; setSendData({ ...sendData, migrant_sends_remittance: value }) }}
-
-                >
-                  <div style={{ display: "flex" }}>
-                  <FormControlLabel
-            value="No"
-            control={<Radio style={{ color: "#595959" }} />}
-            label="No"
-          />
-          <FormControlLabel
-            value="Yes"
-            control={<Radio style={{ color: "#595959" }} />}
-            label="Yes"/>
-                  </div>
-                </RadioGroup>
+                  /ವಲಸಿಗ ಸದಸ್ಯರು ಮನೆಗೆ ಹಣ ಕಳುಹಿಸುತ್ತಾರೆಯೇ? ಹೌದು /ಇಲ್ಲ</Typography>
+                  <Select
+            value={sendData.migrant_sends_remittance}
+            onChange={(event) => setSendData((prevData) => ({
+              ...prevData,
+              migrant_sends_remittance: event.target.value,
+            }))}
+               variant="standard"
+            style={{ marginTop: 10 }}
+          >
+            <MenuItem value="">
+            
+            </MenuItem>
+            <MenuItem value="Yes">Yes</MenuItem>
+            <MenuItem value="No">No</MenuItem>
+          </Select>
+               
               </Stack>
               </CardContent>
               </Card>
+
+              <Card mt={1} style={{ marginTop: 10, borderRadius: 20 }}>
+              <CardContent>
+  <Typography variant="subtitle2" style={{ color: '#ff7424', textAlign:"center" }}>
+  Financial Literacy/ಹಣಕಾಸಿನ ಸಾಕ್ಷಾರತೆ
+  </Typography>
+
+  </CardContent>
+  </Card>
               <Card mt={1} style={{ marginTop: 10, borderRadius: 20 }}>
               <CardContent>
   <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
@@ -854,61 +848,47 @@ console.log(participantId); // This will be undefined if participantdata is unde
               <CardContent> 
               <Stack mt={1}>
                 <Typography variant="subtitle2" style={{ color: '#ff7424' }}>Personal Account/ವೈಯಕ್ತಿಕ ಖಾತೆ
-                  </Typography> <Typography>
-
-                  {BankError ? <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText> : null}{' '}
-                </Typography>
-                <RadioGroup
-                  aria-labelledby="demo-radio-buttons-group-label"
-                  name="radio-buttons-group"
-                  value={sendData.personal_account}
-                  onChange={(e) => { 
-                    const value = e.target.value; 
-                    setSendData({ ...sendData, personal_account: value }) }}
-
-                >
-                  <div style={{ display: "flex" }}>
-                  <FormControlLabel
-            value="No"
-            control={<Radio style={{ color: "#595959" }} />}
-            label="No"
-          />
-          <FormControlLabel
-            value="Yes"
-            control={<Radio style={{ color: "#595959" }} />}
-            label="Yes"/>
-                  </div>
-                </RadioGroup>
+                  </Typography>
+                  <Select
+            value={sendData.personal_account}
+            onChange={(event) => setSendData((prevData) => ({
+              ...prevData,
+              personal_account: event.target.value,
+            }))}
+               variant="standard"
+            style={{ marginTop: 10 }}
+          >
+            <MenuItem value="">
+            
+            </MenuItem>
+            <MenuItem value="Yes">Yes</MenuItem>
+            <MenuItem value="No">No</MenuItem>
+          </Select>
+              
               </Stack>
               </CardContent>
               </Card>
               <Card mt={1} style={{ marginTop: 10, borderRadius: 20 }}>
               <CardContent> 
               <Stack mt={1}>
-                 <Typography variant="subtitle2" style={{ color: '#ff7424' }}>Do you have a personal bank account? (Y/N)/</Typography>ನೀವು ವೈಯಕ್ತಿಕ ಬ್ಯಾಂಕ್ ಖಾತೆಯನ್ನು ಹೊಂದಿದ್ದೀರಾ? (ಹೌದು/ಇಲ್ಲ) <Typography>
-
-                  {BankError ? <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText> : null}{' '}
-                </Typography>
-                <RadioGroup
-                  aria-labelledby="demo-radio-buttons-group-label"
-                  name="radio-buttons-group"
-                  value={sendData.has_personal_account}
-                  onChange={(e) => {
-                    const value = e.target.value;  setSendData({ ...sendData, has_personal_account: value }) }}
-
-                >
-                  <div style={{ display: "flex" }}>
-                  <FormControlLabel
-            value="No"
-            control={<Radio style={{ color: "#595959" }} />}
-            label="No"
-          />
-          <FormControlLabel
-            value="Yes"
-            control={<Radio style={{ color: "#595959" }} />}
-            label="Yes"/>
-                  </div>
-                </RadioGroup>
+                 <Typography variant="subtitle2" style={{ color: '#ff7424' }}>Do you have a personal bank account? (Y/N)/ನೀವು ವೈಯಕ್ತಿಕ ಬ್ಯಾಂಕ್ ಖಾತೆಯನ್ನು ಹೊಂದಿದ್ದೀರಾ? (ಹೌದು/ಇಲ್ಲ)</Typography>
+                 
+                 <Select
+            value={sendData.has_personal_account}
+            onChange={(event) => setSendData((prevData) => ({
+              ...prevData,
+              has_personal_account: event.target.value,
+            }))}
+               variant="standard"
+            style={{ marginTop: 10 }}
+          >
+            <MenuItem value="">
+            
+            </MenuItem>
+            <MenuItem value="Yes">Yes</MenuItem>
+            <MenuItem value="No">No</MenuItem>
+          </Select>
+              
               </Stack>
               </CardContent>
               </Card>
@@ -994,29 +974,22 @@ console.log(participantId); // This will be undefined if participantdata is unde
               <Stack mt={1}>
                  <Typography variant="subtitle2" style={{ color: '#ff7424' }}>Do you have a plan for monthly household expenses? Yes/No/Don't know
                   ಮಾಸಿಕ ಮನೆಯ ವೆಚ್ಚಗಳಿಗಾಗಿ ನೀವು ಯೋಜನೆಯನ್ನು ಹೊಂದಿದ್ದೀರಾ? ಹೌದು /ಇಲ್ಲ/ಗೊತ್ತಿಲ್ಲ</Typography>
-                <Typography>
-
-                  {BankError ? <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText> : null}{' '}
-                </Typography>
-                <RadioGroup
-                  aria-labelledby="demo-radio-buttons-group-label"
-                  name="radio-buttons-group"
-                  onChange={(e) => {const value = e.target.value;  setSendData({ ...sendData, monthly_expense_plan: value }) }}
-                  value={sendData.monthly_expense_plan}
-                >
-                  <div style={{ display: "flex" }}>
-                  <FormControlLabel
-            value="No"
-            control={<Radio style={{ color: "#595959" }} />}
-            label="No"
-          />
-          <FormControlLabel
-            value="Yes"
-            control={<Radio style={{ color: "#595959" }} />}
-            label="Yes"/>
-                    <FormControlLabel value="Don't know"  control={<Radio style={{ color: "#595959" }} />} label="Don't know" />
-                  </div>
-                </RadioGroup>
+                  <Select
+            value={sendData.monthly_expense_plan}
+            onChange={(event) => setSendData((prevData) => ({
+              ...prevData,
+              monthly_expense_plan: event.target.value,
+            }))}
+               variant="standard"
+            style={{ marginTop: 10 }}
+          >
+            <MenuItem value="">
+            
+            </MenuItem>
+            <MenuItem value="Yes">Yes</MenuItem>
+            <MenuItem value="No">No</MenuItem>
+          </Select>
+              
               </Stack>
               </CardContent>
               </Card>
@@ -1047,34 +1020,28 @@ console.log(participantId); // This will be undefined if participantdata is unde
                  <Typography variant="subtitle2" style={{ color: '#ff7424' }}>Do you maintain a record of the daily household expenses by maintaining a book of accounts (Y/N)
                   ಖಾತೆಗಳ ಪುಸ್ತಕವನ್ನು (ಹೌದು /ಇಲ್ಲ) ನಿರ್ವಹಿಸುವ ಮೂಲಕ ನೀವು ದೈನಂದಿನ ಮನೆಯ ಖರ್ಚುಗಳ ದಾಖಲೆಯನ್ನು ನಿರ್ವಹಿಸುತ್ತೀರಾ
                 </Typography>
-                <Typography>
-
-                  {BankError ? <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText> : null}{' '}
-                </Typography>
-                <RadioGroup
-                  aria-labelledby="demo-radio-buttons-group-label"
-                  name="radio-buttons-group"
-                  onChange={(e) => { const value = e.target.value; setSendData({ ...sendData, maintain_expense_record: value }) }}
-                  value={sendData.maintain_expense_record}
-                >
-                  <div style={{ display: "flex" }}>
-                  <FormControlLabel
-            value="No"
-            control={<Radio style={{ color: "#595959" }} />}
-            label="No"
-          />
-          <FormControlLabel
-            value="Yes"
-            control={<Radio style={{ color: "#595959" }} />}
-            label="Yes"/>
-                  </div>
-                </RadioGroup>
+                <Select
+            value={sendData.maintain_expense_record}
+            onChange={(event) => setSendData((prevData) => ({
+              ...prevData,
+              maintain_expense_record: event.target.value,
+            }))}
+               variant="standard"
+            style={{ marginTop: 10 }}
+          >
+            <MenuItem value="">
+            
+            </MenuItem>
+            <MenuItem value="Yes">Yes</MenuItem>
+            <MenuItem value="No">No</MenuItem>
+          </Select>
+           
               </Stack>
               </CardContent>
               </Card>
               <Card style={{ marginTop: 10, borderRadius: 20 }}>
                 <CardContent>
-                  <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+                  <Typography variant="subtitle2" style={{ color: '#ff7424' ,textAlign:"center" }}>
                     Savings/ಉಳಿತಾಯ
 
                   </Typography>
@@ -1089,17 +1056,21 @@ console.log(participantId); // This will be undefined if participantdata is unde
 
                   </Typography>
                   <Stack mt={2} mb={2}>
-                    <TextField
-                      id="twoquestions"
-                      label="Your Answer"
-                      type="number"
-          
-                      onChange={(e) => {
-                        setSendData({ ...sendData, individual_savings: parseInt(e?.target?.value ) });
-                      }}
-                      variant="outlined"
-                      color="common"
-                    />
+
+                  <Select
+            value={sendData.individual_savings}
+            onChange={(event) => setSendData((prevData) => ({
+              ...prevData,
+              individual_savings: event.target.value,
+            }))}
+               variant="standard"
+            style={{ marginTop: 10 }}
+          >
+            
+            <MenuItem value="Yes">Yes</MenuItem>
+            <MenuItem value="No">No</MenuItem>
+          </Select>
+                    
                   </Stack>
                 </CardContent>
               </Card>
@@ -1151,30 +1122,22 @@ console.log(participantId); // This will be undefined if participantdata is unde
                  <Typography variant="subtitle2" style={{ color: '#ff7424' }}>Are you confident to spend your savings and income as you would like?
                   ನಿಮ್ಮ ಉಳಿತಾಯ ಮತ್ತು ಆದಾಯವನ್ನು ನೀವು ಬಯಸಿದಂತೆ ಖರ್ಚು ಮಾಡುವ ವಿಶ್ವಾಸವಿದೆಯೇ?
                 </Typography>
-                <Typography>
-
-                  {BankError ? <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText> : null}{' '}
-                </Typography>
-                <RadioGroup
-                  aria-labelledby="demo-radio-buttons-group-label"
-                  name="radio-buttons-group"
-                  value={sendData.confident_spend_savings}
-                  onChange={(e) => { 
-                    const value = e.target.value; setSendData({ ...sendData, confident_spend_savings: value }) }}
-
-                >
-                  <div style={{ display: "flex" }}>
-                  <FormControlLabel
-            value="No"
-            control={<Radio style={{ color: "#595959" }} />}
-            label="No"
-          />
-          <FormControlLabel
-            value="Yes"
-            control={<Radio style={{ color: "#595959" }} />}
-            label="Yes"/>
-                  </div>
-                </RadioGroup>
+                <Select
+            value={sendData.confident_spend_savings}
+            onChange={(event) => setSendData((prevData) => ({
+              ...prevData,
+              confident_spend_savings: event.target.value,
+            }))}
+               variant="standard"
+            style={{ marginTop: 10 }}
+          >
+            <MenuItem value="">
+            
+            </MenuItem>
+            <MenuItem value="Yes">Yes</MenuItem>
+            <MenuItem value="No">No</MenuItem>
+          </Select>
+             
               </Stack>
               </CardContent>
               </Card>
@@ -1182,31 +1145,9 @@ console.log(participantId); // This will be undefined if participantdata is unde
               <Card style={{ marginTop: 10, borderRadius: 20 }}>
               <CardContent>
               <Stack mt={1}>
-                <Typography variant="subtitle2" style={{ color: '#ff7424' }}> Loans/ಸಾಲಗಳು
+                <Typography variant="subtitle2" style={{ color: '#ff7424' ,textAlign:"center" }}> Loans/ಸಾಲಗಳು
                 </Typography>
-                <Typography>
-
-                  {BankError ? <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText> : null}{' '}
-                </Typography>
-                <RadioGroup
-                  aria-labelledby="demo-radio-buttons-group-label"
-                  name="radio-buttons-group"
-                  value={sendData.loans}
-                  onChange={(e) => { const value = e.target.value; setSendData({ ...sendData, loans: value }) }}
-
-                >
-                  <div style={{ display: "flex" }}>
-                  <FormControlLabel
-            value="No"
-            control={<Radio style={{ color: "#595959" }} />}
-            label="No"
-          />
-          <FormControlLabel
-            value="Yes"
-            control={<Radio style={{ color: "#595959" }} />}
-            label="Yes"/>
-                  </div>
-                </RadioGroup>
+               
               </Stack>
               </CardContent>
               </Card>
@@ -1343,57 +1284,59 @@ console.log(participantId); // This will be undefined if participantdata is unde
     </Stack>
   </CardContent>
 </Card>
-              <Card style={{ marginTop: 10, borderRadius: 20 }}>
-                <CardContent>
-                  <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
-                    Rate of Interest/ಬಡ್ಡಿ ದರ
+<Card style={{ marginTop: 10, borderRadius: 20 }}>
+  <CardContent>
+    <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+      Rate of Interest/ಬಡ್ಡಿ ದರ
+    </Typography>
+    <Stack mt={2} mb={2}>
+      <TextField
+        id="twoquestions"
+        label="Your Answer"
+        type="text" // Keep as text for finer control over input
+        onChange={(e) => {
+          let value = e?.target?.value;
 
-                  </Typography>
-                  <Stack mt={2} mb={2}>
-                    <TextField
-                      id="twoquestions"
-                      label="Your Answer"
-                      type="number"
-                      onChange={(e) => {
-                        setSendData({ ...sendData, rate_of_interest: parseInt(e?.target?.value) });
-                      }}
-                      variant="outlined"
-                      color="common"
-                    />
-                  </Stack>
-                </CardContent>
-              </Card>
+          // Allow only up to 2 digits (either integer or float with 2 decimals)
+          const validValue = value.match(/^\d{0,2}(\.\d{0,2})?$/);
+
+          // If the value is valid, update the state
+          if (validValue) {
+            setSendData({ ...sendData, rate_of_interest: value });
+          }
+        }}
+        inputProps={{ maxLength: 5 }} // Restrict max length (2 digits + '.' + 2 decimals)
+        variant="outlined"
+        color="common"
+      />
+    </Stack>
+  </CardContent>
+</Card>
+
+
               <Card style={{ marginTop: 10, borderRadius: 20 }}>
               <CardContent>
               <Stack mt={1}>
                  <Typography variant="subtitle2" style={{ color: '#ff7424' }}>Sometimes, it may so happen that our living expenses go beyond our income? Has this happened in your household in the last one year?
                   ಕೆಲವೊಮ್ಮೆ, ನಮ್ಮ ಜೀವನ ವೆಚ್ಚಗಳು ನಮ್ಮ ಆದಾಯವನ್ನು ಮೀರಿ ಹೋಗಬಹುದು? ಕಳೆದ ಒಂದು ವರ್ಷದಲ್ಲಿ ಇದು ನಿಮ್ಮ ಮನೆಯಲ್ಲಿ ನಡೆದಿದೆಯೇ?
                 </Typography>
-                <Typography>
-
-                  {BankError ? <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText> : null}{' '}
-                </Typography>
-                <RadioGroup
-                  aria-labelledby="demo-radio-buttons-group-label"
-                  name="radio-buttons-group"
-                  value={sendData.expenses_exceed_income_last_year}
-                  onChange={(e) => { const value = e.target.value; setSendData({ ...sendData, expenses_exceed_income_last_year: value }) }}
-
-                >
-                  <div style={{ display: "flex" }}>
-                  <FormControlLabel
-            value="No"
-            control={<Radio style={{ color: "#595959" }} />}
-            label="No"
-          />
-          <FormControlLabel
-            value="Yes"
-            control={<Radio style={{ color: "#595959" }} />}
-            label="Yes"/>
-
-                    <FormControlLabel value={1} control={<Radio style={{ color: "#595959" }} />} label="Don't Know" />
-                  </div>
-                </RadioGroup>
+                <Select
+            value={sendData.expenses_exceed_income_last_year}
+            onChange={(event) => setSendData((prevData) => ({
+              ...prevData,
+              expenses_exceed_income_last_year: event.target.value,
+            }))}
+               variant="standard"
+            style={{ marginTop: 10 }}
+          >
+            <MenuItem value="">
+            
+            </MenuItem>
+            <MenuItem value="Yes">Yes</MenuItem>
+            <MenuItem value="No">No</MenuItem>
+            <MenuItem value="No">Don't Know</MenuItem>
+          </Select>
+            
               </Stack>
               </CardContent>
               </Card>
@@ -1766,31 +1709,22 @@ console.log(participantId); // This will be undefined if participantdata is unde
 
 
                 </Typography>
-                <Typography>
-
-                  {BankError ? <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText> : null}{' '}
-                </Typography>
-                <RadioGroup
-                  aria-labelledby="demo-radio-buttons-group-label"
-                  name="radio-buttons-group"
-                  value={sendData.financial_goals_set}
-                
-                  onChange={(e) => { 
-                    const value = e.target.value; setSendData({ ...sendData, financial_goals_set: value }) }}
-
-                >
-                  <div style={{ display: "flex" }}>
-                  <FormControlLabel
-            value="No"
-            control={<Radio style={{ color: "#595959" }} />}
-            label="No"
-          />
-          <FormControlLabel
-            value="Yes"
-            control={<Radio style={{ color: "#595959" }} />}
-            label="Yes"/>
-                  </div>
-                </RadioGroup>
+                <Select
+            value={sendData.financial_goals_set}
+            onChange={(event) => setSendData((prevData) => ({
+              ...prevData,
+              financial_goals_set: event.target.value,
+            }))}
+               variant="standard"
+            style={{ marginTop: 10 }}
+          >
+            <MenuItem value="">
+            
+            </MenuItem>
+            <MenuItem value="Yes">Yes</MenuItem>
+            <MenuItem value="No">No</MenuItem>
+          </Select>
+             
               </Stack>
               </CardContent>
               </Card>
@@ -1835,7 +1769,7 @@ console.log(participantId); // This will be undefined if participantdata is unde
 
               <Card style={{ marginTop: 10, borderRadius: 20 }}>
                 <CardContent>
-                  <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+                  <Typography variant="subtitle2" style={{ color: '#ff7424' ,textAlign:"center"  }}>
                     Enterprise/ಉದ್ಯಮ
                   </Typography>
 
@@ -1848,65 +1782,69 @@ console.log(participantId); // This will be undefined if participantdata is unde
                   ನಿಮ್ಮ ಕುಟುಂಬವು ವ್ಯಾಪಾರ ಅಥವಾ ಉದ್ಯಮವನ್ನು ಹೊಂದಿದೆಯೇ / ನಡೆಸುತ್ತಿದೆಯೇ?
 
                 </Typography>
-                <Typography>
-
-                  {BankError ? <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText> : null}{' '}
-                </Typography>
-                <RadioGroup
-                  aria-labelledby="demo-radio-buttons-group-label"
-                  value={sendData.family_business}
-                  name="radio-buttons-group"
-                  onChange={(e) => {const value = e.target.value;  setSendData({ ...sendData, family_business: value }) }}
-
-                >
-                  <div style={{ display: "flex" }}>
-                  <FormControlLabel
-            value="No"
-            control={<Radio style={{ color: "#595959" }} />}
-            label="No"
-          />
-          <FormControlLabel
-            value="Yes"
-            control={<Radio style={{ color: "#595959" }} />}
-            label="Yes"/>
-                  </div>
-                </RadioGroup>
+                <Select
+            value={sendData.family_business}
+            onChange={(event) => setSendData((prevData) => ({
+              ...prevData,
+              family_business: event.target.value,
+            }))}
+               variant="standard"
+            style={{ marginTop: 10 }}
+          >
+            <MenuItem value="">
+            
+            </MenuItem>
+            <MenuItem value="Yes">Yes</MenuItem>
+            <MenuItem value="No">No</MenuItem>
+    
+          </Select>
+             
               </Stack>
               </CardContent>
               </Card>
-              <Card mt={1} style={{ marginTop: 10, borderRadius: 20 }}>
-  <CardContent>
-              <Stack mt={1}>
-                 <Typography variant="subtitle2" style={{ color: '#ff7424' }}>If no, would you want to start an enterprise of your own?
-                  ಇಲ್ಲದಿದ್ದರೆ, ನಿಮ್ಮದೇ ಆದ ಉದ್ಯಮವನ್ನು ಪ್ರಾರಂಭಿಸಲು ನೀವು ಬಯಸುವಿರಾ?
-                </Typography>
-                <Typography>
 
-                  {BankError ? <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText> : null}{' '}
-                </Typography>
-                <RadioGroup
-                  aria-labelledby="demo-radio-buttons-group-label"
-                  name="radio-buttons-group"
-                  value={sendData.want_to_start_enterprise}
-                  onChange={(e) => {const value = e.target.value;  setSendData({ ...sendData, want_to_start_enterprise: value }) }}
-
-                >
-                  <div style={{ display: "flex" }}>
-                  <FormControlLabel
-            value="No"
-            control={<Radio style={{ color: "#595959" }} />}
-            label="No"
-          />
-          <FormControlLabel
-            value="Yes"
-            control={<Radio style={{ color: "#595959" }} />}
-            label="Yes"/>
-                  </div>
-                </RadioGroup>
-              </Stack>
-              </CardContent>
-              </Card>
+              {(sendData?.family_business =="No")?
+               <Card mt={1} style={{ marginTop: 10, borderRadius: 20 }}>
+               <CardContent>
+                           <Stack mt={1}>
+                              <Typography variant="subtitle2" style={{ color: '#ff7424' }}>If no, would you want to start an enterprise of your own?
+                               ಇಲ್ಲದಿದ್ದರೆ, ನಿಮ್ಮದೇ ಆದ ಉದ್ಯಮವನ್ನು ಪ್ರಾರಂಭಿಸಲು ನೀವು ಬಯಸುವಿರಾ?
+                             </Typography>
+                             <Typography>
+             
+                               {BankError ? <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText> : null}{' '}
+                             </Typography>
+                             <RadioGroup
+                               aria-labelledby="demo-radio-buttons-group-label"
+                               name="radio-buttons-group"
+                               value={sendData.want_to_start_enterprise}
+                               onChange={(e) => {const value = e.target.value;  setSendData({ ...sendData, want_to_start_enterprise: value }) }}
+             
+                             >
+                               <div style={{ display: "flex" }}>
+                               <FormControlLabel
+                         value="No"
+                         control={<Radio style={{ color: "#595959" }} />}
+                         label="No"
+                       />
+                       <FormControlLabel
+                         value="Yes"
+                         control={<Radio style={{ color: "#595959" }} />}
+                         label="Yes"/>
+                               </div>
+                             </RadioGroup>
+                           </Stack>
+                           </CardContent>
+                           </Card>
+                           :
+                           null
+            }
+             
+             {
+(sendData?.family_business =="Yes")?
+<>
 <Card mt={1} style={{ marginTop: 10, borderRadius: 20 }}>
+  
   <CardContent>
     <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
       What is the type of the enterprise? <br />
@@ -1943,7 +1881,10 @@ console.log(participantId); // This will be undefined if participantdata is unde
     </Stack>
   </CardContent>
 </Card>
-              <Card style={{ marginTop: 10, borderRadius: 20 }}>
+<>
+
+              
+<Card style={{ marginTop: 10, borderRadius: 20 }}>
                 <CardContent>
                   <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
                     How many people are employed in the enterprise (paid workers) ………………..
@@ -2080,29 +2021,22 @@ console.log(participantId); // This will be undefined if participantdata is unde
                  
 
                 </Typography>
-                <Typography>
-
-                  {BankError ? <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText> : null}{' '}
-                </Typography>
-                <RadioGroup
-                  aria-labelledby="demo-radio-buttons-group-label"
-                  name="radio-buttons-group"
-                  value={sendData.enterprise_is_profitable}
-                  onChange={(e) => { const value = e.target.value; setSendData({ ...sendData, enterprise_is_profitable: value }) }}
-
-                >
-                  <div style={{ display: "flex" }}>
-                  <FormControlLabel
-            value="No"
-            control={<Radio style={{ color: "#595959" }} />}
-            label="No"
-          />
-          <FormControlLabel
-            value="Yes"
-            control={<Radio style={{ color: "#595959" }} />}
-            label="Yes"/>
-                  </div>
-                </RadioGroup>
+                <Select
+            value={sendData.enterprise_is_profitable}
+            onChange={(event) => setSendData((prevData) => ({
+              ...prevData,
+              enterprise_is_profitable: event.target.value,
+            }))}
+               variant="standard"
+            style={{ marginTop: 10 }}
+          >
+            <MenuItem value="">
+            
+            </MenuItem>
+            <MenuItem value="Yes">Yes</MenuItem>
+            <MenuItem value="No">No</MenuItem>
+          </Select>
+              
               </Stack>
               </CardContent>
               </Card>
@@ -2143,7 +2077,20 @@ console.log(participantId); // This will be undefined if participantdata is unde
                   </Stack>
                 </CardContent>
               </Card> */}
-              <Card style={{ marginTop: 10, borderRadius: 20 }}>
+             
+              </>
+
+</>
+:null
+             }
+
+
+             {
+
+(sendData?.want_to_start_enterprise =="No")?
+
+<>
+<Card style={{ marginTop: 10, borderRadius: 20 }}>
                 <CardContent>
                   <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
                     Do you have a say in making decisions on:  ನಿರ್ಧಾರಗಳನ್ನು ತೆಗೆದುಕೊಳ್ಳುವಲ್ಲಿ ನಿಮ್ಮ ಅಭಿಪ್ರಾಯವಿದೆಯೇ:
@@ -2600,6 +2547,18 @@ console.log(participantId); // This will be undefined if participantdata is unde
     </Stack>
   </CardContent>
 </Card>
+</>
+:
+null
+             }
+
+             {/* {
+              (sendData?.want_to_start_enterprise =="Yes")?
+             
+              :
+              null
+             } */}
+
             </DialogContentText></DialogContent>
         </form>
       </Dialog>
