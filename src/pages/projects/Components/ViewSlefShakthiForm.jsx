@@ -3002,235 +3002,263 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
                                                 </Stack>
                                             </CardContent>
                                         </Card>
-                                        <Card mt={1} style={{ marginTop: 10, borderRadius: 20 }}>
-                                            <CardContent>
-                                                <Stack mt={1}>
-                                                    <Typography variant="subtitle2" style={{ color: '#ff7424' }}>If no, would you want to start an enterprise of your own?
-                                                        ಇಲ್ಲದಿದ್ದರೆ, ನಿಮ್ಮದೇ ಆದ ಉದ್ಯಮವನ್ನು ಪ್ರಾರಂಭಿಸಲು ನೀವು ಬಯಸುವಿರಾ?
-                                                    </Typography>
-                                                    <Typography>
+                                        {(sendData?.family_business =="No")?
+               <Card mt={1} style={{ marginTop: 10, borderRadius: 20 }}>
+               <CardContent>
+                           <Stack mt={1}>
+                              <Typography variant="subtitle2" style={{ color: '#ff7424' }}>If no, would you want to start an enterprise of your own?
+                               ಇಲ್ಲದಿದ್ದರೆ, ನಿಮ್ಮದೇ ಆದ ಉದ್ಯಮವನ್ನು ಪ್ರಾರಂಭಿಸಲು ನೀವು ಬಯಸುವಿರಾ?
+                             </Typography>
+                             <Typography>
+             
+                               {BankError ? <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText> : null}{' '}
+                             </Typography>
+                             <RadioGroup
+                               aria-labelledby="demo-radio-buttons-group-label"
+                               name="radio-buttons-group"
+                               value={sendData.want_to_start_enterprise}
+                               onChange={(e) => {const value = e.target.value;  setSendData({ ...sendData, want_to_start_enterprise: value }) }}
+             
+                             >
+                               <div style={{ display: "flex" }}>
+                               <FormControlLabel
+                         value="No"
+                         control={<Radio style={{ color: "#595959" }} />}
+                         label="No"
+                       />
+                       <FormControlLabel
+                         value="Yes"
+                         control={<Radio style={{ color: "#595959" }} />}
+                         label="Yes"/>
+                               </div>
+                             </RadioGroup>
+                           </Stack>
+                           </CardContent>
+                           </Card>
+                           :
+                           null
+            }
+             
+             {
+(sendData?.family_business =="Yes")?
+<>
+<Card mt={1} style={{ marginTop: 10, borderRadius: 20 }}>
+  
+  <CardContent>
+    <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+      What is the type of the enterprise? <br />
+      ಉದ್ಯಮದ ಪ್ರಕಾರ ಯಾವುದು?
+    </Typography>
+    <Stack mt={2} mb={2}>
+      <FormGroup>
+        {businessTypes.map((item) => (
+          <FormControlLabel
+            key={item.id}
+            control={
+              <Checkbox
+                color="primary"
+                checked={sendData.enterprise_type.includes(item.name)}
+                onChange={(e) => {
+                  const isChecked = e.target.checked;
+                  const updatedSelections = isChecked
+                    ? [...sendData.enterprise_type, item.name]
+                    : sendData.enterprise_type.filter((entry) => entry !== item.name);
+
+                  setSendData({
+                    ...sendData,
+                    enterprise_type: updatedSelections,
+                  });
+
+                  console.log(updatedSelections); // To check the updated selections
+                }}
+              />
+            }
+            label={item.name}
+          />
+        ))}
+      </FormGroup>
+    </Stack>
+  </CardContent>
+</Card>
+<>
+
+              
+<Card style={{ marginTop: 10, borderRadius: 20 }}>
+                <CardContent>
+                  <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+                    How many people are employed in the enterprise (paid workers) ………………..
+                    ಎಂಟರ್‌ಪ್ರೈಸ್‌ನಲ್ಲಿ ಎಷ್ಟು ಜನರು ಕೆಲಸ ಮಾಡುತ್ತಿದ್ದಾರೆ (ಪಾವತಿಸಿದ ಕೆಲಸಗಾರರು) …………………….
+                  </Typography>
+                  <Stack mt={2} mb={2}>
+                    <TextField
+                      id="twoquestions"
+                      label="Your Answer"
+                      type="number"
+                      onChange={(e) => {
+                        setSendData({ ...sendData, num_employees_paid:parseInt(e?.target?.value)  });
+                      }}
+                      variant="outlined"
+                      color="common"
+                    />
+                  </Stack>
+                </CardContent>
+              </Card>
+              <Card mt={1} style={{ marginTop: 10, borderRadius: 20 }}>
+                <CardContent>
+                  <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+                    What is the nature of your individual involvement in the enterprise/business?
+                    ಉದ್ಯಮ/ವ್ಯವಹಾರದಲ್ಲಿ ನಿಮ್ಮ ವೈಯಕ್ತಿಕ ಒಳಗೊಳ್ಳುವಿಕೆಯ ಸ್ವರೂಪವೇನು?
 
 
-                                                    </Typography>
-                                                    <RadioGroup
-                                                        aria-labelledby="demo-radio-buttons-group-label"
-                                                        name="radio-buttons-group"
-                                                        value={sendData.want_to_start_enterprise}
-                                                        disabled
-                                                    >
-                                                        <div style={{ display: "flex" }}>
-                                                            <FormControlLabel
-                                                                value="No"
-                                                                control={<Radio style={{ color: "#595959" }} />}
-                                                                label="No"
-                                                            />
-                                                            <FormControlLabel
-                                                                value="Yes"
-                                                                control={<Radio style={{ color: "#595959" }} />}
-                                                                label="Yes" />
-                                                        </div>
-                                                    </RadioGroup>
-                                                </Stack>
-                                            </CardContent>
-                                        </Card>
-                                        <Card mt={1} style={{ marginTop: 10, borderRadius: 20 }}>
-                                            <CardContent>
-                                                <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
-                                                    What is the type of the enterprise? <br />
-                                                    ಉದ್ಯಮದ ಪ್ರಕಾರ ಯಾವುದು?
-                                                </Typography>
-                                                <Stack mt={2} mb={2}>
-                                                    <FormGroup>
-                                                        {businessTypes.map((item) => (
-                                                            <FormControlLabel
-                                                                key={item.id}
-                                                                control={
-                                                                    <Checkbox
-                                                                        color="primary"
-                                                                        checked={sendData.enterprise_type.includes(item.name)}
-                                                                        disabled
-                                                                    />
-                                                                }
-                                                                label={item.name}
-                                                            />
-                                                        ))}
-                                                    </FormGroup>
-                                                </Stack>
-                                            </CardContent>
-                                        </Card>
-                                        <Card style={{ marginTop: 10, borderRadius: 20 }}>
-                                            <CardContent>
-                                                <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
-                                                    How many people are employed in the enterprise (paid workers) ………………..
-                                                    ಎಂಟರ್‌ಪ್ರೈಸ್‌ನಲ್ಲಿ ಎಷ್ಟು ಜನರು ಕೆಲಸ ಮಾಡುತ್ತಿದ್ದಾರೆ (ಪಾವತಿಸಿದ ಕೆಲಸಗಾರರು) …………………….
-                                                </Typography>
-                                                <Stack mt={2} mb={2}>
-                                                    <TextField
-                                                        id="twoquestions"
-                                                        label="Your Answer"
-                                                        value={sendData.num_employees_paid}
+                  
+                    <Card style={{ marginTop: 10, borderRadius: 20 }}>
+                      <CardContent>
+                        <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+                          Do you work along with other paid workers in the enterprise?
+                          ನಿಮ್ಮ ಉದ್ಯಮದ ಜೊತೆ ದಿನಗೂಲಿ ನೌಕರರ ಜೊತೆ ಕಾರ್ಯ ನಿರ್ವಹಿಸುತ್ತಿದ್ಧೀರ?
 
-                                                        type="number"
-                                                        disabled
-                                                        variant="outlined"
-                                                        color="common"
-                                                    />
-                                                </Stack>
-                                            </CardContent>
-                                        </Card>
-                                        <Card mt={1} style={{ marginTop: 10, borderRadius: 20 }}>
-                                            <CardContent>
-                                                <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
-                                                    What is the nature of your individual involvement in the enterprise/business?
-                                                    ಉದ್ಯಮ/ವ್ಯವಹಾರದಲ್ಲಿ ನಿಮ್ಮ ವೈಯಕ್ತಿಕ ಒಳಗೊಳ್ಳುವಿಕೆಯ ಸ್ವರೂಪವೇನು?
+                        </Typography>
+                        <Stack mt={2} mb={2}>
+                          <TextField
+                            id="twoquestions"
+                            label="Your Answer"
+                            onChange={(e) => {
+                              setSendData({ ...sendData, collaborate_with_workers_c: e?.target?.value });
+                            }}
+                            variant="outlined"
+                            color="common"
+                          />
+                        </Stack>
+                      </CardContent>
+                    </Card>
+                    <Card style={{ marginTop: 10, borderRadius: 20 }}>
+                      <CardContent>
+                        <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+                          Are you responsible for managing the daily affairs of the enterprise?
+                          ನೀವು ಉದ್ಯಮದ  ದೈನಂದಿನ ವ್ಯವಹಾರಗಳನ್ನು ನಿರ್ವಹಿಸಲು  ಜವಾಬ್ದಾರರಾಗಿದ್ದೀರಾ?
+                        </Typography>
+                        <Stack mt={2} mb={2}>
+                          <TextField
+                            id="twoquestions"
+                            label="Your Answer"
+                            onChange={(e) => {
+                              setSendData({ ...sendData, daily_affairs_management_c: e?.target?.value });
+                            }}
+                            variant="outlined"
+                            color="common"
+                          />
+                        </Stack>
+                      </CardContent>
+                    </Card>
+                    <Card style={{ marginTop: 10, borderRadius: 20 }}>
+                      <CardContent>
+                        <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+                          Do you take important financial decisions?
+                          ನೀವು ಪ್ರಮುಖ ಹಣಕಾಸಿನ ನಿರ್ಧಾರಗಳನ್ನು ತೆಗೆದುಕೊಳ್ಳುತ್ತೀರಾ?
 
+                        </Typography>
+                        <Stack mt={2} mb={2}>
+                          <TextField
+                            id="twoquestions"
+                            label="Your Answer"
+                            onChange={(e) => {
+                              setSendData({ ...sendData, financial_decision_maker_c: e?.target?.value });
+                            }}
+                            variant="outlined"
+                            color="common"
+                          />
+                        </Stack>
+                      </CardContent>
+                    </Card>
+                    <Card style={{ marginTop: 10, borderRadius: 20 }}>
+                      <CardContent>
+                        <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
 
+                          Do you maintain a daily book of accounts?
+                          ನೀವು ದೈನಂದಿನ ಹಣಕಾಸಿನ ಖಾತೆಗಳ ಪುಸ್ತಕವನ್ನು ನಿರ್ವಹಿಸುತ್ತೀರಾ?
+                        </Typography>
+                        <Stack mt={2} mb={2}>
+                          <TextField
+                            id="twoquestions"
+                            label="Your Answer"
+                            onChange={(e) => {
+                              setSendData({ ...sendData, daily_accounts_book_c: e?.target?.value });
+                            }}
+                            variant="outlined"
+                            color="common"
+                          />
+                        </Stack>
+                      </CardContent>
+                    </Card>
+                  </Typography>
 
-                                                    <Card style={{ marginTop: 10, borderRadius: 20 }}>
-                                                        <CardContent>
-                                                            <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
-                                                                Do you work along with other paid workers in the enterprise?
-                                                                ನಿಮ್ಮ ಉದ್ಯಮದ ಜೊತೆ ದಿನಗೂಲಿ ನೌಕರರ ಜೊತೆ ಕಾರ್ಯ ನಿರ್ವಹಿಸುತ್ತಿದ್ಧೀರ?
+                </CardContent>
+              </Card>
+              <Card style={{ marginTop: 10, borderRadius: 20 }}>
+                <CardContent>
+                  <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+                    What is the monthly income of the enterprise?  ಉದ್ಯಮದ ಮಾಸಿಕ ಆದಾಯ ಎಷ್ಟು?
+                  </Typography>
+                  <Stack mt={2} mb={2}>
+                    <TextField
+                      id="twoquestions"
+                      label="Your Answer"
+                      type="number"
+                      onChange={(e) => {
+                        setSendData({ ...sendData, enterprise_monthly_income: parseInt(e?.target?.value) });
+                      }}
+                      variant="outlined"
+                      color="common"
+                    />
+                  </Stack>
+                </CardContent>
+              </Card>
+              <Card mt={1} style={{ marginTop: 10, borderRadius: 20 }}>
+  <CardContent>
+              <Stack mt={1}>
+                <Typography variant="subtitle2" style={{ color: '#ff7424' }}>  Is the enterprise currently making profits?  ಉದ್ಯಮವು ಪ್ರಸ್ತುತ ಲಾಭ ಗಳಿಸುತ್ತಿದೆಯೇ?
+                 
 
-                                                            </Typography>
-                                                            <Stack mt={2} mb={2}>
-                                                                <TextField
-                                                                    id="twoquestions"
-                                                                    label="Your Answer"
-                                                                    value={sendData.collaborate_with_workers_c}
-                                                                    disabled
-                                                                    variant="outlined"
-                                                                    color="common"
-                                                                />
-                                                            </Stack>
-                                                        </CardContent>
-                                                    </Card>
-                                                    <Card style={{ marginTop: 10, borderRadius: 20 }}>
-                                                        <CardContent>
-                                                            <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
-                                                                Are you responsible for managing the daily affairs of the enterprise?
-                                                                ನೀವು ಉದ್ಯಮದ  ದೈನಂದಿನ ವ್ಯವಹಾರಗಳನ್ನು ನಿರ್ವಹಿಸಲು  ಜವಾಬ್ದಾರರಾಗಿದ್ದೀರಾ?
-                                                            </Typography>
-                                                            <Stack mt={2} mb={2}>
-                                                                <TextField
-                                                                    id="twoquestions"
-                                                                    label="Your Answer"
-                                                                    value={sendData.daily_affairs_management_c}
-                                                                    disabled
-                                                                    variant="outlined"
-                                                                    color="common"
-                                                                />
-                                                            </Stack>
-                                                        </CardContent>
-                                                    </Card>
-                                                    <Card style={{ marginTop: 10, borderRadius: 20 }}>
-                                                        <CardContent>
-                                                            <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
-                                                                Do you take important financial decisions?
-                                                                ನೀವು ಪ್ರಮುಖ ಹಣಕಾಸಿನ ನಿರ್ಧಾರಗಳನ್ನು ತೆಗೆದುಕೊಳ್ಳುತ್ತೀರಾ?
-
-                                                            </Typography>
-                                                            <Stack mt={2} mb={2}>
-                                                                <TextField
-                                                                    id="twoquestions"
-                                                                    label="Your Answer"
-                                                                    value={sendData.financial_decision_maker_c}
-                                                                    disabled
-                                                                    variant="outlined"
-                                                                    color="common"
-                                                                />
-                                                            </Stack>
-                                                        </CardContent>
-                                                    </Card>
-                                                    <Card style={{ marginTop: 10, borderRadius: 20 }}>
-                                                        <CardContent>
-                                                            <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
-
-                                                                Do you maintain a daily book of accounts?
-                                                                ನೀವು ದೈನಂದಿನ ಹಣಕಾಸಿನ ಖಾತೆಗಳ ಪುಸ್ತಕವನ್ನು ನಿರ್ವಹಿಸುತ್ತೀರಾ?
-                                                            </Typography>
-                                                            <Stack mt={2} mb={2}>
-                                                                <TextField
-                                                                    id="twoquestions"
-                                                                    label="Your Answer"
-                                                                    value={sendData.daily_accounts_book_c}
-                                                                    disabled
-                                                                    variant="outlined"
-                                                                    color="common"
-                                                                />
-                                                            </Stack>
-                                                        </CardContent>
-                                                    </Card>
-                                                </Typography>
-
-                                            </CardContent>
-                                        </Card>
-                                        <Card style={{ marginTop: 10, borderRadius: 20 }}>
-                                            <CardContent>
-                                                <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
-                                                    What is the monthly income of the enterprise?  ಉದ್ಯಮದ ಮಾಸಿಕ ಆದಾಯ ಎಷ್ಟು?
-                                                </Typography>
-                                                <Stack mt={2} mb={2}>
-                                                    <TextField
-                                                        id="twoquestions"
-                                                        label="Your Answer"
-                                                        type="number"
-                                                        value={sendData.enterprise_monthly_incomeenterprise_monthly_income}
-                                                        disabled
-                                                        variant="outlined"
-                                                        color="common"
-                                                    />
-                                                </Stack>
-                                            </CardContent>
-                                        </Card>
-                                        <Card mt={1} style={{ marginTop: 10, borderRadius: 20 }}>
-                                            <CardContent>
-                                                <Stack mt={1}>
-                                                    <Typography variant="subtitle2" style={{ color: '#ff7424' }}>  Is the enterprise currently making profits?  ಉದ್ಯಮವು ಪ್ರಸ್ತುತ ಲಾಭ ಗಳಿಸುತ್ತಿದೆಯೇ?
-
-
-                                                    </Typography>
-        
-                                                    <RadioGroup
-                                                        aria-labelledby="demo-radio-buttons-group-label"
-                                                        name="radio-buttons-group"
-                                                        value={sendData.enterprise_is_profitable}
-                                                        disabled
-                                                    >
-                                                        <div style={{ display: "flex" }}>
-                                                            <FormControlLabel
-                                                                value="No"
-                                                                control={<Radio style={{ color: "#595959" }} />}
-                                                                label="No"
-                                                            />
-                                                            <FormControlLabel
-                                                                value="Yes"
-                                                                control={<Radio style={{ color: "#595959" }} />}
-                                                                label="Yes" />
-                                                        </div>
-                                                    </RadioGroup>
-                                                </Stack>
-                                            </CardContent>
-                                        </Card>
-                                        <Card style={{ marginTop: 10, borderRadius: 20 }}>
-                                            <CardContent>
-                                                <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
-                                                    What is your profit per month?  ತಿಂಗಳಿಗೆ ನಿಮ್ಮ ಲಾಭ ಎಷ್ಟು?
-                                                </Typography>
-                                                <Stack mt={2} mb={2}>
-                                                    <TextField
-                                                        id="twoquestions"
-                                                        label="Your Answer"
-                                                        type="number"
-                                                        value={sendData.monthly_profit}
-                                                        disabled
-                                                        variant="outlined"
-                                                        color="common"
-                                                    />
-                                                </Stack>
-                                            </CardContent>
-                                        </Card>
-                                        {/* <Card style={{ marginTop: 10, borderRadius: 20 }}>
+                </Typography>
+                <Select
+            value={sendData.enterprise_is_profitable}
+            onChange={(event) => setSendData((prevData) => ({
+              ...prevData,
+              enterprise_is_profitable: event.target.value,
+            }))}
+               variant="standard"
+            style={{ marginTop: 10 }}
+          >
+            <MenuItem value="">
+            
+            </MenuItem>
+            <MenuItem value="Yes">Yes</MenuItem>
+            <MenuItem value="No">No</MenuItem>
+          </Select>
+              
+              </Stack>
+              </CardContent>
+              </Card>
+              <Card style={{ marginTop: 10, borderRadius: 20 }}>
+                <CardContent>
+                  <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+                    What is your profit per month?  ತಿಂಗಳಿಗೆ ನಿಮ್ಮ ಲಾಭ ಎಷ್ಟು?
+                  </Typography>
+                  <Stack mt={2} mb={2}>
+                    <TextField
+                      id="twoquestions"
+                      label="Your Answer"
+                      type="number"
+                      onChange={(e) => {
+                        setSendData({ ...sendData, monthly_profit: parseInt(e?.target?.value) });
+                      }}
+                      variant="outlined"
+                      color="common"
+                    />
+                  </Stack>
+                </CardContent>
+              </Card>
+              {/* <Card style={{ marginTop: 10, borderRadius: 20 }}>
                 <CardContent>
                   <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
                     Do you want start an enterprise of your own?  ನಿಮ್ಮ ಸ್ವಂತ ಉದ್ಯಮವನ್ನು ಪ್ರಾರಂಭಿಸಲು ನೀವು ಬಯಸುವಿರಾ?
@@ -3248,398 +3276,444 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
                   </Stack>
                 </CardContent>
               </Card> */}
-                                        <Card style={{ marginTop: 10, borderRadius: 20 }}>
-                                            <CardContent>
-                                                <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
-                                                    Do you have a say in making decisions on:  ನಿರ್ಧಾರಗಳನ್ನು ತೆಗೆದುಕೊಳ್ಳುವಲ್ಲಿ ನಿಮ್ಮ ಅಭಿಪ್ರಾಯವಿದೆಯೇ:
-                                                </Typography>
-                                                <Stack mt={1}>
-                                                    <Typography variant="subtitle2" style={{ color: '#ff7424' }}>Education of children (Yes/No)  ಮಕ್ಕಳ ಶಿಕ್ಷಣ (ಹೌದು/ಇಲ್ಲ)
-                                                    </Typography>
-                    
-                                                    <RadioGroup
-                                                        aria-labelledby="demo-radio-buttons-group-label"
-                                                        name="radio-buttons-group"
-                                                        value={sendData.children_education_b}
-                                                        disabled
-                                                    >
-                                                        <div style={{ display: "flex" }}>
-                                                            <FormControlLabel
-                                                                value="No"
-                                                                control={<Radio style={{ color: "#595959" }} />}
-                                                                label="No"
-                                                            />
-                                                            <FormControlLabel
-                                                                value="Yes"
-                                                                control={<Radio style={{ color: "#595959" }} />}
-                                                                label="Yes" />
-                                                        </div>
-                                                    </RadioGroup>
-                                                </Stack>
-                                                <Stack mt={1}>
-                                                    <Typography variant="subtitle2" style={{ color: '#ff7424' }}>Access to health services (Yes/No)   ಆರೋಗ್ಯ ಸೇವೆಗಳಿಗೆ ಪ್ರವೇಶ (ಹೌದು/ಇಲ್ಲ)
-                                                    </Typography>
-                                                    <Typography>
+             
+              </>
+
+</>
+:null
+             }
 
 
-                                                    </Typography>
-                                                    <RadioGroup
-                                                        aria-labelledby="demo-radio-buttons-group-label"
-                                                        name="radio-buttons-group"
-                                                        value={sendData.health_services_access_b}
-                                                        disabled
-                                                    >
-                                                        <div style={{ display: "flex" }}>
-                                                            <FormControlLabel
-                                                                value="No"
-                                                                control={<Radio style={{ color: "#595959" }} />}
-                                                                label="No"
-                                                            />
-                                                            <FormControlLabel
-                                                                value="Yes"
-                                                                control={<Radio style={{ color: "#595959" }} />}
-                                                                label="Yes" />
-                                                        </div>
-                                                    </RadioGroup>
-                                                </Stack>
-                                                <Stack mt={1}>
-                                                    <Typography variant="subtitle2" style={{ color: '#ff7424' }}>Taking credit (Yes/No)     ಸಾಲ ತೆಗೆದುಕೊಳ್ಳುವುದು (ಹೌದು/ಇಲ್ಲ)
+             {
 
-                                                    </Typography>
-                                                    <Typography>
+(sendData?.want_to_start_enterprise =="No")?
 
+<>
+<Card style={{ marginTop: 10, borderRadius: 20 }}>
+                <CardContent>
+                  <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+                    Do you have a say in making decisions on:  ನಿರ್ಧಾರಗಳನ್ನು ತೆಗೆದುಕೊಳ್ಳುವಲ್ಲಿ ನಿಮ್ಮ ಅಭಿಪ್ರಾಯವಿದೆಯೇ:
+                  </Typography>
+                  <Stack mt={1}>
+                     <Typography variant="subtitle2" style={{ color: '#ff7424' }}>Education of children (Yes/No)  ಮಕ್ಕಳ ಶಿಕ್ಷಣ (ಹೌದು/ಇಲ್ಲ)
+                    </Typography>
+                    <Typography>
 
-                                                    </Typography>
-                                                    <RadioGroup
-                                                        aria-labelledby="demo-radio-buttons-group-label"
-                                                        name="radio-buttons-group"
-                                                        value={sendData.taking_credit_b}
-                                                        disabled
-                                                    >
-                                                        <div style={{ display: "flex" }}>
-                                                            <FormControlLabel
-                                                                value="No"
-                                                                control={<Radio style={{ color: "#595959" }} />}
-                                                                label="No"
-                                                            />
-                                                            <FormControlLabel
-                                                                value="Yes"
-                                                                control={<Radio style={{ color: "#595959" }} />}
-                                                                label="Yes" />
-                                                        </div>
-                                                    </RadioGroup>
-                                                </Stack>
-                                                <Stack mt={1}>
-                                                    <Typography variant="subtitle2" style={{ color: '#ff7424' }}>Saving money (Yes/No)   ಹಣ ಉಳಿತಾಯ (ಹೌದು/ಇಲ್ಲ)
-                                                    </Typography>
-                                                    <Typography>
+                      {BankError ? <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText> : null}{' '}
+                    </Typography>
+                    <RadioGroup
+                      aria-labelledby="demo-radio-buttons-group-label"
+                      name="radio-buttons-group"
+                      value={sendData.children_education_b}
+                      onChange={(e) => {const value = e.target.value;  setSendData({ ...sendData, children_education_b: value }) }}
 
+                    >
+                      <div style={{ display: "flex" }}>
+                      <FormControlLabel
+            value="No"
+            control={<Radio style={{ color: "#595959" }} />}
+            label="No"
+          />
+          <FormControlLabel
+            value="Yes"
+            control={<Radio style={{ color: "#595959" }} />}
+            label="Yes"/>
+                      </div>
+                    </RadioGroup>
+                  </Stack>
+                  <Stack mt={1}>
+                     <Typography variant="subtitle2" style={{ color: '#ff7424' }}>Access to health services (Yes/No)   ಆರೋಗ್ಯ ಸೇವೆಗಳಿಗೆ ಪ್ರವೇಶ (ಹೌದು/ಇಲ್ಲ)
+                    </Typography>
+                    <Typography>
 
-                                                    </Typography>
-                                                    <RadioGroup
-                                                        aria-labelledby="demo-radio-buttons-group-label"
-                                                        name="radio-buttons-group"
-                                                        value={sendData.saving_money_b}
-                                                        disabled
-                                                    >
-                                                        <div style={{ display: "flex" }}>
-                                                            <FormControlLabel
-                                                                value="No"
-                                                                control={<Radio style={{ color: "#595959" }} />}
-                                                                label="No"
-                                                            />
-                                                            <FormControlLabel
-                                                                value="Yes"
-                                                                control={<Radio style={{ color: "#595959" }} />}
-                                                                label="Yes" />
-                                                        </div>
-                                                    </RadioGroup>
-                                                </Stack>
-                                                <Stack mt={1}>
-                                                    <Typography style={{ fontWeight: 500 }}>
-                                                        Asset purchase (Yes/No) ಆಸ್ತಿ ಖರೀದಿ (ಹೌದು/ಇಲ್ಲ)
-                                                    </Typography>
-                                                    <Typography>
+                      {BankError ? <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText> : null}{' '}
+                    </Typography>
+                    <RadioGroup
+                      aria-labelledby="demo-radio-buttons-group-label"
+                      name="radio-buttons-group"
+                      value={sendData.health_services_access_b}
+                      onChange={(e) => { const value = e.target.value; setSendData({ ...sendData, health_services_access_b: value }) }}
 
-                                                    </Typography>
-                                                    <RadioGroup
-                                                        aria-labelledby="demo-radio-buttons-group-label"
-                                                        name="radio-buttons-group"
-                                                        value={sendData.asset_purchase_b} // Bind the value to "Yes" or "No"
-                                                        disabled
-                                                    >
-                                                        <div style={{ display: "flex" }}>
-                                                            <FormControlLabel
-                                                                value="No"
-                                                                control={<Radio style={{ color: "#595959" }} />}
-                                                                label="No"
-                                                            />
-                                                            <FormControlLabel
-                                                                value="Yes"
-                                                                control={<Radio style={{ color: "#595959" }} />}
-                                                                label="Yes"
-                                                            />
-                                                        </div>
-                                                    </RadioGroup>
-                                                </Stack>
-                                                <Stack mt={1}>
-                                                    <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
-                                                        Day-to-day expenditure (Yes/No)    ದಿನನಿತ್ಯದ ಖರ್ಚು (ಹೌದು/ಇಲ್ಲ)
-                                                    </Typography>
-                                                    <Typography>
+                    >
+                      <div style={{ display: "flex" }}>
+                      <FormControlLabel
+            value="No"
+            control={<Radio style={{ color: "#595959" }} />}
+            label="No"
+          />
+          <FormControlLabel
+            value="Yes"
+            control={<Radio style={{ color: "#595959" }} />}
+            label="Yes"/>
+                      </div>
+                    </RadioGroup>
+                  </Stack>
+                  <Stack mt={1}>
+                     <Typography variant="subtitle2" style={{ color: '#ff7424' }}>Taking credit (Yes/No)     ಸಾಲ ತೆಗೆದುಕೊಳ್ಳುವುದು (ಹೌದು/ಇಲ್ಲ)
 
+                    </Typography>
+                    <Typography>
 
-                                                    </Typography>
-                                                    <RadioGroup
-                                                        aria-labelledby="demo-radio-buttons-group-label"
-                                                        name="radio-buttons-group"
-                                                        value={sendData.daily_expenditure_b}
-                                                        disabled
-                                                    >
-                                                        <div style={{ display: "flex" }}>
-                                                            <FormControlLabel
-                                                                value="No"
-                                                                control={<Radio style={{ color: "#595959" }} />}
-                                                                label="No"
-                                                            />
-                                                            <FormControlLabel
-                                                                value="Yes"
-                                                                control={<Radio style={{ color: "#595959" }} />}
-                                                                label="Yes" />
-                                                        </div>
-                                                    </RadioGroup>
-                                                </Stack>
-                                                <Stack mt={1}>
-                                                    <Typography variant="subtitle2" style={{ color: '#ff7424' }}>Day-to-day running an enterprise (Yes/No)    ದಿನದಿಂದ ದಿನಕ್ಕೆ ಉದ್ಯಮವನ್ನು ನಡೆಸುವುದು (ಹೌದು/ಇಲ್ಲ)
-                                                    </Typography>
-                                                    <Typography>
+                      {BankError ? <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText> : null}{' '}
+                    </Typography>
+                    <RadioGroup
+                      aria-labelledby="demo-radio-buttons-group-label"
+                      name="radio-buttons-group"
+                      value={sendData.taking_credit_b}
+                      onChange={(e) => {const value = e.target.value;  setSendData({ ...sendData, taking_credit_b: value }) }}
 
+                    >
+                      <div style={{ display: "flex" }}>
+                      <FormControlLabel
+            value="No"
+            control={<Radio style={{ color: "#595959" }} />}
+            label="No"
+          />
+          <FormControlLabel
+            value="Yes"
+            control={<Radio style={{ color: "#595959" }} />}
+            label="Yes"/>
+                      </div>
+                    </RadioGroup>
+                  </Stack>
+                  <Stack mt={1}>
+                     <Typography variant="subtitle2" style={{ color: '#ff7424' }}>Saving money (Yes/No)   ಹಣ ಉಳಿತಾಯ (ಹೌದು/ಇಲ್ಲ)
+                    </Typography>
+                    <Typography>
 
-                                                    </Typography>
-                                                    <RadioGroup
-                                                        aria-labelledby="demo-radio-buttons-group-label"
-                                                        name="radio-buttons-group"
-                                                        value={sendData.operational_management_b}
-                                                        disabled
-                                                    >
-                                                        <div style={{ display: "flex" }}>
-                                                            <FormControlLabel
-                                                                value="No"
-                                                                control={<Radio style={{ color: "#595959" }} />}
-                                                                label="No"
-                                                            />
-                                                            <FormControlLabel
-                                                                value="Yes"
-                                                                control={<Radio style={{ color: "#595959" }} />}
-                                                                label="Yes" />
-                                                        </div>
-                                                    </RadioGroup>
-                                                </Stack>
-                                                <Stack mt={1}>
-                                                    <Typography variant="subtitle2" style={{ color: '#ff7424' }}>Procuring inputs for livelihood activity (Yes/No)
-                                                        ಜೀವನೋಪಾಯದ ಚಟುವಟಿಕೆಗಾಗಿ ಒಳಹರಿವು (ಹೌದು/ಇಲ್ಲ)
-                                                    </Typography>
-                                                    <Typography>
+                      {BankError ? <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText> : null}{' '}
+                    </Typography>
+                    <RadioGroup
+                      aria-labelledby="demo-radio-buttons-group-label"
+                      name="radio-buttons-group"
+                      value={sendData.saving_money_b}
+                      onChange={(e) => {const value = e.target.value;  setSendData({ ...sendData, saving_money_b: value }) }}
 
+                    >
+                      <div style={{ display: "flex" }}>
+                      <FormControlLabel
+            value="No"
+            control={<Radio style={{ color: "#595959" }} />}
+            label="No"
+          />
+          <FormControlLabel
+            value="Yes"
+            control={<Radio style={{ color: "#595959" }} />}
+            label="Yes"/>
+                      </div>
+                    </RadioGroup>
+                  </Stack>
+                  <Stack mt={1}>
+      <Typography style={{ fontWeight: 500 }}>
+        Asset purchase (Yes/No) ಆಸ್ತಿ ಖರೀದಿ (ಹೌದು/ಇಲ್ಲ)
+      </Typography>
+      <Typography>
+        {BankError ? <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText> : null}{' '}
+      </Typography>
+      <RadioGroup
+        aria-labelledby="demo-radio-buttons-group-label"
+        name="radio-buttons-group"
+        value={sendData.asset_purchase_b} // Bind the value to "Yes" or "No"
+        onChange={(e) => { 
+          const value = e.target.value; 
+          setSendData({ ...sendData, asset_purchase_b: value });
+        }}
+      >
+        <div style={{ display: "flex" }}>
+          <FormControlLabel
+            value="No"
+            control={<Radio style={{ color: "#595959" }} />}
+            label="No"
+          />
+          <FormControlLabel
+            value="Yes"
+            control={<Radio style={{ color: "#595959" }} />}
+            label="Yes"
+          />
+        </div>
+      </RadioGroup>
+    </Stack>
+                  <Stack mt={1}>
+                     <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+                      Day-to-day expenditure (Yes/No)    ದಿನನಿತ್ಯದ ಖರ್ಚು (ಹೌದು/ಇಲ್ಲ)
+                    </Typography>
+                    <Typography>
 
-                                                    </Typography>
-                                                    <RadioGroup
-                                                        aria-labelledby="demo-radio-buttons-group-label"
-                                                        name="radio-buttons-group"
-                                                        value={sendData.input_procuring_b}
-                                                        disabled
-                                                    >
-                                                        <div style={{ display: "flex" }}>
-                                                            <FormControlLabel
-                                                                value="No"
-                                                                control={<Radio style={{ color: "#595959" }} />}
-                                                                label="No"
-                                                            />
-                                                            <FormControlLabel
-                                                                value="Yes"
-                                                                control={<Radio style={{ color: "#595959" }} />}
-                                                                label="Yes" />
-                                                        </div>
-                                                    </RadioGroup>
-                                                </Stack>
-                                                <Stack mt={1}>
-                                                    <Typography variant="subtitle2" style={{ color: '#ff7424' }}>Selling produce from livelihood activity (Yes/No)
-                                                        ಜೀವನೋಪಾಯದ ಚಟುವಟಿಕೆಯಿಂದ ಉತ್ಪನ್ನಗಳನ್ನು ಮಾರಾಟ ಮಾಡುವುದು (ಹೌದು/ಇಲ್ಲ)
-                                                    </Typography>
-                                                    <Typography>
+                      {BankError ? <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText> : null}{' '}
+                    </Typography>
+                    <RadioGroup
+                      aria-labelledby="demo-radio-buttons-group-label"
+                      name="radio-buttons-group"
+                      value={sendData.daily_expenditure_b}
+                      onChange={(e) => {const value = e.target.value;  setSendData({ ...sendData, daily_expenditure_b: value }) }}
 
+                    >
+                      <div style={{ display: "flex" }}>
+                      <FormControlLabel
+            value="No"
+            control={<Radio style={{ color: "#595959" }} />}
+            label="No"
+          />
+          <FormControlLabel
+            value="Yes"
+            control={<Radio style={{ color: "#595959" }} />}
+            label="Yes"/>
+                      </div>
+                    </RadioGroup>
+                  </Stack>
+                  <Stack mt={1}>
+                     <Typography variant="subtitle2" style={{ color: '#ff7424' }}>Day-to-day running an enterprise (Yes/No)    ದಿನದಿಂದ ದಿನಕ್ಕೆ ಉದ್ಯಮವನ್ನು ನಡೆಸುವುದು (ಹೌದು/ಇಲ್ಲ)
+                    </Typography>
+                    <Typography>
 
-                                                    </Typography>
-                                                    <RadioGroup
-                                                        aria-labelledby="demo-radio-buttons-group-label"
-                                                        name="radio-buttons-group"
-                                                        value={sendData.selling_produce_b}
-                                                        disabled
-                                                    >
-                                                        <div style={{ display: "flex" }}>
-                                                            <FormControlLabel
-                                                                value="No"
-                                                                control={<Radio style={{ color: "#595959" }} />}
-                                                                label="No"
-                                                            />
-                                                            <FormControlLabel
-                                                                value="Yes"
-                                                                control={<Radio style={{ color: "#595959" }} />}
-                                                                label="Yes" />
-                                                        </div>
-                                                    </RadioGroup>
-                                                </Stack>
-                                                <Stack mt={1}>
-                                                    <Typography variant="subtitle2" style={{ color: '#ff7424' }}>Taking benefit of government schemes (Yes/No)
-                                                        ಸರ್ಕಾರಿ ಯೋಜನೆಗಳ ಲಾಭವನ್ನು ಪಡೆದುಕೊಳ್ಳುವುದು (ಹೌದು/ಇಲ್ಲ)
-                                                    </Typography>
-                                                    <Typography>
+                      {BankError ? <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText> : null}{' '}
+                    </Typography>
+                    <RadioGroup
+                      aria-labelledby="demo-radio-buttons-group-label"
+                      name="radio-buttons-group"
+                      value={sendData.operational_management_b}
+                      onChange={(e) => { const value = e.target.value; setSendData({ ...sendData, operational_management_b: value }) }}
 
+                    >
+                      <div style={{ display: "flex" }}>
+                      <FormControlLabel
+            value="No"
+            control={<Radio style={{ color: "#595959" }} />}
+            label="No"
+          />
+          <FormControlLabel
+            value="Yes"
+            control={<Radio style={{ color: "#595959" }} />}
+            label="Yes"/>
+                      </div>
+                    </RadioGroup>
+                  </Stack>
+                  <Stack mt={1}>
+                     <Typography variant="subtitle2" style={{ color: '#ff7424' }}>Procuring inputs for livelihood activity (Yes/No)
+                      ಜೀವನೋಪಾಯದ ಚಟುವಟಿಕೆಗಾಗಿ ಒಳಹರಿವು (ಹೌದು/ಇಲ್ಲ)
+                    </Typography>
+                    <Typography>
 
-                                                    </Typography>
-                                                    <RadioGroup
-                                                        aria-labelledby="demo-radio-buttons-group-label"
-                                                        name="radio-buttons-group"
-                                                        value={sendData.gov_scheme_benefit_b}
-                                                        disabled
-                                                    >
-                                                        <div style={{ display: "flex" }}>
-                                                            <FormControlLabel
-                                                                value="No"
-                                                                control={<Radio style={{ color: "#595959" }} />}
-                                                                label="No"
-                                                            />
-                                                            <FormControlLabel
-                                                                value="Yes"
-                                                                control={<Radio style={{ color: "#595959" }} />}
-                                                                label="Yes" />
-                                                        </div>
-                                                    </RadioGroup>
-                                                </Stack>
-                                            </CardContent>
-                                        </Card>
-                                        <Card style={{ marginTop: 10, borderRadius: 20 }}>
-                                            <CardContent>
-                                                <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+                      {BankError ? <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText> : null}{' '}
+                    </Typography>
+                    <RadioGroup
+                      aria-labelledby="demo-radio-buttons-group-label"
+                      name="radio-buttons-group"
+                      value={sendData.input_procuring_b}
+                      onChange={(e) => { const value = e.target.value; setSendData({ ...sendData, input_procuring_b: value }) }}
 
-                                                    Menstrual Hygiene and Environment  ಮುಟ್ಟಿನ ನೈರ್ಮಲ್ಯ ಮತ್ತು ಪರಿಸರ
-                                                </Typography>
-                                                <Stack mt={2} mb={2}>
-                                                    <TextField
-                                                        id="twoquestions"
-                                                        label="Your Answer"
-                                                        disabled
-                                                        variant="outlined"
-                                                        color="common"
-                                                    />
-                                                </Stack>
-                                            </CardContent>
-                                        </Card>
+                    >
+                      <div style={{ display: "flex" }}>
+                      <FormControlLabel
+            value="No"
+            control={<Radio style={{ color: "#595959" }} />}
+            label="No"
+          />
+          <FormControlLabel
+            value="Yes"
+            control={<Radio style={{ color: "#595959" }} />}
+            label="Yes"/>
+                      </div>
+                    </RadioGroup>
+                  </Stack>
+                  <Stack mt={1}>
+                     <Typography variant="subtitle2" style={{ color: '#ff7424' }}>Selling produce from livelihood activity (Yes/No)
+                      ಜೀವನೋಪಾಯದ ಚಟುವಟಿಕೆಯಿಂದ ಉತ್ಪನ್ನಗಳನ್ನು ಮಾರಾಟ ಮಾಡುವುದು (ಹೌದು/ಇಲ್ಲ)
+                    </Typography>
+                    <Typography>
 
-                                        <Card mt={1} style={{ marginTop: 10, borderRadius: 20 }}>
-                                            <CardContent>
-                                                <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
-                                                    According to you, state whether the following practices are environment friendly or not? <br />
-                                                    ನಿಮ್ಮ ಪ್ರಕಾರ, ಈ ಕೆಳಗಿನ ಅಭ್ಯಾಸಗಳು ಪರಿಸರ ಸ್ನೇಹಿ ಅಥವಾ ಇಲ್ಲವೇ ಎಂಬುದನ್ನು ತಿಳಿಸಿ?
-                                                </Typography>
-                                                <Stack mt={2} mb={2}>
-                                                    <FormGroup>
-                                                        {environmentalPractices.map((item) => (
-                                                            <FormControlLabel
-                                                                key={item.id}
-                                                                control={
-                                                                    <Checkbox
-                                                                        color="primary"
-                                                                        checked={sendData.env_friendly_practices.includes(item.name)}
-                                                                        disabled
-                                                                    />
-                                                                }
-                                                                label={item.name}
-                                                            />
-                                                        ))}
-                                                    </FormGroup>
-                                                </Stack>
-                                            </CardContent>
-                                        </Card>
+                      {BankError ? <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText> : null}{' '}
+                    </Typography>
+                    <RadioGroup
+                      aria-labelledby="demo-radio-buttons-group-label"
+                      name="radio-buttons-group"
+                      value={sendData.selling_produce_b}
+                      onChange={(e) => {const value = e.target.value;  setSendData({ ...sendData, selling_produce_b: value }) }}
 
-                                        <Card mt={1} style={{ marginTop: 10, borderRadius: 20 }}>
-                                            <CardContent>
-                                                <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
-                                                    What menstrual product do you use? <br />
-                                                    ನೀವು ಯಾವ ಮುಟ್ಟಿನ ಉತ್ಪನ್ನವನ್ನು ಬಳಸುತ್ತೀರಿ?
-                                                </Typography>
-                                                <Stack mt={2} mb={2}>
-                                                    <FormGroup>
-                                                        {hygieneProducts.map((item) => (
-                                                            <FormControlLabel
-                                                                key={item.id}
-                                                                control={
-                                                                    <Checkbox
-                                                                        color="primary"
-                                                                        checked={sendData.menstrual_product_used.includes(item.name)}
-                                                                        disabled
-                                                                    />
-                                                                }
-                                                                label={item.name}
-                                                            />
-                                                        ))}
-                                                    </FormGroup>
-                                                </Stack>
-                                            </CardContent>
-                                        </Card>
+                    >
+                      <div style={{ display: "flex" }}>
+                      <FormControlLabel
+            value="No"
+            control={<Radio style={{ color: "#595959" }} />}
+            label="No"
+          />
+          <FormControlLabel
+            value="Yes"
+            control={<Radio style={{ color: "#595959" }} />}
+            label="Yes"/>
+                      </div>
+                    </RadioGroup>
+                  </Stack>
+                  <Stack mt={1}>
+                     <Typography variant="subtitle2" style={{ color: '#ff7424' }}>Taking benefit of government schemes (Yes/No)
+                      ಸರ್ಕಾರಿ ಯೋಜನೆಗಳ ಲಾಭವನ್ನು ಪಡೆದುಕೊಳ್ಳುವುದು (ಹೌದು/ಇಲ್ಲ)
+                    </Typography>
+                    <Typography>
 
+                      {BankError ? <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText> : null}{' '}
+                    </Typography>
+                    <RadioGroup
+                      aria-labelledby="demo-radio-buttons-group-label"
+                      name="radio-buttons-group"
+                      value={sendData.gov_scheme_benefit_b}
+                      onChange={(e) => { const value = e.target.value; setSendData({ ...sendData, gov_scheme_benefit_b: value }) }}
 
-                                        <Card mt={1} style={{ marginTop: 10, borderRadius: 20 }}>
-                                            <CardContent>
-                                                <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
-                                                    How do you dispose of your menstrual product? <br />
-                                                    ನೀವು ನಿಮ್ಮ ಮುಟ್ಟಿನ ಉತ್ಪನ್ನವನ್ನು ಹೇಗೆ ವಿಲೇವಾರಿ ಮಾಡುತ್ತೀರಿ?
-                                                </Typography>
-                                                <Stack mt={2} mb={2}>
-                                                    <FormGroup>
-                                                        {actions.map((item) => (
-                                                            <FormControlLabel
-                                                                key={item.id}
-                                                                control={
-                                                                    <Checkbox
-                                                                        color="primary"
-                                                                        checked={sendData.menstrual_disposal_method.includes(item.name)}
-                                                                        disabled
-                                                                    />
-                                                                }
-                                                                label={item.name}
-                                                            />
-                                                        ))}
-                                                    </FormGroup>
-                                                </Stack>
-                                            </CardContent>
-                                        </Card>
+                    >
+                      <div style={{ display: "flex" }}>
+                      <FormControlLabel
+            value="No"
+            control={<Radio style={{ color: "#595959" }} />}
+            label="No"
+          />
+          <FormControlLabel
+            value="Yes"
+            control={<Radio style={{ color: "#595959" }} />}
+            label="Yes"/>
+                      </div>
+                    </RadioGroup>
+                  </Stack>
+                </CardContent>
+              </Card>
+              <Card style={{ marginTop: 10, borderRadius: 20 }}>
+                <CardContent>
+                  <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
 
-                                        <Card mt={1} style={{ marginTop: 10, borderRadius: 20 }}>
-                                            <CardContent>
-                                                <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
-                                                    What cooking fuel do you use at home? <br />
-                                                    ನೀವು ಮನೆಯಲ್ಲಿ ಯಾವ ಅಡುಗೆ ಇಂಧನವನ್ನು ಬಳಸುತ್ತೀರಿ?
-                                                </Typography>
-                                                <Stack mt={2} mb={2}>
-                                                    <FormGroup>
-                                                        {cookingMethods.map((item) => (
-                                                            <FormControlLabel
-                                                                key={item.id}
-                                                                control={
-                                                                    <Checkbox
-                                                                        color="primary"
-                                                                        checked={sendData.cooking_fuel_type.includes(item.name)}
-                                                                        disabled
-                                                                    />
-                                                                }
-                                                                label={item.name}
-                                                            />
-                                                        ))}
-                                                    </FormGroup>
-                                                </Stack>
-                                            </CardContent>
-                                        </Card>
+                    Menstrual Hygiene and Environment  ಮುಟ್ಟಿನ ನೈರ್ಮಲ್ಯ ಮತ್ತು ಪರಿಸರ
+                  </Typography>
+                  <Stack mt={2} mb={2}>
+                    <TextField
+                      id="twoquestions"
+                      label="Your Answer"
+                      onChange={(e) => {
+                        setSendData({ ...sendData, menstrual_hygiene_env: e?.target?.value });
+                      }}
+                      variant="outlined"
+                      color="common"
+                    />
+                  </Stack>
+                </CardContent>
+              </Card>
+            
+<Card mt={1} style={{ marginTop: 10, borderRadius: 20 }}>
+  <CardContent>
+    <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+      According to you, state whether the following practices are environment friendly or not? <br />
+      ನಿಮ್ಮ ಪ್ರಕಾರ, ಈ ಕೆಳಗಿನ ಅಭ್ಯಾಸಗಳು ಪರಿಸರ ಸ್ನೇಹಿ ಅಥವಾ ಇಲ್ಲವೇ ಎಂಬುದನ್ನು ತಿಳಿಸಿ?
+    </Typography>
+    <Stack mt={2} mb={2}>
+      <FormGroup>
+        {environmentalPractices.map((item) => (
+          <FormControlLabel
+            key={item.id}
+            control={
+              <Checkbox
+                color="primary"
+                checked={sendData.env_friendly_practices.includes(item.name)}
+                onChange={(e) => {
+                  const isChecked = e.target.checked;
+                  const updatedSelections = isChecked
+                    ? [...sendData.env_friendly_practices, item.name]
+                    : sendData.env_friendly_practices.filter((entry) => entry !== item.name);
+
+                  setSendData({
+                    ...sendData,
+                    env_friendly_practices: updatedSelections,
+                  });
+
+                  console.log(updatedSelections); // To check the updated selections
+                }}
+              />
+            }
+            label={item.name}
+          />
+        ))}
+      </FormGroup>
+    </Stack>
+  </CardContent>
+</Card>
+
+<Card mt={1} style={{ marginTop: 10, borderRadius: 20 }}>
+  <CardContent>
+    <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+      What menstrual product do you use? <br />
+      ನೀವು ಯಾವ ಮುಟ್ಟಿನ ಉತ್ಪನ್ನವನ್ನು ಬಳಸುತ್ತೀರಿ?
+    </Typography>
+    <Stack mt={2} mb={2}>
+      <FormGroup>
+        {hygieneProducts.map((item) => (
+          <FormControlLabel
+            key={item.id}
+            control={
+              <Checkbox
+                color="primary"
+                checked={sendData.menstrual_product_used.includes(item.name)}
+              
+              />
+            }
+            label={item.name}
+          />
+        ))}
+      </FormGroup>
+    </Stack>
+  </CardContent>
+</Card>
+
+          
+<Card mt={1} style={{ marginTop: 10, borderRadius: 20 }}>
+  <CardContent>
+    <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+      How do you dispose of your menstrual product? <br />
+      ನೀವು ನಿಮ್ಮ ಮುಟ್ಟಿನ ಉತ್ಪನ್ನವನ್ನು ಹೇಗೆ ವಿಲೇವಾರಿ ಮಾಡುತ್ತೀರಿ?
+    </Typography>
+    <Stack mt={2} mb={2}>
+      <FormGroup>
+        {actions.map((item) => (
+          <FormControlLabel
+            key={item.id}
+            control={
+              <Checkbox
+                color="primary"
+                checked={sendData.menstrual_disposal_method.includes(item.name)}
+              
+              />
+            }
+            label={item.name}
+          />
+        ))}
+      </FormGroup>
+    </Stack>
+  </CardContent>
+</Card>
+            
+<Card mt={1} style={{ marginTop: 10, borderRadius: 20 }}>
+  <CardContent>
+    <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+      What cooking fuel do you use at home? <br />
+      ನೀವು ಮನೆಯಲ್ಲಿ ಯಾವ ಅಡುಗೆ ಇಂಧನವನ್ನು ಬಳಸುತ್ತೀರಿ?
+    </Typography>
+    <Stack mt={2} mb={2}>
+      <FormGroup>
+        {cookingMethods.map((item) => (
+          <FormControlLabel
+            key={item.id}
+            control={
+              <Checkbox
+                color="primary"
+                checked={sendData.cooking_fuel_type.includes(item.name)}
+               
+              />
+            }
+            label={item.name}
+          />
+        ))}
+      </FormGroup>
+    </Stack>
+  </CardContent>
+</Card>
+</>
+:
+null
+             }
                                     </>}
                         </DialogContentText></DialogContent>
                 </form>
