@@ -79,7 +79,7 @@ type addSpoorthiBaselineQuestionnaire struct {
 	CopingMechanismsWhenSad           string   `json:"coping_mechanisms_when_sad"`
 	PossessLeadershipSkills           string   `json:"possess_leadership_skills"`
 	LeadershipSkillsReasonYes         []string `json:"leadership_skills_reason_yes"`
-	LeadershipSkillsReasonNo          string   `json:"leadership_skills_reason_no"`
+	LeadershipSkillsReasonNo          []string `json:"leadership_skills_reason_no"`
 	LeadershipSkills                  string   `json:"leadership_skills"`
 	CommunityMembersTakesSeriously    string   `json:"community_members_takes_seriously"`
 	TakesFeedbackFromCommunityMembers string   `json:"takes_feedback_from_community_members"`
@@ -305,7 +305,7 @@ VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,
 			request.CopingMechanismsWhenSad,
 			request.PossessLeadershipSkills,
 			strings.Join(request.LeadershipSkillsReasonYes, ", "),
-			request.LeadershipSkillsReasonNo,
+			strings.Join(request.LeadershipSkillsReasonNo, ", "),
 			request.LeadershipSkills,
 			request.CommunityMembersTakesSeriously,
 			request.TakesFeedbackFromCommunityMembers,

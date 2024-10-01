@@ -87,7 +87,7 @@ type ParticipantData struct {
 	CopingMechanismsWhenSad                         string   `json:"coping_mechanisms_when_sad"`
 	PossessLeadershipSkills                         string   `json:"possess_leadership_skills"`
 	LeadershipSkillsReasonYes                       []string `json:"leadership_skills_reason_yes"`
-	LeadershipSkillsReasonNo                        string   `json:"leadership_skills_reason_no"`
+	LeadershipSkillsReasonNo                        []string `json:"leadership_skills_reason_no"`
 	LeadershipSkills                                string   `json:"leadership_skills"`
 	CommunityMembersTakesSeriously                  string   `json:"community_members_takes_seriously"`
 	TakesFeedbackFromCommunityMembers               string   `json:"takes_feedback_from_community_members"`
@@ -130,7 +130,7 @@ func GetBuzzSpoorthiProgramBaseline(w http.ResponseWriter, r *http.Request, db *
 
 	//var query string
 	var dealWithAngrySituation string
-	var leadershipSkillsReasonYes string
+	var leadershipSkillsReasonYes, leadershipSkillsReasonNo string
 
 	query := fmt.Sprintf(`SELECT 
         COALESCE(id, 0) AS id,
@@ -310,7 +310,7 @@ COALESCE(monthly_house_income, '') AS monthly_house_income
 			&queryData.CopingMechanismsWhenSad,
 			&queryData.PossessLeadershipSkills,
 			&leadershipSkillsReasonYes,
-			&queryData.LeadershipSkillsReasonNo,
+			&leadershipSkillsReasonNo,
 			&queryData.LeadershipSkills,
 			&queryData.CommunityMembersTakesSeriously,
 			&queryData.TakesFeedbackFromCommunityMembers,
@@ -327,6 +327,7 @@ COALESCE(monthly_house_income, '') AS monthly_house_income
 			&queryData.MonthlyHouseIncome,
 		)
 		queryData.LeadershipSkillsReasonYes = strings.Split(leadershipSkillsReasonYes, ",")
+		queryData.LeadershipSkillsReasonNo = strings.Split(leadershipSkillsReasonNo, ",")
 		queryData.DealWithAngrySituation = strings.Split(dealWithAngrySituation, ",")
 		if err != nil {
 			json.NewEncoder(w).Encode(map[string]interface{}{"code": http.StatusInternalServerError, "message": "Database Scan Error", "success": false, "error": err.Error()})
