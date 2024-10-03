@@ -17,7 +17,7 @@ type BuzzSpoorthiProgramBaseline struct {
 
 type ParticipantData struct {
 	ID                                              string   `json:"id"`
-	ParticipantID                                   int      `json:"participantId"`
+	ParticipantID                                   string   `json:"participantId"`
 	EmailAddress                                    string   `json:"email_address"`
 	GelathiID                                       string   `json:"gelathiId"`
 	EntryDate                                       string   `json:"entry_date"`
@@ -100,8 +100,8 @@ type ParticipantData struct {
 	AskToLeaveImmediatelyD                          string   `json:"ask_to_leave_immediately_d"`
 	PatientlyListenUnderstandD                      string   `json:"patiently_listen_understand_d"`
 	CalmDisagreementArticulationD                   string   `json:"calm_disagreement_articulation_d"`
-	MonthlyHouseExpend                              uint     `json:"monthly_house_expend"`
-	MonthlyHouseIncome                              uint     `json:"monthly_house_income"`
+	MonthlyHouseExpend                              int      `json:"monthly_house_expend"`
+	MonthlyHouseIncome                              int      `json:"monthly_house_income"`
 }
 
 // var data []Querydata
@@ -132,7 +132,7 @@ func GetBuzzSpoorthiProgramBaseline(w http.ResponseWriter, r *http.Request, db *
 	var dealWithAngrySituation string
 	var leadershipSkillsReasonYes, leadershipSkillsReasonNo string
 
-	query := fmt.Sprintf(`SELECT 
+	query := fmt.Sprintf(`SELECT
         COALESCE(id, 0) AS id,
         COALESCE(partcipantId, 0) AS partcipantId,
         COALESCE(email_address, '') AS email_address,
@@ -211,7 +211,7 @@ func GetBuzzSpoorthiProgramBaseline(w http.ResponseWriter, r *http.Request, db *
         COALESCE(feedback_from_community_members, '') AS feedback_from_community_members,
         COALESCE(goals_as_gelathi, '') AS goals_as_gelathi,
         COALESCE(willing_to_take_part_local_elections, '') AS willing_to_take_part_local_elections,
-		COALESCE(calm_before_reaction_d, '') AS calm_before_reaction_d,
+        COALESCE(calm_before_reaction_d, '') AS calm_before_reaction_d,
 COALESCE(shout_at_others_d, '') AS shout_at_others_d,
 COALESCE(walk_out_without_listening_d, '') AS walk_out_without_listening_d,
 COALESCE(ask_to_leave_immediately_d, '') AS ask_to_leave_immediately_d,
@@ -219,8 +219,8 @@ COALESCE(patiently_listen_understand_d, '') AS patiently_listen_understand_d,
 COALESCE(calm_disagreement_articulation_d, '') AS calm_disagreement_articulation_d,
 COALESCE(monthly_house_expend, 0) AS monthly_house_expend,
 COALESCE(monthly_house_income, 0) AS monthly_house_income
-
-
+ 
+ 
     FROM SpoorthiBaselineQuestionnaire
     WHERE partcipantId = %d`, req.PartcipantID)
 
@@ -236,13 +236,15 @@ COALESCE(monthly_house_income, 0) AS monthly_house_income
 
 	//var response []ParticipantData
 	var queryData ParticipantData
+	var ptid, gfid int
+	var gfname, ptname string
 	for rows.Next() {
 
 		err := rows.Scan(
 			&queryData.ID,
-			&queryData.ParticipantID,
+			&ptid,
 			&queryData.EmailAddress,
-			&queryData.GelathiID,
+			&gfid,
 			&queryData.EntryDate,
 			&queryData.SpoorthiSessionNumber,
 			&queryData.ListDownYourSkills,
@@ -334,7 +336,20 @@ COALESCE(monthly_house_income, 0) AS monthly_house_income
 			return
 		}
 
+		err1 := db.QueryRow("SELECT concat(first_name,' ',last_name) AS full_name FROM bdms_staff.employee WHERE id = ?", gfid).Scan(&gfname)
+		if err1 != nil {
+			json.NewEncoder(w).Encode(map[string]interface{}{"code": http.StatusInternalServerError, "message": "Database Scan Error in fetching gf name", "success": false, "error": err.Error()})
+			return
+		}
+
+		err2 := db.QueryRow("SELECT firstName FROM bdms_staff.training_participants where id = ?", ptid).Scan(&ptname)
+		if err2 != nil {
+			json.NewEncoder(w).Encode(map[string]interface{}{"code": http.StatusInternalServerError, "message": "Database Scan Error in fetching participant  name", "success": false, "error": err.Error()})
+			return
+		}
 		//response = append(response, queryData)
+		queryData.GelathiID = gfname
+		queryData.ParticipantID = ptname
 	}
 
 	w.Header().Set("Content-Type", "application/json")
