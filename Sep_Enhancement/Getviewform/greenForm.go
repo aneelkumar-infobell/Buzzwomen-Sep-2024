@@ -35,7 +35,7 @@ func GetGreenBaselineSurvey(w http.ResponseWriter, r *http.Request, db *sql.DB) 
 	var naturalResources, naturalResourcesImpactingYourLife, ifYesWhatAreThey, primaryOccupation, secondaryOccupation, dailyClimateAction, ecoFriendlyPracticesDetails, menstruationProductsUsed, soilObservationsIfNoChanges, reasonsForLackOfNutritionalFood, usePesticidesFertilizers, communityGovernmentEnvironmentInitiatives, changesHappenedToTheClimate, climateChangeThreatensPersonalFamilyHealthSafety, doSomethingToTackleClimateChange, mainSourceOfWater, achieveWithRegardToNaturalResourceConservation, mainProductsServicesUsed string
 
 	query := fmt.Sprintf(`
-    SELECT 
+    SELECT
         COALESCE(id, '') AS id,
         COALESCE(partcipantId, 0) AS partcipantId,
         COALESCE(Email, '') AS Email,
@@ -139,7 +139,7 @@ func GetGreenBaselineSurvey(w http.ResponseWriter, r *http.Request, db *sql.DB) 
   COALESCE(waste_categories_produced, '') AS waste_categories_produced,
   COALESCE(access_to_daily_living_products, '') AS access_to_daily_living_products,
   COALESCE(locally_produced_products_consumed, '') AS locally_produced_products_consumed
-    FROM GreenBaselineSurvey 
+    FROM GreenBaselineSurvey
     WHERE partcipantId = %d
 `, req.ParticipantID)
 
@@ -152,13 +152,14 @@ func GetGreenBaselineSurvey(w http.ResponseWriter, r *http.Request, db *sql.DB) 
 	defer rows.Close()
 
 	var response []GreenBaselineSurvey
-
+	var ptid int
+	var ptname int
 	for rows.Next() {
 		var queryData GreenBaselineSurvey
 
 		err := rows.Scan(
 			&queryData.ID,
-			&queryData.ParticipantID,
+			&ptid,
 			&queryData.Email,
 			&queryData.NameOfTheSurveyor,
 			&queryData.NameOfTheRespondent,
@@ -285,6 +286,12 @@ func GetGreenBaselineSurvey(w http.ResponseWriter, r *http.Request, db *sql.DB) 
 		queryData.MainProductsServicesUsed = strings.Split(mainProductsServicesUsed, ",")
 		queryData.AchieveWithRegardToNaturalResourceConservation = strings.Split(achieveWithRegardToNaturalResourceConservation, ",")
 
+		err2 := db.QueryRow("SELECT firstName FROM bdms_staff.training_participants where id = ?", ptid).Scan(&ptname)
+		if err2 != nil {
+			json.NewEncoder(w).Encode(map[string]interface{}{"code": http.StatusInternalServerError, "message": "Database Scan Error in fetching participant  name", "success": false, "error": err.Error()})
+			return
+		}
+		queryData.ParticipantID = ptname
 		response = append(response, queryData)
 	}
 
