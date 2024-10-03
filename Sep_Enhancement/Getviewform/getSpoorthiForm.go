@@ -100,8 +100,8 @@ type ParticipantData struct {
 	AskToLeaveImmediatelyD                          string   `json:"ask_to_leave_immediately_d"`
 	PatientlyListenUnderstandD                      string   `json:"patiently_listen_understand_d"`
 	CalmDisagreementArticulationD                   string   `json:"calm_disagreement_articulation_d"`
-	MonthlyHouseExpend                              int      `json:"monthly_house_expend"`
-	MonthlyHouseIncome                              int      `json:"monthly_house_income"`
+	MonthlyHouseExpend                              uint     `json:"monthly_house_expend"`
+	MonthlyHouseIncome                              uint     `json:"monthly_house_income"`
 }
 
 // var data []Querydata
@@ -217,8 +217,8 @@ COALESCE(walk_out_without_listening_d, '') AS walk_out_without_listening_d,
 COALESCE(ask_to_leave_immediately_d, '') AS ask_to_leave_immediately_d,
 COALESCE(patiently_listen_understand_d, '') AS patiently_listen_understand_d,
 COALESCE(calm_disagreement_articulation_d, '') AS calm_disagreement_articulation_d,
-COALESCE(monthly_house_expend, '') AS monthly_house_expend,
-COALESCE(monthly_house_income, '') AS monthly_house_income
+COALESCE(monthly_house_expend, 0) AS monthly_house_expend,
+COALESCE(monthly_house_income, 0) AS monthly_house_income
 
 
     FROM SpoorthiBaselineQuestionnaire

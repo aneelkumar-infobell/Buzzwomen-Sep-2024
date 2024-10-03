@@ -453,6 +453,8 @@ func GetVyaparBaselineSurvey(w http.ResponseWriter, r *http.Request, db *sql.DB)
 		ID                                  int64    `json:"id"`
 		ParticipantID                       int64    `json:"participant_id"`
 		GfID                                int64    `json:"gf_id"`
+		GelathiName                         string   `json:"gelathi_name"`
+		ParticipantName                     string   `json:"participant_name"`
 		EntryDate                           string   `json:"entry_date"`
 		WhenWasSurveyDone                   string   `json:"when_was_survey_done"`
 		NameOfTheVyapari                    string   `json:"name_of_the_vyapari"`
@@ -860,6 +862,7 @@ func GetVyaparBaselineSurvey(w http.ResponseWriter, r *http.Request, db *sql.DB)
 			&b.SavingsAvailable,
 			&b.LoanStartup,
 		)
+
 		b.EntrepreneurialAspirations = strings.Split(entrepreneurialAspirations, ",")
 		b.MethodOfKeepingAccounts = strings.Split(methodOfKeepingAccounts, ",")
 
@@ -868,6 +871,45 @@ func GetVyaparBaselineSurvey(w http.ResponseWriter, r *http.Request, db *sql.DB)
 			json.NewEncoder(w).Encode(map[string]interface{}{"code": http.StatusInternalServerError, "message": "Database Scan Error", "success": false, "error": err.Error()})
 			return
 		}
+		var firstName, lastName string
+		query := fmt.Sprintf("SELECT first_name,last_name  FROM employee WHERE id  = %d", b.GfID)
+		rows, err := db.Query(query)
+
+		if rows.Next() {
+			err := rows.Scan(&firstName, &lastName)
+			if err != nil {
+				json.NewEncoder(w).Encode(map[string]interface{}{
+					"code":    http.StatusInternalServerError,
+					"message": "Error scanning row",
+					"success": false,
+					"error":   err.Error(),
+				})
+				return
+			}
+		}
+
+		fullName := firstName + " " + lastName
+
+		// Append the result to the response slice
+		b.GelathiName = fullName
+
+		var firstName1 string
+		query = fmt.Sprintf("SELECT firstName FROM training_participants WHERE id  = %d", b.ParticipantID)
+		rows, err = db.Query(query)
+
+		if rows.Next() {
+			err = rows.Scan(&firstName1)
+			if err != nil {
+				json.NewEncoder(w).Encode(map[string]interface{}{
+					"code":    http.StatusInternalServerError,
+					"message": "Error scanning row",
+					"success": false,
+					"error":   err.Error(),
+				})
+				return
+			}
+		}
+		b.ParticipantName = firstName1
 
 		response = append(response, b)
 	}
