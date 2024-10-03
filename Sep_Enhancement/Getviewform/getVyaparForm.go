@@ -572,7 +572,7 @@ func GetVyaparBaselineSurvey(w http.ResponseWriter, r *http.Request, db *sql.DB)
 		MoneyManagement     string  `json:"money_management"`
 		DoBookkeeping       string  `json:"do_bookkeeping"`
 		LoanExists          string  `json:"loan_exists"`
-		SavingsAvailable    float64 `json:"savings_available"`
+		SavingsAvailable    uint64  `json:"savings_available"`
 		LoanStartup         string  `json:"loan_startup"`
 	}
 
@@ -699,9 +699,6 @@ func GetVyaparBaselineSurvey(w http.ResponseWriter, r *http.Request, db *sql.DB)
     COALESCE(method_of_keeping_accounts, '') AS method_of_keeping_accounts,
     COALESCE(reason_for_not_bookkeeping, '') AS reason_for_not_bookkeeping,
     COALESCE(has_business_goal_or_plan, '') AS has_business_goal_or_plan,
- 
-   
- 
     COALESCE(short_term_goal, '') AS short_term_goal,
     COALESCE(loan_taken, '') AS loan_taken,
     COALESCE(interest_rate, 0.0) AS interest_rate,
@@ -720,13 +717,14 @@ func GetVyaparBaselineSurvey(w http.ResponseWriter, r *http.Request, db *sql.DB)
     COALESCE(money_management, '') AS money_management,
     COALESCE(do_bookkeeping, '') AS do_bookkeeping,
     COALESCE(loan_exists, '') AS loan_exists,
-    COALESCE(savings_available, '') AS savings_available,
+    COALESCE(savings_available, 0) AS savings_available,
     COALESCE(loan_startup, '') AS loan_startup
     FROM  BuzzVyaparProgramBaseline
     WHERE partcipantId = %d
 `, req.ParticipantID)
 
 	rows, err := db.Query(query)
+	fmt.Println("ggg", query)
 
 	if err != nil {
 		json.NewEncoder(w).Encode(map[string]interface{}{"code": http.StatusInternalServerError, "message": "Database Query Error", "success": false, "error": err.Error()})
