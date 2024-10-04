@@ -556,26 +556,27 @@ func GetVyaparBaselineSurvey(w http.ResponseWriter, r *http.Request, db *sql.DB)
 		ReasonForNotBookkeeping             string   `json:"reason_for_not_bookkeeping"`
 		HasBusinessGoalOrPlan               string   `json:"has_business_goal_or_plan"`
 		//  MaintainDetailedBusinessPlan        string   `json:"maintain_detailed_business_plan"`
-		ShortTermGoal       string  `json:"short_term_goal"`
-		LoanTaken           string  `json:"loan_taken"`
-		InterestRate        float64 `json:"interest_rate"`
-		LoanPurpose         string  `json:"loan_purpose"`
-		RunGrowthChallenges string  `json:"run_growth_challenges"`
-		CoreStrength        string  `json:"core_strength"`
-		CoreWeakness        string  `json:"core_weakness"`
-		CoreOpportunity     string  `json:"core_opportunity"`
-		CoreThreat          string  `json:"core_threat"`
-		TargetCustomer      string  `json:"target_customer"`
-		OwnAccountWork      string  `json:"own_account_work"`
-		IdeaStatus          string  `json:"idea_status"`
-		IdeaStart           string  `json:"idea_start"`
-		IdeaCategory        string  `json:"idea_category"`
-		MonthlyIncome       float64 `json:"monthly_income"`
-		MoneyManagement     string  `json:"money_management"`
-		DoBookkeeping       string  `json:"do_bookkeeping"`
-		LoanExists          string  `json:"loan_exists"`
-		SavingsAvailable    uint64  `json:"savings_available"`
-		LoanStartup         string  `json:"loan_startup"`
+		ShortTermGoal           string  `json:"short_term_goal"`
+		LoanTaken               string  `json:"loan_taken"`
+		InterestRate            float64 `json:"interest_rate"`
+		LoanPurpose             string  `json:"loan_purpose"`
+		RunGrowthChallenges     string  `json:"run_growth_challenges"`
+		CoreStrength            string  `json:"core_strength"`
+		CoreWeakness            string  `json:"core_weakness"`
+		CoreOpportunity         string  `json:"core_opportunity"`
+		CoreThreat              string  `json:"core_threat"`
+		TargetCustomer          string  `json:"target_customer"`
+		OwnAccountWork          string  `json:"own_account_work"`
+		IdeaStatus              string  `json:"idea_status"`
+		IdeaStart               string  `json:"idea_start"`
+		IdeaCategory            string  `json:"idea_category"`
+		MonthlyIncome           float64 `json:"monthly_income"`
+		MoneyManagement         string  `json:"money_management"`
+		DoBookkeeping           string  `json:"do_bookkeeping"`
+		LoanExists              string  `json:"loan_exists"`
+		SavingsAvailable        uint64  `json:"savings_available"`
+		LoanStartup             string  `json:"loan_startup"`
+		TypeOfEnterpriseRunning string  `json:"type_of_enterprise_running"`
 	}
 
 	w.Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization,application/json,Token")
@@ -720,7 +721,8 @@ func GetVyaparBaselineSurvey(w http.ResponseWriter, r *http.Request, db *sql.DB)
     COALESCE(do_bookkeeping, '') AS do_bookkeeping,
     COALESCE(loan_exists, '') AS loan_exists,
     COALESCE(savings_available, 0) AS savings_available,
-    COALESCE(loan_startup, '') AS loan_startup
+    COALESCE(loan_startup, '') AS loan_startup,
+	COALESCE(type_of_enterprise_running,  '') AS type_of_enterprise_running
     FROM  BuzzVyaparProgramBaseline
     WHERE partcipantId = %d
 `, req.ParticipantID)
@@ -861,6 +863,7 @@ func GetVyaparBaselineSurvey(w http.ResponseWriter, r *http.Request, db *sql.DB)
 			&b.LoanExists,
 			&b.SavingsAvailable,
 			&b.LoanStartup,
+			&b.TypeOfEnterpriseRunning,
 		)
 
 		b.EntrepreneurialAspirations = strings.Split(entrepreneurialAspirations, ",")
