@@ -16,7 +16,9 @@ import {
   FormControlLabel,
   Card,
   CardContent,
-  CardActionArea,DialogContent,DialogContentText
+  CardActionArea,DialogContent,DialogContentText,
+  Box,
+  CircularProgress
 } from '@mui/material';
 import Dialog from '@mui/material/Dialog';
 import ListItemText from '@mui/material/ListItemText';
@@ -38,33 +40,184 @@ import Iconify from 'src/components/Iconify';
 import { Icon } from '@iconify/react';
 import { baseURL } from 'src/utils/api';
 import { useAuth } from 'src/AuthContext';
+import GetVyaparProgramNewQuestion from './GetVyaparProgramNewQuestion';
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 export default function GetVyaparProgram({itm}) {
+  console.log(itm ,"dataaaa")
   const { apikey } = useAuth();
   const [open, setOpen] = React.useState(false);
 
-
-  const [surveyData,setSurveydata]=React.useState('');
+  const [loader, setLoader] = useState(true);
+  const [surveyData, setSurveydata] = React.useState('')
+  // const [surveyData, setSurveydata] = React.useState({
+  //   age: null,
+  //   amount_invested_when_the_business_started: null,
+  //   are_you_able_to_raise_the_required_finance: "",
+  //   are_you_proficient_with_numbers: "",
+  //   are_you_proficient_with_written_language: "",
+  //   average_monthly_income_enterprise: null,
+  //   average_monthly_profit_enterprise: null,
+  //   can_you_submit_a_business_plan_for_your_goal_to_us_right_now: "",
+  //   cast: "",
+  //   contact_number: "",
+  //   core_opportunity: "",
+  //   core_strength: "",
+  //   core_threat: "",
+  //   core_weakness: "",
+  //   desired_monthly_income: null,
+  //   district: "",
+  //   do_bookkeeping: "",
+  //   do_you_have_a_business_plan_to_reach_that_goal: "",
+  //   do_you_have_internet_connection_on_your_smart_phone: "",
+  //   do_you_own_a_smart_phone: "",
+  //   dob: "",
+  //   education: "",
+  //   enterprise_status: "",
+  //   entrepreneurial_aspirations: [],
+  //   entry_date: "",
+  //   frequency_of_recording_financial_books: "",
+  //   gf_id: null,
+  //   gram_panchayat: "",
+  //   has_bank_account: "",
+  //   has_business_goal_or_plan: "",
+  //   has_hired_employees: "",
+  //   higher_education: "",
+  //   home_based_work_from_shop: "",
+  //   house: "",
+  //   household_income_monthly: null,
+  //   how_much_monthly_income_would_you_like_to_ideally_earn: null,
+  //   i_can_generate_ideas_to_solve_my_business_problems: "",
+  //   i_have_taken_a_loan_from: "",
+  //   i_have_trouble_accessing_loan_for_my_business: "",
+  //   i_know_the_current_state_of_my_business_in_profit_loss_revenue: "",
+  //   id: null,
+  //   idea_category: "",
+  //   idea_start: "",
+  //   idea_status: "",
+  //   initial_investment_amount: null,
+  //   interest_rate: null,
+  //   investment_source: "",
+  //   license_for_existing_business: "",
+  //   loan_currently_availed: "",
+  //   loan_exists: "",
+  //   loan_purpose: "",
+  //   loan_repayment_till_date: null,
+  //   loan_source: "",
+  //   loan_startup: "",
+  //   loan_taken: "",
+  //   loan_total_amount: null,
+  //   location_circle: "",
+  //   maintain_daily_financial_books: "",
+  //   marital_status: "",
+  //   method_of_keeping_accounts: [],
+  //   mobile_type: "",
+  //   module1: "",
+  //   module2: "",
+  //   module3: "",
+  //   module4: "",
+  //   module5: "",
+  //   money_management: "",
+  //   monthly_expenditure: null,
+  //   monthly_income: null,
+  //   name_of_the_cohort: "",
+  //   name_of_the_vyapari: "",
+  //   need_additional_skills_business: "",
+  //   no_hours_engaged_business: null,
+  //   number_of_beehives_participated: null,
+  //   number_of_paid_workers: null,
+  //   number_of_people_in_the_household: null,
+  //   number_of_years_the_business_has_been_operating: "",
+  //   over_the_last_month_your_average_income: null,
+  //   own_account_work: "",
+  //   participant_id: null,
+  //   personal_smartphone: "",
+  //   please_list_down_the_various_components_of_business: "",
+  //   primary_occupation_household: "",
+  //   ration_card: "",
+  //   reason_for_doing_business: "",
+  //   reason_for_not_bookkeeping: "",
+  //   reason_for_not_having_smartphone: "",
+  //   relation_who_borrowed: "",
+  //   run_enterprise_independently: "",
+  //   run_growth_challenges: "",
+  //   savings_available: null,
+  //   secondary_occupation_household: "",
+  //   sector_type_of_business: "",
+  //   short_term_goal: "",
+  //   skills_gained_from_program: "",
+  //   skills_what_are_those: "",
+  //   taluk: "",
+  //   taluk_district: "",
+  //   target_customer: "",
+  //   tell_us_about_one_business_problem: "",
+  //   tell_us_three_things_about_you_as_an_entrepreneur: "",
+  //   tell_us_three_things_about_your_role_as_a_woman_at_home: "",
+  //   total_household_members: null,
+  //   underwent_skill_development_program: "",
+  //   uses_upi: "",
+  //   village_id: "",
+  //   what_are_the_opportunities_for_your_business: "",
+  //   what_are_the_prerequisites_to_access_a_loan: "",
+  //   what_are_the_resources_available_with_you_for_your_business: "",
+  //   what_are_the_strengths_of_your_business: "",
+  //   what_are_the_weaknesses_of_your_business: "",
+  //   what_are_your_challenges_in_running_and_growing_your_business: "",
+  //   what_are_your_skills: "",
+  //   what_is_your_business_goal_business_impurumenet_madodu: "",
+  //   what_is_your_plan_to_overcome_these_challenges: "",
+  //   what_kind_of_books_of_accounts_do_you_maintain: "",
+  //   when_was_survey_done: "",
+  //   who_is_your_customer_describe_them_to_us: "",
+  //   why_do_you_do_business: "",
+  //   womens_occupation: "",
+  //   years_in_operation: null,
+  //   you_stopped_hold_your_business: "",
+  //   your_business_profit_last_month: null
+  // });
+  
   const handleClickOpen = () => {
+    if (itm && itm.id) { // Check if itm and its id are defined
+      GetVyaparformData(); // Call the API when the dialog opens
+    }
     setOpen(true);
   };
   const handleClose = () => {
     setOpen(false);
   };
-  useEffect(() => {
-    GetVyaparformData()
-  }, []
-  )
+  // useEffect(() => {
+  //   GetVyaparformData()
+  // }, [itm]
+  // )
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    console.log('handleInputChange called:', name, value);
+    setSurveydata((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleResources = (label, event) => {
+    var updatedList = [...sendData[label]];
+    if (event.target.checked) {
+      updatedList = [...sendData[label], event.target.value];
+    } else {
+      updatedList.splice(sendData[label].indexOf(event.target.value), 1);
+    }
+    let tempData = { ...sendData };
+    tempData[label] = updatedList;
+    setSurveydata(tempData);
+  };
 const GetVyaparformData=()=>{
   var data = JSON.stringify({
-    "partcipantId": parseInt(itm?.id)
+    "participantId": parseInt(itm?.id)
   });
   
   var config = {
     method: 'post',
-    url: baseURL + 'getBuzzVyaparProgramBaseline',
+    url: baseURL + 'getVyaparBaselineSurvey',
     headers: { 
       'Content-Type': 'application/json',
       'Authorization': `${apikey}`
@@ -77,6 +230,7 @@ const GetVyaparformData=()=>{
 
 
         setSurveydata(response.data.data[0])
+        setLoader(true);
       })
       .catch(function (error) {
         // console.log(error);
@@ -84,6 +238,13 @@ const GetVyaparformData=()=>{
       
 }
 
+
+useEffect(() => {
+  const delay = 3000;
+  const timeoutId = setTimeout(() => {
+    setLoader(false);
+  }, delay);
+});
   return (
     <div>
       
@@ -107,8 +268,18 @@ const GetVyaparformData=()=>{
          
           </Toolbar>
           </AppBar>
+
+          {loader ? 
+            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '70vh' }}>
+              <CircularProgress sx={{ color: '#ff7424' }} />
+            </Box>
+           :
+
+      <>
       
-     
+    { 
+      (surveyData?.gram_panchayat === "")?
+      <>
         <Grid>
      
           <Card>
@@ -119,7 +290,7 @@ const GetVyaparformData=()=>{
                 <CardContent>
                   <Typography style={{color:"#ff7424"}}>Name of the GF / ಗೆಳತಿಯ ಹೆಸರು*</Typography>
                   <Stack mt={2} >
-                <Typography>Answer: {surveyData?.gfId}</Typography>
+                <Typography>Answer: {surveyData?.gf_id}</Typography>
              
                   </Stack>
                 </CardContent>
@@ -610,7 +781,17 @@ const GetVyaparformData=()=>{
              </CardContent>
              </Card>
         </Grid>
-     
+       
+        </>
+         :
+         <GetVyaparProgramNewQuestion 
+          sendData={surveyData}
+          handleInputChange={handleInputChange}
+          handleResources={handleResources}
+         />
+     }
+     </>
+      }
       </Dialog>
     </div>
   );
