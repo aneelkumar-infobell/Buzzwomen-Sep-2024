@@ -185,7 +185,7 @@ const id = sessionStorage?.getItem("proId")
                         <IconButton>
                             <Iconify icon="material-symbols:arrow-back-rounded" />
                         </IconButton></Link>
-                   Enrolled Vyaapar   
+                   Enrolled Vyaapar 
                 </Typography>
             
            {/* {(role==1 || role==3||role==5||role==4||role==12)?<Button style={{ float: "right",right:30,position:'absolute', color: '#ff7424' }} sx={{ '&:hover': { backgroundColor: '#ffd796', }, }} onClick={() => { handleopen() }}>
@@ -235,7 +235,7 @@ const id = sessionStorage?.getItem("proId")
                       <Vyaparprogram itm={itm} changeState={changeState}/>} */}
                       </div>
                       <div>
-                        {(role==4)?
+                        {(role==4 ||role==12 ||role==3 ||role==1 )?
                       (itm?.is_survey)?<GetVyaparProgram itm={itm}/>:
                       <Vyaparprogram itm={itm} changeState={changeState}/> :null}
                       

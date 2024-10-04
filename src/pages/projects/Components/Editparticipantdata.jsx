@@ -1302,7 +1302,7 @@ console.log(participantId); // This will be undefined if participantdata is unde
 
           // If the value is valid, update the state
           if (validValue) {
-            setSendData({ ...sendData, rate_of_interest: value });
+            setSendData({ ...sendData, rate_of_interest:parseFloat(value)  });
           }
         }}
         inputProps={{ maxLength: 5 }} // Restrict max length (2 digits + '.' + 2 decimals)
