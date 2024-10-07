@@ -133,7 +133,7 @@ type BuzzVyaparProgramBaseline struct {
 	MoneyManagement                     string   `json:"money_management"`
 	DoBookkeeping                       string   `json:"do_bookkeeping"`
 	LoanExists                          string   `json:"loan_exists"`
-	SavingsAvailable                    float64  `json:"savings_available"`
+	SavingsAvailable                    string   `json:"savings_available"`
 	LoanStartup                         string   `json:"loan_startup"`
 	TypeOfEnterpriseRunning             string   `json:"type_of_enterprise_running"`
 	MonthlyHouseholdIncome              string   `json:"monthly_household_income"`

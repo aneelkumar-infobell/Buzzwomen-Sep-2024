@@ -574,7 +574,7 @@ func GetVyaparBaselineSurvey(w http.ResponseWriter, r *http.Request, db *sql.DB)
 		MoneyManagement         string  `json:"money_management"`
 		DoBookkeeping           string  `json:"do_bookkeeping"`
 		LoanExists              string  `json:"loan_exists"`
-		SavingsAvailable        uint64  `json:"savings_available"`
+		SavingsAvailable        string  `json:"savings_available"`
 		LoanStartup             string  `json:"loan_startup"`
 		TypeOfEnterpriseRunning string  `json:"type_of_enterprise_running"`
 		MonthlyHouseholdIncome  string  `json:"monthly_household_income"`
@@ -721,7 +721,7 @@ func GetVyaparBaselineSurvey(w http.ResponseWriter, r *http.Request, db *sql.DB)
     COALESCE(money_management, '') AS money_management,
     COALESCE(do_bookkeeping, '') AS do_bookkeeping,
     COALESCE(loan_exists, '') AS loan_exists,
-    COALESCE(savings_available, 0) AS savings_available,
+    COALESCE(savings_available, '') AS savings_available,
     COALESCE(loan_startup, '') AS loan_startup,
 	COALESCE(type_of_enterprise_running,  '') AS type_of_enterprise_running
 	COALESCE(monthly_household_income, '') AS monthly_household_income
