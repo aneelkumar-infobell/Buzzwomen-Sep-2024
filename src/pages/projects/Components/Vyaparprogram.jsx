@@ -1,5 +1,3 @@
-
- 
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
@@ -20,7 +18,9 @@ import {
   CardContent,
   CardActionArea,
   DialogContent,
-  DialogContentText,Box,CircularProgress
+  DialogContentText,
+  Box,
+  CircularProgress,
 } from '@mui/material';
 import Dialog from '@mui/material/Dialog';
 import ListItemText from '@mui/material/ListItemText';
@@ -44,188 +44,71 @@ import FormHelperText from '@mui/material/FormHelperText';
 import Swal from 'sweetalert2';
 import { baseURL } from 'src/utils/api';
 import { useAuth } from 'src/AuthContext';
+import SelectInput from 'src/components/SelectInput';
+import TextInput from 'src/components/TextInput';
+import {
+  Areyourunningtheenterpriseonyourown,
+  casteCategory,
+  challengesinrunningandgrowingyourbusiness,
+  currentEconomicActivity,
+  education,
+  Fromwherehaveyoutakenit,
+  house,
+  Howdoyoukeeptheseaccounts,
+  Howmanypaidworkersdoyouhave,
+  Howoftendoyouwritetheserecords,
+  maritalStatus,
+  Numberofyearsthebusinesshasbeenoperating,
+  phoneType,
+  rationCard,
+  secondaryOccupationHousehold,
+  statusofyourenterprise,
+  Whatareyouraspirationsasanentrepreneur,
+  Whatcategorydoesyourbusinessideafallin,
+  whatisthepurposeofbankloans,
+  whatisthereasonfornotbookkeeping,
+  Whatkindofenterprisedoyourun,
+  whatskillshaveyougained,
+  whenhaveyouhadtheideaofstartingbusiness,
+  Wheredidyougettheinvestmenttostartyourbusiness,
+  Whydoyoudobusiness,
+  WomensOccupation,
+  yesOrNo,
+} from './vypar/VyaparSurveySelectOptions';
+import MultipleChoice from 'src/components/MultipleChoice';
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
-   
-export default function Vyaparprogram({ itm, changeState,componentreloadmethod }) {
+
+export default function Vyaparprogram({ itm, changeState, componentreloadmethod }) {
   const { apikey } = useAuth();
   const [open, setOpen] = React.useState(false);
   const [successMessage, setsuccessMessage] = useState(false);
-  const [message, setMessage] = useState('');
-  const [selectedValue, setSelectedValue] = React.useState('a');
-  const [vyaparform, setvyaparform] = useState([]);
-  const [survey, setsurvey] = React.useState('');
-  const [education, seteducation] = React.useState('');
-  const [maritalstatus, setmaritalstatus] = React.useState('');
-  const [phone, setphone] = React.useState('');
-  const [sector, setSector] = React.useState('');
-  const [numberproficiency, setnumberproficiency] = React.useState('');
-  const [writtenproficiency, setwrittenproficiency] = React.useState('');
-  const [bussinessyears, setBussinessyears] = React.useState('');
-  const [licensevalue, setlicensevalue] = React.useState('');
-  const [homebased, sethomebased] = React.useState('');
-  const [challengesvalue, setChallengesvalue] = React.useState('');
-  const [bussinesscurrentstate, setbussinesscurrentstate] = React.useState('');
-  const [accountbooks, setaccountbooks] = React.useState('');
-  const [generateideas, setgenerateideas] = React.useState('');
-  const [bussinessplan, setbussinessplan] = React.useState('');
-  const [submitbussinessplan, setsubmitbussinessplan] = React.useState('');
-  const [loan, setloan] = React.useState('');
-  const [accessingloan, setaccessingloan] = React.useState('');
-  const [finance, setfinance] = React.useState('');
-  const [currentloan, setcurrentloan] = React.useState('');
-  const [bussinesskills, setbussinesskills] = React.useState('');
-  const [checked, setChecked] = React.useState({
-    tell_us_three_things_about_you_as_an_entrepreneur: [],
-    please_list_down_the_various_components_of_business: [],
-    what_are_the_prerequisites_to_access_a_loan: [],
-  });
-  const [isCurrentLoan, setIsCurrentLoan] = useState(false);
-  const [helperText, setHelperText] = React.useState('');
   const [vyaapar, setVyaapar] = useState('');
-  const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
- 
-  const surveydone = (event) => {
-    setsurvey(event.target.value);
-    setwWenSurveyDoneError(false);
-  };
-  const educationlevel = (event) => {
-    seteducation(event.target.value);
-    setEducationError(false);
-  };
-  const marital = (event) => {
-    setmaritalstatus(event.target.value);
-    setMAritalStatusError(false);
-  };
-  const phonestatus = (event) => {
-    setphone(event.target.value);
-    setSmartPhoneError(false);
-    if (event.target.value == 'Yes') {
-      setIsSmartPhone(true);
-    } else {
-      setIsSmartPhone(false);
-    }
-  };
-  const sectortype = (event) => {
-    setSector(event.target.value);
-    setSectorError(false);
-  };
-  const numberproficiencyvalue = (event) => {
-    setnumberproficiency(event.target.value);
-    setNumberproficiencyError(false);
-  };
-  const writtenproficiencyvalue = (event) => {
-    setwrittenproficiency(event.target.value);
-    setWrittenproficiencyError(false);
-  };
-  const bussinessyearsvalue = (event) => {
-    setBussinessyears(event.target.value);
-    setBussinessyearsError(false);
-  };
-  const handlelicensevalue = (event) => {
-    setlicensevalue(event.target.value);
-    setlicensevalueError(false);
-  };
-  const homebasedvalue = (event) => {
-    sethomebased(event.target.value);
-    setHounseBaseError(false);
-  };
-  const challengesbussiness = (event) => {
-    setChallengesvalue(event.target.value);
-    setchallengesvalueError(false);
-  };
-  const bussinesscurrentstatevalue = (event) => {
-    setbussinesscurrentstate(event.target.value);
-    setbussinesscurrentstateError(false);
-  };
-  const handleaccountbooks = (event) => {
-    setaccountbooks(event.target.value);
-    setaccountbooksError(false);
-  };
-  const generateideasvalue = (event) => {
-    setgenerateideas(event.target.value);
-    setgenerateideasError(false);
-  };
-  const bussinessplanvalue = (event) => {
-    setbussinessplan(event.target.value);
-    setbussinessplanError(false);
-  };
-  const submitbussinessplanvalue = (event) => {
-    setsubmitbussinessplan(event.target.value);
-    setsubmitbussinessplanError(false);
-  };
-  const financevalue = (event) => {
-    setfinance(event.target.value);
-    setfinanceError(false);
-  };
-  const loanvalue = (event) => {
-    setloan(event.target.value);
-    setloanError(false);
-  };
-  const accessingloanvalue = (event) => {
-    setaccessingloan(event.target.value);
-    setaccessingloanError(false);
-  };
-  const currentloanvalue = (event) => {
-    setcurrentloan(event.target.value);
-    setcurrentloanError(false);
-    if (event.target.value == 'Yes') {
-      setIsCurrentLoan(true);
-    } else {
-      setIsCurrentLoan(false);
-    }
-  };
-  const bussinesskillsvalue = (event) => {
-    setbussinesskills(event.target.value);
-    setbussinessSkillError(false);
-    if(event.target.value == "Yes"){
-      setisAdditionalSkill(true)
-    }else{
-      setisAdditionalSkill(false)
-    }
-  };
-  const internetHandler = (event) =>{
-    setinternet(event.target.value)
-  }
-  const handleprerequisites = (label, event) => {
-    var updatedList = [...checked[label]];
-    if (event.target.checked) {
-      updatedList = [...checked[label], event.target.value];
-    } else {
-      updatedList.splice(checked[label].indexOf(event.target.value), 1);
-    }
-    let tempData = { ...checked };
-    tempData[label] = updatedList;
-    setChecked(tempData);
-  };
- 
+
   const [sendData, setSendData] = useState({
-    gfId: '',
+    participant_id: itm?.id,
+    gf_id: '',
     when_was_survey_done: '',
     name_of_the_vyapari: '',
     age: '',
     contact_number: '',
-    village_id: itm?.villagename ,
-    name_of_the_cohort: '',
-    highter_education: '',
+    village_id: '',
+    location_circle: '',
+    higher_education: '',
     marital_status: '',
-    number_of_people_in_the_household: '',
+    number_of_people_in_the_household: 0,
     do_you_own_a_smart_phone: '',
     do_you_have_internet_connection_on_your_smart_phone: '',
     sector_type_of_business: '',
     are_you_proficient_with_numbers: '',
     are_you_proficient_with_written_language: '',
-    household_income_monthly: '',
-    over_the_last_month_your_average_income: '',
-    your_business_profit_last_month: '',
-    how_much_monthly_income_would_you_like_to_ideally_earn: '',
-    amount_invested_when_the_business_started: '',
+    household_income_monthly: 0,
+    over_the_last_month_your_average_income: 0,
+    your_business_profit_last_month: 0,
+    how_much_monthly_income_would_you_like_to_ideally_earn: 0,
+    amount_invested_when_the_business_started: 0,
     number_of_years_the_business_has_been_operating: '',
-    you_stopped_hold_your_business: '',
-    no_hours_engaged_business: '',
-    license_for_existing_business: '',
-    home_based_work_from_shop: '',
     why_do_you_do_business: '',
     tell_us_three_things_about_you_as_an_entrepreneur: '',
     tell_us_three_things_about_your_role_as_a_woman_at_home: '',
@@ -233,546 +116,218 @@ export default function Vyaparprogram({ itm, changeState,componentreloadmethod }
     what_is_your_plan_to_overcome_these_challenges: '',
     what_are_your_skills: '',
     what_are_the_resources_available_with_you_for_your_business: '',
-    who_is_your_customer_Describe_them_to_us: '',
+    who_is_your_customer_describe_them_to_us: '',
     please_list_down_the_various_components_of_business: '',
-    I_know_the_current_state_of_my_business_in_profit_loss_revenue: '',
+    i_know_the_current_state_of_my_business_in_profit_loss_revenue: '',
     what_kind_of_books_of_accounts_do_you_maintain: '',
     i_can_generate_ideas_to_solve_my_business_problems: '',
     tell_us_about_one_business_problem: '',
-    what_is_your_business_goal_Business_impurumenet_madodu: '',
+    what_is_your_business_goal_business_impurumenet_madodu: '',
     do_you_have_a_business_plan_to_reach_that_goal: '',
     can_you_submit_a_business_plan_for_your_goal_to_us_right_now: '',
-    what_are_the_strenghts_of_your_business: '',
+    what_are_the_strengths_of_your_business: '',
     what_are_the_weaknesses_of_your_business: '',
-    what_are_the_oppourtunities_for_your_business: '',
+    what_are_the_opportunities_for_your_business: '',
     are_you_able_to_raise_the_required_finance: '',
     i_have_taken_a_loan_from: '',
     i_have_trouble_accessing_loan_for_my_business: '',
     what_are_the_prerequisites_to_access_a_loan: '',
+    taluk_district: '',
+    name_of_the_cohort: '',
+    you_stopped_hold_your_business: '',
+    no_hours_engaged_business: 0,
+    license_for_existing_business: '',
+    home_based_work_from_shop: '',
     loan_currently_availed: '',
-    need_additional_skills_business: '',
     relation_who_borrowed: '',
-    loan_total_amount: '',
+    loan_total_amount: 0,
     loan_source: '',
-    loan_repayment_till_date: '',
-    skils_what_are_those:'',
-    do_you_have_internet_connection_on_your_smart_phone:''
+    loan_repayment_till_date: 0,
+    need_additional_skills_business: '',
+    skills_what_are_those: '',
+    module1: '',
+    module2: '',
+    module3: '',
+    module4: '',
+    module5: '',
+    district: '',
+    taluk: '',
+    gram_panchayat: '',
+    number_of_beehives_participated: 0,
+    total_household_members: 0,
+    house: '',
+    ration_card: '',
+    cast: '',
+    dob: '',
+    education: '',
+    primary_occupation_household: '',
+    secondary_occupation_household: '',
+    womens_occupation: '',
+    monthly_expenditure: 0,
+    mobile_type: '',
+    personal_smartphone: '',
+    reason_for_not_having_smartphone: '',
+    has_bank_account: '',
+    uses_upi: '',
+    underwent_skill_development_program: '',
+    skills_gained_from_program: '',
+    enterprise_status: '',
+    run_enterprise_independently: '',
+    average_monthly_income_enterprise: 0,
+    average_monthly_profit_enterprise: 0,
+    desired_monthly_income: 0,
+    initial_investment_amount: 0,
+    investment_source: '',
+    years_in_operation: 0,
+    has_hired_employees: '',
+    number_of_paid_workers: 0,
+    reason_for_doing_business: '',
+    entrepreneurial_aspirations: [],
+    maintain_daily_financial_books: '',
+    frequency_of_recording_financial_books: '',
+    method_of_keeping_accounts: [],
+    reason_for_not_bookkeeping: '',
+    has_business_goal_or_plan: '',
+    maintain_detailed_business_plan: '',
+    short_term_goal: '',
+    loan_taken: '',
+    interest_rate: 0,
+    loan_purpose: '',
+    run_growth_challenges: '',
+    core_strength: '',
+    core_weakness: '',
+    core_opportunity: '',
+    core_threat: '',
+    target_customer: '',
+    own_account_work: '',
+    idea_status: '',
+    idea_start: '',
+    idea_category: '',
+    monthly_income: 0,
+    money_management: '',
+    do_bookkeeping: '',
+    loan_exists: '',
+    savings_available: 0,
+    loan_startup: '',
   });
-  const [Educationerror, setEducationError] = useState(false);
-  const [whenSurveyDoneError, setwWenSurveyDoneError] = useState(false);
-  const [MAritalStatusError, setMAritalStatusError] = useState(false);
-  const [smartPhoneError, setSmartPhoneError] = useState(false);
-  const [sectorError, setSectorError] = useState(false);
-  const [numberproficiencyError, setNumberproficiencyError] = useState(false);
-  const [writtenproficiencyError, setWrittenproficiencyError] = useState(false);
-  const [bussinessyearsError, setBussinessyearsError] = useState(false);
-  const [licensevalueaError, setlicensevalueError] = useState(false);
-  const [HouseBaseError, setHounseBaseError] = useState(false);
-  const [challengesvalueError, setchallengesvalueError] = useState(false);
-  const [bussinesscurrentstateError, setbussinesscurrentstateError] = useState(false);
-  const [accountbooksError, setaccountbooksError] = useState(false);
-  const [generateideasError, setgenerateideasError] = useState(false);
-  const [bussinessplanError, setbussinessplanError] = useState(false);
-  const [submitbussinessplanError, setsubmitbussinessplanError] = useState(false);
-  const [financeError, setfinanceError] = useState(false);
-  const [loanError, setloanError] = useState(false);
-  const [accessingloanError, setaccessingloanError] = useState(false);
-  const [currentloanError, setcurrentloanError] = useState(false);
-  const [bussinessSkillError, setbussinessSkillError] = useState(false);
-  const [isSmartPhone, setIsSmartPhone] = useState(false);
-  const [isAdditionalSkill ,setisAdditionalSkill] = useState(false)
-const [internet , setinternet] = useState("")
-const [loansError , setloansError] = useState(false)
-const [bisnessError , setbusinessError] = useState(false)
-const [entreprenur , setentrepreneurError] = useState(false)
-  
 
-const handleClickOpen = () => {
+  const handleClickOpen = () => {
     setOpen(true);
     setLoader(true);
-    };
+  };
   const handleClose = () => {
     setOpen(false);
-    setIsFormPresentLocally(false)
+    setIsFormPresentLocally(false);
   };
   useEffect(() => {
     gelathinamelist();
-    // setenrolledVyaapar([{ stockname: "fist" }, { stockname: "second" }])
   }, []);
 
   const saveDataLocally = (key, data) => {
- 
     const existingData = localStorage.getItem('vyapar');
     const parsedData = existingData ? JSON.parse(existingData) : [];
-    const newData = { ...data}; // Replace with your own data object
+    const newData = { ...data }; // Replace with your own data object
     parsedData.push(newData);
     const updatedData = JSON.stringify(parsedData);
     localStorage.setItem('vyapar', updatedData);
-   componentreloadmethod()
-};
-// Get data from local 
-const [isFormPresentLocally ,setIsFormPresentLocally] =useState(false)
-const localStorageData = localStorage.getItem('vyapar');
-useEffect(()=>{
-  const existingData = localStorage.getItem('vyapar');
-      const parsedData = existingData ? JSON.parse(existingData) : [];
-      if(parsedData?.length){
-        parsedData.map(item=>{
-          if(item?.partcipantId===itm.gelathi_id){
-            setSendData(item);
-            setIsFormPresentLocally(true)
-          }
-        })
-      }
-  },[])
-const data1 = localStorage.getItem("vyapar");
-const getDataLocally = (key) => {
-  const data = localStorage.getItem("vyapar");
-  return data ? JSON.parse(data) : null;
-};
-const isOnline = () => {
-  return navigator.onLine;
-};
+    // componentreloadmethod();
+  };
+  // Get data from local
+  const [isFormPresentLocally, setIsFormPresentLocally] = useState(false);
+  const localStorageData = localStorage.getItem('vyapar');
+  useEffect(() => {
+    const existingData = localStorage.getItem('vyapar');
+    const parsedData = existingData ? JSON.parse(existingData) : [];
+    if (parsedData?.length) {
+      parsedData.map((item) => {
+        if (item?.participant_id === itm.gelathi_id) {
+          setSendData(item);
+          setIsFormPresentLocally(true);
+        }
+      });
+    }
+  }, []);
+  const data1 = localStorage.getItem('vyapar');
+  const getDataLocally = (key) => {
+    const data = localStorage.getItem('vyapar');
+    return data ? JSON.parse(data) : null;
+  };
+  const isOnline = () => {
+    return navigator.onLine;
+  };
 
-
-const networkAccess = async () => {
-  try {
-    await fetch('https://www.google.com/', { mode: 'no-cors' });
-    return true;
-  } catch (error) {
-    return false;
-  }
-};
-
+  const networkAccess = async () => {
+    try {
+      await fetch('https://www.google.com/', { mode: 'no-cors' });
+      return true;
+    } catch (error) {
+      return false;
+    }
+  };
 
   const vyaparformdata = (async) => {
-    var data ={}
-    data = JSON.stringify({
-      partcipantId: JSON.stringify(itm?.id)||JSON.stringify(itm?.gelathi_id),
-      gfId: sendData?.gfId,
-      when_was_survey_done: survey,
-      name_of_the_vyapari: sendData?.name_of_the_vyapari,
-      age: sendData?.age,
-      contact_number: sendData?.contact_number,
-      village_id: itm?.villagename  || sendData?.village_id,
-      name_of_the_cohort: sendData?.name_of_the_cohort,
-      highter_education: education,
-      marital_status: maritalstatus,
-      number_of_people_in_the_household: sendData?.number_of_people_in_the_household,
-      do_you_own_a_smart_phone: phone,
-      do_you_have_internet_connection_on_your_smart_phone: '3',
-      sector_type_of_business: sector,
-      are_you_proficient_with_numbers: numberproficiency,
-      are_you_proficient_with_written_language: writtenproficiency,
-      household_income_monthly: sendData?.household_income_monthly,
-      over_the_last_month_your_average_income: sendData?.over_the_last_month_your_average_income,
-      your_business_profit_last_month: sendData?.your_business_profit_last_month,
-      how_much_monthly_income_would_you_like_to_ideally_earn:
-        sendData?.how_much_monthly_income_would_you_like_to_ideally_earn,
-      amount_invested_when_the_business_started: sendData?.amount_invested_when_the_business_started,
-      number_of_years_the_business_has_been_operating: bussinessyears,
-      you_stopped_hold_your_business: sendData?.you_stopped_hold_your_business,
-      no_hours_engaged_business: sendData?.no_hours_engaged_business,
-      license_for_existing_business: licensevalue,
-      home_based_work_from_shop: homebased,
-      why_do_you_do_business: sendData?.why_do_you_do_business,
-      tell_us_three_things_about_you_as_an_entrepreneur: checked['tell_us_three_things_about_you_as_an_entrepreneur'],
-      tell_us_three_things_about_your_role_as_a_woman_at_home:
-        sendData?.tell_us_three_things_about_your_role_as_a_woman_at_home,
-      what_are_your_challenges_in_running_and_growing_your_business: challengesvalue,
-      what_is_your_plan_to_overcome_these_challenges: sendData?.what_is_your_plan_to_overcome_these_challenges,
-      what_are_your_skills: sendData?.what_are_your_skills,
-      what_are_the_resources_available_with_you_for_your_business:
-        sendData?.what_are_the_resources_available_with_you_for_your_business,
-      who_is_your_customer_Describe_them_to_us: sendData?.who_is_your_customer_Describe_them_to_us,
-      please_list_down_the_various_components_of_business:
-        checked['please_list_down_the_various_components_of_business'],
-      I_know_the_current_state_of_my_business_in_profit_loss_revenue: bussinesscurrentstate,
-      what_kind_of_books_of_accounts_do_you_maintain: accountbooks,
-      i_can_generate_ideas_to_solve_my_business_problems: generateideas,
-      tell_us_about_one_business_problem: sendData?.tell_us_about_one_business_problem,
-      what_is_your_business_goal_Business_impurumenet_madodu:
-        sendData?.what_is_your_business_goal_Business_impurumenet_madodu,
-      do_you_have_a_business_plan_to_reach_that_goal: bussinessplan,
-      can_you_submit_a_business_plan_for_your_goal_to_us_right_now: submitbussinessplan,
-      what_are_the_strenghts_of_your_business: sendData?.what_are_the_strenghts_of_your_business,
-      what_are_the_weaknesses_of_your_business: sendData?.what_are_the_weaknesses_of_your_business,
-      what_are_the_oppourtunities_for_your_business: sendData?.what_are_the_oppourtunities_for_your_business,
-      are_you_able_to_raise_the_required_finance: finance,
-      i_have_taken_a_loan_from: loan,
-      i_have_trouble_accessing_loan_for_my_business: accessingloan,
-      what_are_the_prerequisites_to_access_a_loan: checked['what_are_the_prerequisites_to_access_a_loan'],
-      loan_currently_availed: currentloan,
-      ' need_additional_skills_business': bussinesskills,
-      relation_who_borrowed: sendData?.relation_who_borrowed,
-      loan_total_amount: sendData?.loan_total_amount,
-      loan_source: sendData?.loan_source,
-      loan_repayment_till_date: sendData?.loan_repayment_till_date,
-      skils_what_are_those : sendData?.skils_what_are_those,
-      do_you_have_internet_connection_on_your_smart_phone : internet
-    });
-    if(isOnline() && networkAccess())
-    {
-    if (education == '') {
-      setEducationError(true);
-      setHelperText('Please Select The Option');
-    }
-    if (survey == '') {
-      setwWenSurveyDoneError(true);
-      setHelperText('Please Select The Option');
-    }
-    if (maritalstatus == '') {
-      setMAritalStatusError(true);
-      setHelperText('Please Select The Option');
-    }
-    if (phone == '') {
-      setSmartPhoneError(true);
-      setHelperText('Please Select The Option');
-    }
-    if (sector == '') {
-      setSectorError(true);
-      setHelperText('Please Select The Option');
-    }
-    if (numberproficiency == '') {
-      setNumberproficiencyError(true);
-      setHelperText('Please Select The Option');
-    }
-    if (writtenproficiency == '') {
-      setWrittenproficiencyError(true);
-      setHelperText('Please Select The Option');
-    }
-    if (bussinessyears == '') {
-      setBussinessyearsError(true);
-      setHelperText('Please Select The Option');
-    }
-    if (licensevalue == '') {
-      setlicensevalueError(true);
-      setHelperText('Please Select The Option');
-    }
-    if (homebased == '') {
-      setHounseBaseError(true);
-      setHelperText('Please Select The Option');
-    }
-    if (challengesvalue == '') {
-      setchallengesvalueError(true);
-      setHelperText('Please Select The Option');
-    }
-    if (bussinesscurrentstate == '') {
-      setbussinesscurrentstateError(true);
-      setHelperText('Please Select The Option');
-    }
-    if (accountbooks == '') {
-      setaccountbooksError(true);
-      setHelperText('Please Select The Option');
-    }
-    if (generateideas == '') {
-      setgenerateideasError(true);
-      setHelperText('Please Select The Option');
-    }
-    if (bussinessplan == '') {
-      setbussinessplanError(true);
-      setHelperText('Please Select The Option');
-    }
-    if (submitbussinessplan == '') {
-      setsubmitbussinessplanError(true);
-      setHelperText('Please Select The Option');
-    }
-    if (finance == '') {
-      setfinanceError(true);
-      setHelperText('Please Select The Option');
-    }
-    if (loan == '') {
-      setloanError(true);
-      setHelperText('Please Select The Option');
-    }
-    if (accessingloan == '') {
-      setaccessingloanError(true);
-      setHelperText('Please Select The Option');
-    }
-    if (currentloan == '') {
-      setcurrentloanError(true);
-      setHelperText('Please Select The Option');
-    }
-    if (bussinesskills == '') {
-      setbussinessSkillError(true);
-      setHelperText('Please Select The Option');
-    }
-    if (checked['please_list_down_the_various_components_of_business'] == 0) {
-      setbusinessError(true);
-      setHelperText('Please Select The Option');
-    }
-    if (checked['tell_us_three_things_about_you_as_an_entrepreneur'] == 0) {
-      setentrepreneurError(true);
-      setHelperText('Please Select The Option');
-    }
-    if (checked['what_are_the_prerequisites_to_access_a_loan'] == 0) {
-      setloansError(true);
-      setHelperText('Please Select The Option');
-    }
-    if (
-      bussinesskills != ' ' &&
-      currentloan != '' &&
-      accessingloan != '' &&
-      loan != '' &&
-      finance != '' &&
-      submitbussinessplan != '' &&
-      bussinessplan != '' &&
-      generateideas != '' &&
-      accountbooks != '' &&
-      bussinesscurrentstate != '' &&
-      challengesvalue != '' &&
-      homebased != '' &&
-      licensevalue != '' &&
-      bussinessyears != '' &&
-      writtenproficiency != '' &&
-      numberproficiency != '' &&
-      sector != '' &&
-      phone != '' &&
-      maritalstatus != '' &&
-      survey != '' &&
-      education != ''&&
-      (checked['please_list_down_the_various_components_of_business'] != 0)&&
-      (checked['tell_us_three_things_about_you_as_an_entrepreneur'] != 0)&&
-      (checked['what_are_the_prerequisites_to_access_a_loan'] != 0)
-    ) 
-    {
-if(localStorage.getItem('vyapar')){
-  data = setvyaparform(saveDataLocally('vyapar',JSON.parse(data)));
-  setvyaparform(data);
-}
-
-else{
-      var data = JSON.stringify({
-        partcipantId: JSON.stringify(itm?.id)|| JSON.stringify(itm?.gelathi_id),
-        gfId: sendData?.gfId,
-        when_was_survey_done: survey,
-        name_of_the_vyapari: sendData?.name_of_the_vyapari,
-        age: sendData?.age,
-        contact_number: sendData?.contact_number,
-        village_id: itm?.villagename  || sendData?.village_id,
-        name_of_the_cohort: sendData?.name_of_the_cohort,
-        highter_education: education,
-        marital_status: maritalstatus,
-        number_of_people_in_the_household: sendData?.number_of_people_in_the_household,
-        do_you_own_a_smart_phone: phone,
-        do_you_have_internet_connection_on_your_smart_phone: '3',
-        sector_type_of_business: sector,
-        are_you_proficient_with_numbers: numberproficiency,
-        are_you_proficient_with_written_language: writtenproficiency,
-        household_income_monthly: sendData?.household_income_monthly,
-        over_the_last_month_your_average_income: sendData?.over_the_last_month_your_average_income,
-        your_business_profit_last_month: sendData?.your_business_profit_last_month,
-        how_much_monthly_income_would_you_like_to_ideally_earn:
-          sendData?.how_much_monthly_income_would_you_like_to_ideally_earn,
-        amount_invested_when_the_business_started: sendData?.amount_invested_when_the_business_started,
-        number_of_years_the_business_has_been_operating: bussinessyears,
-        you_stopped_hold_your_business: sendData?.you_stopped_hold_your_business,
-        no_hours_engaged_business: sendData?.no_hours_engaged_business,
-        license_for_existing_business: licensevalue,
-        home_based_work_from_shop: homebased,
-        why_do_you_do_business: sendData?.why_do_you_do_business,
-        tell_us_three_things_about_you_as_an_entrepreneur: checked['tell_us_three_things_about_you_as_an_entrepreneur'],
-        tell_us_three_things_about_your_role_as_a_woman_at_home:
-          sendData?.tell_us_three_things_about_your_role_as_a_woman_at_home,
-        what_are_your_challenges_in_running_and_growing_your_business: challengesvalue,
-        what_is_your_plan_to_overcome_these_challenges: sendData?.what_is_your_plan_to_overcome_these_challenges,
-        what_are_your_skills: sendData?.what_are_your_skills,
-        what_are_the_resources_available_with_you_for_your_business:
-          sendData?.what_are_the_resources_available_with_you_for_your_business,
-        who_is_your_customer_Describe_them_to_us: sendData?.who_is_your_customer_Describe_them_to_us,
-        please_list_down_the_various_components_of_business:
-          checked['please_list_down_the_various_components_of_business'],
-        I_know_the_current_state_of_my_business_in_profit_loss_revenue: bussinesscurrentstate,
-        what_kind_of_books_of_accounts_do_you_maintain: accountbooks,
-        i_can_generate_ideas_to_solve_my_business_problems: generateideas,
-        tell_us_about_one_business_problem: sendData?.tell_us_about_one_business_problem,
-        what_is_your_business_goal_Business_impurumenet_madodu:
-          sendData?.what_is_your_business_goal_Business_impurumenet_madodu,
-        do_you_have_a_business_plan_to_reach_that_goal: bussinessplan,
-        can_you_submit_a_business_plan_for_your_goal_to_us_right_now: submitbussinessplan,
-        what_are_the_strenghts_of_your_business: sendData?.what_are_the_strenghts_of_your_business,
-        what_are_the_weaknesses_of_your_business: sendData?.what_are_the_weaknesses_of_your_business,
-        what_are_the_oppourtunities_for_your_business: sendData?.what_are_the_oppourtunities_for_your_business,
-        are_you_able_to_raise_the_required_finance: finance,
-        i_have_taken_a_loan_from: loan,
-        i_have_trouble_accessing_loan_for_my_business: accessingloan,
-        what_are_the_prerequisites_to_access_a_loan: checked['what_are_the_prerequisites_to_access_a_loan'],
-        loan_currently_availed: currentloan,
-        ' need_additional_skills_business': bussinesskills,
-        relation_who_borrowed: sendData?.relation_who_borrowed,
-        loan_total_amount: sendData?.loan_total_amount,
-        loan_source: sendData?.loan_source,
-        loan_repayment_till_date: sendData?.loan_repayment_till_date,
-        skils_what_are_those : sendData?.skils_what_are_those,
-        do_you_have_internet_connection_on_your_smart_phone : internet
-      });
-}
+    console.log({ sendData });
+    if (isOnline() && networkAccess()) {
+      if (localStorage.getItem('vyapar')) {
+        saveDataLocally('vyapar', sendData);
+      }
+      sendData.age = parseInt(sendData.age);
+      sendData.amount_invested_when_the_business_started = parseInt(sendData.amount_invested_when_the_business_started);
+      sendData.average_monthly_income_enterprise = parseInt(sendData.average_monthly_income_enterprise);
+      sendData.average_monthly_profit_enterprise = parseInt(sendData.average_monthly_profit_enterprise);
+      sendData.desired_monthly_income = parseInt(sendData.desired_monthly_income);
+      sendData.gf_id = parseInt(sendData.gf_id);
+      sendData.interest_rate = parseInt(sendData.interest_rate);
+      sendData.monthly_expenditure = parseInt(sendData.monthly_expenditure);
+      sendData.monthly_income = parseInt(sendData.monthly_income);
+      sendData.number_of_beehives_participated = parseInt(sendData.number_of_beehives_participated);
+      sendData.number_of_people_in_the_household = parseInt(sendData.number_of_people_in_the_household);
+      sendData.participant_id = parseInt(itm.id);
       var config = {
         method: 'post',
-        url: baseURL + 'addBuzzVyapar',
+        url: baseURL + 'addVyaparBaselineSurvey',
         headers: {
           'Content-Type': 'application/json',
-           'Authorization': `${apikey}`
+          Authorization: `${apikey}`,
         },
-        data: data,
+        data: sendData,
       };
       axios(config)
         .then(function (response) {
+          console.log(response, 'responseeeeVypar');
+          // props?.changeState();
+          // props?.mainDrawerReload();
           changeState();
-          setvyaparform(response?.data);
           localStorage.removeItem('vyapar');
-      
-          setMessage(response?.data.message);
-          setsuccessMessage(true);
-        
-          setIsCurrentLoan(false);
-          setisAdditionalSkill(false)
+          Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: response.data.Message,
+            confirmButtonText: 'Ok',
+            timer: 3000,
+          });
           handleClose();
         })
         .catch(function (error) {
-          setvyaparform(saveDataLocally('vyapar',data));
-          componentreloadmethod()
+          console.log(sendData, 'responseeeegreen', error);
+          console.log('responseeeeVypar', error?.response?.data?.Message);
+          saveDataLocally('vyapar', sendData);
+          // props?.mainDrawerReload();
+          changeState();
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: error?.response?.data?.Message,
+            confirmButtonText: 'Ok',
+            timer: 2000,
+          });
+          handleClose();
         });
-        handleClose()
-      } 
-      else {
-      alert('PLease Fill All The Field ');
+    } else {
+      isOnline() ? '' : saveDataLocally('green', sendData);
+      handleClose();
+      // props?.mainDrawerReload();
     }
-  }
-  else{
-
-    if (education == '') {
-      setEducationError(true);
-      setHelperText('Please Select The Option');
-    }
-    if (survey == '') {
-      setwWenSurveyDoneError(true);
-      setHelperText('Please Select The Option');
-    }
-    if (maritalstatus == '') {
-      setMAritalStatusError(true);
-      setHelperText('Please Select The Option');
-    }
-    if (phone == '') {
-      setSmartPhoneError(true);
-      setHelperText('Please Select The Option');
-    }
-    if (sector == '') {
-      setSectorError(true);
-      setHelperText('Please Select The Option');
-    }
-    if (numberproficiency == '') {
-      setNumberproficiencyError(true);
-      setHelperText('Please Select The Option');
-    }
-    if (writtenproficiency == '') {
-      setWrittenproficiencyError(true);
-      setHelperText('Please Select The Option');
-    }
-    if (bussinessyears == '') {
-      setBussinessyearsError(true);
-      setHelperText('Please Select The Option');
-    }
-    if (licensevalue == '') {
-      setlicensevalueError(true);
-      setHelperText('Please Select The Option');
-    }
-    if (homebased == '') {
-      setHounseBaseError(true);
-      setHelperText('Please Select The Option');
-    }
-    if (challengesvalue == '') {
-      setchallengesvalueError(true);
-      setHelperText('Please Select The Option');
-    }
-    if (bussinesscurrentstate == '') {
-      setbussinesscurrentstateError(true);
-      setHelperText('Please Select The Option');
-    }
-    if (accountbooks == '') {
-      setaccountbooksError(true);
-      setHelperText('Please Select The Option');
-    }
-    if (generateideas == '') {
-      setgenerateideasError(true);
-      setHelperText('Please Select The Option');
-    }
-    if (bussinessplan == '') {
-      setbussinessplanError(true);
-      setHelperText('Please Select The Option');
-    }
-    if (submitbussinessplan == '') {
-      setsubmitbussinessplanError(true);
-      setHelperText('Please Select The Option');
-    }
-    if (finance == '') {
-      setfinanceError(true);
-      setHelperText('Please Select The Option');
-    }
-    if (loan == '') {
-      setloanError(true);
-      setHelperText('Please Select The Option');
-    }
-    if (accessingloan == '') {
-      setaccessingloanError(true);
-      setHelperText('Please Select The Option');
-    }
-    if (currentloan == '') {
-      setcurrentloanError(true);
-      setHelperText('Please Select The Option');
-    }
-    if (bussinesskills == '') {
-      setbussinessSkillError(true);
-      setHelperText('Please Select The Option');
-    }
-    if (checked['please_list_down_the_various_components_of_business'] == 0) {
-      setbusinessError(true);
-      setHelperText('Please Select The Option');
-    }
-    if (checked['tell_us_three_things_about_you_as_an_entrepreneur'] == 0) {
-      setentrepreneurError(true);
-      setHelperText('Please Select The Option');
-    }
-    if (checked['what_are_the_prerequisites_to_access_a_loan'] == 0) {
-      setloansError(true);
-      setHelperText('Please Select The Option');
-    }
-    if (
-      bussinesskills != ' ' &&
-      currentloan != '' &&
-      accessingloan != '' &&
-      loan != '' &&
-      finance != '' &&
-      submitbussinessplan != '' &&
-      bussinessplan != '' &&
-      generateideas != '' &&
-      accountbooks != '' &&
-      bussinesscurrentstate != '' &&
-      challengesvalue != '' &&
-      homebased != '' &&
-      licensevalue != '' &&
-      bussinessyears != '' &&
-      writtenproficiency != '' &&
-      numberproficiency != '' &&
-      sector != '' &&
-      phone != '' &&
-      maritalstatus != '' &&
-      survey != '' &&
-      education != ''&&
-      (checked['please_list_down_the_various_components_of_business'] != 0)&&
-      (checked['tell_us_three_things_about_you_as_an_entrepreneur'] != 0)&&
-      (checked['what_are_the_prerequisites_to_access_a_loan'] != 0)
-    ) {
-
-    setvyaparform(saveDataLocally('vyapar',JSON.parse(data)));
-    handleClose();
-    componentreloadmethod();
- 
-    }
-    else{
-      alert('Please Select the Option');
-    }
-  }
   };
   const gelathinamelist = (async) => {
     var config = {
@@ -780,29 +335,132 @@ else{
       url: baseURL + 'getGelathiList',
       headers: {
         'Content-Type': 'application/json',
-         'Authorization': `${apikey}`
-      }
+        Authorization: `${apikey}`,
+      },
     };
     axios(config)
       .then(function (response) {
-        localStorage.setItem('gelathilist',JSON.stringify(response?.data));
-        setVyaapar(response?.data);
+        localStorage.setItem('gelathilist', JSON.stringify(response?.data));
+        setVyaapar(response?.data.list);
       })
       .catch(function (error) {
-        let gelathidata=JSON.parse(localStorage.getItem('gelathilist'))
-        setVyaapar(gelathidata);
+        let gelathidata = JSON.parse(localStorage.getItem('gelathilist'));
+        setVyaapar(gelathidata.list);
       });
   };
 
-    const [loader, setLoader] = useState(true);
+  const [loader, setLoader] = useState(true);
   useEffect(() => {
     // After 3 seconds, set showCard to true to render the Card component
     const delay = 3000; // 3 seconds in milliseconds
     const timeoutId = setTimeout(() => {
       setLoader(false);
     }, delay);
-  })
-
+  });
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setSendData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+    if (name === 'district') {
+      const selectedDistrict = district.find((d) => d.name === value);
+      const districtId = selectedDistrict ? selectedDistrict.id : null;
+      getDistrict(value, districtId);
+    }
+    if (name === 'taluk') {
+      const selectedTaluk = taluk.find((d) => d.name === value);
+      const talukId = selectedTaluk ? selectedTaluk.id : null;
+      villageList(talukId);
+    }
+  };
+  const handleResources = (label, event) => {
+    var updatedList = [...sendData[label]];
+    if (event.target.checked) {
+      updatedList = [...sendData[label], event.target.value];
+    } else {
+      updatedList.splice(sendData[label].indexOf(event.target.value), 1);
+    }
+    let tempData = { ...sendData };
+    tempData[label] = updatedList;
+    console.log(updatedList);
+    setSendData(tempData);
+  };
+  const [states, setStates] = useState([]);
+  const [district, setDistrict] = useState([]);
+  const [taluk, setTaluk] = useState([]);
+  const [village, setVillage] = useState([]);
+  useEffect(() => {
+    getState();
+  }, []);
+  const getState = async (id) => {
+    var data = JSON.stringify({
+      country_id: '1',
+      state_id: JSON.stringify(3),
+    });
+    var config = {
+      method: 'post',
+      url: baseURL + 'getLocation',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `${apikey}`,
+      },
+      data: data,
+    };
+    axios(config)
+      .then(function (response) {
+        setDistrict(response.data.list);
+      })
+      .catch(function (error) {
+        // console.log(error);
+      });
+  };
+  const getDistrict = async (district, districtId) => {
+    var data = JSON.stringify({
+      country_id: '1',
+      state_id: JSON.stringify(3),
+      district_id: JSON.stringify(districtId),
+      district_name: district,
+    });
+    var config = {
+      method: 'post',
+      url: baseURL + 'getLocation',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `${apikey}`,
+      },
+      data: data,
+    };
+    axios(config)
+      .then(function (response) {
+        setTaluk(response.data.list);
+      })
+      .catch(function (error) {
+        //  console.log(error);
+      });
+  };
+  const villageList = async (taluk_id) => {
+    var data = JSON.stringify({
+      taluk_id: parseInt(taluk_id),
+      search: '',
+    });
+    var config = {
+      method: 'post',
+      url: baseURL + 'getVillageList',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `${apikey}`,
+      },
+      data: data,
+    };
+    axios(config)
+      .then(function (response) {
+        setVillage(response.data.list);
+      })
+      .catch(function (error) {
+        // console.log(error);
+      });
+  };
 
   return (
     <div>
@@ -819,14 +477,89 @@ else{
           </Alert>
         </Snackbar>
       )}
-     {(isOnline())? <Stack style={{ position: 'absolute', right: 0, float: 'right', margin: 2, padding: 2 }} mb={2}>
-        <button onClick={handleClickOpen} style={{border: 'none',marginRight:25, outline: 'none', background: 'transparent', cursor: 'pointer'}}>
-         <svg xmlns="http://www.w3.org/2000/svg" color="#ff7424" width="1.5em" height="1.5em" viewBox="0 0 36 36"><path fill="currentColor" d="M21 12H7a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1ZM8 10h12V7.94H8Z" class="clr-i-outline clr-i-outline-path-1"/><path fill="currentColor" d="M21 14.08H7a1 1 0 0 0-1 1V19a1 1 0 0 0 1 1h11.36L22 16.3v-1.22a1 1 0 0 0-1-1ZM20 18H8v-2h12Z" class="clr-i-outline clr-i-outline-path-2"/><path fill="currentColor" d="M11.06 31.51v-.06l.32-1.39H4V4h20v10.25l2-1.89V3a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v28a1 1 0 0 0 1 1h8a3.44 3.44 0 0 1 .06-.49Z" class="clr-i-outline clr-i-outline-path-3"/><path fill="currentColor" d="m22 19.17l-.78.79a1 1 0 0 0 .78-.79Z" class="clr-i-outline clr-i-outline-path-4"/><path fill="currentColor" d="M6 26.94a1 1 0 0 0 1 1h4.84l.3-1.3l.13-.55v-.05H8V24h6.34l2-2H7a1 1 0 0 0-1 1Z" class="clr-i-outline clr-i-outline-path-5"/><path fill="currentColor" d="m33.49 16.67l-3.37-3.37a1.61 1.61 0 0 0-2.28 0L14.13 27.09L13 31.9a1.61 1.61 0 0 0 1.26 1.9a1.55 1.55 0 0 0 .31 0a1.15 1.15 0 0 0 .37 0l4.85-1.07L33.49 19a1.6 1.6 0 0 0 0-2.27ZM18.77 30.91l-3.66.81l.89-3.63L26.28 17.7l2.82 2.82Zm11.46-11.52l-2.82-2.82L29 15l2.84 2.84Z" class="clr-i-outline clr-i-outline-path-6"/><path fill="none" d="M0 0h36v36H0z"/></svg>
-        </button>
-      </Stack>:<Stack>
-        <button onClick={handleClickOpen} style={{border: 'none',marginRight:25, outline: 'none', background: 'transparent', cursor: 'pointer'}}>  
-           <svg xmlns="http://www.w3.org/2000/svg" color="#ff7424" width="1.5em" height="1.5em" viewBox="0 0 36 36"><path fill="currentColor" d="M21 12H7a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1ZM8 10h12V7.94H8Z" class="clr-i-outline clr-i-outline-path-1"/><path fill="currentColor" d="M21 14.08H7a1 1 0 0 0-1 1V19a1 1 0 0 0 1 1h11.36L22 16.3v-1.22a1 1 0 0 0-1-1ZM20 18H8v-2h12Z" class="clr-i-outline clr-i-outline-path-2"/><path fill="currentColor" d="M11.06 31.51v-.06l.32-1.39H4V4h20v10.25l2-1.89V3a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v28a1 1 0 0 0 1 1h8a3.44 3.44 0 0 1 .06-.49Z" class="clr-i-outline clr-i-outline-path-3"/><path fill="currentColor" d="m22 19.17l-.78.79a1 1 0 0 0 .78-.79Z" class="clr-i-outline clr-i-outline-path-4"/><path fill="currentColor" d="M6 26.94a1 1 0 0 0 1 1h4.84l.3-1.3l.13-.55v-.05H8V24h6.34l2-2H7a1 1 0 0 0-1 1Z" class="clr-i-outline clr-i-outline-path-5"/><path fill="currentColor" d="m33.49 16.67l-3.37-3.37a1.61 1.61 0 0 0-2.28 0L14.13 27.09L13 31.9a1.61 1.61 0 0 0 1.26 1.9a1.55 1.55 0 0 0 .31 0a1.15 1.15 0 0 0 .37 0l4.85-1.07L33.49 19a1.6 1.6 0 0 0 0-2.27ZM18.77 30.91l-3.66.81l.89-3.63L26.28 17.7l2.82 2.82Zm11.46-11.52l-2.82-2.82L29 15l2.84 2.84Z" class="clr-i-outline clr-i-outline-path-6"/><path fill="none" d="M0 0h36v36H0z"/></svg></button>
-           </Stack>}
+      {isOnline() ? (
+        <Stack style={{ position: 'absolute', right: 0, float: 'right', margin: 2, padding: 2 }} mb={2}>
+          <button
+            onClick={handleClickOpen}
+            style={{ border: 'none', marginRight: 25, outline: 'none', background: 'transparent', cursor: 'pointer' }}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" color="#ff7424" width="1.5em" height="1.5em" viewBox="0 0 36 36">
+              <path
+                fill="currentColor"
+                d="M21 12H7a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1ZM8 10h12V7.94H8Z"
+                class="clr-i-outline clr-i-outline-path-1"
+              />
+              <path
+                fill="currentColor"
+                d="M21 14.08H7a1 1 0 0 0-1 1V19a1 1 0 0 0 1 1h11.36L22 16.3v-1.22a1 1 0 0 0-1-1ZM20 18H8v-2h12Z"
+                class="clr-i-outline clr-i-outline-path-2"
+              />
+              <path
+                fill="currentColor"
+                d="M11.06 31.51v-.06l.32-1.39H4V4h20v10.25l2-1.89V3a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v28a1 1 0 0 0 1 1h8a3.44 3.44 0 0 1 .06-.49Z"
+                class="clr-i-outline clr-i-outline-path-3"
+              />
+              <path
+                fill="currentColor"
+                d="m22 19.17l-.78.79a1 1 0 0 0 .78-.79Z"
+                class="clr-i-outline clr-i-outline-path-4"
+              />
+              <path
+                fill="currentColor"
+                d="M6 26.94a1 1 0 0 0 1 1h4.84l.3-1.3l.13-.55v-.05H8V24h6.34l2-2H7a1 1 0 0 0-1 1Z"
+                class="clr-i-outline clr-i-outline-path-5"
+              />
+              <path
+                fill="currentColor"
+                d="m33.49 16.67l-3.37-3.37a1.61 1.61 0 0 0-2.28 0L14.13 27.09L13 31.9a1.61 1.61 0 0 0 1.26 1.9a1.55 1.55 0 0 0 .31 0a1.15 1.15 0 0 0 .37 0l4.85-1.07L33.49 19a1.6 1.6 0 0 0 0-2.27ZM18.77 30.91l-3.66.81l.89-3.63L26.28 17.7l2.82 2.82Zm11.46-11.52l-2.82-2.82L29 15l2.84 2.84Z"
+                class="clr-i-outline clr-i-outline-path-6"
+              />
+              <path fill="none" d="M0 0h36v36H0z" />
+            </svg>
+          </button>
+        </Stack>
+      ) : (
+        <Stack>
+          <button
+            onClick={handleClickOpen}
+            style={{ border: 'none', marginRight: 25, outline: 'none', background: 'transparent', cursor: 'pointer' }}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" color="#ff7424" width="1.5em" height="1.5em" viewBox="0 0 36 36">
+              <path
+                fill="currentColor"
+                d="M21 12H7a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1ZM8 10h12V7.94H8Z"
+                class="clr-i-outline clr-i-outline-path-1"
+              />
+              <path
+                fill="currentColor"
+                d="M21 14.08H7a1 1 0 0 0-1 1V19a1 1 0 0 0 1 1h11.36L22 16.3v-1.22a1 1 0 0 0-1-1ZM20 18H8v-2h12Z"
+                class="clr-i-outline clr-i-outline-path-2"
+              />
+              <path
+                fill="currentColor"
+                d="M11.06 31.51v-.06l.32-1.39H4V4h20v10.25l2-1.89V3a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v28a1 1 0 0 0 1 1h8a3.44 3.44 0 0 1 .06-.49Z"
+                class="clr-i-outline clr-i-outline-path-3"
+              />
+              <path
+                fill="currentColor"
+                d="m22 19.17l-.78.79a1 1 0 0 0 .78-.79Z"
+                class="clr-i-outline clr-i-outline-path-4"
+              />
+              <path
+                fill="currentColor"
+                d="M6 26.94a1 1 0 0 0 1 1h4.84l.3-1.3l.13-.55v-.05H8V24h6.34l2-2H7a1 1 0 0 0-1 1Z"
+                class="clr-i-outline clr-i-outline-path-5"
+              />
+              <path
+                fill="currentColor"
+                d="m33.49 16.67l-3.37-3.37a1.61 1.61 0 0 0-2.28 0L14.13 27.09L13 31.9a1.61 1.61 0 0 0 1.26 1.9a1.55 1.55 0 0 0 .31 0a1.15 1.15 0 0 0 .37 0l4.85-1.07L33.49 19a1.6 1.6 0 0 0 0-2.27ZM18.77 30.91l-3.66.81l.89-3.63L26.28 17.7l2.82 2.82Zm11.46-11.52l-2.82-2.82L29 15l2.84 2.84Z"
+                class="clr-i-outline clr-i-outline-path-6"
+              />
+              <path fill="none" d="M0 0h36v36H0z" />
+            </svg>
+          </button>
+        </Stack>
+      )}
       <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>
         <form
           onSubmit={(e) => {
@@ -837,1683 +570,776 @@ else{
           <AppBar sx={{ position: 'fixed', bgcolor: '#ff7424' }}>
             <Toolbar sx={{ position: 'relative', bgcolor: '#ff7424' }}>
               <IconButton style={{ color: 'white' }} onClick={handleClose}>
-               {(isOnline())? <Iconify icon="material-symbols:arrow-back-rounded" />:<div style={{borderRadius:5}}>🡠</div>}
+                {isOnline() ? (
+                  <Iconify icon="material-symbols:arrow-back-rounded" />
+                ) : (
+                  <div style={{ borderRadius: 5 }}>🡠</div>
+                )}
               </IconButton>
               <Typography sx={{ ml: 2, flex: 1, color: 'white' }} variant="h6" component="div">
-                Buzz Vyapar Program Baseline
+                Buzz Vyapar Program Baselines
               </Typography>
-              <Button edge="end" color="inherit" type="submit" onClick={()=>{}} style={{ color: 'white' }}>
-               {(isOnline())? <Iconify icon="material-symbols:save" width={30} height={30} />:"save"}
+              <Button edge="end" color="inherit" type="submit" onClick={() => {}} style={{ color: 'white' }}>
+                {isOnline() ? <Iconify icon="material-symbols:save" width={30} height={30} /> : 'save'}
               </Button>
             </Toolbar>
           </AppBar>
-       {/* {isFormPresentLocally?
-         <Typography sx={{ ml: 2, flex: 1, color: 'black',textAlign:'center' ,justifyContent:"center",alignItems:'center'}}  variant="h6" component="div">
-         This form is already filled!
-       </Typography> */}
-       {/* :  */}
-       {(loader)? 
-          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '70vh' }}>
-                <CircularProgress sx={{color:'#ff7424'}}/>
-           </Box>:
-       <Grid>
-      
-            <Card>
-              <CardContent>
-                <Card style={{ marginTop: 50, borderRadius: 20 }}>
-                  <CardContent>
-                    <Typography style={{ color: '#ff7424' }}>Name of the GF / ಗೆಳತಿಯ ಹೆಸರು *</Typography>
-                    <Stack mt={2} mb={2}>
-                      <Select
-                        color="common"
-                        label="Choose Gelathi Facilitator"
-                        required
-                        variant="standard"
-                        onChange={(e) => setSendData({ ...sendData, gfId: e?.target?.value })}
-                        value={sendData?.gfId}
-                      >
-                        {vyaapar?.list?.map((itm) => {
-                          return <MenuItem value={itm.id}>{itm?.first_name}</MenuItem>;
-                        })}
-                      </Select>
-                    </Stack>
-                  </CardContent>
-                </Card>
-                <Card style={{ marginTop: 20, borderRadius: 20 }}>
-                  <CardContent>
-                    <Stack mt={2}>
-                      <Typography style={{ color: '#ff7424' }}>
-                        When was survey done / ಸಮೀಕ್ಷೆ ಯಾವಾಗ ಮಾಡಲಾಯಿತು? *
-                        {whenSurveyDoneError ? (
-                          <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText>
-                        ) : null}
-                      </Typography>
-                      <RadioGroup
-                        aria-labelledby="demo-radio-buttons-group-label"
-                        // defaultValue="Yes"
-                        name="radio-buttons-group"
-                        value={survey}
-                        onChange={surveydone}
-                      >
-                        <FormControlLabel
-                          value="Before Bootcamp1"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Before Bootcamp1"
-                        />
-                        <FormControlLabel
-                          value="Before Bootcamp2"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Before Bootcamp2"
-                        />
-                        <FormControlLabel
-                          value="Other"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Other"
-                        />
-                      </RadioGroup>
-                    </Stack>
-                  </CardContent>
-                </Card>
-                <Card style={{ marginTop: 20, borderRadius: 20 }}>
-                  <CardContent>
-                    <Typography style={{ color: '#ff7424' }}>Name of vyapari / ವ್ಯಾಪಾರಿಯ ಹೆಸರು *</Typography>
-                    <Stack mt={2} mb={2}>
-                      <TextField
-                        id="vyapari name"
-                        required
-                        label="Your Answer"
-                        type="text"
-                        variant="outlined"
-                        color="common"
-                      
-                        onChange={(e) => setSendData({ ...sendData, name_of_the_vyapari: e?.target?.value })}
-                        value={sendData?.name_of_the_vyapari}
-                      />
-                    </Stack>
-                  </CardContent>
-                </Card>
-                <Card style={{ marginTop: 20, borderRadius: 20 }}>
-                  <CardContent>
-                    <Typography style={{ color: '#ff7424' }}>Age / ವಯಸ್ಸು *</Typography>
-                    <Stack mt={2} mb={2}>
-                      {/* <TextField id="Age" required type="number" min="0" label="Your Answer" variant="outlined" color="common" onChange={(e) => setSendData({ ...sendData, age:e.target.value})} value={sendData?.age}/> */}
-                      <TextField
-                        id="Age"
-                        required
-                        type="number"
-                        step="0.01"
-                        label="Your Answer"
-                        variant="outlined"
-                        color="common"
-                        onChange={(e) => {
-                          const newValue = e.target.value;
-                          if (newValue >= 0) {
-                            setSendData({ ...sendData, age: newValue });
-                          }
-                        }}
-                        value={sendData?.age}
-                      />
-                    </Stack>
-                  </CardContent>
-                </Card>
-                <Card style={{ marginTop: 20, borderRadius: 20 }}>
-                  <CardContent>
-                    <Typography style={{ color: '#ff7424' }}>Contact Number /ಸಂಪರ್ಕ ಸಂಖ್ಯೆ *</Typography>
-                    <Stack mt={2} mb={2}>
-                      <TextField
-                        id="phone-number"
-                        required
-                        type="number"
-                        inputProps={{ maxLength: 10, min: 10 }}
-                        label="Your Answer"
-                        variant="outlined"
-                        color="common"
-                        onChange={(e) => {
-                          if (e.target.value.toString().length <= 10) {
-                            setSendData({ ...sendData, contact_number: e.target.value });
-                          }
-                        }}
-                        value={sendData?.contact_number}
-                      />
-                    </Stack>
-                  </CardContent>
-                </Card>
-                <Card style={{ marginTop: 20, borderRadius: 20 }}>
-                  <CardContent>
-                    <Typography style={{ color: '#ff7424' }}>Village Name *</Typography>
-                    <Stack mt={2} mb={2}>
-                      <TextField
-                        id="village Name"
-                        required
-                        label="Your Answer"
-                        type="text"
-                        variant="outlined"
-                        color="common"
-                        onChange={(e) => setSendData({ ...sendData, village_id: e.target.value })}
-                        value={sendData?.village_id}
-                      />
-                    </Stack>
-                  </CardContent>
-                </Card>
-                <Card style={{ marginTop: 20, borderRadius: 20 }}>
-                  <CardContent>
-                    <Typography style={{ color: '#ff7424' }}>Name of the Cohort / ಸ್ಥಳ/ವೃತ್ತ *</Typography>
-                    <Stack mt={2} mb={2}>
-                      <TextField
-                        id="cohort name"
-                        required
-                        type="text"
-                        label="Your Answer"
-                        variant="outlined"
-                        color="common"
-                        onChange={(e) => setSendData({ ...sendData, name_of_the_cohort: e.target.value })}
-                        value={sendData?.name_of_the_cohort}
-                      />
-                    </Stack>
-                  </CardContent>
-                </Card>
-                <Card style={{ marginTop: 20, borderRadius: 20 }}>
-                  <CardContent>
-                    <Stack mt={2}>
-                      <Typography style={{ color: '#ff7424' }}>
-                        Education / ವಿದ್ಯಾಭ್ಯಾಸ
-                        {Educationerror ? (
-                          <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText>
-                        ) : null}{' '}
-                      </Typography>
-                      <RadioGroup
-                        aria-labelledby="demo-radio-buttons-group-label"
-                        // defaultValue="Yes"
-                        name="radio-buttons-group"
-                        value={education}
-                        onChange={educationlevel}
-                        required
-                      >
-                        <FormControlLabel
-                          value="Below 8th std"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Below 8th std"
-                        />
-                        <FormControlLabel
-                          value="10th - 12th std"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="10th - 12th std"
-                        />
-                        <FormControlLabel
-                          value="Under graduate"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Under graduate"
-                        />
-                        <FormControlLabel
-                          value="Post graduation"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Post graduation"
-                        />
-                        <FormControlLabel
-                          value="Technical(ITI/Diploma)"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Technical(ITI/Diploma)"
-                        />
-                        <FormControlLabel
-                          value="No formal education"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="No formal education"
-                        />
-                      </RadioGroup>
-                    </Stack>
-                  </CardContent>
-                </Card>
-                <Card style={{ marginTop: 20, borderRadius: 20 }}>
-                  <CardContent>
-                    <Stack mt={2}>
-                      <Typography style={{ color: '#ff7424' }}>
-                        Marital Status / ವೈವಾಹಿಕ ಸ್ಥಿತಿ
-                        {MAritalStatusError ? (
-                          <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText>
-                        ) : null}
-                      </Typography>
-                      <RadioGroup
-                        aria-labelledby="demo-radio-buttons-group-label"
-                        // defaultValue="Yes"
-                        name="radio-buttons-group"
-                        value={maritalstatus}
-                        onChange={marital}
-                      >
-                        <FormControlLabel
-                          value="Married"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Married"
-                        />
-                        <FormControlLabel
-                          value="Unmarried"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Unmarried"
-                        />
-                        <FormControlLabel
-                          value="Widowed"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Widowed"
-                        />
-                        <FormControlLabel
-                          value="Seperated"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Separated"
-                        />
-                        <FormControlLabel
-                          value="Divorced"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Divorced"
-                        />
-                      </RadioGroup>
-                    </Stack>
-                  </CardContent>
-                </Card>
-                <Card style={{ marginTop: 20, borderRadius: 20 }}>
-                  <CardContent>
-                    <Typography style={{ color: '#ff7424' }}>
-                      Number of people in the household / ಮನೆಯಲ್ಲಿರುವ ಜನರ ಸಂಖ್ಯೆ
-                    </Typography>
-                    <Stack mt={2} mb={2}>
-                      <TextField
-                        id="household peoplecount"
-                        type="number"
-                        label="Your Answer"
-                        required
-                        variant="outlined"
-                        color="common"
-                        onChange={(e) =>
-                          setSendData({ ...sendData, number_of_people_in_the_household: e.target.value })
-                        }
-                        value={sendData?.number_of_people_in_the_household}
-                      />
-                    </Stack>
-                  </CardContent>
-                </Card>
-                <Card style={{ marginTop: 20, borderRadius: 20 }}>
-                  <CardContent>
-                    <Stack mt={2}>
-                      <Typography style={{ color: '#ff7424' }}>
-                        Do you own a smart phone / ನೀವು ಸ್ಮಾರ್ಟ್ ಫೋನ್ ಹೊಂದಿದ್ದೀರಾ?
-                        {smartPhoneError ? (
-                          <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText>
-                        ) : null}
-                      </Typography>
-                      <RadioGroup
-                        aria-labelledby="demo-radio-buttons-group-label"
-                        // defaultValue="Yes"
-                        name="radio-buttons-group"
-                        value={phone}
-                        onChange={phonestatus}
-                      >
-                        <FormControlLabel value="Yes" control={<Radio style={{ color: '#595959' }} />} label="Yes" />
-                        <FormControlLabel value="No" control={<Radio style={{ color: '#595959' }} />} label="No" />
-                      </RadioGroup>
-                    </Stack>
-                  </CardContent>
-                </Card>
-                {isSmartPhone ? (
-                  <Card style={{ marginTop: 20, borderRadius: 20 }}>
+
+          {loader ? (
+            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '70vh' }}>
+              <CircularProgress sx={{ color: '#ff7424' }} />
+            </Box>
+          ) : (
+            <Grid>
+              <Card>
+                <CardContent>
+                  <SelectInput
+                    id="gf_id"
+                    name="gf_id"
+                    label="Field associate Name "
+                    kannadaLabel="ಕ್ಷೇತ್ರದ ಸಹವರ್ತಿ ಹೆಸರು"
+                    required
+                    onChange={handleInputChange}
+                    value={sendData?.gf_id}
+                    options={vyaapar}
+                  />
+                  <TextInput
+                    id="name_of_the_vyapari"
+                    placeholder="Your Answer"
+                    label="Respondent’s name"
+                    kannadaLabel="ಪ್ರತಿಕ್ರಿಯಿಸಿದ ವ್ಯಕ್ತಿಯ ಹೆಸರು"
+                    required
+                    name="name_of_the_vyapari"
+                    onChange={handleInputChange}
+                    value={sendData?.name_of_the_vyapari}
+                  />
+                  <SelectInput
+                    id="district"
+                    name="district"
+                    label="Districts name"
+                    kannadaLabel="ಜಿಲ್ಲೆಗಳ ಹೆಸರು"
+                    required
+                    onChange={handleInputChange}
+                    value={sendData?.district}
+                    options={district}
+                  />
+                  <SelectInput
+                    id="taluk"
+                    name="taluk"
+                    label="Taluks name"
+                    kannadaLabel="ತಾಲೂಕು ಹೆಸರು"
+                    required
+                    onChange={handleInputChange}
+                    value={sendData?.taluk}
+                    options={taluk}
+                  />
+                  <SelectInput
+                    id="village_id"
+                    name="village_id"
+                    label="Village name"
+                    kannadaLabel="ಗ್ರಾಮದ ಹೆಸರು"
+                    required
+                    onChange={handleInputChange}
+                    value={sendData?.village_id}
+                    options={village}
+                  />
+                  <TextInput
+                    id="gram_panchayat"
+                    placeholder="Your Answer"
+                    label="Gram Panchayat"
+                    kannadaLabel="ಗ್ರಾಮ ಪಂಚಾಯತ"
+                    required
+                    name="gram_panchayat"
+                    onChange={handleInputChange}
+                    value={sendData?.gram_panchayat}
+                  />
+                  <TextInput
+                    id="contact_number"
+                    name="contact_number"
+                    label="Contact number ಸಂಪರ್ಕ ಸಂಖ್ಯೆ"
+                    type="number"
+                    required
+                    maxLength={10}
+                    placeholder="Your Answer"
+                    onChange={handleInputChange}
+                    value={sendData.contact_number}
+                  />
+                  <TextInput
+                    id="number_of_beehives_participated"
+                    name="number_of_beehives_participated"
+                    label="How many beehives have you participated in? ನೀವು ಎಷ್ಟು ಜೇನುಗೂಡು ಸಭೆಗಳಲ್ಲಿ ಭಾಗವಹಿಸಿದ್ದೀರಿ?"
+                    type="number"
+                    required
+                    maxLength={10}
+                    placeholder="Your Answer"
+                    onChange={handleInputChange}
+                    value={sendData.number_of_beehives_participated}
+                  />
+                  <TextInput
+                    id="number_of_people_in_the_household"
+                    name="number_of_people_in_the_household"
+                    label="Total number of members in your household ನಿಮ್ಮ ಮನೆಯ ಸದಸ್ಯರ ಒಟ್ಟು ಸಂಖ್ಯೆ"
+                    type="number"
+                    required
+                    maxLength={10}
+                    placeholder="Your Answer"
+                    onChange={handleInputChange}
+                    value={sendData.number_of_people_in_the_household}
+                  />
+                  <SelectInput
+                    id="house"
+                    name="house"
+                    label="House"
+                    kannadaLabel="ಮನೆ"
+                    required
+                    onChange={handleInputChange}
+                    value={sendData?.house}
+                    options={house}
+                  />
+                  <SelectInput
+                    id="ration_card"
+                    name="ration_card"
+                    label="Ration card"
+                    kannadaLabel="ಪಡಿತರ ಚೀಟಿ"
+                    required
+                    onChange={handleInputChange}
+                    value={sendData?.ration_card}
+                    options={rationCard}
+                  />
+                  <SelectInput
+                    id="cast"
+                    name="cast"
+                    label="Caste Category"
+                    kannadaLabel="ಜಾತಿ ವರ್ಗ"
+                    required
+                    onChange={handleInputChange}
+                    value={sendData?.cast}
+                    options={casteCategory}
+                  />
+                  <TextInput
+                    id="age"
+                    name="age"
+                    label="Age  ವಯಸ್ಸು"
+                    type="number"
+                    required
+                    maxLength={2}
+                    placeholder="Your Answer"
+                    onChange={handleInputChange}
+                    value={sendData.age}
+                  />
+                  <SelectInput
+                    id="education"
+                    name="education"
+                    label="Education"
+                    kannadaLabel="ಶಿಕ್ಷಣ"
+                    required
+                    onChange={handleInputChange}
+                    value={sendData?.education}
+                    options={education}
+                  />
+                  <TextInput
+                    id="phone_number"
+                    name="phone_number"
+                    label="Phone Number  ದೂರವಾಣಿ ಸಂಖ್ಯೆ"
+                    type="number"
+                    required
+                    maxLength={10}
+                    placeholder="Your Answer"
+                    onChange={handleInputChange}
+                    value={sendData.phone_number}
+                  />
+                  <SelectInput
+                    id="marital_status"
+                    name="marital_status"
+                    label="Marital Status"
+                    kannadaLabel="ವೈವಾಹಿಕ ಸ್ಥಿತಿ"
+                    required
+                    onChange={handleInputChange}
+                    value={sendData?.marital_status}
+                    options={maritalStatus}
+                  />
+                  <SelectInput
+                    id="primary_occupation_household"
+                    name="primary_occupation_household"
+                    label="Current Economic Activity - Primary Occupation of the Household"
+                    kannadaLabel="ಪ್ರಸ್ತುತ ಆರ್ಥಿಕ ಚಟುವಟಿಕೆ - ಕುಟುಂಬದ ಪ್ರಾಥಮಿಕ ಉದ್ಯೋಗ"
+                    required
+                    onChange={handleInputChange}
+                    value={sendData?.primary_occupation_household}
+                    options={currentEconomicActivity}
+                  />
+                  <SelectInput
+                    id="secondary_occupation_household"
+                    name="secondary_occupation_household"
+                    label="Secondary Occupation of the Household"
+                    kannadaLabel="ಕುಟುಂಬದ ದ್ವಿತೀಯ ಉದ್ಯೋಗ"
+                    required
+                    onChange={handleInputChange}
+                    value={sendData?.secondary_occupation_household}
+                    options={secondaryOccupationHousehold}
+                  />
+                  <SelectInput
+                    id="womens_occupation"
+                    name="womens_occupation"
+                    label="Women's Occupation"
+                    kannadaLabel="ಮಹಿಳಾ ಉದ್ಯೋಗ"
+                    required
+                    onChange={handleInputChange}
+                    value={sendData?.womens_occupation}
+                    options={WomensOccupation}
+                  />
+
+                  <TextInput
+                    id="monthly_expenditure"
+                    name="monthly_expenditure"
+                    label="Monthly household expenditure (in Rs) ಮಾಸಿಕ ಮನೆಯ ಖರ್ಚು (ರೂ.ಗಳಲ್ಲಿ)"
+                    type="number"
+                    required
+                    placeholder="Your Answer"
+                    onChange={handleInputChange}
+                    value={sendData.monthly_expenditure}
+                  />
+                  <TextInput
+                    id="monthly_household_income"
+                    name="monthly_household_income"
+                    label="Monthly household income(in Rs.) ಮಾಸಿಕ ಮನೆಯ ಆದಾಯ(ರೂ.ಗಳಲ್ಲಿ)"
+                    type="number"
+                    required
+                    placeholder="Your Answer"
+                    onChange={handleInputChange}
+                    value={sendData.monthly_household_income}
+                  />
+
+                  <SelectInput
+                    id="mobile_type"
+                    name="mobile_type"
+                    label="What mobile type you are using ನೀವು ಯಾವ ರೀತಿಯ ಮೊಬೈಲ್ ಬಳಸುತ್ತಿರುವಿರಿ"
+                    required
+                    onChange={handleInputChange}
+                    value={sendData?.mobile_type}
+                    options={phoneType}
+                  />
+                  <SelectInput
+                    id="do_you_own_a_smart_phone"
+                    name="do_you_own_a_smart_phone"
+                    label="Do you have a smartphone that you individually use and not share with others?
+ನೀವು ಪ್ರತ್ಯೇಕವಾಗಿ ಬಳಸುವ ಮತ್ತು ಇತರರೊಂದಿಗೆ ಹಂಚಿಕೊಳ್ಳದ ಸ್ಮಾರ್ಟ್ ಫೋನ್ ಅನ್ನು ನೀವು ಹೊಂದಿದ್ದೀರಾ?"
+                    required
+                    onChange={handleInputChange}
+                    value={sendData?.do_you_own_a_smart_phone}
+                    options={yesOrNo}
+                  />
+
+                  <TextInput
+                    id="reason_for_not_having_smartphone"
+                    name="reason_for_not_having_smartphone"
+                    label="If no , Reason for not having a smartphone
+ಇಲ್ಲದಿದ್ದರೆ, ಸ್ಮಾರ್ಟ್ ಫೋನ್ ಇಲ್ಲದಿರುವುದಕ್ಕೆ ಕಾರಣ"
+                    type="number"
+                    required
+                    placeholder="Your Answer"
+                    onChange={handleInputChange}
+                    value={sendData.reason_for_not_having_smartphone}
+                  />
+                  <SelectInput
+                    id="has_bank_account"
+                    name="has_bank_account"
+                    label="Do you have bank account ನೀವು ಬ್ಯಾಂಕ್ ಖಾತೆ ಹೊಂದಿದ್ದೀರಾ"
+                    required
+                    onChange={handleInputChange}
+                    value={sendData?.has_bank_account}
+                    options={yesOrNo}
+                  />
+                  <SelectInput
+                    id="uses_upi"
+                    name="uses_upi"
+                    label="Do you use UPI ನೀವು UPI ಬಳಸುತ್ತೀರಾ"
+                    required
+                    onChange={handleInputChange}
+                    value={sendData?.uses_upi}
+                    options={yesOrNo}
+                  />
+                  <SelectInput
+                    id="underwent_skill_development_program"
+                    name="underwent_skill_development_program"
+                    label="Have you undergone any skill development program?
+ನೀವು ಯಾವುದಾದರೂ ಕೌಶಲ್ಯ ಅಭಿವೃದ್ಧಿ ಕಾರ್ಯಕ್ರಮಕ್ಕೆ ಭಾವವಾಹಿಸಿದ್ಧಿರ ?"
+                    required
+                    onChange={handleInputChange}
+                    value={sendData?.underwent_skill_development_program}
+                    options={yesOrNo}
+                  />
+                  <SelectInput
+                    id="skills_gained_from_program"
+                    name="skills_gained_from_program"
+                    label="if Yes, what skills have you gained?
+ಹೌದು ಎಂದಾದರೆ, ನೀವು ಯಾವ ಕೌಶಲ್ಯಗಳನ್ನು ಗಳಿಸಿದ್ದೀರಿ?"
+                    required
+                    onChange={handleInputChange}
+                    value={sendData?.skills_gained_from_program}
+                    options={whatskillshaveyougained}
+                  />
+                  <SelectInput
+                    id="enterprise_status"
+                    name="enterprise_status"
+                    label="What is the status of your enterprise? ನಿಮ್ಮ ಉದ್ಯಮದ ಸ್ಥಿತಿ ಏನು?"
+                    required
+                    onChange={handleInputChange}
+                    value={sendData?.enterprise_status}
+                    options={statusofyourenterprise}
+                  />
+                  <Card style={{ marginTop: 40, backgroundColor: '#F6F8FB', borderRadius: 20 }}>
                     <CardContent>
-                      <Stack mt={2}>
-                        <Typography style={{ color: '#ff7424' }}>
-                          Do you have internet connection on your smart phone? / ನಿಮ್ಮ ಸ್ಮಾರ್ಟ್ ಫೋನ್‌ನಲ್ಲಿ ಇಂಟರ್ನೆಟ್
-                          ಸಂಪರ್ಕವಿದೆಯೇ?
-                          {smartPhoneError ? (
-                            <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText>
-                          ) : null}
-                        </Typography>
-                        <RadioGroup
-                          aria-labelledby="demo-radio-buttons-group-label"
-                          // defaultValue="Yes"
-                          name="radio-buttons-group"
-                          value={internet}
-                          onChange={internetHandler}
-                        >
-                          <FormControlLabel value="Yes" control={<Radio style={{ color: '#595959' }} />} label="Yes" />
-                          <FormControlLabel value="No" control={<Radio style={{ color: '#595959' }} />} label="No" />
-                          <FormControlLabel
-                            value="Sometime"
-                            control={<Radio style={{ color: '#595959' }} />}
-                            label="Sometimes"
-                          />
-                        </RadioGroup>
-                      </Stack>
-                    </CardContent>
-                  </Card>
-                ) : null}
-                <Card style={{ marginTop: 20, borderRadius: 20 }}>
-                  <CardContent>
-                    <Typography style={{ color: '#ff7424' }}>
-                      Sector/Type of business ಪ್ರಾಥಮಿಕ ವ್ಯವಹಾರದ ವಲಯ/ ವ್ಯ ವಹಾರದ ಪ್ರಕಾರ (ಇದು ಹೆಚ್ಚಿ ನ ಆದಾಯವನ್ನು ನೀಡುತ್ತದೆ)
-                      {sectorError ? <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText> : null}
-                    </Typography>
-                    <RadioGroup
-                      aria-labelledby="demo-radio-buttons-group-label"
-                      name="radio-buttons-group"
-                      value={sector}
-                      onChange={sectortype}
-                    >
-                      <FormControlLabel
-                        value="Animal husbandry"
-                        control={<Radio style={{ color: '#595959' }} />}
-                        label="Animal husbandry"
-                      />
-                      <FormControlLabel
-                        value="Petty shop"
-                        control={<Radio style={{ color: '#595959' }} />}
-                        label="Petty shop"
-                      />
-                      <FormControlLabel
-                        value="Clothes Selling"
-                        control={<Radio style={{ color: '#595959' }} />}
-                        label="Clothes Selling"
-                      />
-                      <FormControlLabel
-                        value="Vegetable Vendor"
-                        control={<Radio style={{ color: '#595959' }} />}
-                        label="Vegetable Vendor"
-                      />
-                      <FormControlLabel
-                        value="Hotel or Catering"
-                        control={<Radio style={{ color: '#595959' }} />}
-                        label="Hotel or Catering"
-                      />
-                      <FormControlLabel
-                        value="Tailor"
-                        control={<Radio style={{ color: '#595959' }} />}
-                        label="Tailor"
-                      />
-                      <FormControlLabel
-                        value="Beautician"
-                        control={<Radio style={{ color: '#595959' }} />}
-                        label="Beautician"
-                      />
-                      <FormControlLabel
-                        value="Rope making"
-                        control={<Radio style={{ color: '#595959' }} />}
-                        label="Rope making"
-                      />
-                      <FormControlLabel
-                        value="Edible oil selling"
-                        control={<Radio style={{ color: '#595959' }} />}
-                        label="Edible oil selling"
-                      />
-                      <FormControlLabel value="Other" control={<Radio style={{ color: '#595959' }} />} label="Other" />
-                    </RadioGroup>
-                  </CardContent>
-                </Card>
-                <Card style={{ marginTop: 20, borderRadius: 20 }}>
-                  <CardContent>
-                    <Stack mt={2}>
-                      <Typography style={{ color: '#ff7424' }}>
-                        Are you proficient with numbers? / ನೀವು ಸಂಖ್ಯೆಗಳಲ್ಲಿ ಪ್ರವೀಣರಾಗಿದ್ದೀರಾ
-                        {numberproficiencyError ? (
-                          <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText>
-                        ) : null}
-                      </Typography>
-                      <RadioGroup
-                        aria-labelledby="demo-radio-buttons-group-label"
-                        // defaultValue="Yes"
-                        name="radio-buttons-group"
-                        value={numberproficiency}
-                        onChange={numberproficiencyvalue}
+                      <Typography
+                        style={{ color: '#ff7424', textAlign: 'center', paddingBottom: '20px', fontSize: '20px' }}
                       >
-                        <FormControlLabel
-                          value="Basic"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Basic"
-                        />
-                        <FormControlLabel
-                          value="Proficient"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Proficient"
-                        />
-                        <FormControlLabel
-                          value="Competent"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Competent"
-                        />
-                      </RadioGroup>
-                    </Stack>
-                  </CardContent>
-                </Card>
-                <Card style={{ marginTop: 20, borderRadius: 20 }}>
-                  <CardContent>
-                    <Stack mt={2}>
-                      <Typography style={{ color: '#ff7424' }}>
-                        Are you proficient with written language / ನೀವು ಲಿಖಿತ ಭಾಷೆಯಲ್ಲಿ ಪ್ರವೀಣರಾಗಿದ್ದೀರಾ
-                        {writtenproficiencyError ? (
-                          <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText>
-                        ) : null}
+                        If the answer is I run an enteprise currently/ I used to run an enterprise ask these ನಾನು
+                        ಪ್ರಸ್ತುತ ಉದ್ಯಮವನ್ನು ನಡೆಸುತ್ತಿದ್ದೇನೆ/ ನಾನು ಉದ್ಯಮವನ್ನು ನಡೆಸುತ್ತಿದ್ದೆ ಎಂಬ ಉತ್ತರವು ಇವುಗಳನ್ನು ಕೇಳಿ
                       </Typography>
-                      <RadioGroup
-                        aria-labelledby="demo-radio-buttons-group-label"
-                        // defaultValue="Yes"
-                        name="radio-buttons-group"
-                        value={writtenproficiency}
-                        onChange={writtenproficiencyvalue}
-                      >
-                        <FormControlLabel
-                          value="Basic"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Basic"
-                        />
-                        <FormControlLabel
-                          value="Proficient"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Proficient"
-                        />
-                        <FormControlLabel
-                          value="Competent"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Competent"
-                        />
-                      </RadioGroup>
-                    </Stack>
-                  </CardContent>
-                </Card>
-                <Card style={{ marginTop: 20, borderRadius: 20 }}>
-                  <CardContent>
-                    <Typography style={{ color: '#ff7424' }}>Household income (Monthly) ಮನೆಯಆದಾಯ (ಮಾಸಿಕ)</Typography>
-                    <Stack mt={2} mb={2}>
-                      <TextField
-                        id="income"
+                      <SelectInput
+                        card={false}
+                        id="type_of_enterprise_running"
+                        name="type_of_enterprise_running"
+                        label="What kind of enterprise do you run?
+ನೀವು ಯಾವ ರೀತಿಯ ಉದ್ಯಮವನ್ನು ನಡೆಸುತ್ತೀರಿ?"
                         required
-                        label="Your Answer"
+                        onChange={handleInputChange}
+                        value={sendData?.type_of_enterprise_running}
+                        options={Whatkindofenterprisedoyourun}
+                      />
+                      <SelectInput
+                        card={false}
+                        id="run_enterprise_independently"
+                        name="run_enterprise_independently"
+                        label="Are you running the enterprise on your own?
+ನೀವು ಸ್ವಂತವಾಗಿ ಉದ್ಯಮವನ್ನು ನಡೆಸುತ್ತಿದ್ದೀರಾ?"
+                        required
+                        onChange={handleInputChange}
+                        value={sendData?.run_enterprise_independently}
+                        options={Areyourunningtheenterpriseonyourown}
+                      />
+                      <TextInput
+                        id="average_monthly_income_enterprise"
+                        name="average_monthly_income_enterprise"
+                        label="What is the average monthly income of your enterprise? (Rs)
+ನಿಮ್ಮ ಉದ್ಯಮದ ಸರಾಸರಿ ಮಾಸಿಕ ಆದಾಯ ಎಷ್ಟು? (ರೂ)"
                         type="number"
-                        variant="outlined"
-                        color="common"
-                        onChange={(e) => setSendData({ ...sendData, household_income_monthly: e.target.value })}
-                        value={sendData?.household_income_monthly}
-                      />
-                    </Stack>
-                  </CardContent>
-                </Card>
-                <Card style={{ marginTop: 20, borderRadius: 20 }}>
-                  <CardContent>
-                    <Typography style={{ color: '#ff7424' }}>
-                      Over the last month your average income / ಕಳೆದ ತಿಂಗಳು ನಿಮ್ಮ ಸರಾಸರಿ ಆದಾಯ
-                    </Typography>
-                    <Stack mt={2} mb={2}>
-                      <TextField
-                        id="average income"
                         required
+                        placeholder="Your Answer"
+                        onChange={handleInputChange}
+                        value={sendData.average_monthly_income_enterprise}
+                      />
+                      <TextInput
+                        id="average_monthly_profit_enterprise"
+                        name="average_monthly_profit_enterprise"
+                        label="What is the average monthly profit of your enterprise? (Rs)
+ನಿಮ್ಮ ಉದ್ಯಮದ ಸರಾಸರಿ ಮಾಸಿಕ ಲಾಭ ಎಷ್ಟು? (ರೂ)"
                         type="number"
-                        label="Your Answer"
-                        variant="outlined"
-                        color="common"
-                        onChange={(e) =>
-                          setSendData({ ...sendData, over_the_last_month_your_average_income: e.target.value })
-                        }
-                        value={sendData?.over_the_last_month_your_average_income}
-                      />
-                    </Stack>
-                  </CardContent>
-                </Card>
-                <Card style={{ marginTop: 20, borderRadius: 20 }}>
-                  <CardContent>
-                    <Typography style={{ color: '#ff7424' }}>
-                      Your profit (last month) / ನಿಮ್ಮ ಲಾಭ (ಕಳೆದ ತಿಂಗಳು){' '}
-                    </Typography>
-                    <Stack mt={2} mb={2}>
-                      <TextField
-                        id="profit"
                         required
-                        label="Your Answer"
+                        placeholder="Your Answer"
+                        onChange={handleInputChange}
+                        value={sendData.average_monthly_profit_enterprise}
+                      />
+                      <TextInput
+                        id="desired_monthly_income"
+                        name="desired_monthly_income"
+                        label="How much monthly income would you like to ideally earn?
+ನೀವು ಆದರ್ಶಪ್ರಾಯವಾಗಿ ಎಷ್ಟು ಮಾಸಿಕ ಆದಾಯವನ್ನುಗಳಿಸಲು ಬಯಸುತ್ತೀರಿ?"
                         type="number"
-                        variant="outlined"
-                        color="common"
-                        onChange={(e) => setSendData({ ...sendData, your_business_profit_last_month: e.target.value })}
-                        value={sendData?.your_business_profit_last_month}
+                        required
+                        placeholder="Your Answer"
+                        onChange={handleInputChange}
+                        value={sendData.desired_monthly_income}
                       />
-                    </Stack>
-                  </CardContent>
-                </Card>
-                <Card style={{ marginTop: 20, borderRadius: 20 }}>
-                  <CardContent>
-                    <Typography style={{ color: '#ff7424' }}>
-                      How much monthly income would you like to ideally earn / ನೀವು ಎಷ್ಟು ಮಾಸಿಕ ಆದಾಯವನ್ನು ಆದರ್ಶಪ್ರಾಯವಾಗಿ
-                      ಗಳಿಸಲು ಬಯಸುತ್ತೀರಿ
-                    </Typography>
-                    <Stack mt={2} mb={2}>
-                      <TextField
-                        id="monthlyincome"
-                        label="Your Answer"
+                      <TextInput
+                        id="amount_invested_when_the_business_started"
+                        name="amount_invested_when_the_business_started"
+                        label="Amount invested when the business started (approximately if they know)
+ವ್ಯಾಪಾರ ಪ್ರಾರಂಭವಾದಾಗ ಹೂಡಿಕೆ ಮಾಡಿದ ಮೊತ್ತ (ಅಂದಾಜು ಅವರು ತಿಳಿದಿದ್ದರೆ)"
                         type="number"
-                        variant="outlined"
-                        color="common"
-                        onChange={(e) =>
-                          setSendData({
-                            ...sendData,
-                            how_much_monthly_income_would_you_like_to_ideally_earn: e.target.value,
-                          })
-                        }
-                        value={sendData?.how_much_monthly_income_would_you_like_to_ideally_earn}
-                      />
-                    </Stack>
-                  </CardContent>
-                </Card>
-                <Card style={{ marginTop: 20, borderRadius: 20 }}>
-                  <CardContent>
-                    <Typography style={{ color: '#ff7424' }}>
-                      Amount invested when the business started (approximately if they know) / ವ್ಯಾಪಾರ ಪ್ರಾರಂಭವಾದಾಗ
-                      ಹೂಡಿಕೆ ಮಾಡಿದ ಮೊತ್ತ (ಅವರು ತಿಳಿದಿದ್ದರೆ)
-                    </Typography>
-                    <Stack mt={2} mb={2}>
-                      <TextField
-                        id="invested amount"
                         required
-                        type="number"
-                        label="Your Answer"
-                        variant="outlined"
-                        color="common"
-                        onChange={(e) =>
-                          setSendData({ ...sendData, amount_invested_when_the_business_started: e.target.value })
-                        }
-                        value={sendData?.amount_invested_when_the_business_started}
+                        placeholder="Your Answer"
+                        onChange={handleInputChange}
+                        value={sendData.amount_invested_when_the_business_started}
                       />
-                    </Stack>
-                  </CardContent>
-                </Card>
-                <Card style={{ marginTop: 20, borderRadius: 20 }}>
-                  <CardContent>
-                    <Stack mt={2}>
-                      <Typography style={{ color: '#ff7424' }}>
-                        Number of years the business has been operating / ವ್ಯವಹಾರವು ಕಾರ್ಯನಿರ್ವಹಿಸುತ್ತಿರುವ ವರ್ಷಗಳ ಸಂಖ್ಯೆ
-                        {bussinessyearsError ? (
-                          <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText>
-                        ) : null}
-                      </Typography>
-                      <RadioGroup
-                        aria-labelledby="demo-radio-buttons-group-label"
-                        // defaultValue="Yes"
-                        name="radio-buttons-group"
-                        value={bussinessyears}
-                        onChange={bussinessyearsvalue}
-                      >
-                        <FormControlLabel
-                          value="Less than 1 year"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Less than 1 year"
-                        />
-                        <FormControlLabel
-                          value="1-3 years"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="1-3 years"
-                        />
-                        <FormControlLabel
-                          value="4-6 years"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="4-6 years"
-                        />
-                        <FormControlLabel
-                          value="5-8 years"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="5-8 years"
-                        />
-                        <FormControlLabel
-                          value="8-10 years"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="8-10 years"
-                        />
-                        <FormControlLabel
-                          value="more than 10 years"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="more than 10 years"
-                        />
-                      </RadioGroup>
-                    </Stack>
-                  </CardContent>
-                </Card>
-                <Card style={{ marginTop: 20, borderRadius: 20 }}>
-                  <CardContent>
-                    <Typography style={{ color: '#ff7424' }}>
-                      For any reason have you stopped or kept hold your business / ಯಾವುದೇ ಕಾರಣಕ್ಕಾಗಿ ನೀವು ನಿಮ್ಮ
-                      ವ್ಯಾಪಾರವನ್ನು ನಿಲ್ಲಿಸಿದ್ದೀರಿ ಅಥವಾ ಹಿಡಿದಿಟ್ಟುಕೊಳ್ಳುತ್ತೀರಿ
-                    </Typography>
-                    <Stack mt={2} mb={2}>
-                      <TextField
-                        id="reason"
+                      <SelectInput
+                        card={false}
+                        id="investment_source"
+                        name="investment_source"
+                        label="Where did you get the investment to start your business?
+ನಿಮ್ಮ ವ್ಯಾಪಾರವನ್ನು ಪ್ರಾರಂಭಿಸಲು ನೀವು ಹೂಡಿಕೆಯನ್ನು ಎಲ್ಲಿ ಪಡೆದುಕೊಂಡಿದ್ದೀರಿ?"
                         required
-                        label="Your Answer"
-                        variant="outlined"
-                        color="common"
-                        onChange={(e) => setSendData({ ...sendData, you_stopped_hold_your_business: e.target.value })}
-                        value={sendData?.you_stopped_hold_your_business}
+                        onChange={handleInputChange}
+                        value={sendData?.investment_source}
+                        options={Wheredidyougettheinvestmenttostartyourbusiness}
                       />
-                    </Stack>
-                  </CardContent>
-                </Card>
-                <Card style={{ marginTop: 20, borderRadius: 20 }}>
-                  <CardContent>
-                    <Typography style={{ color: '#ff7424' }}>
-                      No.of hours engaged in a day for business / ವ್ಯವಹಾರಕ್ಕಾಗಿ ಒಂದು ದಿನದಲ್ಲಿ ಎಷ್ಟು ಗಂಟೆಗಳು
-                      ತೊಡಗಿಸಿಕೊಳ್ಳುವಿರಿ?
-                    </Typography>
-                    <Stack mt={2} mb={2}>
-                      <TextField
-                        id="hours"
+                      <SelectInput
+                        card={false}
+                        id="number_of_years_the_business_has_been_operating"
+                        name="number_of_years_the_business_has_been_operating"
+                        label="Number of years the business has been operating
+ಎಷ್ಟು ವರ್ಷದಿಂದ ವ್ಯಾಪಾರವನ್ನು ನಿರ್ವಹಿಸುತಿದ್ಧಿರ"
                         required
-                        label="Your Answer"
-                        type="number"
-                        variant="outlined"
-                        color="common"
-                        onChange={(e) => setSendData({ ...sendData, no_hours_engaged_business: e.target.value })}
-                        value={sendData?.no_hours_engaged_business}
+                        onChange={handleInputChange}
+                        value={sendData?.number_of_years_the_business_has_been_operating}
+                        options={Numberofyearsthebusinesshasbeenoperating}
                       />
-                    </Stack>
-                  </CardContent>
-                </Card>
-                <Card style={{ marginTop: 20, borderRadius: 20 }}>
-                  <CardContent>
-                    <Stack mt={2}>
-                      <Typography style={{ color: '#ff7424' }}>
-                        Do you have license for existing business / ಅಸ್ತಿತ್ವದಲ್ಲಿರುವ ವ್ಯಾಪಾರಕ್ಕಾಗಿ ನೀವು ಪರವಾನಗಿ
-                        ಹೊಂದಿದ್ದೀರಾ?
-                        {licensevalueaError ? (
-                          <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText>
-                        ) : null}
-                      </Typography>
-                      <RadioGroup
-                        aria-labelledby="demo-radio-buttons-group-label"
-                        // defaultValue="Yes"
-                        name="radio-buttons-group"
-                        value={licensevalue}
-                        onChange={handlelicensevalue}
-                      >
-                        <FormControlLabel value="Yes" control={<Radio style={{ color: '#595959' }} />} label="Yes" />
-                        <FormControlLabel value="No" control={<Radio style={{ color: '#595959' }} />} label="No" />
-                      </RadioGroup>
-                    </Stack>
-                  </CardContent>
-                </Card>
-                <Card style={{ marginTop: 20, borderRadius: 20 }}>
-                  <CardContent>
-                    <Stack mt={2}>
-                      <Typography style={{ color: '#ff7424' }}>
-                        Is it home based or will you work from a shop/business unit/ ಇದು ಮನೆ ಆಧಾರಿತವಾಗಿದೆಯೇ ಅಥವಾ ನೀವು
-                        ಅಂಗಡಿ/ ವ್ಯಾಪಾರ ಘಟಕದಿಂದ ಕೆಲಸ ಮಾಡುತ್ತೀರಾ?
-                        {HouseBaseError ? <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText> : null}
-                      </Typography>
-                      <RadioGroup
-                        aria-labelledby="demo-radio-buttons-group-label"
-                        // defaultValue="Yes"
-                        name="radio-buttons-group"
-                        value={homebased}
-                        onChange={homebasedvalue}
-                      >
-                        <FormControlLabel
-                          value="I work from home"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="I work from home"
-                        />
-                        <FormControlLabel
-                          value="I have my own business space"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="I have my own business space"
-                        />
-                        <FormControlLabel
-                          value="I share the space with husband/family member"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="I share the space with husband/family member"
-                        />
-                      </RadioGroup>
-                    </Stack>
-                  </CardContent>
-                </Card>
-                <Card style={{ marginTop: 20, borderRadius: 20 }}>
-                  <CardContent>
-                    <Typography style={{ color: '#ff7424' }}>
-                      Why do you do business / ನೀವು ಯಾಕೆ ವ್ಯಾಪಾರ ಮಾಡುತ್ತೀರಿ
-                    </Typography>
-                    <Stack mt={2} mb={2}>
-                      <TextField
-                        id="business reason"
+                      <SelectInput
+                        card={false}
+                        id="has_hired_employees"
+                        name="has_hired_employees"
+                        label="If you are currently running a business, do you have employees you have hired?
+ನೀವು ಪ್ರಸ್ತುತ ವ್ಯಾಪಾರವನ್ನು ನಡೆಸುತ್ತಿದ್ದರೆ,ವ್ಯಾಪಾರ ನಿರ್ವಹಣೆ ಮಾಡಲು ನೌಕರರನ್ನು ಹೊಂದಿದ್ಧೀರ?"
                         required
-                        type="text"
-                        label="Your Answer"
-                        variant="outlined"
-                        color="common"
-                        onChange={(e) => setSendData({ ...sendData, why_do_you_do_business: e.target.value })}
+                        onChange={handleInputChange}
+                        value={sendData?.has_hired_employees}
+                        options={yesOrNo}
+                      />
+                      <SelectInput
+                        card={false}
+                        id="number_of_paid_workers"
+                        name="number_of_paid_workers"
+                        label="How many paid workers do you have?
+ನಿಮ್ಮಲ್ಲಿ ಎಷ್ಟು ಸಂಬಳದ ಕೆಲಸಗಾರರಿದ್ದಾರೆ?"
+                        required
+                        onChange={handleInputChange}
+                        value={sendData?.number_of_paid_workers}
+                        options={Howmanypaidworkersdoyouhave}
+                      />
+                      <SelectInput
+                        card={false}
+                        id="why_do_you_do_business"
+                        name="why_do_you_do_business"
+                        label="Why do you do business?
+ನೀವು ಯಾಕೆ ವ್ಯಾಪಾರ ಮಾಡುತ್ತೀರಿ?"
+                        required
+                        onChange={handleInputChange}
                         value={sendData?.why_do_you_do_business}
+                        options={Whydoyoudobusiness}
                       />
-                    </Stack>
-                  </CardContent>
-                </Card>
-                <Card style={{ marginTop: 20, borderRadius: 20 }}>
-                  <CardContent>
-                    <Typography style={{ color: '#ff7424' }}>
-                      Tell us three things about you as an enterpreneur / ವಾಣಿಜ್ಯೋದ್ಯಮಿಯಾಗಿ ನಿಮ್ಮ ಬಗ್ಗೆ ಮೂರು ವಿಷಯಗಳನ್ನು
-                      ನಮಗೆ ತಿಳಿಸಿ
-                      {HouseBaseError ? <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText> : null}
-                    </Typography>
-                    <Stack mt={2}>
-                      <FormGroup>
-                        <FormControlLabel
-                          value="Self Motivated"
-                          control={<Checkbox style={{ color: '#595959' }} />}
-                          label="Self Motivated"
-                          onChange={(event) =>
-                            handleprerequisites('tell_us_three_things_about_you_as_an_entrepreneur', event)
-                          }
-                        />
-                        <FormControlLabel
-                          value="Financial knowledge"
-                          control={<Checkbox style={{ color: '#595959' }} />}
-                          label="Financial knowledge"
-                          onChange={(event) =>
-                            handleprerequisites('tell_us_three_things_about_you_as_an_entrepreneur', event)
-                          }
-                        />
-                        <FormControlLabel
-                          value="Hard working"
-                          control={<Checkbox style={{ color: '#595959' }} />}
-                          label="Hard working"
-                          onChange={(event) =>
-                            handleprerequisites('tell_us_three_things_about_you_as_an_entrepreneur', event)
-                          }
-                        />
-                        <FormControlLabel
-                          value="Leadership quality"
-                          control={<Checkbox style={{ color: '#595959' }} />}
-                          label="Leadership quality"
-                          onChange={(event) =>
-                            handleprerequisites('tell_us_three_things_about_you_as_an_entrepreneur', event)
-                          }
-                        />
-                        <FormControlLabel
-                          value="Decision maker"
-                          control={<Checkbox style={{ color: '#595959' }} />}
-                          label="Decision maker"
-                          onChange={(event) =>
-                            handleprerequisites('tell_us_three_things_about_you_as_an_entrepreneur', event)
-                          }
-                        />
-                        <FormControlLabel
-                          value="Business Vision"
-                          control={<Checkbox style={{ color: '#595959' }} />}
-                          label="Business Vision"
-                          onChange={(event) =>
-                            handleprerequisites('tell_us_three_things_about_you_as_an_entrepreneur', event)
-                          }
-                        />
-                        <FormControlLabel
-                          value="Market Knowledge"
-                          control={<Checkbox style={{ color: '#595959' }} />}
-                          label="Market Knowledge"
-                          onChange={(event) =>
-                            handleprerequisites('tell_us_three_things_about_you_as_an_entrepreneur', event)
-                          }
-                        />
-                        <FormControlLabel
-                          value="Others"
-                          control={<Checkbox style={{ color: '#595959' }} />}
-                          label="Others"
-                          onChange={(event) =>
-                            handleprerequisites('tell_us_three_things_about_you_as_an_entrepreneur', event)
-                          }
-                        />
-                      </FormGroup>
-                    </Stack>
-                  </CardContent>
-                </Card>
-                <Card style={{ marginTop: 20, borderRadius: 20 }}>
-                  <CardContent>
-                    <Typography style={{ color: '#ff7424' }}>
-                      Tell us three things about your role as a woman at home
-                    </Typography>
-                    <Stack mt={2} mb={2}>
-                      <TextField
-                        id="reason"
+                      <MultipleChoice
+                        card={false}
+                        label="What are your aspirations as an entrepreneur?
+ಉದ್ಯಮಿಯಾಗಿ ನಿಮ್ಮ ಆಕಾಂಕ್ಷೆಗಳೇನು?"
+                        name="entrepreneurial_aspirations"
                         required
-                        label="Your Answer"
-                        variant="outlined"
-                        color="common"
-                        onChange={(e) =>
-                          setSendData({
-                            ...sendData,
-                            tell_us_three_things_about_your_role_as_a_woman_at_home: e.target.value,
-                          })
-                        }
-                        value={sendData?.tell_us_three_things_about_your_role_as_a_woman_at_home}
+                        handleResources={handleResources}
+                        options={Whatareyouraspirationsasanentrepreneur}
                       />
-                    </Stack>
-                  </CardContent>
-                </Card>
-                <Card style={{ marginTop: 20, backgroundColor: '#ff7424', borderRadius: 0, height: '60px' }}>
-                  <CardContent>
-                    <Typography style={{ color: '#ffffff' }}>Business Challenges</Typography>
-                  </CardContent>
-                </Card>
-                <Card style={{ marginTop: 20, borderRadius: 20 }}>
-                  <CardContent>
-                    <Stack mt={2}>
-                      <Typography style={{ color: '#ff7424' }}>
-                        What are your challenges in running and growing your business? / ನಿಮ್ಮ ವ್ಯಾಪಾರವನ್ನು ನಡೆಸುವಲ್ಲಿ
-                        ಮತ್ತು ಬೆಳೆಸುವಲ್ಲಿ ನಿಮ್ಮ ಸವಾಲುಗಳೇನು
-                        {challengesvalueError ? (
-                          <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText>
-                        ) : null}
-                      </Typography>
-                      <RadioGroup
-                        aria-labelledby="demo-radio-buttons-group-label"
-                        // defaultValue="Yes"
-                        name="radio-buttons-group"
-                        value={challengesvalue}
-                        onChange={challengesbussiness}
-                      >
-                        <FormControlLabel
-                          value="Limited Funding"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Limited Funding"
-                        />
-                        <FormControlLabel
-                          value="Balancing Responsibilities"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Balancing Responsibilities"
-                        />
-                        <FormControlLabel
-                          value="Fear of Failure"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Fear of Failure"
-                        />
-                        <FormControlLabel
-                          value="No Support System"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="No Support System"
-                        />
-                        <FormControlLabel
-                          value="Limited business knowledge"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Limited business knowledge"
-                        />
-                        <FormControlLabel
-                          value="Other"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Other"
-                        />
-                      </RadioGroup>
-                    </Stack>
-                  </CardContent>
-                </Card>
-                <Card style={{ marginTop: 20, borderRadius: 20 }}>
-                  <CardContent>
-                    <Typography style={{ color: '#ff7424' }}>
-                      What is your plan to overcome these challenges?
-                    </Typography>
-                    <Stack mt={2} mb={2}>
-                      <TextField
-                        id="challenges"
+                      <SelectInput
+                        card={false}
+                        id="maintain_daily_financial_books"
+                        name="maintain_daily_financial_books"
+                        label="Do you maintain daily financial books post training ?
+ತರಬೇತಿಯ ನಂತರ ನೀವು ದೈನಂದಿನ ಹಣಕಾಸು ಪುಸ್ತಕಗಳನ್ನು ನಿರ್ವಹಿಸುತ್ತೀರಾ?"
                         required
-                        label="Your Answer"
-                        variant="outlined"
-                        color="common"
-                        onChange={(e) =>
-                          setSendData({ ...sendData, what_is_your_plan_to_overcome_these_challenges: e.target.value })
-                        }
-                        value={sendData?.what_is_your_plan_to_overcome_these_challenges}
+                        onChange={handleInputChange}
+                        value={sendData?.maintain_daily_financial_books}
+                        options={yesOrNo}
                       />
-                    </Stack>
-                  </CardContent>
-                </Card>
-                <Card style={{ marginTop: 20, borderRadius: 20 }}>
-                  <CardContent>
-                    <Typography style={{ color: '#ff7424' }}>What are your skills?</Typography>
-                    <Stack mt={2} mb={2}>
-                      <TextField
-                        id="skills"
+                      <SelectInput
+                        card={false}
+                        id="frequency_of_recording_financial_books"
+                        name="frequency_of_recording_financial_books"
+                        label="If yes,How often do you write these records?
+ಹೌದು ಎಂದಾದರೆ, ಈ ದಾಖಲೆಗಳನ್ನು ನೀವು ಎಷ್ಟು ಬಾರಿ ಬರೆಯುತ್ತೀರಿ?"
                         required
-                        label="Your Answer"
-                        variant="outlined"
-                        color="common"
-                        onChange={(e) => setSendData({ ...sendData, what_are_your_skills: e.target.value })}
-                        value={sendData?.what_are_your_skills}
+                        onChange={handleInputChange}
+                        value={sendData?.frequency_of_recording_financial_books}
+                        options={Howoftendoyouwritetheserecords}
                       />
-                    </Stack>
-                  </CardContent>
-                </Card>
-                <Card style={{ marginTop: 20, borderRadius: 20 }}>
-                  <CardContent>
-                    <Typography style={{ color: '#ff7424' }}>
-                      What are the resources available with you for your business? / ನಿಮ್ಮ ವ್ಯಾಪಾರಕ್ಕಾಗಿ ನಿಮ್ಮ ಬಳಿ
-                      ಲಭ್ಯವಿರುವ ಸಂಪನ್ಮೂಲಗಳು ಯಾವುವು?
-                    </Typography>
-                    <Stack mt={2} mb={2}>
-                      <TextField
-                        id="resources"
+                      <MultipleChoice
+                        card={false}
+                        label="How do you keep these accounts?
+ಈ ಖಾತೆಗಳನ್ನು ನೀವು ಹೇಗೆ ಇಟ್ಟುಕೊಳ್ಳುತ್ತೀರಿ?"
+                        name="method_of_keeping_accounts"
                         required
-                        label="Your Answer"
-                        variant="outlined"
-                        color="common"
-                        onChange={(e) =>
-                          setSendData({
-                            ...sendData,
-                            what_are_the_resources_available_with_you_for_your_business: e.target.value,
-                          })
-                        }
-                        value={sendData?.what_are_the_resources_available_with_you_for_your_business}
+                        handleResources={handleResources}
+                        options={Howdoyoukeeptheseaccounts}
                       />
-                    </Stack>
-                  </CardContent>
-                </Card>
-                <Card style={{ marginTop: 20, backgroundColor: '#ff7424', borderRadius: 0, height: '60px' }}>
-                  <CardContent>
-                    <Typography style={{ color: '#ffffff' }}>Business Components</Typography>
-                  </CardContent>
-                </Card>
-                <Card style={{ marginTop: 20, borderRadius: 20 }}>
-                  <CardContent>
-                    <Typography style={{ color: '#ff7424' }}>
-                      Who is your customer? Describe them to us / ನಿಮ್ಮ ಗ್ರಾಹಕ ಯಾರು? ಅವುಗಳನ್ನು ನಮಗೆ ವಿವರಿಸಿ
-                    </Typography>
-                    <Stack mt={2} mb={2}>
-                      <TextField
-                        id="customer"
+                      <SelectInput
+                        card={false}
+                        id="reason_for_not_bookkeeping"
+                        name="reason_for_not_bookkeeping"
+                        label="If not, what is the reason for not bookkeeping?
+ಇಲ್ಲದಿದ್ದರೆ, ಪುಸ್ತಕ ನಿರ್ವಹಣೆ ಮಾಡದಿರಲು ಕಾರಣವೇನು?"
                         required
-                        label="Your Answer"
-                        variant="outlined"
-                        color="common"
-                        onChange={(e) =>
-                          setSendData({ ...sendData, who_is_your_customer_Describe_them_to_us: e.target.value })
-                        }
-                        value={sendData?.who_is_your_customer_Describe_them_to_us}
+                        onChange={handleInputChange}
+                        value={sendData?.reason_for_not_bookkeeping}
+                        options={whatisthereasonfornotbookkeeping}
                       />
-                    </Stack>
-                  </CardContent>
-                </Card>
-                <Card style={{ marginTop: 20, borderRadius: 20 }}>
-                  <CardContent>
-                    <Typography style={{ color: '#ff7424' }}>
-                      Please identify parts/aspects of business / ವ್ಯಾಪಾರದ ಭಾಗಗಳು/ಮಗ್ಗಲುಗಳನ್ನು ಗುರುತಿಸಿ
-                    </Typography>
-                    <Stack mt={2}>
-                      <FormGroup>
-                        <FormControlLabel
-                          value="Infrastructure"
-                          control={<Checkbox style={{ color: '#595959' }} />}
-                          label="Infrastructure"
-                          onChange={(event) =>
-                            handleprerequisites('please_list_down_the_various_components_of_business', event)
-                          }
-                        />
-                        <FormControlLabel
-                          value="Marketing"
-                          control={<Checkbox style={{ color: '#595959' }} />}
-                          label="Marketing"
-                          onChange={(event) =>
-                            handleprerequisites('please_list_down_the_various_components_of_business', event)
-                          }
-                        />
-                        <FormControlLabel
-                          value="Funding"
-                          control={<Checkbox style={{ color: '#595959' }} />}
-                          label="Funding"
-                          onChange={(event) =>
-                            handleprerequisites('please_list_down_the_various_components_of_business', event)
-                          }
-                        />
-                        <FormControlLabel
-                          value="Customers"
-                          control={<Checkbox style={{ color: '#595959' }} />}
-                          label="Customers"
-                          onChange={(event) =>
-                            handleprerequisites('please_list_down_the_various_components_of_business', event)
-                          }
-                        />
-                        <FormControlLabel
-                          value="Products/Services"
-                          control={<Checkbox style={{ color: '#595959' }} />}
-                          label="Products/Services"
-                          onChange={(event) =>
-                            handleprerequisites('please_list_down_the_various_components_of_business', event)
-                          }
-                        />
-                        <FormControlLabel
-                          value="Family support"
-                          control={<Checkbox style={{ color: '#595959' }} />}
-                          label="Family support"
-                          onChange={(event) =>
-                            handleprerequisites('please_list_down_the_various_components_of_business', event)
-                          }
-                        />
-                        <FormControlLabel
-                          value="Confidence"
-                          control={<Checkbox style={{ color: '#595959' }} />}
-                          label="Confidence"
-                          onChange={(event) =>
-                            handleprerequisites('please_list_down_the_various_components_of_business', event)
-                          }
-                        />
-                        <FormControlLabel
-                          value="Good Communication"
-                          control={<Checkbox style={{ color: '#595959' }} />}
-                          label="Good Communication"
-                          onChange={(event) =>
-                            handleprerequisites('please_list_down_the_various_components_of_business', event)
-                          }
-                        />
-                      </FormGroup>
-                    </Stack>
-                  </CardContent>
-                </Card>
-                <Card style={{ marginTop: 20, borderRadius: 20 }}>
-                  <CardContent>
-                    <Stack mt={2}>
-                      <Typography style={{ color: '#ff7424' }}>
-                        I know the current state of my business in terms of is it making profit, loss revenue
-                        {bussinesscurrentstateError ? (
-                          <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText>
-                        ) : null}
-                      </Typography>
-                      <RadioGroup
-                        aria-labelledby="demo-radio-buttons-group-label"
-                        // defaultValue="Yes"
-                        name="radio-buttons-group"
-                        value={bussinesscurrentstate}
-                        onChange={bussinesscurrentstatevalue}
-                      >
-                        <FormControlLabel
-                          value="Strongly Agree"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Strongly Agree"
-                        />
-                        <FormControlLabel
-                          value="Agree"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Agree"
-                        />
-                        <FormControlLabel
-                          value="Neutral"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Neutral"
-                        />
-                        <FormControlLabel
-                          value="Disagree"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Disagree"
-                        />
-                        <FormControlLabel
-                          value="Strongly Disagree"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Strongly Disagree"
-                        />
-                      </RadioGroup>
-                    </Stack>
-                  </CardContent>
-                </Card>
-                <Card style={{ marginTop: 20, borderRadius: 20 }}>
-                  <CardContent>
-                    <Stack mt={2}>
-                      <Typography style={{ color: '#ff7424' }}>
-                        What kind of books of accounts do you maintain?
-                        {accountbooksError ? (
-                          <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText>
-                        ) : null}
-                      </Typography>
-                      <RadioGroup
-                        aria-labelledby="demo-radio-buttons-group-label"
-                        // defaultValue="Yes"
-                        name="radio-buttons-group"
-                        value={accountbooks}
-                        onChange={handleaccountbooks}
-                      >
-                        <FormControlLabel
-                          value="I maintain no accounts"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="I maintain no accounts"
-                        />
-                        <FormControlLabel
-                          value="I have rough accounts"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="I have rough accounts"
-                        />
-                        <FormControlLabel
-                          value="I have a proper accounts"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="I have a proper accounts"
-                        />
-                      </RadioGroup>
-                    </Stack>
-                  </CardContent>
-                </Card>
-                <Card style={{ marginTop: 20, borderRadius: 20 }}>
-                  <CardContent>
-                    <Stack mt={2}>
-                      <Typography style={{ color: '#ff7424' }}>
-                        I am confident that i can generate ideas to solve my business problems
-                        {generateideasError ? (
-                          <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText>
-                        ) : null}
-                      </Typography>
-                      <RadioGroup
-                        aria-labelledby="demo-radio-buttons-group-label"
-                        // defaultValue="Yes"
-                        name="radio-buttons-group"
-                        value={generateideas}
-                        onChange={generateideasvalue}
-                      >
-                        <FormControlLabel
-                          value="Strongly Agree"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Strongly Agree"
-                        />
-                        <FormControlLabel
-                          value="Agree"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Agree"
-                        />
-                        <FormControlLabel
-                          value="Neutral"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Neutral"
-                        />
-                        <FormControlLabel
-                          value="Disagree"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Disagree"
-                        />
-                        <FormControlLabel
-                          value="Strongly Disagree"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Strongly Disagree"
-                        />
-                      </RadioGroup>
-                    </Stack>
-                  </CardContent>
-                </Card>
-                <Card style={{ marginTop: 20, borderRadius: 20 }}>
-                  <CardContent>
-                    <Typography style={{ color: '#ff7424' }}>
-                      Tell us about one business problem you solved, how did you solve it?
-                    </Typography>
-                    <Stack mt={2} mb={2}>
-                      <TextField
-                        id="business sol"
+                      <SelectInput
+                        card={false}
+                        id="do_you_have_a_business_plan_to_reach_that_goal"
+                        name="do_you_have_a_business_plan_to_reach_that_goal"
+                        label="Do you have a business goal/ plan?
+ನೀವು ವ್ಯಾಪಾರದ ಗುರಿ/ಯೋಜನೆಯನ್ನು ಹೊಂದಿದ್ದೀರಾ?"
                         required
-                        label="Your Answer"
-                        variant="outlined"
-                        color="common"
-                        onChange={(e) =>
-                          setSendData({ ...sendData, tell_us_about_one_business_problem: e.target.value })
-                        }
-                        value={sendData?.tell_us_about_one_business_problem}
+                        onChange={handleInputChange}
+                        value={sendData?.do_you_have_a_business_plan_to_reach_that_goal}
+                        options={yesOrNo}
                       />
-                    </Stack>
-                  </CardContent>
-                </Card>
-                <Card style={{ marginTop: 20, backgroundColor: '#ff7424', borderRadius: 0, height: '60px' }}>
-                  <CardContent>
-                    <Typography style={{ color: '#ffffff' }}>Business Goal</Typography>
-                  </CardContent>
-                </Card>
-                <Card style={{ marginTop: 20, borderRadius: 20 }}>
-                  <CardContent>
-                    <Typography style={{ color: '#ff7424' }}>
-                      What is your business goal / ನಿಮ್ಮ ವ್ಯಾಪಾರ ಗುರಿ ಏನು?
-                    </Typography>
-                    <Stack mt={2} mb={2}>
-                      <TextField
-                        id="business goal"
+                      <SelectInput
+                        card={false}
+                        id="maintain_detailed_business_plan"
+                        name="maintain_detailed_business_plan"
+                        label="Do you maintain a detailed business plan for your business ?
+ನಿಮ್ಮ ವ್ಯಾಪಾರಕ್ಕಾಗಿ ನೀವು ವಿವರವಾದ ವ್ಯಾಪಾರ ಯೋಜನೆಯನ್ನು ನಿರ್ವಹಿಸುತ್ತೀರಾ?"
                         required
-                        label="Your Answer"
-                        variant="outlined"
-                        color="common"
-                        onChange={(e) =>
-                          setSendData({
-                            ...sendData,
-                            what_is_your_business_goal_Business_impurumenet_madodu: e.target.value,
-                          })
-                        }
-                        value={sendData?.what_is_your_business_goal_Business_impurumenet_madodu}
+                        onChange={handleInputChange}
+                        value={sendData?.maintain_detailed_business_plan}
+                        options={yesOrNo}
                       />
-                    </Stack>
-                  </CardContent>
-                </Card>
-                <Card style={{ marginTop: 20, borderRadius: 20 }}>
-                  <CardContent>
-                    <Stack mt={2}>
-                      <Typography style={{ color: '#ff7424' }}>
-                        Do you have a business plan to reach that goal?
-                        {bussinessplanError ? (
-                          <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText>
-                        ) : null}
-                      </Typography>
-                      <RadioGroup
-                        aria-labelledby="demo-radio-buttons-group-label"
-                        // defaultValue="Yes"
-                        name="radio-buttons-group"
-                        value={bussinessplan}
-                        onChange={bussinessplanvalue}
-                      >
-                        <FormControlLabel value="Yes" control={<Radio style={{ color: '#595959' }} />} label="Yes" />
-                        <FormControlLabel value="No" control={<Radio style={{ color: '#595959' }} />} label="No" />
-                        <FormControlLabel
-                          value="I don't know"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="I don't know"
-                        />
-                      </RadioGroup>
-                    </Stack>
-                  </CardContent>
-                </Card>
-                <Card style={{ marginTop: 20, borderRadius: 20 }}>
-                  <CardContent>
-                    <Stack mt={2}>
-                      <Typography style={{ color: '#ff7424' }}>
-                        Can you submit a business plan for your goal to us right now?
-                        {submitbussinessplanError ? (
-                          <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText>
-                        ) : null}
-                      </Typography>
-                      <RadioGroup
-                        aria-labelledby="demo-radio-buttons-group-label"
-                        // defaultValue="Yes"
-                        name="radio-buttons-group"
-                        value={submitbussinessplan}
-                        onChange={submitbussinessplanvalue}
-                      >
-                        <FormControlLabel value="Yes" control={<Radio style={{ color: '#595959' }} />} label="Yes" />
-                        <FormControlLabel value="No" control={<Radio style={{ color: '#595959' }} />} label="No" />
-                        <FormControlLabel
-                          value="I don't know"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="I don't know"
-                        />
-                      </RadioGroup>
-                    </Stack>
-                  </CardContent>
-                </Card>
-                <Card style={{ marginTop: 20, backgroundColor: '#ff7424', borderRadius: 0, height: '60px' }}>
-                  <CardContent>
-                    <Typography style={{ color: '#ffffff' }}>SWOT Analysis</Typography>
-                  </CardContent>
-                </Card>
-                <Card style={{ marginTop: 20, borderRadius: 20 }}>
-                  <CardContent>
-                    <Typography style={{ color: '#ff7424' }}>What are strengths of your business?</Typography>
-                    <Stack mt={2} mb={2}>
-                      <TextField
-                        id="strengths"
+                      <TextInput
+                        card={false}
+                        id="short_term_goal"
+                        name="short_term_goal"
+                        label="What is your short term goal for your business?
+ನಿಮ್ಮ ವ್ಯಾಪಾರಕ್ಕಾಗಿ ನಿಮ್ಮ ಅಲ್ಪಾವಧಿಯ ಗುರಿ ಏನು?"
+                        type="number"
                         required
-                        label="Your Answer"
-                        variant="outlined"
-                        color="common"
-                        onChange={(e) =>
-                          setSendData({ ...sendData, what_are_the_strenghts_of_your_business: e.target.value })
-                        }
-                        value={sendData?.what_are_the_strenghts_of_your_business}
+                        placeholder="Your Answer"
+                        onChange={handleInputChange}
+                        value={sendData.short_term_goal}
                       />
-                    </Stack>
-                  </CardContent>
-                </Card>
-                <Card style={{ marginTop: 20, borderRadius: 20 }}>
-                  <CardContent>
-                    <Typography style={{ color: '#ff7424' }}>What are weaknesses of your business?</Typography>
-                    <Stack mt={2} mb={2}>
-                      <TextField
-                        id="weakness"
+                      <SelectInput
+                        card={false}
+                        id="loan_taken"
+                        name="loan_taken"
+                        label="Have you taken any loans for business?
+ನೀವು ವ್ಯಾಪಾರಕ್ಕಾಗಿ ಯಾವುದಾದರೂ ಸಾಲವನ್ನು ತೆಗೆದುಕೊಂಡಿದ್ದೀರಾ?"
                         required
-                        label="Your Answer"
-                        variant="outlined"
-                        color="common"
-                        onChange={(e) =>
-                          setSendData({ ...sendData, what_are_the_weaknesses_of_your_business: e.target.value })
-                        }
-                        value={sendData?.what_are_the_weaknesses_of_your_business}
+                        onChange={handleInputChange}
+                        value={sendData?.loan_taken}
+                        options={yesOrNo}
                       />
-                    </Stack>
-                  </CardContent>
-                </Card>
-                <Card style={{ marginTop: 20, borderRadius: 20 }}>
-                  <CardContent>
-                    <Typography style={{ color: '#ff7424' }}>What are opportunities of your business?</Typography>
-                    <Stack mt={2} mb={2}>
-                      <TextField
-                        id="opportunities"
+                      <SelectInput
+                        card={false}
+                        id="loan_source"
+                        name="loan_source"
+                        label="If yes, From where have you taken it? What is the interest rate?
+ಹೌದು ಎಂದಾದರೆ, ನೀವು ಸಾಲವನ್ನು ಎಲ್ಲಿಂದ ತೆಗೆದುಕೊಂಡಿದ್ದೀರಿ? ಬಡ್ಡಿ ದರ ಎಷ್ಟು?"
                         required
-                        label="Your Answer"
-                        variant="outlined"
-                        color="common"
-                        onChange={(e) =>
-                          setSendData({ ...sendData, what_are_the_oppourtunities_for_your_business: e.target.value })
-                        }
-                        value={sendData?.what_are_the_oppourtunities_for_your_business}
+                        onChange={handleInputChange}
+                        value={sendData?.loan_source}
+                        options={Fromwherehaveyoutakenit}
                       />
-                    </Stack>
-                  </CardContent>
-                </Card>
-                <Card style={{ marginTop: 20, backgroundColor: '#ff7424', borderRadius: 0, height: '60px' }}>
-                  <CardContent>
-                    <Typography style={{ color: '#ffffff' }}>Access to finance</Typography>
-                  </CardContent>
-                </Card>
-                <Card style={{ marginTop: 20, borderRadius: 20 }}>
-                  <CardContent>
-                    <Stack mt={2}>
-                      <Typography style={{ color: '#ff7424' }}>
-                        Are you able to raise the required finance for your business right now?/ ಇದೀಗ ನಿಮ್ಮ ವ್ಯಾಪಾರಕ್ಕೆ
-                        ಅಗತ್ಯವಿರುವ ಹಣಕಾಸು ಸಂಗ್ರಹಿಸಲು ನಿಮಗೆ ಸಾಧ್ಯವಾಗುತ್ತದೆಯೇ?
-                        {financeError ? <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText> : null}
-                      </Typography>
-                      <RadioGroup
-                        aria-labelledby="demo-radio-buttons-group-label"
-                        // defaultValue="Yes"
-                        name="radio-buttons-group"
-                        value={finance}
-                        onChange={financevalue}
-                      >
-                        <FormControlLabel value="Yes" control={<Radio style={{ color: '#595959' }} />} label="Yes" />
-                        <FormControlLabel value="No" control={<Radio style={{ color: '#595959' }} />} label="No" />
-                      </RadioGroup>
-                    </Stack>
-                  </CardContent>
-                </Card>
-                <Card style={{ marginTop: 20, borderRadius: 20 }}>
-                  <CardContent>
-                    <Stack mt={2}>
-                      <Typography style={{ color: '#ff7424' }}>
-                        I have taken a loan from
-                        {loanError ? <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText> : null}
-                      </Typography>
-                      <RadioGroup
-                        aria-labelledby="demo-radio-buttons-group-label"
-                        // defaultValue="Yes"
-                        name="radio-buttons-group"
-                        value={loan}
-                        onChange={loanvalue}
-                      >
-                        <FormControlLabel
-                          value="Government bank"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Government bank"
-                        />
-                        <FormControlLabel
-                          value="Private bank"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Private bank"
-                        />
-                        <FormControlLabel value="NGO" control={<Radio style={{ color: '#595959' }} />} label="NGO" />
-                        <FormControlLabel
-                          value="Money Lender"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Money Lender"
-                        />
-                        <FormControlLabel
-                          value="Middleman/trader"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Middleman/trader"
-                        />
-                        <FormControlLabel
-                          value="Parents"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Parents"
-                        />
-                        <FormControlLabel
-                          value="Relatives/Neighbors"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Relatives/Neighbors"
-                        />
-                        <FormControlLabel
-                          value="Friends"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Friends"
-                        />
-                        <FormControlLabel
-                          value="Social Welfare departments"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Social Welfare departments"
-                        />
-                        <FormControlLabel
-                          value="Cooperatives"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Cooperatives"
-                        />
-                        <FormControlLabel
-                          value="SHG Group"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="SHG Group"
-                        />
-                        <FormControlLabel
-                          value="Other"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Other"
-                        />
-                      </RadioGroup>
-                    </Stack>
-                  </CardContent>
-                </Card>
-                <Card style={{ marginTop: 20, borderRadius: 20 }}>
-                  <CardContent>
-                    <Stack mt={2}>
-                      <Typography style={{ color: '#ff7424' }}>
-                        I have trouble accessing loan for my business
-                        {accessingloanError ? (
-                          <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText>
-                        ) : null}
-                      </Typography>
-                      <RadioGroup
-                        aria-labelledby="demo-radio-buttons-group-label"
-                        // defaultValue="Yes"
-                        name="radio-buttons-group"
-                        value={accessingloan}
-                        onChange={accessingloanvalue}
-                      >
-                        <FormControlLabel
-                          value="Strongly Agree"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Strongly Agree"
-                        />
-                        <FormControlLabel
-                          value="Agree"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Agree"
-                        />
-                        <FormControlLabel
-                          value="Neutral"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Neutral"
-                        />
-                        <FormControlLabel
-                          value="Disagree"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Disagree"
-                        />
-                        <FormControlLabel
-                          value="Strongly Disagree"
-                          control={<Radio style={{ color: '#595959' }} />}
-                          label="Strongly Disagree"
-                        />
-                      </RadioGroup>
-                    </Stack>
-                  </CardContent>
-                </Card>
-                <Card style={{ marginTop: 20, borderRadius: 20 }}>
-                  <CardContent>
-                    <Typography style={{ color: '#ff7424' }}>
-                      What are the prerequisites to access a loan? Tick the one's you think you need / ಸಾಲವನ್ನು
-                      ಪ್ರವೇಶಿಸಲು ಪೂರ್ವಾಪೇಕ್ಷಿತಗಳು ಯಾವುವು? ನಿಮಗೆ ಬೇಕು ಎಂದು ನೀವು ಭಾವಿಸುವದನ್ನು ಟಿಕ್ ಮಾಡಿ
-                    </Typography>
-                    <Stack mt={2}>
-                      <FormGroup>
-                        <FormControlLabel
-                          value="KYC documents of all the applicants - PAN card, Aadhar Crad, address proof"
-                          control={<Checkbox style={{ color: '#595959' }} />}
-                          label="KYC documents of all the applicants - PAN card, Aadhar Crad, address proof"
-                          onChange={(event) =>
-                            handleprerequisites('what_are_the_prerequisites_to_access_a_loan', event)
-                          }
-                        />
-                        <FormControlLabel
-                          value="Address Proof of the business premises"
-                          control={<Checkbox style={{ color: '#595959' }} />}
-                          label="Address Proof of the business premises"
-                          onChange={(event) =>
-                            handleprerequisites('what_are_the_prerequisites_to_access_a_loan', event)
-                          }
-                        />
-                        <FormControlLabel
-                          value="2 Passport size photographs of the applicant"
-                          control={<Checkbox style={{ color: '#595959' }} />}
-                          label="2 Passport size photographs of the applicant"
-                          onChange={(event) =>
-                            handleprerequisites('what_are_the_prerequisites_to_access_a_loan', event)
-                          }
-                        />
-                        <FormControlLabel
-                          value="Light bill & rent agreement"
-                          control={<Checkbox style={{ color: '#595959' }} />}
-                          label="Light bill & rent agreement"
-                          onChange={(event) =>
-                            handleprerequisites('what_are_the_prerequisites_to_access_a_loan', event)
-                          }
-                        />
-                        <FormControlLabel
-                          value="Balance sheet and profit & Loss statement for the last 2-3 years"
-                          control={<Checkbox style={{ color: '#595959' }} />}
-                          label="Balance sheet and profit & Loss statement for the last 2-3 years"
-                          onChange={(event) =>
-                            handleprerequisites('what_are_the_prerequisites_to_access_a_loan', event)
-                          }
-                        />
-                        <FormControlLabel
-                          value="Quotations of machinery,equipment,furniture & other assets to be purchased"
-                          control={<Checkbox style={{ color: '#595959' }} />}
-                          label="Quotations of machinery,equipment,furniture & other assets to be purchased"
-                          onChange={(event) =>
-                            handleprerequisites('what_are_the_prerequisites_to_access_a_loan', event)
-                          }
-                        />
-                        <FormControlLabel
-                          value="Letters of support, reference"
-                          control={<Checkbox style={{ color: '#595959' }} />}
-                          label="Letters of support, reference"
-                          onChange={(event) =>
-                            handleprerequisites('what_are_the_prerequisites_to_access_a_loan', event)
-                          }
-                        />
-                      </FormGroup>
-                    </Stack>
-                  </CardContent>
-                </Card>
-                <Card style={{ marginTop: 20, borderRadius: 20 }}>
-                  <CardContent>
-                    <Stack mt={2}>
-                      <Typography style={{ color: '#ff7424' }}>
-                        Is there any loan currently availed by you/family / ನೀವು/ಕುಟುಂಬದಿಂದ ಪ್ರಸ್ತುತ ಯಾವುದಾದರೂ ಲೋನ್
-                        ಇದೆಯೇ
-                        {currentloanError ? (
-                          <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText>
-                        ) : null}
-                      </Typography>
-                      <RadioGroup
-                        aria-labelledby="demo-radio-buttons-group-label"
-                        // defaultValue="Yes"
-                        name="radio-buttons-group"
-                        value={currentloan}
-                        onChange={currentloanvalue}
-                      >
-                        <FormControlLabel value="Yes" control={<Radio style={{ color: '#595959' }} />} label="Yes" />
-                        <FormControlLabel value="No" control={<Radio style={{ color: '#595959' }} />} label="No" />
-                      </RadioGroup>
-                    </Stack>
-                  </CardContent>
-                </Card>
-                {isCurrentLoan ? (
-                  <Card style={{ marginTop: 20, borderRadius: 20 }}>
-                    <CardContent>
-                      <Typography style={{ color: '#ff7424' }}>If yes details/ ಹೌದು ಎಂದಾದರೆ, ವಿವರಗಳು</Typography>
-                      <Stack mt={2} mb={2}>
-                        <TextField
-                          id="relation"
-                          required
-                          label="Relation (who borrowed)"
-                          variant="outlined"
-                          color="common"
-                          onChange={(e) => setSendData({ ...sendData, relation_who_borrowed: e.target.value })}
-                          value={sendData?.relation_who_borrowed}
-                        />
-                      </Stack>
-                      <Stack mt={2} mb={2}>
-                        <TextField
-                          id="totalamount"
-                          required
-                          type="number"
-                          label="Total amount"
-                          variant="outlined"
-                          color="common"
-                          onChange={(e) => setSendData({ ...sendData, loan_total_amount: e.target.value })}
-                          value={sendData?.loan_total_amount}
-                        />
-                      </Stack>
-                      <Stack mt={2} mb={2}>
-                        <TextField
-                          id="source"
-                          required
-                          label="Source"
-                          variant="outlined"
-                          color="common"
-                          onChange={(e) => setSendData({ ...sendData, loan_source: e.target.value })}
-                          value={sendData?.loan_source}
-                        />
-                      </Stack>
-                      <Stack mt={2} mb={2}>
-                        <TextField
-                          id="repayment"
-                          required
-                          label="Repayment till date"
-                          variant="outlined"
-                          color="common"
-                          onChange={(e) => setSendData({ ...sendData, loan_repayment_till_date: e.target.value })}
-                          value={sendData?.loan_repayment_till_date}
-                        />
-                      </Stack>
+                      <TextInput
+                        card={false}
+                        id="interest_rate"
+                        name="interest_rate"
+                        label="What is the interest rate? ಬಡ್ಡಿ ದರ ಎಷ್ಟು?"
+                        type="number"
+                        required
+                        placeholder="Your Answer"
+                        onChange={handleInputChange}
+                        value={sendData.interest_rate}
+                      />
+                      <SelectInput
+                        card={false}
+                        id="loan_purpose"
+                        name="loan_purpose"
+                        label="If yes,what is the purpose of bank loans
+ಹೌದು ಎಂದಾದರೆ, ಬ್ಯಾಂಕ್ ಸಾಲದ ಉದ್ದೇಶವೇನು"
+                        required
+                        onChange={handleInputChange}
+                        value={sendData?.loan_purpose}
+                        options={whatisthepurposeofbankloans}
+                      />
+                      <SelectInput
+                        card={false}
+                        id="run_growth_challenges"
+                        name="run_growth_challenges"
+                        label="What are your challenges in running and growing your business ?
+ನಿಮ್ಮ ವ್ಯಾಪಾರವನ್ನು ನಡೆಸುವಲ್ಲಿ ಮತ್ತು ಬೆಳೆಸುವಲ್ಲಿ ನಿಮ್ಮ ಸವಾಲುಗಳೇನು?"
+                        required
+                        onChange={handleInputChange}
+                        value={sendData?.run_growth_challenges}
+                        options={challengesinrunningandgrowingyourbusiness}
+                      />
+                      <TextInput
+                        card={false}
+                        id="what_are_the_strengths_of_your_business"
+                        name="what_are_the_strengths_of_your_business"
+                        label="State one strength of your business ನಿಮ್ಮ ವ್ಯಾಪಾರದ ಒಂದು ಬಲವನ್ನು ತಿಳಿಸಿ"
+                        type="number"
+                        required
+                        placeholder="Your Answer"
+                        onChange={handleInputChange}
+                        value={sendData.what_are_the_strengths_of_your_business}
+                      />
+                      <TextInput
+                        card={false}
+                        id="what_are_the_weaknesses_of_your_business"
+                        name="what_are_the_weaknesses_of_your_business"
+                        label="State one weakness of the business ವ್ಯಾಪಾರದ ಒಂದು ದೌರ್ಬಲ್ಯವನ್ನು ತಿಳಿಸಿ"
+                        type="number"
+                        required
+                        placeholder="Your Answer"
+                        onChange={handleInputChange}
+                        value={sendData.what_are_the_weaknesses_of_your_business}
+                      />
+                      <TextInput
+                        card={false}
+                        id="core_opportunity"
+                        name="core_opportunity"
+                        label="State one opportunity for your business ನಿಮ್ಮ ವ್ಯಾಪಾರದ ಒಂದು ಅವಕಾಶವನ್ನು ತಿಳಿಸಿ"
+                        type="number"
+                        required
+                        placeholder="Your Answer"
+                        onChange={handleInputChange}
+                        value={sendData.core_opportunity}
+                      />
+                      <TextInput
+                        card={false}
+                        id="core_threat"
+                        name="core_threat"
+                        label="State one threat for your business ನಿಮ್ಮ ವ್ಯಾಪಾರಕ್ಕೆ ಒಂದು ಬೆದರಿಕೆಯನ್ನು ತಿಳಿಸಿ"
+                        type="number"
+                        required
+                        placeholder="Your Answer"
+                        onChange={handleInputChange}
+                        value={sendData.core_threat}
+                      />
+                      <TextInput
+                        card={false}
+                        id="target_customer"
+                        name="target_customer"
+                        label="Who is your target customer? Describe ನಿಮ್ಮ ಗುರಿಯಲ್ಲಿರುವ ಗ್ರಾಹಕ ಯಾರು? ವಿವರಿಸಿ"
+                        type="number"
+                        required
+                        placeholder="Your Answer"
+                        onChange={handleInputChange}
+                        value={sendData.target_customer}
+                      />
                     </CardContent>
                   </Card>
-                ) : null}
-                <Card style={{ marginTop: 20, borderRadius: 20 }}>
-                  <CardContent>
-                    <Stack mt={2}>
-                      <Typography style={{ color: '#ff7424' }}>
-                        Do you need any additional skills to run your business / ನಿಮ್ಮ ವ್ಯಾಪಾರವನ್ನು ನಡೆಸಲು ನಿಮಗೆ ಯಾವುದೇ
-                        ಹೆಚ್ಚುವರಿ ಕೌಶಲ್ಯಗಳ ಅಗತ್ಯವಿದೆಯೇ?
-                        {bussinessSkillError ? (
-                          <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText>
-                        ) : null}
-                      </Typography>
-                      <RadioGroup
-                        aria-labelledby="demo-radio-buttons-group-label"
-                        // defaultValue="Yes"
-                        name="radio-buttons-group"
-                        value={bussinesskills}
-                        onChange={bussinesskillsvalue}
-                      >
-                        <FormControlLabel value="Yes" control={<Radio style={{ color: '#595959' }} />} label="Yes" />
-                        <FormControlLabel value="No" control={<Radio style={{ color: '#595959' }} />} label="No" />
-                      </RadioGroup>
-                    </Stack>
-                  </CardContent>
-                  {isAdditionalSkill?
-                    <Card style={{ marginTop: 20, borderRadius: 20 }}>
+
+                  <Card style={{ marginTop: 40, backgroundColor: '#F6F8FB', borderRadius: 20 }}>
                     <CardContent>
-                      <Typography style={{ color: '#ff7424' }}>If yes what are those/ ಹೌದು ಎಂದಾದರೆ, ಅವು ಯಾವುವು</Typography>
-                      <Stack mt={2} mb={2}>
-                        <TextField
-                          id="yourans"
-                          required
-                          label=" Your Answer"
-                          variant="outlined"
-                          color="common"
-                          onChange={(e) => setSendData({ ...sendData, skils_what_are_those: e.target.value })}
-                          value={sendData?.skils_what_are_those}
-                        />
-                      </Stack>
-                      </CardContent>
-                      </Card> : null}
-                </Card>
-                {/* -------------------------------- */}
-              </CardContent>
-            </Card>
-          </Grid>}
+                      <Typography
+                        style={{ color: '#ff7424', textAlign: 'center', paddingBottom: '20px', fontSize: '20px' }}
+                      >
+                        If the answer is I am planning to start an enterprise ಉತ್ತರವಾದರೆ, ನಾನು ಉದ್ಯಮವನ್ನು ಪ್ರಾರಂಭಿಸಲು
+                        ಯೋಜಿಸುತ್ತಿದ್ದೇನೆ
+                      </Typography>
+                      <TextInput
+                        card={false}
+                        id="own_account_work"
+                        name="own_account_work"
+                        label="During the last 1 year, have you worked on your own account or in a business enterprise belonging to you for example, trader, shopkeeper, tailoring, etc. at least for two hours in any day?
+ಕಳೆದ 1 ವರ್ಷದಲ್ಲಿ, ನೀವು ನಿಮ್ಮ ಸ್ವಂತ ಖಾತೆಯಲ್ಲಿ ಅಥವಾ ನಿಮಗೆ ಸೇರಿದ ವ್ಯಾಪಾರ ಉದ್ಯಮದಲ್ಲಿ ಉದಾಹರಣೆಗೆ, ವ್ಯಾಪಾರಿ, ಅಂಗಡಿಯವನು, ಟೈಲರಿಂಗ್, ಇತ್ಯಾದಿ. ಯಾವುದೇ ದಿನದಲ್ಲಿ ಕನಿಷ್ಠ ಎರಡು ಗಂಟೆಗಳ ಕಾಲ ಕೆಲಸ ಮಾಡಿದ್ದೀರಾ?"
+                        type="number"
+                        required
+                        placeholder="Your Answer"
+                        onChange={handleInputChange}
+                        value={sendData.own_account_work}
+                      />
+
+                      <SelectInput
+                        card={false}
+                        id="idea_status"
+                        name="idea_status"
+                        label="Do you have a business idea you want to work on?
+ನೀವು ಕೆಲಸ ಮಾಡಲು ಬಯಸುವ ವ್ಯಾಪಾರ ಕಲ್ಪನೆಯನ್ನು ನೀವು ಹೊಂದಿದ್ದೀರಾ?"
+                        required
+                        onChange={handleInputChange}
+                        value={sendData?.idea_status}
+                        options={yesOrNo}
+                      />
+                      <SelectInput
+                        card={false}
+                        id="idea_start"
+                        name="idea_start"
+                        label="Since when have you had the idea of starting business ? ವ್ಯಾಪಾರ ಆರಂಭಿಸುವ ಯೋಚನೆ ಯಾವಾಗಿನಿಂದ ಬಂತು?"
+                        required
+                        onChange={handleInputChange}
+                        value={sendData?.idea_start}
+                        options={whenhaveyouhadtheideaofstartingbusiness}
+                      />
+                      <SelectInput
+                        card={false}
+                        id="idea_category"
+                        name="idea_category"
+                        label="What category does your business idea fall in? ನಿಮ್ಮ ವ್ಯಾಪಾರ ಕಲ್ಪನೆಯು ಯಾವ ವರ್ಗಕ್ಕೆ ಸೇರುತ್ತದೆ?"
+                        required
+                        onChange={handleInputChange}
+                        value={sendData?.idea_category}
+                        options={Whatcategorydoesyourbusinessideafallin}
+                      />
+                      <TextInput
+                        card={false}
+                        id="monthly_income"
+                        name="monthly_income"
+                        label="How much monthly income would you like to ideally earn?
+ನೀವು ಆದರ್ಶಪ್ರಾಯವಾಗಿ ಎಷ್ಟು ಮಾಸಿಕ ಆದಾಯವನ್ನು ಗಳಿಸಲು ಬಯಸುತ್ತೀರಿ?"
+                        type="number"
+                        required
+                        placeholder="Your Answer"
+                        onChange={handleInputChange}
+                        value={sendData.monthly_income}
+                      />
+                      <SelectInput
+                        card={false}
+                        id="money_management"
+                        name="money_management"
+                        label="Do you like to manage money and keep track of incomes and expenses?
+ನೀವು ಹಣವನ್ನು ನಿರ್ವಹಿಸಲು ಹಾಗೂ ಆದಾಯ ಮತ್ತು ವೆಚ್ಚಗಳನ್ನು ಟ್ರ್ಯಾಕ್ ಮಾಡಲು ಇಷ್ಟಪಡುತ್ತೀರಾ?"
+                        required
+                        onChange={handleInputChange}
+                        value={sendData?.money_management}
+                        options={yesOrNo}
+                      />
+                      <SelectInput
+                        card={false}
+                        id="do_bookkeeping"
+                        name="do_bookkeeping"
+                        label="Do you practice book keeping?
+ನೀವು ಪುಸ್ತಕ ನಿರ್ವಹಣೆ ಮಾಡುವ ಅಭ್ಯಾಸ ಇದೆಯೇ?"
+                        required
+                        onChange={handleInputChange}
+                        value={sendData?.do_bookkeeping}
+                        options={yesOrNo}
+                      />
+                      <SelectInput
+                        card={false}
+                        id="loan_exists"
+                        name="loan_exists"
+                        label="Do you have any existing loan in your name?
+ನಿಮ್ಮ ಹೆಸರಿನಲ್ಲಿ ಯಾವುದಾದರೂ ಸಾಲ ಅಸ್ತಿತ್ವದಲ್ಲಿದೆಯೇ ?"
+                        required
+                        onChange={handleInputChange}
+                        value={sendData?.loan_exists}
+                        options={yesOrNo}
+                      />
+                      <SelectInput
+                        card={false}
+                        id="savings_available"
+                        name="savings_available"
+                        label="Do you currently have personal savings that you could invest into a new enterprise now?
+ನೀವು ಈಗ ಹೊಸ ಉದ್ಯಮದಲ್ಲಿ ಹೂಡಿಕೆ ಮಾಡಲು ,ಪ್ರಸ್ತುತ ವೈಯಕ್ತಿಕ ಉಳಿತಾಯವನ್ನು ಹೊಂದಿದ್ದೀರಾ?"
+                        required
+                        onChange={handleInputChange}
+                        value={sendData?.savings_available}
+                        options={yesOrNo}
+                      />
+                      <SelectInput
+                        card={false}
+                        id="loan_startup"
+                        name="loan_startup"
+                        label="Are you willing to take a loan to start a new business?
+ನೀವು ಹೊಸ ವ್ಯಾಪಾರವನ್ನು ಪ್ರಾರಂಭಿಸಲು ಸಾಲವನ್ನು ತೆಗೆದುಕೊಳ್ಳಲು ಸಿದ್ಧರಿದ್ದೀರಾ?"
+                        required
+                        onChange={handleInputChange}
+                        value={sendData?.loan_startup}
+                        options={yesOrNo}
+                      />
+                    </CardContent>
+                  </Card>
+                </CardContent>
+              </Card>
+            </Grid>
+          )}
           {/* } */}
         </form>
       </Dialog>

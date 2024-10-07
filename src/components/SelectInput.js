@@ -13,7 +13,7 @@ const SelectInput = ({
   onChange,
   value,
   options,
-  optionLabelKey = 'name',
+  optionLabelKey = name === 'gf_id' ? 'first_name' : 'name',
   optionValueKey = 'id',
   disabled = false,
 }) => {
@@ -36,7 +36,11 @@ const SelectInput = ({
         value={value || ''}
       >
         {options.map((option) => (
-          <MenuItem data-id={option[optionValueKey]} key={option[optionValueKey]} value={option[optionLabelKey]}>
+          <MenuItem
+            data-id={option[optionValueKey]}
+            key={option[optionValueKey]}
+            value={name === 'gf_id' ? option['id'] : option[optionLabelKey]}
+          >
             {option[optionLabelKey]}
           </MenuItem>
         ))}
