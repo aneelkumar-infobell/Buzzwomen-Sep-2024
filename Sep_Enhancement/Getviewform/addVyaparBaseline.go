@@ -148,7 +148,7 @@ func AddVyaparsurvey(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 	if err != nil {
 		log.Println("nagarika", err)
 		w.WriteHeader(http.StatusBadRequest)
-		json.NewEncoder(w).Encode(map[string]interface{}{"Message": err, "Status Code": "400 ", "API": "Addnagarika"})
+		json.NewEncoder(w).Encode(map[string]interface{}{"Message": err, "Status Code": "400 ", "API": "addvyapar"})
 		return
 	}
 
@@ -161,24 +161,24 @@ func AddVyaparsurvey(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 		fmt.Println("errrr", err1)
 		log.Println(err1)
 		w.WriteHeader(http.StatusBadRequest)
-		json.NewEncoder(w).Encode(map[string]string{"Message": "Invalid Input Syntax", "Status Code": "400 ", "API": "Addnagarika"})
+		json.NewEncoder(w).Encode(map[string]string{"Message": "Invalid Input Syntax", "Status Code": "400 ", "API": "addvyapar"})
 		return
 	}
 
-	checkStatement := "SELECT COUNT(*) FROM greenbaselinesurvey WHERE partcipantId = ?"
+	checkStatement := "SELECT COUNT(*) FROM BuzzVyaparProgramBaseline WHERE partcipantId = ?"
 	var count int
 	err = DB.QueryRow(checkStatement, b.ParticipantID).Scan(&count)
 	if err != nil {
 		fmt.Println("errr", err)
 		w.WriteHeader(http.StatusInternalServerError)
 		log.Println("Error checking participant ID:", err)
-		json.NewEncoder(w).Encode(map[string]interface{}{"Message": "Internal Server Error", "Status Code": "500 ", "API": "Addnagarika"})
+		json.NewEncoder(w).Encode(map[string]interface{}{"Message": "Internal Server Error", "Status Code": "500 ", "API": "addvyapar"})
 		return
 	}
 	if count > 0 {
 		w.WriteHeader(http.StatusBadRequest)
 		log.Println("Participant ID already present")
-		json.NewEncoder(w).Encode(map[string]interface{}{"Message": "Participant ID already present", "Status Code": "400 ", "API": "Addnagarika"})
+		json.NewEncoder(w).Encode(map[string]interface{}{"Message": "Participant ID already present", "Status Code": "400 ", "API": "addvyapar"})
 		return
 	}
 
@@ -187,11 +187,11 @@ func AddVyaparsurvey(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 	// DB.QueryRow("SELECT name from location where id=1").Scan(&name)
 	// switch {
 	// case name == "India":
-	// 	date = time.Now().Add(5*time.Hour + 30*time.Minute)
+	//  date = time.Now().Add(5*time.Hour + 30*time.Minute)
 	// case name == "Gambia":
-	// 	date = time.Now().Add(3 * time.Hour)
+	//  date = time.Now().Add(3 * time.Hour)
 	// case name == "Tanzania":
-	// 	date = time.Now().Add(3 * time.Hour)
+	//  date = time.Now().Add(3 * time.Hour)
 	// }
 	if b.ParticipantID != 0 {
 		var name string
@@ -207,7 +207,7 @@ func AddVyaparsurvey(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 		}
 
 		sql := `
-		INSERT INTO buzzvyaparprogrambaseline (
+        INSERT INTO BuzzVyaparProgramBaseline (
     partcipantId,
     gfId,
     entry_date,
@@ -326,12 +326,12 @@ func AddVyaparsurvey(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
     loan_exists,
     savings_available,
     loan_startup,
-	type_of_enterprise_running,
-	monthly_household_income
+    type_of_enterprise_running,
+    monthly_household_income
 ) VALUES (
      ?, ?, ?, ?,?, ?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?,?
 )
-	`
+    `
 
 		_, err := DB.Exec(sql,
 			&b.ParticipantID,
@@ -460,7 +460,7 @@ func AddVyaparsurvey(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 			fmt.Println("err", err)
 			w.WriteHeader(http.StatusBadRequest)
 			log.Println(err)
-			json.NewEncoder(w).Encode(map[string]interface{}{"Message": "Invalid input syntax for IP ", "Status Code": "400 ", "Error": err, "API": "Addnagarika"})
+			json.NewEncoder(w).Encode(map[string]interface{}{"Message": "Invalid input syntax for IP ", "Status Code": "400 ", "Error": err, "API": "addvyapar"})
 			return
 		}
 
