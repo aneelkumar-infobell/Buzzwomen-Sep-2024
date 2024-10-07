@@ -78,3 +78,9 @@
 2024/09/30 15:37:53 Error 1406 (22001): Data too long for column 'daily_climate_action' at row 1
 2024/09/30 15:38:42 Recorded sucessfully
 2024/09/30 15:44:11 Recorded sucessfully
+2024/10/07 15:47:30 json: cannot unmarshal number into Go struct field BuzzVyaparProgramBaseline.number_of_paid_workers of type string
+2024/10/07 15:48:00 Error checking participant ID: Error 1146 (42S02): Table 'bdms_staff.greenbaselinesurvey' doesn't exist
+2024/10/07 15:50:03 Error 1146 (42S02): Table 'bdms_staff.buzzvyaparprogrambaseline' doesn't exist
+2024/10/07 15:51:19 Error 1146 (42S02): Table 'bdms_staff.buzzvyaparprogrambaseline' doesn't exist
+2024/10/07 15:53:58 Error checking participant ID: Error 1146 (42S02): Table 'bdms_staff.buzzVyaparProgramBaseline' doesn't exist
+2024/10/07 15:54:52 Error 1146 (42S02): Table 'bdms_staff.buzzvyaparprogrambaseline' doesn't exist
