@@ -81,9 +81,9 @@ func intSliceToString(slice []int) string {
 	}
 	return strings.Join(strSlice, ", ")
 }
-func getParticipantFilternoSpoorthirenroll(db *sql.DB, startDate string, endDate string, projectArray []int, filter string) int {
-	var spoorthienroll string
-	var noofspoorthienroll int
+func getParticipantFilternonagarikarenroll(db *sql.DB, startDate string, endDate string, projectArray []int, filter string) int {
+	var nagarikaenroll string
+	var noofnagarikaenroll int
 
 	for _, proj := range projectArray {
 		projs, _ := getAssociatedProjectList(db, proj)
@@ -93,21 +93,21 @@ func getParticipantFilternoSpoorthirenroll(db *sql.DB, startDate string, endDate
 	}
 	projectIDs := strings.Trim(strings.Replace(fmt.Sprint(projectArray), " ", ",", -1), "[]")
 	if len(projectIDs) > 0 {
-		spoorthienroll = fmt.Sprintf("SELECT COUNT(id) as spoorthi FROM training_participants WHERE nagarikaenrollment=1 and nagarikaenrollmentdate BETWEEN '%s' AND '%s' AND project_id IN (%s) %s", startDate, endDate, strings.Trim(strings.Replace(fmt.Sprint(projectIDs), " ", ",", -1), "[]"), filter)
+		nagarikaenroll = fmt.Sprintf("SELECT COUNT(id) as nagarika FROM training_participants WHERE nagarikaenrollment=1 and nagarikaenrollmentdate BETWEEN '%s' AND '%s' AND project_id IN (%s) %s", startDate, endDate, strings.Trim(strings.Replace(fmt.Sprint(projectIDs), " ", ",", -1), "[]"), filter)
 	} else {
-		spoorthienroll = fmt.Sprintf("SELECT COUNT(id) as spoorthi FROM training_participants WHERE nagarikaenrollment=1 and nagarikaenrollmentdate BETWEEN '%s' AND '%s' %s", startDate, endDate, filter)
+		nagarikaenroll = fmt.Sprintf("SELECT COUNT(id) as nagarika FROM training_participants WHERE nagarikaenrollment=1 and nagarikaenrollmentdate BETWEEN '%s' AND '%s' %s", startDate, endDate, filter)
 	}
 
-	err := db.QueryRow(spoorthienroll).Scan(&noofspoorthienroll)
+	err := db.QueryRow(nagarikaenroll).Scan(&noofnagarikaenroll)
 	if err != nil {
 		log.Println("nagarika", err)
 	}
-	return noofspoorthienroll
+	return noofnagarikaenroll
 }
 
-func getParticipantFilternoSpoorthimodule(db *sql.DB, startDate string, endDate string, projectArray []int, filter string) int {
-	var spoorthimodule string
-	var noofspoorthimodule int
+func getParticipantFilternonagarikamodule(db *sql.DB, startDate string, endDate string, projectArray []int, filter string) int {
+	var nagarikamodule string
+	var noofnagarikamodule int
 
 	for _, proj := range projectArray {
 		projs, _ := getAssociatedProjectList(db, proj)
@@ -118,21 +118,21 @@ func getParticipantFilternoSpoorthimodule(db *sql.DB, startDate string, endDate 
 
 	projectIDs := strings.Trim(strings.Replace(fmt.Sprint(projectArray), " ", ",", -1), "[]")
 	if len(projectIDs) > 0 {
-		spoorthimodule = fmt.Sprintf("SELECT count(module1=1 and module2=1 and module3=1 and module4=1 and module5=1 and module6=1) as noofspoorthimodules FROM nagarikaprogramquestionnaire sb JOIN training_participants t ON t.id=sb.partcipantId where sb.entrydate BETWEEN '%s' and '%s' and t.project_id IN (%s) %s", startDate, endDate, strings.Trim(strings.Replace(fmt.Sprint(projectIDs), " ", ",", -1), "[]"), filter)
+		nagarikamodule = fmt.Sprintf("SELECT count(module1=1 and module2=1 and module3=1 and module4=1 and module5=1 and module6=1) as noofnagarikamodules FROM nagarikaprogramquestionnaire sb JOIN training_participants t ON t.id=sb.partcipantId where sb.entrydate BETWEEN '%s' and '%s' and t.project_id IN (%s) %s", startDate, endDate, strings.Trim(strings.Replace(fmt.Sprint(projectIDs), " ", ",", -1), "[]"), filter)
 	} else {
-		spoorthimodule = fmt.Sprintf("SELECT count(module1=1 and module2=1 and module3=1 and module4=1 and module5=1 and module6=1) as noofspoorthimodules FROM nagarikaprogramquestionnaire sb JOIN training_participants t ON t.id=sb.partcipantId where sb.entrydate BETWEEN '%s' AND '%s' %s", startDate, endDate, filter)
+		nagarikamodule = fmt.Sprintf("SELECT count(module1=1 and module2=1 and module3=1 and module4=1 and module5=1 and module6=1) as noofnagarikamodules FROM nagarikaprogramquestionnaire sb JOIN training_participants t ON t.id=sb.partcipantId where sb.entrydate BETWEEN '%s' AND '%s' %s", startDate, endDate, filter)
 	}
 
-	err := db.QueryRow(spoorthimodule).Scan(&noofspoorthimodule)
+	err := db.QueryRow(nagarikamodule).Scan(&noofnagarikamodule)
 	if err != nil {
 		log.Println("noofsnagarikaimodule", err)
 	}
-	return noofspoorthimodule
+	return noofnagarikamodule
 }
 
-func getParticipantFilternoSpoorthisurvey(db *sql.DB, startDate string, endDate string, projectArray []int, filter string) int {
-	var spoorthisurvey string
-	var noofspoorthisurvey int
+func getParticipantFilternonagarikasurvey(db *sql.DB, startDate string, endDate string, projectArray []int, filter string) int {
+	var nagarikasurvey string
+	var noofnagarikasurvey int
 
 	for _, proj := range projectArray {
 		projs, _ := getAssociatedProjectList(db, proj)
@@ -142,21 +142,21 @@ func getParticipantFilternoSpoorthisurvey(db *sql.DB, startDate string, endDate 
 	}
 	projectIDs := strings.Trim(strings.Replace(fmt.Sprint(projectArray), " ", ",", -1), "[]")
 	if len(projectIDs) > 0 {
-		spoorthisurvey = fmt.Sprintf("SELECT count(sb.id) as noofspoorthisurvey FROM nagarikaprogramquestionnaire sb join training_participants t on t.id= sb.partcipantId where sb.entrydate BETWEEN '%s' and '%s' and t.project_id IN (%s) %s", startDate, endDate, strings.Trim(strings.Replace(fmt.Sprint(projectIDs), " ", ",", -1), "[]"), filter)
+		nagarikasurvey = fmt.Sprintf("SELECT count(sb.id) as noofnagarikasurvey FROM nagarikaprogramquestionnaire sb join training_participants t on t.id= sb.partcipantId where sb.entrydate BETWEEN '%s' and '%s' and t.project_id IN (%s) %s", startDate, endDate, strings.Trim(strings.Replace(fmt.Sprint(projectIDs), " ", ",", -1), "[]"), filter)
 	} else {
-		spoorthisurvey = fmt.Sprintf("SELECT count(sb.id) as noofspoorthisurvey FROM nagarikaprogramquestionnaire sb join training_participants t on t.id= sb.partcipantId where sb.entrydate BETWEEN '%s' AND '%s' %s", startDate, endDate, filter)
+		nagarikasurvey = fmt.Sprintf("SELECT count(sb.id) as noofnagarikasurvey FROM nagarikaprogramquestionnaire sb join training_participants t on t.id= sb.partcipantId where sb.entrydate BETWEEN '%s' AND '%s' %s", startDate, endDate, filter)
 	}
 
-	err := db.QueryRow(spoorthisurvey).Scan(&noofspoorthisurvey)
+	err := db.QueryRow(nagarikasurvey).Scan(&noofnagarikasurvey)
 	if err != nil {
-		log.Println("noofspoorthisurvey", err)
+		log.Println("noofnagarikasurvey", err)
 	}
-	return noofspoorthisurvey
+	return noofnagarikasurvey
 }
 
-func getParticipantFilternoSpoorthiCirclemeet(db *sql.DB, startDate string, endDate string, projectArray []int, filter string) int {
-	var spoorthiCircle string
-	var noofspoorthiCircle int
+func getParticipantFilternonagarikaCirclemeet(db *sql.DB, startDate string, endDate string, projectArray []int, filter string) int {
+	var nagarikaCircle string
+	var noofnagarikaCircle int
 
 	for _, proj := range projectArray {
 		projs, _ := getAssociatedProjectList(db, proj)
@@ -166,21 +166,21 @@ func getParticipantFilternoSpoorthiCirclemeet(db *sql.DB, startDate string, endD
 	}
 	projectIDs := strings.Trim(strings.Replace(fmt.Sprint(projectArray), " ", ",", -1), "[]")
 	if len(projectIDs) > 0 {
-		spoorthiCircle = fmt.Sprintf("SELECT COUNT(tbl_poa.session_type) AS noofspoorthicircle FROM tbl_poa tbl_poa WHERE tbl_poa.type = 2 AND (tbl_poa.session_type IN (22,23,24,25,26,27,28)) and tbl_poa.date BETWEEN '%s' and '%s' and tbl_poa.project_id IN (%s) %s", startDate, endDate, strings.Trim(strings.Replace(fmt.Sprint(projectIDs), " ", ",", -1), "[]"), filter)
+		nagarikaCircle = fmt.Sprintf("SELECT COUNT(tbl_poa.session_type) AS noofnagarikacircle FROM tbl_poa tbl_poa WHERE tbl_poa.type = 2 AND (tbl_poa.session_type IN (22,23,24,25,26,27,28)) and tbl_poa.date BETWEEN '%s' and '%s' and tbl_poa.project_id IN (%s) %s", startDate, endDate, strings.Trim(strings.Replace(fmt.Sprint(projectIDs), " ", ",", -1), "[]"), filter)
 	} else {
-		spoorthiCircle = fmt.Sprintf("SELECT COUNT(tbl_poa.session_type) AS noofspoorthicircle FROM tbl_poa tbl_poa WHERE tbl_poa.type = 2 AND (tbl_poa.session_type IN (22,23,24,25,26,27,28)) and tbl_poa.date BETWEEN '%s' AND '%s' %s", startDate, endDate, filter)
+		nagarikaCircle = fmt.Sprintf("SELECT COUNT(tbl_poa.session_type) AS noofnagarikacircle FROM tbl_poa tbl_poa WHERE tbl_poa.type = 2 AND (tbl_poa.session_type IN (22,23,24,25,26,27,28)) and tbl_poa.date BETWEEN '%s' AND '%s' %s", startDate, endDate, filter)
 	}
 
-	err := db.QueryRow(spoorthiCircle).Scan(&noofspoorthiCircle)
+	err := db.QueryRow(nagarikaCircle).Scan(&noofnagarikaCircle)
 	if err != nil {
-		log.Println("noofspoorthicircle", err)
+		log.Println("noofnagarikacircle", err)
 	}
-	return noofspoorthiCircle
+	return noofnagarikaCircle
 }
 
-func getParticipantFilternoSpoorthiBeehives(db *sql.DB, startDate string, endDate string, projectArray []int, filter string) int {
-	var spoorthiBeehives string
-	var noofspoorthiBeehives int
+func getParticipantFilternonagarikaBeehives(db *sql.DB, startDate string, endDate string, projectArray []int, filter string) int {
+	var nagarikaBeehives string
+	var noofnagarikaBeehives int
 
 	for _, proj := range projectArray {
 		projs, _ := getAssociatedProjectList(db, proj)
@@ -191,16 +191,16 @@ func getParticipantFilternoSpoorthiBeehives(db *sql.DB, startDate string, endDat
 
 	projectIDs := strings.Trim(strings.Replace(fmt.Sprint(projectArray), " ", ",", -1), "[]")
 	if len(projectIDs) > 0 {
-		spoorthiBeehives = fmt.Sprintf("SELECT COUNT(tbl_poa.session_type) AS noofspoorthicircle FROM tbl_poa tbl_poa WHERE tbl_poa.type = 2 AND tbl_poa.session_type = 3 and tbl_poa.date BETWEEN '%s' and '%s' and tbl_poa.project_id IN (%s) %s", startDate, endDate, strings.Trim(strings.Replace(fmt.Sprint(projectIDs), " ", ",", -1), "[]"), filter)
+		nagarikaBeehives = fmt.Sprintf("SELECT COUNT(tbl_poa.session_type) AS noofnagarikacircle FROM tbl_poa tbl_poa WHERE tbl_poa.type = 2 AND tbl_poa.session_type = 3 and tbl_poa.date BETWEEN '%s' and '%s' and tbl_poa.project_id IN (%s) %s", startDate, endDate, strings.Trim(strings.Replace(fmt.Sprint(projectIDs), " ", ",", -1), "[]"), filter)
 	} else {
-		spoorthiBeehives = fmt.Sprintf("SELECT COUNT(tbl_poa.session_type) AS noofspoorthicircle FROM tbl_poa tbl_poa WHERE tbl_poa.type = 2 AND tbl_poa.session_type = 3 and tbl_poa.date BETWEEN '%s' AND '%s' %s", startDate, endDate, filter)
+		nagarikaBeehives = fmt.Sprintf("SELECT COUNT(tbl_poa.session_type) AS noofnagarikacircle FROM tbl_poa tbl_poa WHERE tbl_poa.type = 2 AND tbl_poa.session_type = 3 and tbl_poa.date BETWEEN '%s' AND '%s' %s", startDate, endDate, filter)
 	}
 
-	err := db.QueryRow(spoorthiBeehives).Scan(&noofspoorthiBeehives)
+	err := db.QueryRow(nagarikaBeehives).Scan(&noofnagarikaBeehives)
 	if err != nil {
-		log.Println("noofspoorthibeehives", err)
+		log.Println("noofnagarikabeehives", err)
 	}
-	return noofspoorthiBeehives
+	return noofnagarikaBeehives
 }
 
 func TrainerVillageCount(db *sql.DB, startDate string, endDate string, projectArray []int, user_id string) int {
@@ -245,7 +245,7 @@ func TrainerVillageCount(db *sql.DB, startDate string, endDate string, projectAr
 	return villageCount + subVillageCount
 }
 
-func getParticipantFilterspoorthiGfBatchesNew(db *sql.DB, startDate string, endDate string, projectArray []int, filter string, gfid int) int {
+func getParticipantFilternagarikaGfBatchesNew(db *sql.DB, startDate string, endDate string, projectArray []int, filter string, gfid int) int {
 
 	for _, proj := range projectArray {
 		projs, _ := getAssociatedProjectList(db, proj)
@@ -383,7 +383,7 @@ func getTrainerTarget(db *sql.DB, empId int, projectArray []int) int {
 	return int(total.Int64)
 }
 
-func GfSpoorthiVillageCount(db *sql.DB, startDate string, endDate string, projectArray []int, user_id string) int {
+func GfnagarikaVillageCount(db *sql.DB, startDate string, endDate string, projectArray []int, user_id string) int {
 	var villageCount, subVillageCount int
 	for _, proj := range projectArray {
 		projs, _ := getAssociatedProjectList(db, proj)
@@ -456,9 +456,9 @@ func getEmployeeIDsBySupervisorID(db *sql.DB, supervisorID int) ([]int, error) {
 	return employeeIDs, nil
 }
 
-func GflParticipantFilternoSpoorthirenroll(db *sql.DB, startDate string, endDate string, projectArray []int, gflid int, filter string) int {
-	var spoorthienroll string
-	var noofspoorthienroll int
+func GflParticipantFilternonagarikarenroll(db *sql.DB, startDate string, endDate string, projectArray []int, gflid int, filter string) int {
+	var nagarikaenroll string
+	var noofnagarikaenroll int
 	gfid, err := getEmployeeIDsBySupervisorID(db, gflid)
 	if err != nil {
 		log.Println("Error retrieving employee IDs:", err)
@@ -473,21 +473,21 @@ func GflParticipantFilternoSpoorthirenroll(db *sql.DB, startDate string, endDate
 	}
 	projectIDs := strings.Trim(strings.Replace(fmt.Sprint(projectArray), " ", ",", -1), "[]")
 	if len(projectIDs) > 0 {
-		spoorthienroll = fmt.Sprintf("SELECT COUNT(id) as spoorthi FROM training_participants WHERE nagarikaenrollment=1 and nagarikaenrollmentdate BETWEEN '%s' AND '%s' AND project_id IN (%s) and gelathi_id IN (%s) %s", startDate, endDate, strings.Trim(strings.Replace(fmt.Sprint(projectIDs), " ", ",", -1), "[]"), strings.Trim(strings.Replace(fmt.Sprint(gfid), " ", ",", -1), "[]"), filter)
+		nagarikaenroll = fmt.Sprintf("SELECT COUNT(id) as nagarika FROM training_participants WHERE nagarikaenrollment=1 and nagarikaenrollmentdate BETWEEN '%s' AND '%s' AND project_id IN (%s) and gelathi_id IN (%s) %s", startDate, endDate, strings.Trim(strings.Replace(fmt.Sprint(projectIDs), " ", ",", -1), "[]"), strings.Trim(strings.Replace(fmt.Sprint(gfid), " ", ",", -1), "[]"), filter)
 	} else {
-		spoorthienroll = fmt.Sprintf("SELECT COUNT(id) as spoorthi FROM training_participants WHERE nagarikaenrollment=1 and nagarikaenrollmentdate BETWEEN '%s' AND '%s' %s", startDate, endDate, filter)
+		nagarikaenroll = fmt.Sprintf("SELECT COUNT(id) as nagarika FROM training_participants WHERE nagarikaenrollment=1 and nagarikaenrollmentdate BETWEEN '%s' AND '%s' %s", startDate, endDate, filter)
 	}
 
-	err = db.QueryRow(spoorthienroll).Scan(&noofspoorthienroll)
+	err = db.QueryRow(nagarikaenroll).Scan(&noofnagarikaenroll)
 	if err != nil {
-		log.Println("noofspoorthienroll", err)
+		log.Println("noofnagarikaenroll", err)
 	}
-	return noofspoorthienroll
+	return noofnagarikaenroll
 }
 
-func GflParticipantFilternoSpoorthimodule(db *sql.DB, startDate string, endDate string, projectArray []int, gflid int, filter string) int {
-	var spoorthimodule string
-	var noofspoorthimodule int
+func GflParticipantFilternonagarikamodule(db *sql.DB, startDate string, endDate string, projectArray []int, gflid int, filter string) int {
+	var nagarikamodule string
+	var noofnagarikamodule int
 	gfid, err := getEmployeeIDsBySupervisorID(db, gflid)
 	if err != nil {
 		log.Println("Error retrieving employee IDs:", err)
@@ -502,21 +502,21 @@ func GflParticipantFilternoSpoorthimodule(db *sql.DB, startDate string, endDate 
 	}
 	projectIDs := strings.Trim(strings.Replace(fmt.Sprint(projectArray), " ", ",", -1), "[]")
 	if len(projectIDs) > 0 {
-		spoorthimodule = fmt.Sprintf("SELECT count(module1=1 and module2=1 and module3=1 and module4=1 and module5=1 and module6=1) as noofspoorthimodules FROM nagarikaprogramquestionnaire sb JOIN training_participants t ON t.id=sb.partcipantId where sb.entrydate BETWEEN '%s' and '%s' and t.project_id IN (%s) and sb.GelathiId IN (%s) %s", startDate, endDate, strings.Trim(strings.Replace(fmt.Sprint(projectIDs), " ", ",", -1), "[]"), strings.Trim(strings.Replace(fmt.Sprint(gfid), " ", ",", -1), "[]"), filter)
+		nagarikamodule = fmt.Sprintf("SELECT count(module1=1 and module2=1 and module3=1 and module4=1 and module5=1 and module6=1) as noofnagarikamodules FROM nagarikaprogramquestionnaire sb JOIN training_participants t ON t.id=sb.partcipantId where sb.entrydate BETWEEN '%s' and '%s' and t.project_id IN (%s) and sb.GelathiId IN (%s) %s", startDate, endDate, strings.Trim(strings.Replace(fmt.Sprint(projectIDs), " ", ",", -1), "[]"), strings.Trim(strings.Replace(fmt.Sprint(gfid), " ", ",", -1), "[]"), filter)
 	} else {
-		spoorthimodule = fmt.Sprintf("SELECT count(module1=1 and module2=1 and module3=1 and module4=1 and module5=1 and module6=1) as noofspoorthimodules FROM nagarikaprogramquestionnaire sb JOIN training_participants t ON t.id=sb.partcipantId where sb.entrydate BETWEEN '%s' AND '%s' %s", startDate, endDate, filter)
+		nagarikamodule = fmt.Sprintf("SELECT count(module1=1 and module2=1 and module3=1 and module4=1 and module5=1 and module6=1) as noofnagarikamodules FROM nagarikaprogramquestionnaire sb JOIN training_participants t ON t.id=sb.partcipantId where sb.entrydate BETWEEN '%s' AND '%s' %s", startDate, endDate, filter)
 	}
 
-	err = db.QueryRow(spoorthimodule).Scan(&noofspoorthimodule)
+	err = db.QueryRow(nagarikamodule).Scan(&noofnagarikamodule)
 	if err != nil {
-		log.Println("noofspoorthimodule", err)
+		log.Println("noofnagarikamodule", err)
 	}
-	return noofspoorthimodule
+	return noofnagarikamodule
 }
 
-func GflParticipantFilternoSpoorthisurvey(db *sql.DB, startDate string, endDate string, projectArray []int, gflid int, filter string) int {
-	var spoorthisurvey string
-	var noofspoorthisurvey int
+func GflParticipantFilternonagarikasurvey(db *sql.DB, startDate string, endDate string, projectArray []int, gflid int, filter string) int {
+	var nagarikasurvey string
+	var noofnagarikasurvey int
 	gfid, err := getEmployeeIDsBySupervisorID(db, gflid)
 	if err != nil {
 		log.Println("Error retrieving employee IDs:", err)
@@ -531,21 +531,21 @@ func GflParticipantFilternoSpoorthisurvey(db *sql.DB, startDate string, endDate 
 	}
 	projectIDs := strings.Trim(strings.Replace(fmt.Sprint(projectArray), " ", ",", -1), "[]")
 	if len(projectIDs) > 0 {
-		spoorthisurvey = fmt.Sprintf("SELECT count(sb.id) as noofspoorthisurvey FROM nagarikaprogramquestionnaire sb join training_participants t on t.id= sb.partcipantId where sb.entrydate BETWEEN '%s' and '%s' and t.project_id IN (%s) and sb.GelathiId IN (%s) %s", startDate, endDate, strings.Trim(strings.Replace(fmt.Sprint(projectIDs), " ", ",", -1), "[]"), strings.Trim(strings.Replace(fmt.Sprint(gfid), " ", ",", -1), "[]"), filter)
+		nagarikasurvey = fmt.Sprintf("SELECT count(sb.id) as noofnagarikasurvey FROM nagarikaprogramquestionnaire sb join training_participants t on t.id= sb.partcipantId where sb.entrydate BETWEEN '%s' and '%s' and t.project_id IN (%s) and sb.GelathiId IN (%s) %s", startDate, endDate, strings.Trim(strings.Replace(fmt.Sprint(projectIDs), " ", ",", -1), "[]"), strings.Trim(strings.Replace(fmt.Sprint(gfid), " ", ",", -1), "[]"), filter)
 	} else {
-		spoorthisurvey = fmt.Sprintf("SELECT count(sb.id) as noofspoorthisurvey FROM nagarikaprogramquestionnaire sb join training_participants t on t.id= sb.partcipantId where sb.entrydate BETWEEN '%s' AND '%s' %s", startDate, endDate, filter)
+		nagarikasurvey = fmt.Sprintf("SELECT count(sb.id) as noofnagarikasurvey FROM nagarikaprogramquestionnaire sb join training_participants t on t.id= sb.partcipantId where sb.entrydate BETWEEN '%s' AND '%s' %s", startDate, endDate, filter)
 	}
 
-	err = db.QueryRow(spoorthisurvey).Scan(&noofspoorthisurvey)
+	err = db.QueryRow(nagarikasurvey).Scan(&noofnagarikasurvey)
 	if err != nil {
-		log.Println("noofspoorthisurvey", err)
+		log.Println("noofnagarikasurvey", err)
 	}
-	return noofspoorthisurvey
+	return noofnagarikasurvey
 }
 
-func GflParticipantFilternoSpoorthiCirclemeet(db *sql.DB, startDate string, endDate string, projectArray []int, gflid int, filter string) int {
-	var spoorthiCircle string
-	var noofspoorthiCircle int
+func GflParticipantFilternonagarikaCirclemeet(db *sql.DB, startDate string, endDate string, projectArray []int, gflid int, filter string) int {
+	var nagarikaCircle string
+	var noofnagarikaCircle int
 
 	gfid, err := getEmployeeIDsBySupervisorID(db, gflid)
 	if err != nil {
@@ -561,21 +561,21 @@ func GflParticipantFilternoSpoorthiCirclemeet(db *sql.DB, startDate string, endD
 	}
 	projectIDs := strings.Trim(strings.Replace(fmt.Sprint(projectArray), " ", ",", -1), "[]")
 	if len(projectIDs) > 0 {
-		spoorthiCircle = fmt.Sprintf("SELECT COUNT(tbl_poa.session_type) AS noofspoorthicircle FROM tbl_poa tbl_poa WHERE tbl_poa.type = 2 AND (tbl_poa.session_type IN (22,23,24,25,26,27,28)) and tbl_poa.date BETWEEN '%s' and '%s' and tbl_poa.project_id IN (%s) and tbl_poa.user_id IN (%s) %s", startDate, endDate, strings.Trim(strings.Replace(fmt.Sprint(projectIDs), " ", ",", -1), "[]"), strings.Trim(strings.Replace(fmt.Sprint(gfid), " ", ",", -1), "[]"), filter)
+		nagarikaCircle = fmt.Sprintf("SELECT COUNT(tbl_poa.session_type) AS noofnagarikacircle FROM tbl_poa tbl_poa WHERE tbl_poa.type = 2 AND (tbl_poa.session_type IN (22,23,24,25,26,27,28)) and tbl_poa.date BETWEEN '%s' and '%s' and tbl_poa.project_id IN (%s) and tbl_poa.user_id IN (%s) %s", startDate, endDate, strings.Trim(strings.Replace(fmt.Sprint(projectIDs), " ", ",", -1), "[]"), strings.Trim(strings.Replace(fmt.Sprint(gfid), " ", ",", -1), "[]"), filter)
 	} else {
-		spoorthiCircle = fmt.Sprintf("SELECT COUNT(tbl_poa.session_type) AS noofspoorthicircle FROM tbl_poa tbl_poa WHERE tbl_poa.type = 2 AND (tbl_poa.session_type IN (22,23,24,25,26,27,28)) and tbl_poa.date BETWEEN '%s' AND '%s' %s", startDate, endDate, filter)
+		nagarikaCircle = fmt.Sprintf("SELECT COUNT(tbl_poa.session_type) AS noofnagarikacircle FROM tbl_poa tbl_poa WHERE tbl_poa.type = 2 AND (tbl_poa.session_type IN (22,23,24,25,26,27,28)) and tbl_poa.date BETWEEN '%s' AND '%s' %s", startDate, endDate, filter)
 	}
 
-	err = db.QueryRow(spoorthiCircle).Scan(&noofspoorthiCircle)
+	err = db.QueryRow(nagarikaCircle).Scan(&noofnagarikaCircle)
 	if err != nil {
-		log.Println("noofspoorthicircle", err)
+		log.Println("noofnagarikacircle", err)
 	}
-	return noofspoorthiCircle
+	return noofnagarikaCircle
 }
 
-func GflParticipantFilternoSpoorthiBeehives(db *sql.DB, startDate string, endDate string, projectArray []int, gflid int, filter string) int {
-	var spoorthiBeehives string
-	var noofspoorthiBeehives int
+func GflParticipantFilternonagarikaBeehives(db *sql.DB, startDate string, endDate string, projectArray []int, gflid int, filter string) int {
+	var nagarikaBeehives string
+	var noofnagarikaBeehives int
 	gfid, err := getEmployeeIDsBySupervisorID(db, gflid)
 	if err != nil {
 		log.Println("Error retrieving employee IDs:", err)
@@ -590,16 +590,16 @@ func GflParticipantFilternoSpoorthiBeehives(db *sql.DB, startDate string, endDat
 	}
 	projectIDs := strings.Trim(strings.Replace(fmt.Sprint(projectArray), " ", ",", -1), "[]")
 	if len(projectIDs) > 0 {
-		spoorthiBeehives = fmt.Sprintf("SELECT COUNT(tbl_poa.session_type) AS noofspoorthicircle FROM tbl_poa tbl_poa WHERE tbl_poa.type = 2 AND tbl_poa.session_type = 3 and tbl_poa.date BETWEEN '%s' and '%s' and tbl_poa.project_id IN (%s) and tbl_poa.user_id IN (%s) %s", startDate, endDate, strings.Trim(strings.Replace(fmt.Sprint(projectIDs), " ", ",", -1), "[]"), strings.Trim(strings.Replace(fmt.Sprint(gfid), " ", ",", -1), "[]"), filter)
+		nagarikaBeehives = fmt.Sprintf("SELECT COUNT(tbl_poa.session_type) AS noofnagarikacircle FROM tbl_poa tbl_poa WHERE tbl_poa.type = 2 AND tbl_poa.session_type = 3 and tbl_poa.date BETWEEN '%s' and '%s' and tbl_poa.project_id IN (%s) and tbl_poa.user_id IN (%s) %s", startDate, endDate, strings.Trim(strings.Replace(fmt.Sprint(projectIDs), " ", ",", -1), "[]"), strings.Trim(strings.Replace(fmt.Sprint(gfid), " ", ",", -1), "[]"), filter)
 	} else {
-		spoorthiBeehives = fmt.Sprintf("SELECT COUNT(tbl_poa.session_type) AS noofspoorthicircle FROM tbl_poa tbl_poa WHERE tbl_poa.type = 2 AND tbl_poa.session_type = 3 and tbl_poa.date BETWEEN '%s' AND '%s' %s", startDate, endDate, filter)
+		nagarikaBeehives = fmt.Sprintf("SELECT COUNT(tbl_poa.session_type) AS noofnagarikacircle FROM tbl_poa tbl_poa WHERE tbl_poa.type = 2 AND tbl_poa.session_type = 3 and tbl_poa.date BETWEEN '%s' AND '%s' %s", startDate, endDate, filter)
 	}
 
-	err = db.QueryRow(spoorthiBeehives).Scan(&noofspoorthiBeehives)
+	err = db.QueryRow(nagarikaBeehives).Scan(&noofnagarikaBeehives)
 	if err != nil {
-		log.Println("noofspoorthibeehives", err)
+		log.Println("noofnagarikabeehives", err)
 	}
-	return noofspoorthiBeehives
+	return noofnagarikaBeehives
 }
 
 func intArrayToString(arr []int) string {
@@ -610,7 +610,7 @@ func intArrayToString(arr []int) string {
 	return strings.Join(strArr, ", ")
 }
 
-func GflSpoorthinewVillageCount(db *sql.DB, startDate, endDate string, projectArray []int, gflid int, filter string) int {
+func GflnagarikanewVillageCount(db *sql.DB, startDate, endDate string, projectArray []int, gflid int, filter string) int {
 	gfid, err := getEmployeeIDsBySupervisorID(db, gflid)
 	if err != nil {
 		log.Println("Error retrieving employee IDs:", err)

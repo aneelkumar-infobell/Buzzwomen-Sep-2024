@@ -258,7 +258,7 @@ func HandleFunc() {
 	apiRouter.Handle("/gelathifilter", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		sppf.SPCounts(w, r, db)
 	}))
-	apiRouter.Handle("/npfilter", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
+	apiRouter.HandleFunc("/npfilter", (func(w http.ResponseWriter, r *http.Request) {
 		npp.NPCounts(w, r, db)
 	}))
 
@@ -289,7 +289,7 @@ func HandleFunc() {
 		sp.GelathiProgramDashboard1(w, r, db)
 	}))
 
-	apiRouter.Handle("/npprogramDashboard", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
+	apiRouter.HandleFunc("/npprogramDashboard", (func(w http.ResponseWriter, r *http.Request) {
 		np.NagarikaProgramDashboard(w, r, db)
 	}))
 
@@ -408,7 +408,7 @@ func HandleFunc() {
 	}))
 
 	apiRouter.Handle("/createProject", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
-		t2.CreateProject(w, r, db)
+		p.CreateProjectNfunder(w, r, db)
 	}))
 	apiRouter.Handle("/getGFAssignedBatch", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		t2.GetGFAssignedBatch(w, r, db)
@@ -418,7 +418,7 @@ func HandleFunc() {
 		p.CreateGFSessions(w, r, db)
 	}))
 
-	apiRouter.Handle("/getGFSessionsNew", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
+	apiRouter.HandleFunc("/getGFSessionsNew", (func(w http.ResponseWriter, r *http.Request) {
 		p.GetGFSessionsNew1(w, r, db)
 	}))
 

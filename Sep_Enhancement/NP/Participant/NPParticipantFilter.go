@@ -15,26 +15,26 @@ type SProject struct {
 	Name                   string `json:"name"`
 	Target                 int    `json:"target"`
 	Actual                 int    `json:"actual"`
-	SpoorthiEnroll         int    `json:"spoorthienroll"`
-	NoofSpoorthiCircleMeet int    `json:"noofspoortthimeeting"`
+	nagarikaEnroll         int    `json:"nagarikaenroll"`
+	NoofnagarikaCircleMeet int    `json:"noofspoortthimeeting"`
 	Villages               int    `json:"villages"`
 	StartDate              string `json:"start_date"`
 	EndDate                string `json:"end_date"`
 	SelectType             string `json:"select_type"`
-	NoofSpoorthiSurvey     int    `json:"noofspoorthisurvey"`
-	NoSpoorthiModule       int    `json:"noofspoorthimodule"`
-	NoofSpoorthiBeehives   int    `json:"noofspoorthibeehives"`
+	NoofnagarikaSurvey     int    `json:"noofnagarikasurvey"`
+	NonagarikaModule       int    `json:"noofnagarikamodule"`
+	NoofnagarikaBeehives   int    `json:"noofnagarikabeehives"`
 }
 
 type SResponse struct {
 	SummaryTarget               int        `json:"summary_target"`
 	SummaryVillages             int        `json:"summary_villages"`
 	SummaryActuals              int        `json:"summary_actual"`
-	SummarySpoorthiEnroll       int        `json:"summary_spoorthienroll"`
-	SummaryNoSpoorthisurvey     int        `json:"summary_nospoorthisurvey"`
-	SummaryNoSpoorthiCircleMeet int        `json:"summary_nospoorthiciclemeet"`
-	SummarySpoorthiModule       int        `json:"summary_spoorthimodule"`
-	SummaryNoofSpoorthiBeehives int        `json:"summary_noofspoorthibeehives"`
+	SummarynagarikaEnroll       int        `json:"summary_nagarikaenroll"`
+	SummaryNonagarikasurvey     int        `json:"summary_nonagarikasurvey"`
+	SummaryNonagarikaCircleMeet int        `json:"summary_nonagarikaciclemeet"`
+	SummarynagarikaModule       int        `json:"summary_nagarikamodule"`
+	SummaryNoofnagarikaBeehives int        `json:"summary_noofnagarikabeehives"`
 	Data                        []SProject `json:"data"`
 	Code                        int        `json:"code"`
 	Count                       int        `json:"count"`
@@ -115,11 +115,11 @@ func NPCounts(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 		summaryActuals := 0
 
 		summaryVillages := 0
-		summaryNoSpoorthiSurvey := 0
-		summarySpoorthiEnroll := 0
-		summarySpoorthimodule := 0
-		summarySpoorthibeehives := 0
-		summaryNoSpoorthiCircleMeet := 0
+		summaryNonagarikaSurvey := 0
+		summarynagarikaEnroll := 0
+		summarynagarikamodule := 0
+		summarynagarikabeehives := 0
+		summaryNonagarikaCircleMeet := 0
 
 		for rows.Next() {
 			var prList struct {
@@ -148,24 +148,24 @@ func NPCounts(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 			obj.Target = getTarget(DB, request.StartDate, request.EndDate, projectArray)
 			summaryTarget += obj.Target
 
-			obj.Actual = getParticipantFilternoSpoorthirenroll(DB, request.StartDate, request.EndDate, projectArray, enroll)
+			obj.Actual = getParticipantFilternonagarikarenroll(DB, request.StartDate, request.EndDate, projectArray, enroll)
 			summaryActuals += obj.Actual
 
-			obj.SpoorthiEnroll = getParticipantFilternoSpoorthirenroll(DB, request.StartDate, request.EndDate, projectArray, enroll)
-			summarySpoorthiEnroll += obj.SpoorthiEnroll
+			obj.nagarikaEnroll = getParticipantFilternonagarikarenroll(DB, request.StartDate, request.EndDate, projectArray, enroll)
+			summarynagarikaEnroll += obj.nagarikaEnroll
 
-			obj.NoofSpoorthiCircleMeet = getParticipantFilternoSpoorthiCirclemeet(DB, request.StartDate, request.EndDate, projectArray, coharts)
-			summaryNoSpoorthiCircleMeet += obj.NoofSpoorthiCircleMeet
+			obj.NoofnagarikaCircleMeet = getParticipantFilternonagarikaCirclemeet(DB, request.StartDate, request.EndDate, projectArray, coharts)
+			summaryNonagarikaCircleMeet += obj.NoofnagarikaCircleMeet
 
-			obj.NoofSpoorthiSurvey = getParticipantFilternoSpoorthisurvey(DB, request.StartDate, request.EndDate, projectArray, survey)
-			summaryNoSpoorthiSurvey += obj.NoofSpoorthiSurvey
+			obj.NoofnagarikaSurvey = getParticipantFilternonagarikasurvey(DB, request.StartDate, request.EndDate, projectArray, survey)
+			summaryNonagarikaSurvey += obj.NoofnagarikaSurvey
 
-			obj.NoSpoorthiModule = getParticipantFilternoSpoorthimodule(DB, request.StartDate, request.EndDate, projectArray, survey)
-			summarySpoorthimodule += obj.NoSpoorthiModule
+			obj.NonagarikaModule = getParticipantFilternonagarikamodule(DB, request.StartDate, request.EndDate, projectArray, survey)
+			summarynagarikamodule += obj.NonagarikaModule
 
-			obj.NoofSpoorthiBeehives = getParticipantFilternoSpoorthiBeehives(DB, request.StartDate, request.EndDate, projectArray, coharts)
-			summarySpoorthibeehives += obj.NoofSpoorthiBeehives
-			obj.Villages = getParticipantFilterspoorthiGfBatchesNew(DB, request.StartDate, request.EndDate, projectArray, "", gfid)
+			obj.NoofnagarikaBeehives = getParticipantFilternonagarikaBeehives(DB, request.StartDate, request.EndDate, projectArray, coharts)
+			summarynagarikabeehives += obj.NoofnagarikaBeehives
+			obj.Villages = getParticipantFilternagarikaGfBatchesNew(DB, request.StartDate, request.EndDate, projectArray, "", gfid)
 			summaryVillages += obj.Villages
 			response.Data = append(response.Data, obj)
 		}
@@ -173,11 +173,11 @@ func NPCounts(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 		response.SummaryTarget = summaryTarget
 		response.SummaryVillages = summaryVillages
 		response.SummaryActuals = summaryActuals
-		response.SummaryNoSpoorthisurvey = summaryNoSpoorthiSurvey
-		response.SummaryNoSpoorthiCircleMeet = summaryNoSpoorthiCircleMeet
-		response.SummarySpoorthiEnroll = summarySpoorthiEnroll
-		response.SummarySpoorthiModule = summarySpoorthimodule
-		response.SummaryNoofSpoorthiBeehives = summarySpoorthibeehives
+		response.SummaryNonagarikasurvey = summaryNonagarikaSurvey
+		response.SummaryNonagarikaCircleMeet = summaryNonagarikaCircleMeet
+		response.SummarynagarikaEnroll = summarynagarikaEnroll
+		response.SummarynagarikaModule = summarynagarikamodule
+		response.SummaryNoofnagarikaBeehives = summarynagarikabeehives
 		response.Code = 200
 		response.Count = len(response.Data)
 		response.Success = true
@@ -214,11 +214,11 @@ func NPCounts(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 		summaryActuals := 0
 
 		summaryVillages := 0
-		summaryNoSpoorthiSurvey := 0
-		summarySpoorthiEnroll := 0
-		summarySpoorthimodule := 0
-		summarySpoorthibeehives := 0
-		summaryNoSpoorthiCircleMeet := 0
+		summaryNonagarikaSurvey := 0
+		summarynagarikaEnroll := 0
+		summarynagarikamodule := 0
+		summarynagarikabeehives := 0
+		summaryNonagarikaCircleMeet := 0
 		for tRes.Next() {
 			var prList struct {
 				ID        int    `json:"id"`
@@ -247,32 +247,32 @@ func NPCounts(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 			filterC := " and tp.user_id = " + strconv.Itoa(request.EmpID)
 			obj.Target = getTrainerTarget(DB, request.EmpID, projectArray)
 			summaryTarget += obj.Target
-			obj.Actual = getParticipantFilternoSpoorthirenroll(DB, request.StartDate, request.EndDate, projectArray, filter)
+			obj.Actual = getParticipantFilternonagarikarenroll(DB, request.StartDate, request.EndDate, projectArray, filter)
 			summaryActuals += obj.Actual
 
-			obj.NoofSpoorthiCircleMeet = getParticipantFilternoSpoorthiCirclemeet(DB, request.StartDate, request.EndDate, projectArray, filterC)
-			summaryNoSpoorthiCircleMeet += obj.NoofSpoorthiCircleMeet
+			obj.NoofnagarikaCircleMeet = getParticipantFilternonagarikaCirclemeet(DB, request.StartDate, request.EndDate, projectArray, filterC)
+			summaryNonagarikaCircleMeet += obj.NoofnagarikaCircleMeet
 			empid := strconv.Itoa(request.EmpID)
-			obj.Villages = GfSpoorthiVillageCount(DB, request.StartDate, request.EndDate, projectArray, empid)
+			obj.Villages = GfnagarikaVillageCount(DB, request.StartDate, request.EndDate, projectArray, empid)
 			summaryVillages += obj.Villages
-			obj.NoSpoorthiModule = getParticipantFilternoSpoorthimodule(DB, request.StartDate, request.EndDate, projectArray, filterFn)
-			summarySpoorthimodule += obj.NoSpoorthiModule
-			obj.SpoorthiEnroll = getParticipantFilternoSpoorthirenroll(DB, request.StartDate, request.EndDate, projectArray, greeneroll)
-			summarySpoorthiEnroll += obj.SpoorthiEnroll
-			obj.NoofSpoorthiBeehives = getParticipantFilternoSpoorthiBeehives(DB, request.StartDate, request.EndDate, projectArray, filterC)
-			summarySpoorthibeehives += obj.NoofSpoorthiBeehives
-			obj.NoofSpoorthiSurvey = getParticipantFilternoSpoorthisurvey(DB, request.StartDate, request.EndDate, projectArray, filterFn)
-			summaryNoSpoorthiSurvey += obj.NoofSpoorthiSurvey
+			obj.NonagarikaModule = getParticipantFilternonagarikamodule(DB, request.StartDate, request.EndDate, projectArray, filterFn)
+			summarynagarikamodule += obj.NonagarikaModule
+			obj.nagarikaEnroll = getParticipantFilternonagarikarenroll(DB, request.StartDate, request.EndDate, projectArray, greeneroll)
+			summarynagarikaEnroll += obj.nagarikaEnroll
+			obj.NoofnagarikaBeehives = getParticipantFilternonagarikaBeehives(DB, request.StartDate, request.EndDate, projectArray, filterC)
+			summarynagarikabeehives += obj.NoofnagarikaBeehives
+			obj.NoofnagarikaSurvey = getParticipantFilternonagarikasurvey(DB, request.StartDate, request.EndDate, projectArray, filterFn)
+			summaryNonagarikaSurvey += obj.NoofnagarikaSurvey
 			response.Data = append(response.Data, obj)
 		}
 		response.SummaryTarget = summaryTarget
-		response.SummaryNoSpoorthisurvey = summaryNoSpoorthiSurvey
+		response.SummaryNonagarikasurvey = summaryNonagarikaSurvey
 		response.SummaryVillages = summaryVillages
 		response.SummaryActuals = summaryActuals
-		response.SummaryNoSpoorthiCircleMeet = summaryNoSpoorthiCircleMeet
-		response.SummarySpoorthiEnroll = summarySpoorthiEnroll
-		response.SummarySpoorthiModule = summarySpoorthimodule
-		response.SummaryNoofSpoorthiBeehives = summarySpoorthibeehives
+		response.SummaryNonagarikaCircleMeet = summaryNonagarikaCircleMeet
+		response.SummarynagarikaEnroll = summarynagarikaEnroll
+		response.SummarynagarikaModule = summarynagarikamodule
+		response.SummaryNoofnagarikaBeehives = summarynagarikabeehives
 		response.Code = 200
 		response.Count = len(response.Data)
 		response.Success = true
@@ -325,11 +325,11 @@ func NPCounts(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 		summaryActuals := 0
 
 		summaryVillages := 0
-		summaryNoSpoorthiSurvey := 0
-		summarySpoorthiEnroll := 0
-		summarySpoorthimodule := 0
-		summarySpoorthibeehives := 0
-		summaryNoSpoorthiCircleMeet := 0
+		summaryNonagarikaSurvey := 0
+		summarynagarikaEnroll := 0
+		summarynagarikamodule := 0
+		summarynagarikabeehives := 0
+		summaryNonagarikaCircleMeet := 0
 
 		for rows.Next() {
 			var prList struct {
@@ -359,35 +359,35 @@ func NPCounts(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 			obj.Target = getTarget(DB, request.StartDate, request.EndDate, projectArray)
 			summaryTarget += obj.Target
 
-			obj.Actual = GflParticipantFilternoSpoorthirenroll(DB, request.StartDate, request.EndDate, projectArray, request.EmpID, enroll)
+			obj.Actual = GflParticipantFilternonagarikarenroll(DB, request.StartDate, request.EndDate, projectArray, request.EmpID, enroll)
 			summaryActuals += obj.Actual
 
-			obj.SpoorthiEnroll = GflParticipantFilternoSpoorthirenroll(DB, request.StartDate, request.EndDate, projectArray, request.EmpID, enroll)
-			summarySpoorthiEnroll += obj.SpoorthiEnroll
+			obj.nagarikaEnroll = GflParticipantFilternonagarikarenroll(DB, request.StartDate, request.EndDate, projectArray, request.EmpID, enroll)
+			summarynagarikaEnroll += obj.nagarikaEnroll
 
-			obj.NoofSpoorthiCircleMeet = GflParticipantFilternoSpoorthiCirclemeet(DB, request.StartDate, request.EndDate, projectArray, request.EmpID, coharts)
-			summaryNoSpoorthiCircleMeet += obj.NoofSpoorthiCircleMeet
+			obj.NoofnagarikaCircleMeet = GflParticipantFilternonagarikaCirclemeet(DB, request.StartDate, request.EndDate, projectArray, request.EmpID, coharts)
+			summaryNonagarikaCircleMeet += obj.NoofnagarikaCircleMeet
 
-			obj.NoofSpoorthiSurvey = GflParticipantFilternoSpoorthisurvey(DB, request.StartDate, request.EndDate, projectArray, request.EmpID, survey)
-			summaryNoSpoorthiSurvey += obj.NoofSpoorthiSurvey
+			obj.NoofnagarikaSurvey = GflParticipantFilternonagarikasurvey(DB, request.StartDate, request.EndDate, projectArray, request.EmpID, survey)
+			summaryNonagarikaSurvey += obj.NoofnagarikaSurvey
 
-			obj.NoSpoorthiModule = GflParticipantFilternoSpoorthimodule(DB, request.StartDate, request.EndDate, projectArray, request.EmpID, survey)
-			summarySpoorthimodule += obj.NoSpoorthiModule
+			obj.NonagarikaModule = GflParticipantFilternonagarikamodule(DB, request.StartDate, request.EndDate, projectArray, request.EmpID, survey)
+			summarynagarikamodule += obj.NonagarikaModule
 
-			obj.NoofSpoorthiBeehives = GflParticipantFilternoSpoorthiBeehives(DB, request.StartDate, request.EndDate, projectArray, request.EmpID, coharts)
-			summarySpoorthibeehives += obj.NoofSpoorthiBeehives
-			obj.Villages = GflSpoorthinewVillageCount(DB, request.StartDate, request.EndDate, projectArray, request.EmpID, village)
+			obj.NoofnagarikaBeehives = GflParticipantFilternonagarikaBeehives(DB, request.StartDate, request.EndDate, projectArray, request.EmpID, coharts)
+			summarynagarikabeehives += obj.NoofnagarikaBeehives
+			obj.Villages = GflnagarikanewVillageCount(DB, request.StartDate, request.EndDate, projectArray, request.EmpID, village)
 			summaryVillages += obj.Villages
 			response.Data = append(response.Data, obj)
 		}
 		response.SummaryTarget = summaryTarget
 		response.SummaryVillages = summaryVillages
 		response.SummaryActuals = summaryActuals
-		response.SummaryNoSpoorthisurvey = summaryNoSpoorthiSurvey
-		response.SummaryNoSpoorthiCircleMeet = summaryNoSpoorthiCircleMeet
-		response.SummarySpoorthiEnroll = summarySpoorthiEnroll
-		response.SummarySpoorthiModule = summarySpoorthimodule
-		response.SummaryNoofSpoorthiBeehives = summarySpoorthibeehives
+		response.SummaryNonagarikasurvey = summaryNonagarikaSurvey
+		response.SummaryNonagarikaCircleMeet = summaryNonagarikaCircleMeet
+		response.SummarynagarikaEnroll = summarynagarikaEnroll
+		response.SummarynagarikaModule = summarynagarikamodule
+		response.SummaryNoofnagarikaBeehives = summarynagarikabeehives
 		response.Code = 200
 		response.Count = len(response.Data)
 		response.Success = true

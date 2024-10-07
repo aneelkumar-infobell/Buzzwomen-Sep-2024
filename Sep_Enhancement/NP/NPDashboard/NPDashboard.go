@@ -11,34 +11,34 @@ import (
 )
 
 type Project struct {
-	ID                   int    `json:"id"`
-	Name                 string `json:"name"`
-	StartDate            string `json:"start_date"`
-	EndDate              string `json:"end_date"`
-	Target               int    `json:"target"`
-	Actual               int    `json:"actual"`
-	NoOfsporthisurvey    int    `json:"Noofsporthisurvey"`
-	Villages             int    `json:"villages"`
-	SelectType           string `json:"select_type"`
-	NoofCircleMeeting    int    `json:"NoofCircleMeeting"`
-	Noofsporthicompleted int    `json:"Noofsporthicompleted"`
-	Gelathienrolled      int    `json:"Gelathienrolled"`
-	Noofbeehives         int    `json:"Noofbeehives"`
+	ID                    int    `json:"id"`
+	Name                  string `json:"name"`
+	StartDate             string `json:"start_date"`
+	EndDate               string `json:"end_date"`
+	Target                int    `json:"target"`
+	Actual                int    `json:"actual"`
+	NoOfnagarikasurvey    int    `json:"Noofnagarikasurvey"`
+	Villages              int    `json:"villages"`
+	SelectType            string `json:"select_type"`
+	NoofCircleMeeting     int    `json:"NoofCircleMeeting"`
+	Noofnagarikacompleted int    `json:"Noofnagarikacompleted"`
+	Gelathienrolled       int    `json:"Gelathienrolled"`
+	Noofbeehives          int    `json:"Noofbeehives"`
 }
 
 type Response struct {
-	SummaryTarget               int       `json:"summary_target"`
-	SummaryActual               int       `json:"summary_actual"`
-	SummaryVillages             int       `json:"summary_villages"`
-	SummaryNoofSporthisurvey    int       `json:"summary_sporthisurvey"`
-	SummaryNoofCircleMeeting    int       `json:"summary_NoofCircleMeeting"`
-	SummaryNoofsporthicompleted int       `json:"summary_Noofsporthicompleted"`
-	SummaryGelathienrolled      int       `json:"summary_Gelathienrolled"`
-	SummaryNoofbeehives         int       `json:"summary_Noofbeehives"`
-	Data                        []Project `json:"data"`
-	Code                        int       `json:"code"`
-	Success                     bool      `json:"success"`
-	Message                     string    `json:"message"`
+	SummaryTarget                int       `json:"summary_target"`
+	SummaryActual                int       `json:"summary_actual"`
+	SummaryVillages              int       `json:"summary_villages"`
+	SummaryNoofnagarikasurvey    int       `json:"summary_nagarikasurvey"`
+	SummaryNoofCircleMeeting     int       `json:"summary_NoofCircleMeeting"`
+	SummaryNoofnagarikacompleted int       `json:"summary_Noofnagarikacompleted"`
+	SummaryGelathienrolled       int       `json:"summary_Gelathienrolled"`
+	SummaryNoofbeehives          int       `json:"summary_Noofbeehives"`
+	Data                         []Project `json:"data"`
+	Code                         int       `json:"code"`
+	Success                      bool      `json:"success"`
+	Message                      string    `json:"message"`
 }
 
 func NagarikaProgramDashboard(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
@@ -101,11 +101,11 @@ func NagarikaProgramDashboard(w http.ResponseWriter, r *http.Request, DB *sql.DB
 	summaryTarget := 0
 	summaryActuals := 0
 
-	summarySpoorthienrolled := 0
-	summaryNoofSpoorthisurvey := 0
-	summaryNoofSpoorthimodulecompleted := 0
-	summayNoofSpoorthicircle := 0
-	summayNoofSpoorthibeehives := 0
+	summarynagarikaenrolled := 0
+	summaryNoofnagarikasurvey := 0
+	summaryNoofnagarikamodulecompleted := 0
+	summayNoofnagarikacircle := 0
+	summayNoofnagarikabeehives := 0
 
 	if roleid == 1 || roleid == 9 || roleid == 3 || roleid == 4 || roleid == 11 || roleid == 12 {
 		filter := ""
@@ -300,7 +300,7 @@ func NagarikaProgramDashboard(w http.ResponseWriter, r *http.Request, DB *sql.DB
 				js, err := json.Marshal(response)
 				//fmt.Println(response)
 				if err != nil {
-					log.Println("Spoorthi", err)
+					log.Println("nagarika", err)
 					w.WriteHeader(http.StatusBadRequest)
 					json.NewEncoder(w).Encode(map[string]interface{}{"Status": "400 Bad Request", "Message": err.Error()})
 					return
@@ -519,19 +519,19 @@ func NagarikaProgramDashboard(w http.ResponseWriter, r *http.Request, DB *sql.DB
 
 				if len(projectArray) == 0 {
 					obj := map[string]interface{}{
-						"id":                   funderID,
-						"name":                 funderName,
-						"target":               0,
-						"actual":               0,
-						"NoofCircleMeeting":    0,
-						"villages":             0,
-						"Gelathienrolled":      0,
-						"Noofsporthisurvey":    0,
-						"Noofsporthicompleted": 0,
-						"Noofbeehives":         0,
-						"start_date":           "",
-						"end_date":             "",
-						"select_type":          "2",
+						"id":                    funderID,
+						"name":                  funderName,
+						"target":                0,
+						"actual":                0,
+						"NoofCircleMeeting":     0,
+						"villages":              0,
+						"Gelathienrolled":       0,
+						"Noofnagarikasurvey":    0,
+						"Noofnagarikacompleted": 0,
+						"Noofbeehives":          0,
+						"start_date":            "",
+						"end_date":              "",
+						"select_type":           "2",
 					}
 					data = append(data, obj)
 					continue
@@ -545,15 +545,15 @@ func NagarikaProgramDashboard(w http.ResponseWriter, r *http.Request, DB *sql.DB
 				obj["actual"] = nagarikaEnrolled(DB, startDate, endDate, projectArray, "")
 				summaryActuals += obj["actual"].(int)
 				obj["Gelathienrolled"] = nagarikaEnrolled(DB, startDate, endDate, projectArray, "")
-				summarySpoorthienrolled += obj["Gelathienrolled"].(int)
-				obj["Noofsporthicompleted"] = nagarikaModule(DB, startDate, endDate, projectArray, "")
-				summaryNoofSpoorthimodulecompleted += obj["Noofsporthicompleted"].(int)
-				obj["Noofsporthisurvey"] = nagarikaSurvey(DB, startDate, endDate, projectArray, "")
-				summaryNoofSpoorthisurvey += obj["Noofsporthisurvey"].(int)
+				summarynagarikaenrolled += obj["Gelathienrolled"].(int)
+				obj["Noofnagarikacompleted"] = nagarikaModule(DB, startDate, endDate, projectArray, "")
+				summaryNoofnagarikamodulecompleted += obj["Noofnagarikacompleted"].(int)
+				obj["Noofnagarikasurvey"] = nagarikaSurvey(DB, startDate, endDate, projectArray, "")
+				summaryNoofnagarikasurvey += obj["Noofnagarikasurvey"].(int)
 				obj["NoofCircleMeeting"] = noofCircleMeeting(DB, startDate, endDate, projectArray, "")
-				summayNoofSpoorthicircle += obj["NoofCircleMeeting"].(int)
+				summayNoofnagarikacircle += obj["NoofCircleMeeting"].(int)
 				obj["Noofbeehives"] = noofBeehives(DB, startDate, endDate, projectArray, "")
-				summayNoofSpoorthibeehives += obj["Noofbeehives"].(int)
+				summayNoofnagarikabeehives += obj["Noofbeehives"].(int)
 				obj["villages"], _ = NagarikanewVillageCount(DB, startDate, endDate, projectArray, "")
 				summaryVillages += obj["villages"].(int)
 				obj["startDate"] = ""
@@ -771,16 +771,16 @@ func NagarikaProgramDashboard(w http.ResponseWriter, r *http.Request, DB *sql.DB
 				}
 				prList.Actual = nagarikaEnrolled(DB, startDate, endDate, projectArray, tpFilter)
 				summaryActuals += prList.Actual
-				prList.NoOfsporthisurvey = nagarikaSurvey(DB, startDate, endDate, projectArray, "")
-				summaryNoofSpoorthisurvey += prList.NoOfsporthisurvey
-				prList.Noofsporthicompleted = nagarikaModule(DB, startDate, endDate, projectArray, "")
-				summaryNoofSpoorthimodulecompleted += prList.Noofsporthicompleted
+				prList.NoOfnagarikasurvey = nagarikaSurvey(DB, startDate, endDate, projectArray, "")
+				summaryNoofnagarikasurvey += prList.NoOfnagarikasurvey
+				prList.Noofnagarikacompleted = nagarikaModule(DB, startDate, endDate, projectArray, "")
+				summaryNoofnagarikamodulecompleted += prList.Noofnagarikacompleted
 				prList.Gelathienrolled = nagarikaEnrolled(DB, startDate, endDate, projectArray, "")
-				summarySpoorthienrolled += prList.Gelathienrolled
+				summarynagarikaenrolled += prList.Gelathienrolled
 				prList.NoofCircleMeeting = noofCircleMeeting(DB, startDate, endDate, projectArray, "")
-				summayNoofSpoorthicircle += prList.NoofCircleMeeting
+				summayNoofnagarikacircle += prList.NoofCircleMeeting
 				prList.Noofbeehives = noofBeehives(DB, startDate, endDate, projectArray, "")
-				summayNoofSpoorthibeehives += prList.Noofbeehives
+				summayNoofnagarikabeehives += prList.Noofbeehives
 				prList.Villages, _ = NagarikanewVillageCount(DB, startDate, endDate, projectArray, tbFilter)
 				summaryVillages += prList.Villages
 				prList.SelectType = "1"
@@ -803,16 +803,16 @@ func NagarikaProgramDashboard(w http.ResponseWriter, r *http.Request, DB *sql.DB
 		fmt.Println(dateFilters)
 
 		response := make(map[string]interface{})
-		response["summary_Gelathienrolled"] = summarySpoorthienrolled
+		response["summary_Gelathienrolled"] = summarynagarikaenrolled
 		response["summary_actual"] = summaryActuals
 
 		response["summary_villages"] = summaryVillages
 		response["summary_actual"] = summaryActuals
 		response["summary_target"] = summaryTarget
-		response["summary_NoofCircleMeeting"] = summayNoofSpoorthicircle
-		response["summary_sporthisurvey"] = summaryNoofSpoorthisurvey
-		response["summary_Noofsporthicompleted"] = summaryNoofSpoorthimodulecompleted
-		response["summary_Noofbeehives"] = summayNoofSpoorthibeehives
+		response["summary_NoofCircleMeeting"] = summayNoofnagarikacircle
+		response["summary_nagarikasurvey"] = summaryNoofnagarikasurvey
+		response["summary_Noofnagarikacompleted"] = summaryNoofnagarikamodulecompleted
+		response["summary_Noofbeehives"] = summayNoofnagarikabeehives
 
 		response["data"] = data
 		response["code"] = 200
@@ -891,16 +891,16 @@ func NagarikaProgramDashboard(w http.ResponseWriter, r *http.Request, DB *sql.DB
 				survey := fmt.Sprintf(" and sb.GelathiId = %d", empid)
 				prList.Actual = nagarikaEnrolled(DB, startDate, endDate, projectArray, filter)
 				summaryActuals += prList.Actual
-				prList.NoOfsporthisurvey = nagarikaSurvey(DB, startDate, endDate, projectArray, survey)
-				summaryNoofSpoorthisurvey += prList.NoOfsporthisurvey
-				prList.Noofsporthicompleted = nagarikaModule(DB, startDate, endDate, projectArray, survey)
-				summaryNoofSpoorthimodulecompleted += prList.Noofsporthicompleted
+				prList.NoOfnagarikasurvey = nagarikaSurvey(DB, startDate, endDate, projectArray, survey)
+				summaryNoofnagarikasurvey += prList.NoOfnagarikasurvey
+				prList.Noofnagarikacompleted = nagarikaModule(DB, startDate, endDate, projectArray, survey)
+				summaryNoofnagarikamodulecompleted += prList.Noofnagarikacompleted
 				prList.Gelathienrolled = nagarikaEnrolled(DB, startDate, endDate, projectArray, filter)
-				summarySpoorthienrolled += prList.Gelathienrolled
+				summarynagarikaenrolled += prList.Gelathienrolled
 				prList.NoofCircleMeeting = noofCircleMeeting(DB, startDate, endDate, projectArray, coharts)
-				summayNoofSpoorthicircle += prList.NoofCircleMeeting
+				summayNoofnagarikacircle += prList.NoofCircleMeeting
 				prList.Noofbeehives = noofBeehives(DB, startDate, endDate, projectArray, coharts)
-				summayNoofSpoorthibeehives += prList.Noofbeehives
+				summayNoofnagarikabeehives += prList.Noofbeehives
 				prList.Villages = GfnagarikaVillageCount(DB, startDate, endDate, projectArray, empID)
 				summaryVillages += prList.Villages
 				prList.SelectType = "1"
@@ -909,14 +909,14 @@ func NagarikaProgramDashboard(w http.ResponseWriter, r *http.Request, DB *sql.DB
 
 			response := make(map[string]interface{})
 			response["data"] = data
-			response["summary_Gelathienrolled"] = summarySpoorthienrolled
+			response["summary_Gelathienrolled"] = summarynagarikaenrolled
 			response["summary_villages"] = summaryVillages
 			response["summary_actual"] = summaryActuals
 			response["summary_target"] = summaryTarget
-			response["summary_NoofCircleMeeting"] = summayNoofSpoorthicircle
-			response["summary_sporthisurvey"] = summaryNoofSpoorthisurvey
-			response["summary_Noofsporthicompleted"] = summaryNoofSpoorthimodulecompleted
-			response["summary_Noofbeehives"] = summayNoofSpoorthibeehives
+			response["summary_NoofCircleMeeting"] = summayNoofnagarikacircle
+			response["summary_nagarikasurvey"] = summaryNoofnagarikasurvey
+			response["summary_Noofnagarikacompleted"] = summaryNoofnagarikamodulecompleted
+			response["summary_Noofbeehives"] = summayNoofnagarikabeehives
 
 			response["data"] = data
 			response["code"] = 200
@@ -1013,30 +1013,30 @@ func NagarikaProgramDashboard(w http.ResponseWriter, r *http.Request, DB *sql.DB
 				}
 				prList.Actual = GflnagarikaEnrolled(DB, startDate, endDate, projectArray, empid, filter)
 				summaryActuals += prList.Actual
-				prList.NoOfsporthisurvey = GflnagarikaSurvey(DB, startDate, endDate, projectArray, empid, filter)
-				summaryNoofSpoorthisurvey += prList.NoOfsporthisurvey
-				prList.Noofsporthicompleted = GflnagarikaModule(DB, startDate, endDate, projectArray, empid, filter)
-				summaryNoofSpoorthimodulecompleted += prList.Noofsporthicompleted
+				prList.NoOfnagarikasurvey = GflnagarikaSurvey(DB, startDate, endDate, projectArray, empid, filter)
+				summaryNoofnagarikasurvey += prList.NoOfnagarikasurvey
+				prList.Noofnagarikacompleted = GflnagarikaModule(DB, startDate, endDate, projectArray, empid, filter)
+				summaryNoofnagarikamodulecompleted += prList.Noofnagarikacompleted
 				prList.Gelathienrolled = GflnagarikaEnrolled(DB, startDate, endDate, projectArray, empid, filter)
-				summarySpoorthienrolled += prList.Gelathienrolled
+				summarynagarikaenrolled += prList.Gelathienrolled
 				prList.NoofCircleMeeting = GflnoofCircleMeeting(DB, startDate, endDate, projectArray, empid, coharts)
-				summayNoofSpoorthicircle += prList.NoofCircleMeeting
+				summayNoofnagarikacircle += prList.NoofCircleMeeting
 				prList.Noofbeehives = GflnoofBeehives(DB, startDate, endDate, projectArray, empid, coharts)
-				summayNoofSpoorthicircle += prList.Noofbeehives
+				summayNoofnagarikacircle += prList.Noofbeehives
 				prList.Villages = GflNagarikanewVillageCount(DB, startDate, endDate, projectArray, empid, village)
 				summaryVillages += prList.Villages
 				prList.SelectType = "1"
 				data = append(data, prList)
 			}
 			response := make(map[string]interface{})
-			response["summary_Gelathienrolled"] = summarySpoorthienrolled
+			response["summary_Gelathienrolled"] = summarynagarikaenrolled
 			response["summary_villages"] = summaryVillages
 			response["summary_actual"] = summaryActuals
 			response["summary_target"] = summaryTarget
-			response["summary_NoofCircleMeeting"] = summayNoofSpoorthicircle
-			response["summary_sporthisurvey"] = summaryNoofSpoorthisurvey
-			response["summary_Noofsporthicompleted"] = summaryNoofSpoorthimodulecompleted
-			response["summary_Noofbeehives"] = summayNoofSpoorthibeehives
+			response["summary_NoofCircleMeeting"] = summayNoofnagarikacircle
+			response["summary_nagarikasurvey"] = summaryNoofnagarikasurvey
+			response["summary_Noofnagarikacompleted"] = summaryNoofnagarikamodulecompleted
+			response["summary_Noofbeehives"] = summayNoofnagarikabeehives
 
 			response["data"] = data
 			response["code"] = 200
