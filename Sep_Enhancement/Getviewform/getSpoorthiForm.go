@@ -344,7 +344,7 @@ COALESCE(monthly_house_income, 0) AS monthly_house_income
 
 		err2 := db.QueryRow("SELECT firstName FROM bdms_staff.training_participants where id = ?", ptid).Scan(&ptname)
 		if err2 != nil {
-			json.NewEncoder(w).Encode(map[string]interface{}{"code": http.StatusInternalServerError, "message": "Database Scan Error in fetching participant  name", "success": false, "error": err.Error()})
+			json.NewEncoder(w).Encode(map[string]interface{}{"code": http.StatusInternalServerError, "message": "Database Scan Error in fetching participant  name", "success": false, "error": err2.Error()})
 			return
 		}
 		//response = append(response, queryData)
