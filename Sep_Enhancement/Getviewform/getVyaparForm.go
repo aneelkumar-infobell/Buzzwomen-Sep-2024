@@ -723,7 +723,7 @@ func GetVyaparBaselineSurvey(w http.ResponseWriter, r *http.Request, db *sql.DB)
     COALESCE(loan_exists, '') AS loan_exists,
     COALESCE(savings_available, '') AS savings_available,
     COALESCE(loan_startup, '') AS loan_startup,
-	COALESCE(type_of_enterprise_running,  '') AS type_of_enterprise_running
+	COALESCE(type_of_enterprise_running,  '') AS type_of_enterprise_running,
 	COALESCE(monthly_household_income, '') AS monthly_household_income
     FROM  BuzzVyaparProgramBaseline
     WHERE partcipantId = %d
@@ -866,6 +866,7 @@ func GetVyaparBaselineSurvey(w http.ResponseWriter, r *http.Request, db *sql.DB)
 			&b.SavingsAvailable,
 			&b.LoanStartup,
 			&b.TypeOfEnterpriseRunning,
+			&b.MonthlyHouseholdIncome,
 		)
 
 		b.EntrepreneurialAspirations = strings.Split(entrepreneurialAspirations, ",")

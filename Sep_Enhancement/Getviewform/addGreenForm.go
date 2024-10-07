@@ -8,11 +8,12 @@ import (
 	"net/http"
 	"os"
 	"strings"
+	"time"
 )
 
 type GreenBaselineSurvey struct {
 	ID                                                 string   `json:"id"`
-	ParticipantID                                      int      `json:"participantId"`
+	ParticipantID                                      string   `json:"participantId"`
 	Email                                              string   `json:"email"`
 	NameOfTheSurveyor                                  string   `json:"name_of_the_surveyor"`
 	NameOfTheRespondent                                string   `json:"name_of_the_respondent"`
@@ -142,35 +143,36 @@ func AddGreensurvey(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 		return
 	}
 
-	// checkStatement := "SELECT COUNT(*) FROM GreenBaselineSurvey WHERE participantid = ?"
-	// var count int
-	// err = DB.QueryRow(checkStatement, survey.ParticipantID).Scan(&count)
-	// if err != nil {
-	// 	fmt.Println("errr", err)
-	// 	w.WriteHeader(http.StatusInternalServerError)
-	// 	log.Println("Error checking participant ID:", err)
-	// 	json.NewEncoder(w).Encode(map[string]interface{}{"Message": "Internal Server Error", "Status Code": "500 ", "API": "Addnagarika"})
-	// 	return
-	// }
-	// if count > 0 {
-	// 	w.WriteHeader(http.StatusBadRequest)
-	// 	log.Println("Participant ID already present")
-	// 	json.NewEncoder(w).Encode(map[string]interface{}{"Message": "Participant ID already present", "Status Code": "400 ", "API": "Addnagarika"})
-	// 	return
-	// }
+	checkStatement := "SELECT COUNT(*) FROM GreenBaselineSurvey WHERE participantid = ?"
+	var count int
+	err = DB.QueryRow(checkStatement, queryData.ParticipantID).Scan(&count)
+	if err != nil {
+		fmt.Println("errr", err)
+		w.WriteHeader(http.StatusInternalServerError)
+		log.Println("Error checking participant ID:", err)
+		json.NewEncoder(w).Encode(map[string]interface{}{"Message": "Internal Server Error", "Status Code": "500 ", "API": "Addnagarika"})
+		return
+	}
+	if count > 0 {
+		w.WriteHeader(http.StatusBadRequest)
+		log.Println("Participant ID already present")
+		json.NewEncoder(w).Encode(map[string]interface{}{"Message": "Participant ID already present", "Status Code": "400 ", "API": "Addnagarika"})
+		return
+	}
 
-	// var name string
-	// var date time.Time
-	// DB.QueryRow("SELECT name from location where id=1").Scan(&name)
-	// switch {
-	// case name == "India":
-	// 	date = time.Now().Add(5*time.Hour + 30*time.Minute)
-	// case name == "Gambia":
-	// 	date = time.Now().Add(3 * time.Hour)
-	// case name == "Tanzania":
-	// 	date = time.Now().Add(3 * time.Hour)
-	// }
-	if queryData.ParticipantID != 0 {
+	if queryData.ParticipantID != "" {
+		var name string
+		var date time.Time
+		DB.QueryRow("SELECT name from location where id=1").Scan(&name)
+		switch {
+		case name == "India":
+			date = time.Now().Add(5*time.Hour + 30*time.Minute)
+		case name == "Gambia":
+			date = time.Now().Add(3 * time.Hour)
+		case name == "Tanzania":
+			date = time.Now().Add(3 * time.Hour)
+		}
+
 		sql := `
 		INSERT INTO GreenBaselineSurvey (
 			partcipantId,
@@ -247,7 +249,7 @@ func AddGreensurvey(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 			access_to_daily_living_products,
 			locally_produced_products_consumed
 		) VALUES ( 
-			?, ?, ?, ?, ?, ?, NOW(), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?,?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)`
+			?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?,?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)`
 
 		_, err := DB.Exec(sql,
 			queryData.ParticipantID,
@@ -256,6 +258,7 @@ func AddGreensurvey(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 			queryData.NameOfTheRespondent,
 			queryData.VillageName,
 			queryData.PhoneNumber,
+			date,
 			queryData.DistrictName,
 			queryData.TalukName,
 			queryData.PanchayatName,

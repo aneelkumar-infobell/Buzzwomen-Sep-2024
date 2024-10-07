@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"log"
 	"net/http"
 	"strings"
 )
@@ -15,26 +15,23 @@ func GetGreenBaselineSurvey(w http.ResponseWriter, r *http.Request, db *sql.DB) 
 	w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
 	w.Header().Set("Access-Control-Allow-Credentials", "true")
 
-	data, err := ioutil.ReadAll(r.Body)
-	if err != nil {
-		json.NewEncoder(w).Encode(map[string]interface{}{"message": "Failed to read body", "success": false, "error": err.Error()})
-		return
-	}
-
-	defer r.Body.Close()
-
 	var req struct {
 		ParticipantID int `json:"participantId"`
 	}
 
-	err = json.Unmarshal(data, &req)
-	if err != nil {
-		json.NewEncoder(w).Encode(map[string]interface{}{"code": http.StatusBadRequest, "message": "Failed to unmarshal", "success": false, "error": err.Error()})
+	err1 := json.NewDecoder(r.Body).Decode(&req)
+
+	if err1 != nil {
+		fmt.Println("errrr", err1)
+		log.Println(err1)
+		w.WriteHeader(http.StatusBadRequest)
+		json.NewEncoder(w).Encode(map[string]string{"Message": "Invalid Input Syntax", "Status Code": "400 ", "API": "Addnagarika"})
 		return
 	}
+	fmt.Println("repart", req.ParticipantID)
 	var naturalResources, naturalResourcesImpactingYourLife, ifYesWhatAreThey, primaryOccupation, secondaryOccupation, dailyClimateAction, ecoFriendlyPracticesDetails, menstruationProductsUsed, soilObservationsIfNoChanges, reasonsForLackOfNutritionalFood, usePesticidesFertilizers, communityGovernmentEnvironmentInitiatives, changesHappenedToTheClimate, climateChangeThreatensPersonalFamilyHealthSafety, doSomethingToTackleClimateChange, mainSourceOfWater, achieveWithRegardToNaturalResourceConservation, mainProductsServicesUsed string
 
-	query := fmt.Sprintf(`
+	query := (`
     SELECT
         COALESCE(id, '') AS id,
         COALESCE(partcipantId, 0) AS partcipantId,
@@ -140,12 +137,13 @@ func GetGreenBaselineSurvey(w http.ResponseWriter, r *http.Request, db *sql.DB) 
   COALESCE(access_to_daily_living_products, '') AS access_to_daily_living_products,
   COALESCE(locally_produced_products_consumed, '') AS locally_produced_products_consumed
     FROM GreenBaselineSurvey
-    WHERE partcipantId = %d
-`, req.ParticipantID)
+    WHERE partcipantId = ?`)
 
-	rows, err := db.Query(query)
+	fmt.Println("query", query)
+	rows, err := db.Query(query, req.ParticipantID)
 
 	if err != nil {
+		fmt.Println("err150", err)
 		json.NewEncoder(w).Encode(map[string]interface{}{"code": http.StatusInternalServerError, "message": "Database Query Error", "success": false, "error": err.Error()})
 		return
 	}
@@ -153,10 +151,11 @@ func GetGreenBaselineSurvey(w http.ResponseWriter, r *http.Request, db *sql.DB) 
 
 	var response []GreenBaselineSurvey
 	var ptid int
-	var ptname int
+	var ptname string
+	fmt.Println("coming 155")
 	for rows.Next() {
 		var queryData GreenBaselineSurvey
-
+		fmt.Println("entering 158")
 		err := rows.Scan(
 			&queryData.ID,
 			&ptid,
@@ -263,9 +262,11 @@ func GetGreenBaselineSurvey(w http.ResponseWriter, r *http.Request, db *sql.DB) 
 			&queryData.LocallyProducedProductsConsumed,
 		)
 		if err != nil {
+			fmt.Println("err268", err)
 			json.NewEncoder(w).Encode(map[string]interface{}{"code": http.StatusInternalServerError, "message": "Database Scan Error", "success": false, "error": err.Error()})
 			return
 		}
+		fmt.Println("entering 269")
 		queryData.NaturalResources = strings.Split(naturalResources, ",")
 		queryData.NaturalResourcesImpactingYourLife = strings.Split(naturalResourcesImpactingYourLife, ",")
 		queryData.IfYesWhatAreThey = strings.Split(ifYesWhatAreThey, ",")
@@ -288,7 +289,8 @@ func GetGreenBaselineSurvey(w http.ResponseWriter, r *http.Request, db *sql.DB) 
 
 		err2 := db.QueryRow("SELECT firstName FROM bdms_staff.training_participants where id = ?", ptid).Scan(&ptname)
 		if err2 != nil {
-			json.NewEncoder(w).Encode(map[string]interface{}{"code": http.StatusInternalServerError, "message": "Database Scan Error in fetching participant  name", "success": false, "error": err.Error()})
+			fmt.Println("rfrfrf", err2)
+			json.NewEncoder(w).Encode(map[string]interface{}{"code": http.StatusInternalServerError, "message": "Database Scan Error in fetching participant  name", "success": false, "error": err2.Error()})
 			return
 		}
 		queryData.ParticipantID = ptname
