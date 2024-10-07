@@ -547,7 +547,7 @@ func GetVyaparBaselineSurvey(w http.ResponseWriter, r *http.Request, db *sql.DB)
 		InvestmentSource                    string   `json:"investment_source"`
 		YearsInOperation                    int      `json:"years_in_operation"`
 		HasHiredEmployees                   string   `json:"has_hired_employees"`
-		NumberOfPaidWorkers                 int      `json:"number_of_paid_workers"`
+		NumberOfPaidWorkers                 string   `json:"number_of_paid_workers"`
 		ReasonForDoingBusiness              string   `json:"reason_for_doing_business"`
 		EntrepreneurialAspirations          []string `json:"entrepreneurial_aspirations"`
 		MaintainDailyFinancialBooks         string   `json:"maintain_daily_financial_books"`
@@ -577,6 +577,7 @@ func GetVyaparBaselineSurvey(w http.ResponseWriter, r *http.Request, db *sql.DB)
 		SavingsAvailable        uint64  `json:"savings_available"`
 		LoanStartup             string  `json:"loan_startup"`
 		TypeOfEnterpriseRunning string  `json:"type_of_enterprise_running"`
+		MonthlyHouseholdIncome  string  `json:"monthly_household_income"`
 	}
 
 	w.Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization,application/json,Token")
@@ -694,7 +695,7 @@ func GetVyaparBaselineSurvey(w http.ResponseWriter, r *http.Request, db *sql.DB)
     COALESCE(investment_source, '') AS investment_source,
     COALESCE(years_in_operation, 0) AS years_in_operation,
     COALESCE(has_hired_employees, '') AS has_hired_employees,
-    COALESCE(number_of_paid_workers, 0) AS number_of_paid_workers,
+    COALESCE(number_of_paid_workers, '') AS number_of_paid_workers,
     COALESCE(reason_for_doing_business, '') AS reason_for_doing_business,
     COALESCE(entrepreneurial_aspirations, '') AS entrepreneurial_aspirations,
     COALESCE(maintain_daily_financial_books, '') AS maintain_daily_financial_books,
@@ -723,6 +724,7 @@ func GetVyaparBaselineSurvey(w http.ResponseWriter, r *http.Request, db *sql.DB)
     COALESCE(savings_available, 0) AS savings_available,
     COALESCE(loan_startup, '') AS loan_startup,
 	COALESCE(type_of_enterprise_running,  '') AS type_of_enterprise_running
+	COALESCE(monthly_household_income, '') AS monthly_household_income
     FROM  BuzzVyaparProgramBaseline
     WHERE partcipantId = %d
 `, req.ParticipantID)
