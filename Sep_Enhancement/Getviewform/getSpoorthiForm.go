@@ -102,6 +102,7 @@ type ParticipantData struct {
 	CalmDisagreementArticulationD                   string   `json:"calm_disagreement_articulation_d"`
 	MonthlyHouseExpend                              int      `json:"monthly_house_expend"`
 	MonthlyHouseIncome                              int      `json:"monthly_house_income"`
+	NarrateInstance2                                string   `json:"narrate_instance2"`
 }
 
 // var data []Querydata
@@ -218,7 +219,8 @@ COALESCE(ask_to_leave_immediately_d, '') AS ask_to_leave_immediately_d,
 COALESCE(patiently_listen_understand_d, '') AS patiently_listen_understand_d,
 COALESCE(calm_disagreement_articulation_d, '') AS calm_disagreement_articulation_d,
 COALESCE(monthly_house_expend, 0) AS monthly_house_expend,
-COALESCE(monthly_house_income, 0) AS monthly_house_income
+COALESCE(monthly_house_income, 0) AS monthly_house_income,
+COALESCE(narrate_instance2, '') AS monthly_house_income
  
  
     FROM SpoorthiBaselineQuestionnaire
@@ -327,6 +329,7 @@ COALESCE(monthly_house_income, 0) AS monthly_house_income
 			&queryData.CalmDisagreementArticulationD,
 			&queryData.MonthlyHouseExpend,
 			&queryData.MonthlyHouseIncome,
+			&queryData.NarrateInstance2,
 		)
 		queryData.LeadershipSkillsReasonYes = strings.Split(leadershipSkillsReasonYes, ",")
 		queryData.LeadershipSkillsReasonNo = strings.Split(leadershipSkillsReasonNo, ",")
