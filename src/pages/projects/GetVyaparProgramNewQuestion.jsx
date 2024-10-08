@@ -454,387 +454,387 @@ What is the status of your enterprise? ನಿಮ್ಮ ಉದ್ಯಮದ ಸ್
                         value={sendData.enterprise_status}
                     />
 
-                    <TextInput
 
-                    //doubt
-                        id="enterprise_status"
-                        name="enterprise_status"
-                        label=" 
- 	
+{
+(sendData.enterprise_status === "Yes, I run an enterprise currently ಹೌದು, ನಾನು ಪ್ರಸ್ತುತ ಎಂಟರ್‌ಪ್ರೈಸ್ ನಡೆಸುತ್ತಿದ್ದೇನೆ")?
+<>
+<TextInput
+
+//doubt
+    id="type_of_enterprise_running"
+    name="type_of_enterprise_running"
+    label=" 
+
 What kind of enterprise do you run?
 ನೀವು ಯಾವ ರೀತಿಯ ಉದ್ಯಮವನ್ನು ನಡೆಸುತ್ತೀರಿ? " type="number"
-                        required
-                        disabled
-                        placeholder="Your Answer"
-                        onChange={handleInputChange}
-                        value={sendData.enterprise_status}
-                    />
+    required
+    disabled
+    placeholder="Your Answer"
+    onChange={handleInputChange}
+    value={sendData.type_of_enterprise_running}
+/>
 
-                    <TextInput
-                        id="run_enterprise_independently"
-                        name="run_enterprise_independently"
-                        label="Are you running the enterprise on your own?
+<TextInput
+    id="run_enterprise_independently"
+    name="run_enterprise_independently"
+    label="Are you running the enterprise on your own?
 ನೀವು ಸ್ವಂತವಾಗಿ ಉದ್ಯಮವನ್ನು ನಡೆಸುತ್ತಿದ್ದೀರಾ?" type="number"
-                        required
-                        disabled
-                        placeholder="Your Answer"
-                        onChange={handleInputChange}
-                        value={sendData.run_enterprise_independently}
-                    />
+    required
+    disabled
+    placeholder="Your Answer"
+    onChange={handleInputChange}
+    value={sendData.run_enterprise_independently}
+/>
 
-                    <TextInput
-                        id="average_monthly_income_enterprise"
-                        name="average_monthly_income_enterprise"
-                        label="What is the average monthly income of your enterprise? (Rs)
+<TextInput
+    id="average_monthly_income_enterprise"
+    name="average_monthly_income_enterprise"
+    label="What is the average monthly income of your enterprise? (Rs)
 ನಿಮ್ಮ ಉದ್ಯಮದ ಸರಾಸರಿ ಮಾಸಿಕ ಆದಾಯ ಎಷ್ಟು? (ರೂ)" type="number"
-                        required
-                        disabled
-                        placeholder="Your Answer"
-                        onChange={handleInputChange}
-                        value={sendData.average_monthly_income_enterprise}
-                    />
+    required
+    disabled
+    placeholder="Your Answer"
+    onChange={handleInputChange}
+    value={sendData.average_monthly_income_enterprise}
+/>
 
 
-                    <TextInput
-                        id="average_monthly_profit_enterprise"
-                        name="average_monthly_profit_enterprise"
-                        label=" 
- 	
+<TextInput
+    id="average_monthly_profit_enterprise"
+    name="average_monthly_profit_enterprise"
+    label=" 
+
 What is the average monthly profit of your enterprise? (Rs)
 ನಿಮ್ಮ ಉದ್ಯಮದ ಸರಾಸರಿ ಮಾಸಿಕ ಲಾಭ ಎಷ್ಟು? (ರೂ)" type="number"
-                        required
-                        disabled
-                        placeholder="Your Answer"
-                        onChange={handleInputChange}
-                        value={sendData.average_monthly_profit_enterprise}
-                    />
+    required
+    disabled
+    placeholder="Your Answer"
+    onChange={handleInputChange}
+    value={sendData.average_monthly_profit_enterprise}
+/>
 
 
-                    <TextInput
-                        id="desired_monthly_income"
-                        name="desired_monthly_income"
-                        label="How much monthly income would you like to ideally earn?
+<TextInput
+    id="desired_monthly_income"
+    name="desired_monthly_income"
+    label="How much monthly income would you like to ideally earn?
 ನೀವು ಆದರ್ಶಪ್ರಾಯವಾಗಿ ಎಷ್ಟು ಮಾಸಿಕ ಆದಾಯವನ್ನುಗಳಿಸಲು ಬಯಸುತ್ತೀರಿ?" type="number"
-                        required
-                        disabled
-                        placeholder="Your Answer"
-                        onChange={handleInputChange}
-                        value={sendData.desired_monthly_income}
-                    />
+    required
+    disabled
+    placeholder="Your Answer"
+    onChange={handleInputChange}
+    value={sendData.desired_monthly_income}
+/>
 
-                    <TextInput
-                        id="initial_investment_amount"
-                        name="initial_investment_amount"
-                        label="Amount invested when the business started (approximately if they know)
+<TextInput
+    id="initial_investment_amount"
+    name="initial_investment_amount"
+    label="Amount invested when the business started (approximately if they know)
 ವ್ಯಾಪಾರ ಪ್ರಾರಂಭವಾದಾಗ ಹೂಡಿಕೆ ಮಾಡಿದ ಮೊತ್ತ (ಅಂದಾಜು ಅವರು ತಿಳಿದಿದ್ದರೆ)" type="number"
-                        required
-                        disabled
-                        placeholder="Your Answer"
-                        onChange={handleInputChange}
-                        value={sendData.initial_investment_amount}
-                    />
-                    <TextInput
-                        id="investment_source"
-                        name="investment_source"
-                        label="Where did you get the investment to start your business?
+    required
+    disabled
+    placeholder="Your Answer"
+    onChange={handleInputChange}
+    value={sendData.initial_investment_amount}
+/>
+<TextInput
+    id="investment_source"
+    name="investment_source"
+    label="Where did you get the investment to start your business?
 ನಿಮ್ಮ ವ್ಯಾಪಾರವನ್ನು ಪ್ರಾರಂಭಿಸಲು ನೀವು ಹೂಡಿಕೆಯನ್ನು ಎಲ್ಲಿ ಪಡೆದುಕೊಂಡಿದ್ದೀರಿ?" type="number"
-                        required
-                        disabled
-                        placeholder="Your Answer"
-                        onChange={handleInputChange}
-                        value={sendData.investment_source}
-                    />
+    required
+    disabled
+    placeholder="Your Answer"
+    onChange={handleInputChange}
+    value={sendData.investment_source}
+/>
 
-                    <TextInput
-                        id="years_in_operation"
-                        name="years_in_operation"
-                        label="Number of years the business has been operating
+<TextInput
+    id="years_in_operation"
+    name="years_in_operation"
+    label="Number of years the business has been operating
 ಎಷ್ಟು ವರ್ಷದಿಂದ ವ್ಯಾಪಾರವನ್ನು ನಿರ್ವಹಿಸುತಿದ್ಧಿರ" type="number"
-                        required
-                        disabled
-                        placeholder="Your Answer"
-                        onChange={handleInputChange}
-                        value={sendData.years_in_operation}
-                    />
+    required
+    disabled
+    placeholder="Your Answer"
+    onChange={handleInputChange}
+    value={sendData.years_in_operation}
+/>
 
-                    <TextInput
-                        id="has_hired_employees"
-                        name="has_hired_employees"
-                        label="If you are currently running a business, do you have employees you have hired?
+<TextInput
+    id="has_hired_employees"
+    name="has_hired_employees"
+    label="If you are currently running a business, do you have employees you have hired?
 ನೀವು ಪ್ರಸ್ತುತ ವ್ಯಾಪಾರವನ್ನು ನಡೆಸುತ್ತಿದ್ದರೆ,ವ್ಯಾಪಾರ ನಿರ್ವಹಣೆ ಮಾಡಲು ನೌಕರರನ್ನು ಹೊಂದಿದ್ಧೀರ?" type="number"
-                        required
-                        disabled
-                        placeholder="Your Answer"
-                        onChange={handleInputChange}
-                        value={sendData.has_hired_employees}
-                    />
+    required
+    disabled
+    placeholder="Your Answer"
+    onChange={handleInputChange}
+    value={sendData.has_hired_employees}
+/>
 
 
 
-                    <TextInput
-                        id="number_of_paid_workers"
-                        name="number_of_paid_workers"
-                        label=" 
- 	
+<TextInput
+    id="number_of_paid_workers"
+    name="number_of_paid_workers"
+    label=" 
+
 How many paid workers do you have?
 ನಿಮ್ಮಲ್ಲಿ ಎಷ್ಟು ಸಂಬಳದ ಕೆಲಸಗಾರರಿದ್ದಾರೆ?" type="number"
-                        required
-                        disabled
-                        placeholder="Your Answer"
-                        onChange={handleInputChange}
-                        value={sendData.number_of_paid_workers}
-                    />
+    required
+    disabled
+    placeholder="Your Answer"
+    onChange={handleInputChange}
+    value={sendData.number_of_paid_workers}
+/>
 
 
-                    <TextInput
-                        id="reason_for_doing_business"
-                        name="reason_for_doing_business"
-                        label=" Why do you do business?
+<TextInput
+    id="reason_for_doing_business"
+    name="reason_for_doing_business"
+    label=" Why do you do business?
 ನೀವು ಯಾಕೆ ವ್ಯಾಪಾರ ಮಾಡುತ್ತೀರಿ?" type="number"
-                        required
-                        disabled
-                        placeholder="Your Answer"
-                        onChange={handleInputChange}
-                        value={sendData.reason_for_doing_business}
-                    />
+    required
+    disabled
+    placeholder="Your Answer"
+    onChange={handleInputChange}
+    value={sendData.reason_for_doing_business}
+/>
 
-                    <MultipleChoice
-                        id="entrepreneurial_aspirations"
-                        name="entrepreneurial_aspirations"
-                        label="What are your aspirations as an entrepreneur?
+<MultipleChoice
+    id="entrepreneurial_aspirations"
+    name="entrepreneurial_aspirations"
+    label="What are your aspirations as an entrepreneur?
 ಉದ್ಯಮಿಯಾಗಿ ನಿಮ್ಮ ಆಕಾಂಕ್ಷೆಗಳೇನು?
- "
+"
 //doubt with anas
-                        required
-                        disabled
-                        handleResources={handleResources}
-                        options={secondaryOccupationHousehold}
-                        selectedOption={sendData.entrepreneurial_aspirations}
-                    />
+    required
+    disabled
+    handleResources={handleResources}
+    options={secondaryOccupationHousehold}
+    selectedOption={sendData.entrepreneurial_aspirations}
+/>
 
-                    <TextInput
-                        id="maintain_daily_financial_books"
-                        name="maintain_daily_financial_books"
-                        label=" Do you maintain daily financial books post training ?
+<TextInput
+    id="maintain_daily_financial_books"
+    name="maintain_daily_financial_books"
+    label=" Do you maintain daily financial books post training ?
 ತರಬೇತಿಯ ನಂತರ ನೀವು ದೈನಂದಿನ ಹಣಕಾಸು ಪುಸ್ತಕಗಳನ್ನು ನಿರ್ವಹಿಸುತ್ತೀರಾ?" type="number"
-                        required
-                        disabled
-                        placeholder="Your Answer"
-                        onChange={handleInputChange}
-                        value={sendData.maintain_daily_financial_books}
-                    />
+    required
+    disabled
+    placeholder="Your Answer"
+    onChange={handleInputChange}
+    value={sendData.maintain_daily_financial_books}
+/>
 
 
-                    <TextInput
-                        id="frequency_of_recording_financial_books"
-                        name="frequency_of_recording_financial_books"
-                        label=" If yes,How often do you write these records?
+<TextInput
+    id="frequency_of_recording_financial_books"
+    name="frequency_of_recording_financial_books"
+    label=" If yes,How often do you write these records?
 ಹೌದು ಎಂದಾದರೆ, ಈ ದಾಖಲೆಗಳನ್ನು ನೀವು ಎಷ್ಟು ಬಾರಿ ಬರೆಯುತ್ತೀರಿ?" type="number"
-                        required
-                        disabled
-                        
-                        placeholder="Your Answer"
-                        onChange={handleInputChange}
-                        value={sendData.frequency_of_recording_financial_books}
-                    />
+    required
+    disabled
+    
+    placeholder="Your Answer"
+    onChange={handleInputChange}
+    value={sendData.frequency_of_recording_financial_books}
+/>
 
-                    <MultipleChoice
-                        id="method_of_keeping_accounts"
-                        name="method_of_keeping_accounts"
-                        label="How do you keep these accounts?
+<MultipleChoice
+    id="method_of_keeping_accounts"
+    name="method_of_keeping_accounts"
+    label="How do you keep these accounts?
 ಈ ಖಾತೆಗಳನ್ನು ನೀವು ಹೇಗೆ ಇಟ್ಟುಕೊಳ್ಳುತ್ತೀರಿ?"
-                        required
-                        //doubt with anas
-                        disabled
-                        handleResources={handleResources}
-                        options={secondaryOccupationHousehold}
-                        selectedOption={sendData.method_of_keeping_accounts}
-                    />
+    required
+    //doubt with anas
+    disabled
+    handleResources={handleResources}
+    options={secondaryOccupationHousehold}
+    selectedOption={sendData.method_of_keeping_accounts}
+/>
 
 
-                    <TextInput
-                        id="reason_for_not_bookkeeping"
-                        name="reason_for_not_bookkeeping"
-                        label=" If not, what is the reason for not bookkeeping?
+<TextInput
+    id="reason_for_not_bookkeeping"
+    name="reason_for_not_bookkeeping"
+    label=" If not, what is the reason for not bookkeeping?
 ಇಲ್ಲದಿದ್ದರೆ, ಪುಸ್ತಕ ನಿರ್ವಹಣೆ ಮಾಡದಿರಲು ಕಾರಣವೇನು? "
-                        type="number"
-                        required
-                        disabled
-                        placeholder="Your Answer"
-                        onChange={handleInputChange}
-                        value={sendData.reason_for_not_bookkeeping}
-                    />
-                    <TextInput
-                        id="househhas_business_goal_or_planold_migration_last_year"
-                        name="has_business_goal_or_plan"
-                        label=" 
- 	
+    type="number"
+    required
+    disabled
+    placeholder="Your Answer"
+    onChange={handleInputChange}
+    value={sendData.reason_for_not_bookkeeping}
+/>
+<TextInput
+    id="househhas_business_goal_or_planold_migration_last_year"
+    name="has_business_goal_or_plan"
+    label=" 
+
 Do you have a business goal/ plan?
 ನೀವು ವ್ಯಾಪಾರದ ಗುರಿ/ಯೋಜನೆಯನ್ನು ಹೊಂದಿದ್ದೀರಾ?"  required
-                        disabled
-                        onChange={handleInputChange}
-                        value={sendData?.has_business_goal_or_plan}
-                        options={yesOrNo}
-                    />
-                    <TextInput
-                        id="has_business_goal_or_plan"
-                        name="household_migration_last_year"
-                     	//doubt
-                           label="  
- 
+    disabled
+    onChange={handleInputChange}
+    value={sendData?.has_business_goal_or_plan}
+    options={yesOrNo}
+/>
+<TextInput
+    id="has_business_goal_or_plan"
+    name="household_migration_last_year"
+     //doubt
+       label="  
+
 Do you maintain a detailed business plan for your business ?
 ನಿಮ್ಮ ವ್ಯಾಪಾರಕ್ಕಾಗಿ ನೀವು ವಿವರವಾದ ವ್ಯಾಪಾರ ಯೋಜನೆಯನ್ನು ನಿರ್ವಹಿಸುತ್ತೀರಾ?"  required
-                        disabled
-                        onChange={handleInputChange}
-                        value={sendData?.household_migration_last_year}
-                        options={yesOrNo}
-                    />
+    disabled
+    onChange={handleInputChange}
+    value={sendData?.household_migration_last_year}
+    options={yesOrNo}
+/>
 
-                    <TextInput
-                        id="short_term_goal"
-                        name="short_term_goal"
-                        label=" What is your short term goal for your business?
+<TextInput
+    id="short_term_goal"
+    name="short_term_goal"
+    label=" What is your short term goal for your business?
 ನಿಮ್ಮ ವ್ಯಾಪಾರಕ್ಕಾಗಿ ನಿಮ್ಮ ಅಲ್ಪಾವಧಿಯ ಗುರಿ ಏನು?"
-                        required
-                        disabled
-                        onChange={handleInputChange}
-                        value={sendData?.short_term_goal}
-                        options={yesOrNo}
-                    />
+    required
+    disabled
+    onChange={handleInputChange}
+    value={sendData?.short_term_goal}
+    options={yesOrNo}
+/>
 
 
-                    <TextInput
-                        id="loan_taken"
-                        name="loan_taken"
-                        label="Have you taken any loans for business?
+<TextInput
+    id="loan_taken"
+    name="loan_taken"
+    label="Have you taken any loans for business?
 ನೀವು ವ್ಯಾಪಾರಕ್ಕಾಗಿ ಯಾವುದಾದರೂ ಸಾಲವನ್ನು ತೆಗೆದುಕೊಂಡಿದ್ದೀರಾ?"
-                        required
-                        disabled
-                        onChange={handleInputChange}
-                        value={sendData?.loan_taken}
-                        options={yesOrNo}
-                    />
+    required
+    disabled
+    onChange={handleInputChange}
+    value={sendData?.loan_taken}
+    options={yesOrNo}
+/>
 
 
-                    <TextInput
-                        id="household_migration_last_year"
-                        name="household_migration_last_year"
-                        label="If yes, From where have you taken it? What is the interest rate?
+<TextInput
+    id="household_migration_last_year"
+    name="household_migration_last_year"
+    label="If yes, From where have you taken it? What is the interest rate?
 ಹೌದು ಎಂದಾದರೆ, ನೀವು ಸಾಲವನ್ನು ಎಲ್ಲಿಂದ ತೆಗೆದುಕೊಂಡಿದ್ದೀರಿ? ಬಡ್ಡಿ ದರ ಎಷ್ಟು?"
 //doubt                       
 required
-                        disabled
-                        onChange={handleInputChange}
-                        value={sendData?.household_migration_last_year}
-                        options={yesOrNo}
-                    />
+    disabled
+    onChange={handleInputChange}
+    value={sendData?.household_migration_last_year}
+    options={yesOrNo}
+/>
 
 
 
-                    <TextInput
-                        id="interest_rate"
-                        name="interest_rate"
-                        label=" What is the interest rate? ಬಡ್ಡಿ ದರ ಎಷ್ಟು?
+<TextInput
+    id="interest_rate"
+    name="interest_rate"
+    label=" What is the interest rate? ಬಡ್ಡಿ ದರ ಎಷ್ಟು?
 "
-                        required
-                        disabled
-                        onChange={handleInputChange}
-                        value={sendData?.interest_rate}
-                        options={yesOrNo}
-                    />
-                    <TextInput
-                        id="loan_purpose"
-                        name="loan_purpose"
-                        label=" If yes,what is the purpose of bank loans ಹೌದು ಎಂದಾದರೆ, ಬ್ಯಾಂಕ್ ಸಾಲದ ಉದ್ದೇಶವೇನು"
-                        required
-                        disabled
-                        onChange={handleInputChange}
-                        value={sendData?.loan_purpose}
-                        options={yesOrNo}
-                    />
+    required
+    disabled
+    onChange={handleInputChange}
+    value={sendData?.interest_rate}
+    options={yesOrNo}
+/>
+<TextInput
+    id="loan_purpose"
+    name="loan_purpose"
+    label=" If yes,what is the purpose of bank loans ಹೌದು ಎಂದಾದರೆ, ಬ್ಯಾಂಕ್ ಸಾಲದ ಉದ್ದೇಶವೇನು"
+    required
+    disabled
+    onChange={handleInputChange}
+    value={sendData?.loan_purpose}
+    options={yesOrNo}
+/>
 
-                    <TextInput
-                        id="run_growth_challenges"
-                        name="run_growth_challenges"
-                        label="What are your challenges in running and growing your business ?
+<TextInput
+    id="run_growth_challenges"
+    name="run_growth_challenges"
+    label="What are your challenges in running and growing your business ?
 ನಿಮ್ಮ ವ್ಯಾಪಾರವನ್ನು ನಡೆಸುವಲ್ಲಿ ಮತ್ತು ಬೆಳೆಸುವಲ್ಲಿ ನಿಮ್ಮ ಸವಾಲುಗಳೇನು?"
-                        required
-                        disabled
-                        onChange={handleInputChange}
-                        value={sendData?.run_growth_challenges}
-                        options={yesOrNo}
-                    />
+    required
+    disabled
+    onChange={handleInputChange}
+    value={sendData?.run_growth_challenges}
+    options={yesOrNo}
+/>
 
-                    <TextInput
-                        id="core_strength"
-                        name="core_strength"
-                        label="State one strength of your business ನಿಮ್ಮ ವ್ಯಾಪಾರದ ಒಂದು ಬಲವನ್ನು ತಿಳಿಸಿ"
-                        required
-                        disabled
-                        onChange={handleInputChange}
-                        value={sendData?.core_strength}
-                        options={yesOrNo}
-                    />
-                    <TextInput
-                        id="core_weakness"
-                        name="core_weakness"
-                        label=" State one weakness of the business ವ್ಯಾಪಾರದ ಒಂದು ದೌರ್ಬಲ್ಯವನ್ನು ತಿಳಿಸಿ
+<TextInput
+    id="core_strength"
+    name="core_strength"
+    label="State one strength of your business ನಿಮ್ಮ ವ್ಯಾಪಾರದ ಒಂದು ಬಲವನ್ನು ತಿಳಿಸಿ"
+    required
+    disabled
+    onChange={handleInputChange}
+    value={sendData?.core_strength}
+    options={yesOrNo}
+/>
+<TextInput
+    id="core_weakness"
+    name="core_weakness"
+    label=" State one weakness of the business ವ್ಯಾಪಾರದ ಒಂದು ದೌರ್ಬಲ್ಯವನ್ನು ತಿಳಿಸಿ
 "
-                        required
-                        disabled
-                        onChange={handleInputChange}
-                        value={sendData?.core_weakness}
-                        options={yesOrNo}
-                    />
-                    <TextInput
-                        id="core_opportunity"
-                        name="core_opportunity"
-                        label="State one opportunity for your business ನಿಮ್ಮ ವ್ಯಾಪಾರದ ಒಂದು ಅವಕಾಶವನ್ನು ತಿಳಿಸಿ
+    required
+    disabled
+    onChange={handleInputChange}
+    value={sendData?.core_weakness}
+    options={yesOrNo}
+/>
+<TextInput
+    id="core_opportunity"
+    name="core_opportunity"
+    label="State one opportunity for your business ನಿಮ್ಮ ವ್ಯಾಪಾರದ ಒಂದು ಅವಕಾಶವನ್ನು ತಿಳಿಸಿ
 "
-                        required
-                        disabled
-                        onChange={handleInputChange}
-                        value={sendData?.core_opportunity}
-                        options={yesOrNo}
-                    />
+    required
+    disabled
+    onChange={handleInputChange}
+    value={sendData?.core_opportunity}
+    options={yesOrNo}
+/>
 
-                    <TextInput
-                        id="core_threat"
-                        name="core_threat"
-                        label=" State one threat for your business ನಿಮ್ಮ ವ್ಯಾಪಾರಕ್ಕೆ ಒಂದು ಬೆದರಿಕೆಯನ್ನು ತಿಳಿಸಿ
+<TextInput
+    id="core_threat"
+    name="core_threat"
+    label=" State one threat for your business ನಿಮ್ಮ ವ್ಯಾಪಾರಕ್ಕೆ ಒಂದು ಬೆದರಿಕೆಯನ್ನು ತಿಳಿಸಿ
 "
-                        required
-                        disabled
-                        onChange={handleInputChange}
-                        value={sendData?.core_threat}
-                        options={yesOrNo}
-                    />
+    required
+    disabled
+    onChange={handleInputChange}
+    value={sendData?.core_threat}
+    options={yesOrNo}
+/>
 
-                    <TextInput
-                        id="target_customer"
-                        name="target_customer"
-                        label="Who is your target customer? Describe ನಿಮ್ಮ ಗುರಿಯಲ್ಲಿರುವ ಗ್ರಾಹಕ ಯಾರು? ವಿವರಿಸಿ
+<TextInput
+    id="target_customer"
+    name="target_customer"
+    label="Who is your target customer? Describe ನಿಮ್ಮ ಗುರಿಯಲ್ಲಿರುವ ಗ್ರಾಹಕ ಯಾರು? ವಿವರಿಸಿ
 "
-                        required
-                        disabled
-                        onChange={handleInputChange}
-                        value={sendData?.target_customer}
-                        options={yesOrNo}
-                    />
-                    <TextInput
-                        id="household_migration_last_year"
-                        name="household_migration_last_year"
-                        label=" 
- 	
-If the answer is I am planning to start an enterprise
-ಉತ್ತರವಾದರೆ, ನಾನು ಉದ್ಯಮವನ್ನು ಪ್ರಾರಂಭಿಸಲು ಯೋಜಿಸುತ್ತಿದ್ದೇನೆ"
-                        required
-                        disabled
-                        //doubt
-                        onChange={handleInputChange}
-                        value={sendData?.household_migration_last_year}
-                        options={yesOrNo}
-                    />
+    required
+    disabled
+    onChange={handleInputChange}
+    value={sendData?.target_customer}
+    options={yesOrNo}
+/>
+</>
+
+:
+null
+
+}
+{
+(sendData.enterprise_status === "I am planning to start an enterprise soon ನಾನು ಶೀಘ್ರದಲ್ಲೇ ಉದ್ಯಮವನ್ನು ಪ್ರಾರಂಭಿಸಲು ಯೋಜಿಸುತ್ತಿದ್ದೇನೆ")?
+<>
+
 
 
 
@@ -971,6 +971,14 @@ Are you willing to take a loan to start a new business?
                     />
 
 
+</>
+
+:
+null
+
+}
+                 
+                
                 </CardContent>
             </Card>
         </Grid>
