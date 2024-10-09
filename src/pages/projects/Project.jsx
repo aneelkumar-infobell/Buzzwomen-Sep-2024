@@ -381,6 +381,7 @@ const [openbusChecklist,setOpenBusChecklist] = useState(false);
                 sendData={data1}
                 setCreatePro={(e) => setEdit(e)}
                 projData={projData}
+                
               />
             )}
             <Stack direction="row" spacing={1} flexShrink={0} sx={{ mb: 1 }}>

@@ -142,6 +142,22 @@ const handlenumber = (e) =>{
    setError(true)
   }
 }
+const [errorParticipant, setErrorParticipant] = useState(false);
+const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+
+const handleNumberOfParticipants = (e) => {
+  const participants = e.target.value;
+  
+  if (participants < 3) {
+    setErrorParticipant(true);
+    setIsButtonDisabled(true);  // Disable the button
+  } else {
+    setErrorParticipant(false);
+    setIsButtonDisabled(false);  // Enable the button
+  }
+  
+  setTrainerData({ ...trainerData, number_of_participants: participants });
+};
 
   return (
     <div>
@@ -169,7 +185,7 @@ const handlenumber = (e) =>{
             <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div" style={{color:"white"}}>
               Create  New Training Batch 
             </Typography>
-            <Button variant="standard" onClick={createTrainerBatch}>
+            <Button variant="standard" onClick={createTrainerBatch} disabled={isButtonDisabled}>
               
               Save
             </Button>
@@ -221,14 +237,17 @@ const handlenumber = (e) =>{
             onChange={(e) => { setTrainerData({ ...trainerData, sub_village: e?.target?.value }) }}
             label="Sub Village" />
         </Stack>
-        <Stack  margin={2} style={{ marginTop: 10 }}>
+        <Stack margin={2} style={{ marginTop: 10 }}>
           <TextField
             fullWidth
             color="common"
             id="outlined-error"
             label="Number Of Participants"
             type='number'
-            onChange={(e) => { setTrainerData({ ...trainerData, number_of_participants: e?.target?.value }) }}
+            onChange={handleNumberOfParticipants}
+            value={trainerData.number_of_participants}
+            error={errorParticipant}
+            helperText={error ? 'Number of participants must be at least 3' : ''}
           />
         </Stack>
         <Stack margin={2} style={{ marginTop: 10 }}>
