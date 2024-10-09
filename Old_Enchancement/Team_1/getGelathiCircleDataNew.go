@@ -30,6 +30,7 @@ type Gelathi struct {
 	IsSurvey       bool   `json:"is_survey"`
 	IsGreenSurvey  bool   `json:"is_green_survey"`
 	IsVyaparSurvey bool   `json:"is_vyapar_survey"`
+	IsNagarikaSurvey bool   `json:"is_nagarika_survey"`
 }
 
 func GetGelathiCircleDataNew(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
@@ -212,11 +213,11 @@ func GetGelathiCircleDataNew(w http.ResponseWriter, r *http.Request, DB *sql.DB)
 		}
 
 		circle.Gelathis = append(circle.Gelathis, gelathis...)
-
+var count int
 		// Add survey checks
 		for i := range gelathis {
 			// SpoorthiBaselineQuestionnaire check
-			var count int
+			
 			err = DB.QueryRow("SELECT COUNT(*) FROM SpoorthiBaselineQuestionnaire WHERE partcipantId = ?", circle.Gelathis[i].GelathiID).Scan(&count)
 			if err != nil {
 				log.Println("Failed to execute query:", err)
@@ -282,9 +283,9 @@ func GetGelathiCircleDataNew(w http.ResponseWriter, r *http.Request, DB *sql.DB)
 				return
 			}
 			if count > 0 {
-				gelathis[i].IsSurvey = true
+				gelathis[i].IsNagarikaSurvey = true
 			} else {
-				gelathis[i].IsSurvey = false
+				gelathis[i].IsNagarikaSurvey = false
 			}
 
 		}
