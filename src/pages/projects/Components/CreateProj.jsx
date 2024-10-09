@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios';
-import { Button, CardContent, Card, Grid, FormControl, InputLabel, MenuItem, Select, TextField, Stack, Snackbar, Alert } from '@mui/material';
+import { Button, CardContent, Card, Grid, FormControl, InputLabel, MenuItem, Select, TextField, Stack, Snackbar, Alert, Modal, Box } from '@mui/material';
 import Dialog from '@mui/material/Dialog';
 import ListItemText from '@mui/material/ListItemText';
 import moment from 'moment'
@@ -24,6 +24,8 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import Iconify from 'src/components/Iconify';
 import { baseURL } from 'src/utils/api';
 import { useAuth } from 'src/AuthContext';
+import EditIcon from '@mui/icons-material/Edit'; // Pen icon
+import FunderApi from 'src/pages/Filters/components/FunderApi';
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -55,6 +57,9 @@ export default function CreateProj({ createPro, setCreatePro, sendData, viewMess
 const [createProj ,setCreateProj] = useState(true)
 const [assproject,setAssproject]=useState([])
 const [isReload , setIsReload]= useState(false)
+const [openFunderModal, setOpenFunderModal] = useState(false);
+const [funderList, setFunderList] = useState([]);
+const [selectedFunder, setSelectedFunder] = useState('');
   const [Gf,setGf]=useState([]);
   const handleClickOpen = () => {
     setOpen(true);
@@ -321,7 +326,50 @@ const mainShowBussHandler = ()=>{
   useEffect(()=>{
     busList();
   }, [showAddBuss])
+  // Function to fetch funder list when modal opens
+  const handleOpenFunderModal = async () => {
+    setOpenFunderModal(true);
+    const funders = await FunderApi({ selectDATA: 1, apikey }); // Adjust `selectDATA` based on your needs
+    if (funders) {
+      setFunderList(funders);
+    }
+  };
 
+  const handleCloseFunderModal = () => setOpenFunderModal(false);
+  const handleFunderChange = (event) => {
+    setSelectedFunder(event.target.value);
+    ContactlessOutlined.log(event.target.value )
+  };
+   // Function to call assignNewFunder API and then getprojectData API
+   const handleSave = async () => {
+    const project_id = sendData?.project_id || sendData?.projectId; // Adjust based on your data structure
+    const payload = {
+      funderID:parseInt(selectedFunder) ,
+      project_id: parseInt(project_id)
+    };
+
+    try {
+      // Call the assignNewFunder API
+      const response = await axios.post(baseURL +'assignNewFunder', payload, {
+        headers: {
+          'Authorization': apikey,
+          'Content-Type': 'application/json'
+        }
+      });
+
+      console.log(response.data.code,"responseresponseresponse") 
+     if(response.data.code == 200) {
+        // On success, call the getprojectData API
+        await projData();
+        // Close the modal after both API calls are successful
+        handleCloseFunderModal();
+      } else {
+        console.error("Failed to assign new funder.");
+      }
+    } catch (error) {
+      console.error("Error while assigning funder: ", error);
+    }
+  };
   return (
     <div>
       {
@@ -367,13 +415,19 @@ const mainShowBussHandler = ()=>{
                   <Typography id="district-text" sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
                     District : {edit ? sendData?.location_name : sendData?.locationName}
                   </Typography>
+                  <Typography id="district-text" sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
+                    Funder : {edit ? sendData?.funder_name : sendData?.funder_name}
+                    <IconButton onClick={handleOpenFunderModal} aria-label="edit" size="small" sx={{ color: '#ed6c02' }}>
+              <EditIcon />
+            </IconButton>
+                  </Typography>
                 </CardContent>
               </Card>
             </CardContent>
           </Grid>
           <Grid>
             <CardContent id="project-det">
-              <Typography style={{ marginLeft: 10 }} variant="h6">Project Details :</Typography>
+              <Typography style={{ marginLeft: 10 }} variant="h6">Project Details  :</Typography>
             </CardContent>
             <CardContent>
               <Stack>
@@ -641,6 +695,43 @@ const mainShowBussHandler = ()=>{
             </CardContent>
           </Grid >
         </form>
+        <Modal open={openFunderModal} onClose={handleCloseFunderModal}>
+        <Box sx={{ p: 4, backgroundColor: 'white', margin: 'auto', mt: 10, maxWidth: 400 }}>
+          <Typography variant="h6" gutterBottom>
+            Select Funder
+          </Typography>
+          <FormControl fullWidth>
+            <InputLabel id="funder-select-label">Funder</InputLabel>
+            <Select
+              labelId="funder-select-label"
+              id="funder-select"
+              value={selectedFunder}
+              label="Funder"
+              onChange={handleFunderChange}
+            >
+              {funderList.map((funder, index) => (
+                <MenuItem key={index} value={funder.funderID}>
+                  {funder.funderName}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+          <Box sx={{ mt: 2, display: 'flex', justifyContent: 'flex-end', gap: 2 }}>
+            <Button variant="contained" sx={{ backgroundColor: '#ed6c02' , '&:hover': {
+                        backgroundColor: '#ffffff',
+                      },
+                      '&:focus': {
+                        backgroundColor: 'white',
+                      }, }} onClick={handleSave} disabled={!selectedFunder}>
+              Save
+            </Button>
+            <Button variant="outlined" onClick={handleCloseFunderModal}>
+              Close
+            </Button>
+          </Box>
+        </Box>
+        
+      </Modal>
       </Dialog >
     </div >
   );

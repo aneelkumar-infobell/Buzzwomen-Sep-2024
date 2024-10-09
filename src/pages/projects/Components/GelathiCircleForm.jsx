@@ -391,6 +391,14 @@ const feelings = [
   { id: 3, name: "I feel a sense of satisfaction/ನಾನು ತೃಪ್ತಿಯ ಭಾವನೆಯನ್ನು ಅನುಭವಿಸುತ್ತೇನೆ" },
   { id: 4, name: "I feel proud of myself/ನಾನು ನನ್ನ ಬಗ್ಗೆ ಹೆಮ್ಮೆಪಡುತ್ತೇನೆ" }
 ];
+const myFelings = [
+  {
+    id:1 , name: 'I feel anxious'  
+  
+  },{
+    id:2 , name: 'I feel exicted' 
+  }
+]
 const meetingsDayFeelings = [
   { id: 1, name: "I feel anxious/ನನಗೆ ಆತಂಕವಾಗುತ್ತಿದೆ" },
   { id: 2, name: "I feel exicted/ನಾನು ಉತ್ಸುಕನಾಗಿದ್ದೇನೆ" },
@@ -1660,7 +1668,7 @@ const gelathicircleformdata = async () => {
                     </Stack>
                   </CardContent>
                 </Card> */}
-            <Card style={{ marginTop: 10, borderRadius: 20 }}>
+      <Card style={{ marginTop: 10, borderRadius: 20 }}>
   <CardContent>
     <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
       Phone Number/ದೂರವಾಣಿ ಸಂಖ್ಯೆ
@@ -1669,16 +1677,19 @@ const gelathicircleformdata = async () => {
       <TextField
         id="twoquestions"
         label="Your Answer"
-        type="number" // Change type to text to handle leading zeros
+        type="text" // Keep type as text to allow leading zeros
         inputProps={{
           maxLength: 10, // Restrict to 10 digits
           pattern: "[0-9]*", // Allow only numbers
+          inputMode: 'numeric', // Ensures mobile numeric keyboard
         }}
+        value={sendData.phone_number} // Bind the input value to the state
         onChange={(e) => {
           const value = e?.target?.value;
+          // Allow only digits and limit to 10 digits
+          const filteredValue = value.replace(/\D/g, '').slice(0, 10);
 
-          setSendData({ ...sendData, phone_number: value });
-        
+          setSendData({ ...sendData, phone_number: filteredValue });
         }}
         variant="outlined"
         color="common"
@@ -1686,6 +1697,7 @@ const gelathicircleformdata = async () => {
     </Stack>
   </CardContent>
 </Card>
+
 
                 {/* <Card style={{ marginTop: 10, borderRadius: 20 }}>
                   <CardContent>
@@ -2009,14 +2021,14 @@ const gelathicircleformdata = async () => {
                         variant="standard"
                         required
                         onChange={(e) => {
-                          const selectedOption = feelings.find(option => option.id === e.target.value);
+                          const selectedOption = myFelings.find(option => option.id === e.target.value);
                          setSendData({ ...sendData, meetings_day_feelings: selectedOption.id, meetings_day_feelings_name: selectedOption?.name  });
                       
                          console.log(selectedOption); }}
                         
                         value={sendData?.meetings_day_feelings}
                       >
-                       {feelings.map((itm) => (
+                       {myFelings.map((itm) => (
           <MenuItem key={itm.id} value={itm.id}>
             {itm.name}
           </MenuItem>
@@ -2289,38 +2301,51 @@ const gelathicircleformdata = async () => {
                     There has been at least one instance when I took on a task even when other members in the group quit./  
                     ಗುಂಪಿನಲ್ಲಿರುವ ಇತರ ಸದಸ್ಯರು ತ್ಯಜಿಸಿದಾಗಲೂ ನಾನು ಕೆಲಸವನ್ನು ತೆಗೆದುಕೊಂಡಾಗ ಕನಿಷ್ಠ ಒಂದು ನಿದರ್ಶನವಿದೆ.
                     </Typography>
-                    <Stack mt={2} mb={2}>
-                      <TextField
-                        id="twoquestions"
-                        label="Your Answer"
-                        onChange={(e) => {
-                          setSendData({ ...sendData, persisted_when_others_quit: e?.target?.value });
-                        }}
-                        variant="outlined"
-                        color="common"
-                      />
-                    </Stack>
+                 
+                    <FormControl fullWidth>
+        <Select
+          labelId="one-instance-label"
+          id="one-instance"
+           variant="standard"
+          value={sendData.persisted_when_others_quit}
+          onChange={(e) => {
+            setSendData({
+              ...sendData,
+              persisted_when_others_quit: e.target.value, // Update state on selection
+            })}} // Inline function to handle change
+          label="Your Answer"
+        >
+          <MenuItem value="Yes">Yes</MenuItem>
+          <MenuItem value="No">No</MenuItem>
+        </Select>
+      </FormControl>
                   </CardContent>
                 </Card>
+
+                {(sendData?.persisted_when_others_quit === "Yes")?
+                
                 <Card style={{ marginTop: 10, borderRadius: 20 }}>
-                  <CardContent>
-                    <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
-                    Can you narrate that instance /
-                    ಆ ನಿದರ್ಶನವನ್ನು ಹೇಳಬಲ್ಲಿರಾ
-                    </Typography>
-                    <Stack mt={2} mb={2}>
-                      <TextField
-                        id="twoquestions"
-                        label="Your Answer"
-                        onChange={(e) => {
-                          setSendData({ ...sendData, narrate_instance: e?.target?.value });
-                        }}
-                        variant="outlined"
-                        color="common"
-                      />
-                    </Stack>
-                  </CardContent>
-                </Card>
+                <CardContent>
+                  <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+                  Can you narrate that instance /
+                  ಆ ನಿದರ್ಶನವನ್ನು ಹೇಳಬಲ್ಲಿರಾ
+                  </Typography>
+                  <Stack mt={2} mb={2}>
+                    <TextField
+                      id="twoquestions"
+                      label="Your Answer"
+                      onChange={(e) => {
+                        setSendData({ ...sendData, narrate_instance: e?.target?.value });
+                      }}
+                      variant="outlined"
+                      color="common"
+                    />
+                  </Stack>
+                </CardContent>
+              </Card>
+              :
+              null}
+             
                 <Card style={{ marginTop: 10, borderRadius: 20 }}>
                   <CardContent>
                     <Typography variant="subtitle2" style={{ color: '#ff7424', textAlign: 'center'  }}>
@@ -2357,7 +2382,29 @@ const gelathicircleformdata = async () => {
     </Stack>
   </CardContent>
 </Card>
-
+{(sendData?.goal_persistence_instance === "Yes")?
+                
+                <Card style={{ marginTop: 10, borderRadius: 20 }}>
+                <CardContent>
+                  <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+                  Can you narrate that instance /
+                  ಆ ನಿದರ್ಶನವನ್ನು ಹೇಳಬಲ್ಲಿರಾ
+                  </Typography>
+                  <Stack mt={2} mb={2}>
+                    <TextField
+                      id="twoquestions"
+                      label="Your Answer"
+                      onChange={(e) => {
+                        setSendData({ ...sendData, narrate_instance2: e?.target?.value });
+                      }}
+                      variant="outlined"
+                      color="common"
+                    />
+                  </Stack>
+                </CardContent>
+              </Card>
+              :
+              null}
              
                 <Card style={{ marginTop: 10, borderRadius: 20 }}>
                   <CardContent>

@@ -127,7 +127,7 @@ const projData = async => {
                         <TableCell style={{ borderBottom: "none"}}>Project &nbsp;:&nbsp;{data1?.project_name}</TableCell>
                       </TableRow>
                       <TableRow >
-                        <TableCell style={{ borderBottom: "none"}}>Taluk &nbsp;:&nbsp;{data1?.location_name}</TableCell>
+                        <TableCell style={{ borderBottom: "none"}}>Location &nbsp;:&nbsp;{data1?.location_name}</TableCell>
                       </TableRow>
                       <TableRow >
                         <TableCell style={{ borderBottom: "none"}}>Partner &nbsp;:&nbsp;{data1?.partnerName}</TableCell>

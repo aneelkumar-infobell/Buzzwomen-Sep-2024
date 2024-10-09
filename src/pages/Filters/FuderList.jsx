@@ -7,7 +7,7 @@ import { useAuth } from 'src/AuthContext';
 import FunderApi from './components/FunderApi';
 export default function FuderList({ selectDATA, getData,type ,date,endDate,dateValue,endDateValue}) {
   const {apikey} = useAuth();
-console.log(type ,"typetype")
+console.log(type ,"typetype" ,selectDATA ,"selectDATA" )
   var [fund, setFund] = useState();
   const [searchInFilter, setSearchInFilter] = useState(null)
   useEffect(() => {

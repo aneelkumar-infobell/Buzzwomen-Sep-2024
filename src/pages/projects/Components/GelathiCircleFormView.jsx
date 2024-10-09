@@ -439,7 +439,7 @@ console.log(sendData ,"sendData")
                         aria-labelledby="demo-radio-buttons-group-label"
                         name="radio-buttons-group"
                         value={sendData.listen_paragraph}
-                    
+                        disabled
                       >
                         <FormControlLabel value="Yes" control={<Radio style={{ color: '#595959' }} />} label="Yes" />
                         <FormControlLabel value="No" control={<Radio style={{ color: '#595959' }} />} label="No" />
@@ -666,7 +666,7 @@ console.log(sendData ,"sendData")
                         disabled
                         label="Your Answer"
                      
-                        value={sendData?.GelathiId}
+                        value={sendData?.gelathiId}
                         variant="outlined"
                         color="common"
                       />
@@ -739,6 +739,7 @@ console.log(sendData ,"sendData")
                       <TextField
                         id="skillsresources"
                         label="Your Answer"
+                        disabled
                         value={sendData?.village_name}
                         variant="outlined"
                         color="common"
@@ -769,10 +770,8 @@ console.log(sendData ,"sendData")
                         id="Email"
                         disabled
                         label="Your Answer"
-                        onChange={(e) => {
-                          setSendData({ ...sendData, email_address: e?.target?.value });
-                        }}
-                        value={sendData?.email_address}
+                      
+                        value={sendData?.listen_paragraph}
                         variant="outlined"
                         color="common"
                       />
@@ -790,6 +789,7 @@ console.log(sendData ,"sendData")
                       <TextField
                         id="skillsresources"
                         label="Your Answer"
+                        disabled
                         value={sendData?.total_adults_no_of_member_household}
                         variant="outlined"
                         color="common"
@@ -809,6 +809,7 @@ console.log(sendData ,"sendData")
                         value={sendData?.total_children_no_of_member_household}
                         variant="outlined"
                         color="common"
+                        disabled
                       />
                     </Stack>
                   </CardContent>
@@ -864,6 +865,7 @@ console.log(sendData ,"sendData")
                         value={sendData?.summarize_main_points_paragraph}
                         variant="outlined"
                         color="common"
+                        disabled
                       />
                     </Stack>
                   </CardContent>
@@ -881,6 +883,7 @@ console.log(sendData ,"sendData")
                         value={sendData?.ask_two_questions_help_you_understand}
                         variant="outlined"
                         color="common"
+                        disabled
                       />
                     </Stack>
                   </CardContent>
@@ -936,6 +939,7 @@ console.log(sendData ,"sendData")
                         value={sendData?.mother_tongue}
                         variant="outlined"
                         color="common"
+                        disabled
                       />
                     </Stack>
                   </CardContent>
@@ -953,6 +957,8 @@ console.log(sendData ,"sendData")
                         label="Your Answer"
                         value={sendData?.age}
                         variant="outlined"
+                        
+                        disabled
                         color="common"
                       />
                     </Stack>
@@ -1007,7 +1013,7 @@ console.log(sendData ,"sendData")
                       <TextField
                         id="twoquestions"
                         label="Your Answer"
-                      
+                        disabled
                         value={sendData?.phone_number}
                         variant="outlined"
                         color="common"
@@ -1124,6 +1130,7 @@ console.log(sendData ,"sendData")
                         value={sendData?.skills_motivation}
                         variant="outlined"
                         color="common"
+                        disabled
                       />
                     </Stack>
                   </CardContent>
@@ -1141,6 +1148,7 @@ console.log(sendData ,"sendData")
                         value={sendData?.womens_occupation}
                         variant="outlined"
                         color="common"
+                        disabled
                       />
                     </Stack>
                   </CardContent>
@@ -1151,9 +1159,7 @@ console.log(sendData ,"sendData")
                       <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
                       Have you prepared a list of goals that you want to achieve as a Gelathi? (Yes/No)
                       /ನೀವು ಗೆಳತಿಯಾಗಿ ಸಾಧಿಸಲು ಬಯಸುವ ಗುರಿಗಳ ಪಟ್ಟಿಯನ್ನು ನೀವು ಸಿದ್ಧಪಡಿಸಿದ್ದೀರಾ? (ಹೌದು/ಇಲ್ಲ)
-                        {goladAchicedError ? (
-                          <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText>
-                        ) : null}{' '}
+                    
                       </Typography>
                      
                     </Stack>
@@ -1182,6 +1188,7 @@ console.log(sendData ,"sendData")
                         value={sendData?.goals_as_leader_next_year}
                         variant="outlined"
                         color="common"
+                        disabled
                       />
                     </Stack>
                   </CardContent>
@@ -1198,6 +1205,7 @@ console.log(sendData ,"sendData")
                          value={sendData?.goals_for_ten_years}
                         variant="outlined"
                         color="common"
+                        disabled
                       />
                     </Stack>
                   </CardContent>
@@ -1214,6 +1222,7 @@ console.log(sendData ,"sendData")
                         value={sendData?.community}
                         variant="outlined"
                         color="common"
+                        disabled
                       />
                     </Stack>
                   </CardContent>
@@ -1232,6 +1241,7 @@ console.log(sendData ,"sendData")
                         value={sendData?.support_feelings}
                         variant="outlined"
                         color="common"
+                        disabled
                       />
                     </Stack>
                   </CardContent>
@@ -1248,6 +1258,7 @@ console.log(sendData ,"sendData")
                         value={sendData?.meetings_day_feelings}
                         variant="outlined"
                         color="common"
+                        disabled
                       />
                     </Stack>
                   </CardContent>
@@ -1271,6 +1282,7 @@ console.log(sendData ,"sendData")
     name="radio-buttons-group"
     value={sendData?.calm_before_reaction_d} // Bind the value from state
     // Inline state update
+    disabled
   >
     <FormControlLabel value="Yes" control={<Radio style={{ color: '#595959' }} />} label="Yes" />
     <FormControlLabel value="No" control={<Radio style={{ color: '#595959' }} />} label="No" />
@@ -1365,9 +1377,10 @@ console.log(sendData ,"sendData")
                       <TextField
                         id="twoquestions"
                         label="Your Answer"
-                        say_yes_when_unsure_of_instructions  value={sendData?.say_yes_when_unsure_of_instructions}
+                        value={sendData?.say_yes_when_unsure_of_instructions}
                         variant="outlined"
                         color="common"
+                        disabled
                       />
                     </Stack>
                   </CardContent>
@@ -1384,6 +1397,7 @@ console.log(sendData ,"sendData")
                       <TextField
                         id="twoquestions"
                         label="Your Answer"
+                        disabled
                           value={sendData?.impatient_with_unclear_comm}
                         variant="outlined"
                         color="common"
@@ -1407,6 +1421,7 @@ console.log(sendData ,"sendData")
                       <TextField
                         id="twoquestions"
                         label="Your Answer"
+                        disabled
                           value={sendData?.listen_paragraph}
                         variant="outlined"
                         color="common"
@@ -1427,6 +1442,7 @@ console.log(sendData ,"sendData")
                         value={sendData?.summarize_main_points_paragraph}
                         variant="outlined"
                         color="common"
+                        disabled
                       />
                     </Stack>
                   </CardContent>
@@ -1444,6 +1460,7 @@ console.log(sendData ,"sendData")
                         value={sendData?.ask_two_questions_help_you_understand}
                         variant="outlined"
                         color="common"
+                        disabled
                       />
                     </Stack>
                   </CardContent>
@@ -1461,41 +1478,39 @@ console.log(sendData ,"sendData")
                         value={sendData?.persisted_when_others_quit}
                         variant="outlined"
                         color="common"
+                        disabled
                       />
                     </Stack>
                   </CardContent>
                 </Card>
+                {(sendData?.persisted_when_others_quit === "Yes")?
+                
                 <Card style={{ marginTop: 10, borderRadius: 20 }}>
+                <CardContent>
+                  <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+                  Can you narrate that instance /
+                  ಆ ನಿದರ್ಶನವನ್ನು ಹೇಳಬಲ್ಲಿರಾ
+                  </Typography>
+                  <Stack mt={2} mb={2}>
+                    <TextField
+                      id="twoquestions"
+                      label="Your Answer"
+                     disabled
+                     value={sendData?.narrate_instance}
+                      variant="outlined"
+                      color="common"
+                    />
+                  </Stack>
+                </CardContent>
+              </Card>
+              :
+              null}
+                  <Card style={{ marginTop: 10, borderRadius: 20 }}>
                   <CardContent>
-                    <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
-                    Can you narrate that instance /
-                    ಆ ನಿದರ್ಶನವನ್ನು ಹೇಳಬಲ್ಲಿರಾ
-                    </Typography>
-                    <Stack mt={2} mb={2}>
-                      <TextField
-                        id="twoquestions"
-                        label="Your Answer"
-                        value={sendData?.narrate_instance}
-                        variant="outlined"
-                        color="common"
-                      />
-                    </Stack>
-                  </CardContent>
-                </Card>
-                <Card style={{ marginTop: 10, borderRadius: 20 }}>
-                  <CardContent>
-                    <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+                    <Typography variant="subtitle2" style={{ color: '#ff7424', textAlign: 'center'  }}>
                     Confidence/ವಿಶ್ವಾಸ
                     </Typography>
-                    <Stack mt={2} mb={2}>
-                      <TextField
-                        id="twoquestions"
-                        label="Your Answer"
-                        value={sendData?.confidence}
-                        variant="outlined"
-                        color="common"
-                      />
-                    </Stack>
+                
                   </CardContent>
                 </Card>
                
@@ -1512,9 +1527,10 @@ console.log(sendData ,"sendData")
                       <TextField
                         id="twoquestions"
                         label="Your Answer"
-                          value={sendData?.id}
+                          value={sendData?.goal_persistence_instance}
                         variant="outlined"
                         color="common"
+                        disabled
                       />
                     </Stack>
                   </CardContent>
@@ -1534,13 +1550,38 @@ console.log(sendData ,"sendData")
                       <TextField
                         id="twoquestions"
                         label="Your Answer"
-                          value={sendData?.id}
+                          value={sendData?.task_response}
                         variant="outlined"
                         color="common"
+                        disabled
                       />
                     </Stack>
                   </CardContent>
                 </Card>
+                {(sendData?.goal_persistence_instance === "Yes")?
+                
+                <Card style={{ marginTop: 10, borderRadius: 20 }}>
+                <CardContent>
+                  <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+                  Can you narrate that instance /
+                  ಆ ನಿದರ್ಶನವನ್ನು ಹೇಳಬಲ್ಲಿರಾ
+                  </Typography>
+                  <Stack mt={2} mb={2}>
+                    <TextField
+                      id="twoquestions"
+                      label="Your Answer"
+                   disabled
+                   value={
+                    sendData?.narrate_instance2
+                   }
+                      variant="outlined"
+                      color="common"
+                    />
+                  </Stack>
+                </CardContent>
+              </Card>
+              :
+              null}
                 <Card style={{ marginTop: 10, borderRadius: 20 }}>
                   <CardContent>
                     <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
@@ -1554,6 +1595,7 @@ console.log(sendData ,"sendData")
                         value={sendData?.challenge_reaction}
                         variant="outlined"
                         color="common"
+                        disabled
                       />
                     </Stack>
                   </CardContent>
@@ -1570,6 +1612,7 @@ console.log(sendData ,"sendData")
                         value={sendData?.conflict_management}
                         variant="outlined"
                         color="common"
+                        disabled
                       />
                     </Stack>
                   </CardContent>
@@ -1590,7 +1633,7 @@ console.log(sendData ,"sendData")
                         label="Your Answer"
                       
                           value={sendData?.conflict_handling}
-                      
+                          disabled
                         variant="outlined"
                         color="common"
                       />
@@ -1609,6 +1652,7 @@ console.log(sendData ,"sendData")
                         value={sendData?.sense_of_sisterhood}
                         variant="outlined"
                         color="common"
+                        disabled
                       />
                     </Stack>
                   </CardContent>
@@ -1628,6 +1672,7 @@ console.log(sendData ,"sendData")
                         value={sendData?.qualities_of_good_gelathi}
                         variant="outlined"
                         color="common"
+                        disabled
                       />
                     </Stack>
                   </CardContent>
@@ -1646,8 +1691,9 @@ console.log(sendData ,"sendData")
                       <TextField
                         id="twoquestions"
                         label="Your Answer"
-                          value={sendData?.id}
+                          value={sendData?.members_emotional_bond}
                         variant="outlined"
+                        disabled
                         color="common"
                       />
                     </Stack>
@@ -1670,6 +1716,7 @@ console.log(sendData ,"sendData")
                           value={sendData?.say_yes_when_unsure_of_instructions}
                         variant="outlined"
                         color="common"
+                        disabled
                       />
                     </Stack>
                   </CardContent>
@@ -1688,6 +1735,7 @@ console.log(sendData ,"sendData")
                         value={sendData?.coping_mechanisms_when_sad}
                         variant="outlined"
                         color="common"
+                        disabled
                       />
                     </Stack>
                   </CardContent>
@@ -1710,6 +1758,7 @@ console.log(sendData ,"sendData")
                           value={sendData?.id}
                         variant="outlined"
                         color="common"
+                        disabled
                       />
                     </Stack>
                   </CardContent>
@@ -1729,6 +1778,7 @@ console.log(sendData ,"sendData")
                         value={sendData?.coping_mechanisms_when_sad}
                         variant="outlined"
                         color="common"
+                        disabled
                       />
                     </Stack>
                   </CardContent>
@@ -1747,6 +1797,7 @@ console.log(sendData ,"sendData")
                         value={sendData?.leadership_skills_reason_no}
                         variant="outlined"
                         color="common"
+                        disabled
                       />
                     </Stack>
                   </CardContent>
@@ -1763,6 +1814,7 @@ console.log(sendData ,"sendData")
                         label="Your Answer"
                         value={sendData?.leadership_skills}
                         variant="outlined"
+                        disabled
                         color="common"
                       />
                     </Stack>
@@ -1782,9 +1834,10 @@ console.log(sendData ,"sendData")
                       <TextField
                         id="twoquestions"
                         label="Your Answer"
-                          value={sendData?.id}
+                          value={sendData?.community_members_takes_seriously}
                         variant="outlined"
                         color="common"
+                        disabled
                       />
                     </Stack>
                   </CardContent>
@@ -1803,9 +1856,10 @@ console.log(sendData ,"sendData")
                       <TextField
                         id="twoquestions"
                         label="Your Answer"
-                          value={sendData?.id}
+                          value={sendData?.takes_feedback_from_community_members}
                         variant="outlined"
                         color="common"
+                        disabled
                       />
                     </Stack>
                   </CardContent>
@@ -1824,7 +1878,7 @@ console.log(sendData ,"sendData")
                       <TextField
                         id="twoquestions"
                         label="Your Answer"
-                          value={sendData?.id}
+                          value={sendData?.feedback_from_community_members}
                         variant="outlined"
                         color="common"
                       />
@@ -1863,7 +1917,7 @@ console.log(sendData ,"sendData")
                       <TextField
                         id="twoquestions"
                         label="Your Answer"
-                          value={sendData?.id}
+                          value={sendData?.willing_to_take_part_local_elections}
                         variant="outlined"
                         color="common"
                       />
