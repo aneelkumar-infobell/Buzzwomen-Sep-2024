@@ -888,13 +888,21 @@ export default function Vyaparprogram({ itm, changeState, componentreloadmethod 
                     value={sendData?.enterprise_status}
                     options={statusofyourenterprise}
                   />
-                  <Card style={{ marginTop: 40, backgroundColor: '#F6F8FB', borderRadius: 20 }}>
+                  <Card
+                    style={{ marginTop: 40, backgroundColor: '#F6F8FB', borderRadius: 20 }}
+                    hidden={
+                      sendData?.enterprise_status ===
+                      'I am planning to start an enterprise soon ನಾನು ಶೀಘ್ರದಲ್ಲೇ ಉದ್ಯಮವನ್ನು ಪ್ರಾರಂಭಿಸಲು ಯೋಜಿಸುತ್ತಿದ್ದೇನೆ'
+                        ? true
+                        : false
+                    }
+                  >
                     <CardContent>
                       <Typography
                         style={{ color: '#ff7424', textAlign: 'center', paddingBottom: '20px', fontSize: '20px' }}
                       >
-                        If the answer is I run an enteprise currently/ I used to run an enterprise ask these ನಾನು
-                        ಪ್ರಸ್ತುತ ಉದ್ಯಮವನ್ನು ನಡೆಸುತ್ತಿದ್ದೇನೆ/ ನಾನು ಉದ್ಯಮವನ್ನು ನಡೆಸುತ್ತಿದ್ದೆ ಎಂಬ ಉತ್ತರವು ಇವುಗಳನ್ನು ಕೇಳಿ
+                        I run an enteprise currently/ I used to run an enterprise ask these ನಾನು ಪ್ರಸ್ತುತ ಉದ್ಯಮವನ್ನು
+                        ನಡೆಸುತ್ತಿದ್ದೇನೆ/ ನಾನು ಉದ್ಯಮವನ್ನು ನಡೆಸುತ್ತಿದ್ದೆ ಎಂಬ ಉತ್ತರವು ಇವುಗಳನ್ನು ಕೇಳಿ
                       </Typography>
                       <SelectInput
                         card={false}
@@ -1215,13 +1223,20 @@ export default function Vyaparprogram({ itm, changeState, componentreloadmethod 
                     </CardContent>
                   </Card>
 
-                  <Card style={{ marginTop: 40, backgroundColor: '#F6F8FB', borderRadius: 20 }}>
+                  <Card
+                    style={{ marginTop: 40, backgroundColor: '#F6F8FB', borderRadius: 20 }}
+                    hidden={
+                      sendData?.enterprise_status ===
+                      'Yes, I run an enterprise currently ಹೌದು ನಾನು ಪ್ರಸ್ತುತ ಎಂಟರ್‌ಪ್ರೈಸ್ ನಡೆಸುತ್ತಿದ್ದೇನೆ'
+                        ? true
+                        : false
+                    }
+                  >
                     <CardContent>
                       <Typography
                         style={{ color: '#ff7424', textAlign: 'center', paddingBottom: '20px', fontSize: '20px' }}
                       >
-                        If the answer is I am planning to start an enterprise ಉತ್ತರವಾದರೆ, ನಾನು ಉದ್ಯಮವನ್ನು ಪ್ರಾರಂಭಿಸಲು
-                        ಯೋಜಿಸುತ್ತಿದ್ದೇನೆ
+                        I am planning to start an enterprise ಉತ್ತರವಾದರೆ, ನಾನು ಉದ್ಯಮವನ್ನು ಪ್ರಾರಂಭಿಸಲು ಯೋಜಿಸುತ್ತಿದ್ದೇನೆ
                       </Typography>
                       <TextInput
                         card={false}
