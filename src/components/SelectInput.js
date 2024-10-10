@@ -13,14 +13,14 @@ const SelectInput = ({
   onChange,
   value,
   options,
-  optionLabelKey = 'name',
+  optionLabelKey = name === 'gf_id' ? 'first_name' : 'name',
   optionValueKey = 'id',
   disabled = false,
 }) => {
   const SelectContent = () => (
     <Stack mb={3}>
       <Typography style={{ color: '#ff7424', paddingBottom: '10px', paddingTop: '10px' }}>
-        {label} {kannadaLabel && `${kannadaLabel} `}
+        {label} &nbsp;&nbsp;&nbsp; {kannadaLabel && `${kannadaLabel} `}
         {required && '*'}
       </Typography>
       <Select
@@ -36,7 +36,11 @@ const SelectInput = ({
         value={value || ''}
       >
         {options.map((option) => (
-          <MenuItem data-id={option[optionValueKey]} key={option[optionValueKey]} value={option[optionLabelKey]}>
+          <MenuItem
+            data-id={option[optionValueKey]}
+            key={option[optionValueKey]}
+            value={name === 'gf_id' ? option['id'] : option[optionLabelKey]}
+          >
             {option[optionLabelKey]}
           </MenuItem>
         ))}
