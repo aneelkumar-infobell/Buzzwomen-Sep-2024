@@ -127,6 +127,8 @@ const removegelathicircle = async (itm) => {
   const handleform=()=>{
     alert('survey was done')
   }
+
+  console.log(sessionData ,"sessionData")
 return (
     <>
       <Drawer
@@ -247,7 +249,7 @@ return (
                         <Typography variant="subtitle1">{itm?.firstName}</Typography>
                         <Typography variant="subtitle1" gutterBottom>
                           <Typography variant="body1" gutterBottom>
-                            {itm?.villagename} 
+                            {itm?.villagename}  
                           </Typography>
                         </Typography>
                       </CardContent>
