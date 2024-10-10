@@ -959,7 +959,7 @@ export default function GreenSurvey(props) {
                         required
                         onChange={handleInputChange}
                         value={sendData?.is_menstruating}
-                        options={segregateYourWasteAtHome}
+                        options={yesOrNo}
                       />
 
                       <MultipleChoice

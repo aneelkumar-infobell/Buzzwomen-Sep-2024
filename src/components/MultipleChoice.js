@@ -57,8 +57,7 @@ const MultipleChoiceContent = ({
 }) => (
   <>
     <Typography style={{ color: '#ff7424' }}>
-      {label}
-      {kannadaLabel}
+      {label}&nbsp;&nbsp;&nbsp;{kannadaLabel}
       {required && '*'}
     </Typography>
     <Stack mt={2}>

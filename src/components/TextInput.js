@@ -37,7 +37,7 @@ const TextInput = ({
   const customInput = () => (
     <Stack mb={3}>
       <Typography style={{ color: '#ff7424', paddingBottom: '10px', paddingTop: '10px' }}>
-        {label} {kannadaLabel && `${kannadaLabel} `}
+        {label}&nbsp;&nbsp;&nbsp;{kannadaLabel && `${kannadaLabel} `}
         {required && '*'}
       </Typography>
       <TextField
