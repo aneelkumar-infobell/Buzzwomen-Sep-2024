@@ -3239,9 +3239,7 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
                     <TextField
                       id="twoquestions"
                       label="Your Answer"
-                      onChange={(e) => {
-                        setSendData({ ...sendData, mother_tongue: e?.target?.value });
-                      }}
+                    
                       variant="outlined"
                       color="common"
                     />
