@@ -211,74 +211,7 @@ export default function GelathiCircleForm({
   const [isFormPresentLocally ,setIsFormPresentLocally] =useState(false)
 // Define the secondary income options with English and Kannada names
 
-const dummy ={
-  "partcipantId": 788151,
-  "GelathiId": "892",
-  "email_address": "participant@example.com",
-  "listen_paragraph": "Listening to others attentively",
-  "summarize_main_points_paragraph": "Key points were summarized effectively",
-  "ask_two_questions_help_you_understand": "What were the challenges? How can we solve them?",
-  "district": "District Name",
-  "taluk": "Taluk Name",
-  "gram_panchayat": "Panchayat Name",
-  "village_name": "Village Name",
-  "total_adults_no_of_member_household": "5",
-  "total_children_no_of_member_household": "2",
-  "house": "Yes",
-  "ration_card": "Yes",
-  "cast_category": "General",
-  "mother_tongue": "Kannada",
-  "religion": "Hindu",
-  "age": "35",
-  "material_status": "Married",
-  "education": "Graduate",
-  "phone_number": "9876543210",
-  "current_economic_activity_primary_occupation": "Farming",
-  "secondary_occupation_household": "None",
-  "womens_occupation": "Tailoring",
-  "skills_motivation": "To improve livelihood",
-  "three_reasons_become_gelathi": "Leadership, Community involvement, Social impact",
-  "goals_achieve_as_gelathi": "Increase community participation in development",
-  "goals_as_leader_next_year": "Build a school in the village",
-  "goals_for_ten_years": "Make the village self-sufficient in resources",
-  "community": "Yes",
-  "support_feelings": "Supportive environment",
-  "meetings_day_feelings": "Meetings are productive and engaging",
-  "deal_with_angry_situation": ["Burning", "Compost"],
-  "impatient_with_unclear_comm": "Yes, I get impatient sometimes",
-  "say_yes_when_unsure_of_instructions": "No",
-  "confidence": "High",
-  "persisted_when_others_quit": "Yes, I continued the project even when others gave up",
-  "narrate_instance": "I continued a village clean-up initiative when others were hesitant",
-  "goal_persistence_instance": "I achieved the clean-up goal after persistent effort",
-  "task_response": "I respond promptly and efficiently",
-  "challenge_reaction": "I analyze the situation before reacting",
-  "conflict_management": "I try to mediate between conflicting parties",
-  "conflict_handling": "I listen to both sides and propose a compromise",
-  "solution_agreeable_to_others": "Yes, the proposed solution was accepted by everyone",
-  "sense_of_sisterhood": "Yes, there is a strong bond among women in the community",
-  "qualities_of_good_gelathi": "Leadership, empathy, communication",
-  "members_emotional_bond": "Yes, the group is emotionally bonded",
-  "members_discuss_personal_issues": "Yes, we share and discuss personal challenges",
-  "coping_mechanisms_when_sad": "I talk to friends and family, and practice meditation",
-  "possess_leadership_skills": "Yes",
-  "leadership_skills_reason_yes":  ["Burning", "Compost"],
-  "leadership_skills_reason_no": "",
-  "leadership_skills": "Strong leadership qualities with good communication",
-  "community_members_takes_seriously": "Yes, they respect my decisions",
-  "takes_feedback_from_community_members": "Yes",
-  "feedback_from_community_members": "They give constructive feedback to improve my leadership",
-  "goals_as_gelathi": "Improve village infrastructure and social services",
-  "willing_to_take_part_local_elections": "Yes",
-  "calm_before_reaction_d": "Yes",
-  "shout_at_others_d": "No",
-  "walk_out_without_listening_d": "No",
-  "ask_to_leave_immediately_d": "No",
-  "patiently_listen_understand_d": "Yes",
-  "calm_disagreement_articulation_d": "Yes" ,
-  "monthly_house_expend":10,
-  "monthly_house_income":20
-}
+
 const womenWorkOptions = [
   { id: 1, name: "Crop cultivator/ಕೃಷಿ" },
   { id: 2, name: "Livestock farming/ಜಾನುವಾರು ಸಾಕಣೆ" },
@@ -715,13 +648,13 @@ const gelathicircleformdata = async () => {
     if (isOnline() && networkAccess()) {
       console.log("Sending data to the API...11111");
       // Check if local storage has 'spoorthi'
-      if (localStorage.getItem('spoorthi')) {
-        console.log("Sending data to the API...22222222");
-        saveDataLocally('spoorthi', JSON.stringify(data)); // Save data locally
-        setSpoorthiForm(saveDataLocally('spoorthi', data)); // Update the form state
-      }
-       else
-        {
+      // if (localStorage.getItem('spoorthi')) {
+      //   console.log("Sending data to the API...22222222");
+      //   saveDataLocally('spoorthi', JSON.stringify(data)); // Save data locally
+      //   setSpoorthiForm(saveDataLocally('spoorthi', data)); // Update the form state
+      // }
+      //  else
+      //   {
         console.log("Sending data to the API...3333333333");
         var config = {
           method: 'post',
@@ -741,6 +674,7 @@ const gelathicircleformdata = async () => {
               alert('Spoorthi Form Submitted Successfully.');
               reloadmethod();
               gelathiDrawerReloder();
+              handleClose()
             }
           })
           .catch(function (error) {
@@ -752,7 +686,9 @@ const gelathicircleformdata = async () => {
             }
           });
       }
-    } else {
+    // }
+    
+    else {
       console.log("No network access, saving data locally.");
       setSpoorthiForm(saveDataLocally('spoorthi', data));
       if (componentreloadmethod) {

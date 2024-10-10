@@ -416,7 +416,7 @@ session.length <=0 ?
               <Card>
                 <CardContent>
                   <Typography style={{ flexDirection: 'row' }} variant="body1" gutterBottom>
-                    Project:&nbsp;{session?.projectName}
+                    Project :&nbsp;{session?.projectName}
                   </Typography>
                   <Typography variant="body1" gutterBottom>
                     Partner :&nbsp;{session?.partnerName}

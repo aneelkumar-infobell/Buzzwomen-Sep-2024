@@ -116,10 +116,14 @@ export default function GelathiCircleDrawer({
       id: id,
     });
   };
-  const handleform = () => {
-    alert('survey was done');
-  };
-  return (
+
+  const handleform=()=>{
+    alert('survey was done')
+  }
+
+  console.log(sessionData ,"sessionData")
+return (
+
     <>
       <Drawer
         anchor="right"
