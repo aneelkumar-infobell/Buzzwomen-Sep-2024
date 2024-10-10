@@ -724,12 +724,11 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
                                                             <Stack mt={3}>
                                                                 <TextField
                                                                     id="Your Answer"
-                                                                    required
+                                                                    disabled
                                                                     label="Your Answer"
                                                                     variant="outlined"
-                                                                    onChange={(e) => {
-                                                                        setSendData({ ...sendData, profitForSarees: e.target.value });
-                                                                    }}
+                                                                    value={sendData?.loanSources}
+                                                                   
                                                                 />
                                                             </Stack>
                                                         </CardContent>
@@ -1350,9 +1349,7 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
                                             <Switch id="switch-suggested-gelathi" value={sendData?.gelathiRecomm}
 
                                                 disabled
-                                            // onChange={(e) => {
-                                            //     setSendData({ ...sendData, gelathiRecomm: sendData?.gelathiRecomm === 1 ? 0 : 1 })
-                                            // }}
+                                           
 
                                             />
                                         </Stack>
@@ -1837,8 +1834,7 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
                                                             <RadioGroup
                                                                 aria-labelledby="demo-radio-buttons-group-label"
                                                                 name="radio-buttons-group"
-                                                                // value={goladAchicedValue}
-                                                                // onChange={handleSoleEarning}
+                                                              
                                                                 disabled
                                                                 value={sendData.sole_earner_family}
                                                             >
@@ -3016,9 +3012,9 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
                              <RadioGroup
                                aria-labelledby="demo-radio-buttons-group-label"
                                name="radio-buttons-group"
+                               disabled
                                value={sendData.want_to_start_enterprise}
-                               onChange={(e) => {const value = e.target.value;  setSendData({ ...sendData, want_to_start_enterprise: value }) }}
-             
+                              
                              >
                                <div style={{ display: "flex" }}>
                                <FormControlLabel
@@ -3058,19 +3054,7 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
               <Checkbox
                 color="primary"
                 checked={sendData.enterprise_type.includes(item.name)}
-                onChange={(e) => {
-                  const isChecked = e.target.checked;
-                  const updatedSelections = isChecked
-                    ? [...sendData.enterprise_type, item.name]
-                    : sendData.enterprise_type.filter((entry) => entry !== item.name);
-
-                  setSendData({
-                    ...sendData,
-                    enterprise_type: updatedSelections,
-                  });
-
-                  console.log(updatedSelections); // To check the updated selections
-                }}
+               disabled
               />
             }
             label={item.name}
@@ -3094,11 +3078,10 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
                       id="twoquestions"
                       label="Your Answer"
                       type="number"
-                      onChange={(e) => {
-                        setSendData({ ...sendData, num_employees_paid:parseInt(e?.target?.value)  });
-                      }}
+                     disabled
                       variant="outlined"
                       color="common"
+                      value={sendData?.num_employees_paid}
                     />
                   </Stack>
                 </CardContent>
@@ -3122,9 +3105,7 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
                           <TextField
                             id="twoquestions"
                             label="Your Answer"
-                            onChange={(e) => {
-                              setSendData({ ...sendData, collaborate_with_workers_c: e?.target?.value });
-                            }}
+                          value={sendData?.collaborate_with_workers_c}
                             variant="outlined"
                             color="common"
                           />
@@ -3141,9 +3122,8 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
                           <TextField
                             id="twoquestions"
                             label="Your Answer"
-                            onChange={(e) => {
-                              setSendData({ ...sendData, daily_affairs_management_c: e?.target?.value });
-                            }}
+                            value={sendData?.daily_affairs_management_c}
+                           disabled
                             variant="outlined"
                             color="common"
                           />
@@ -3161,9 +3141,7 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
                           <TextField
                             id="twoquestions"
                             label="Your Answer"
-                            onChange={(e) => {
-                              setSendData({ ...sendData, financial_decision_maker_c: e?.target?.value });
-                            }}
+                           value={sendData?.financial_decision_maker_c}
                             variant="outlined"
                             color="common"
                           />
@@ -3181,9 +3159,8 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
                           <TextField
                             id="twoquestions"
                             label="Your Answer"
-                            onChange={(e) => {
-                              setSendData({ ...sendData, daily_accounts_book_c: e?.target?.value });
-                            }}
+                            disabled
+                          value={sendData?.daily_accounts_book_c}
                             variant="outlined"
                             color="common"
                           />
@@ -3204,9 +3181,8 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
                       id="twoquestions"
                       label="Your Answer"
                       type="number"
-                      onChange={(e) => {
-                        setSendData({ ...sendData, enterprise_monthly_income: parseInt(e?.target?.value) });
-                      }}
+                    disabled
+                    value={sendData?.enterprise_monthly_income}
                       variant="outlined"
                       color="common"
                     />
@@ -3222,10 +3198,7 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
                 </Typography>
                 <Select
             value={sendData.enterprise_is_profitable}
-            onChange={(event) => setSendData((prevData) => ({
-              ...prevData,
-              enterprise_is_profitable: event.target.value,
-            }))}
+           disabled
                variant="standard"
             style={{ marginTop: 10 }}
           >
@@ -3249,9 +3222,8 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
                       id="twoquestions"
                       label="Your Answer"
                       type="number"
-                      onChange={(e) => {
-                        setSendData({ ...sendData, monthly_profit: parseInt(e?.target?.value) });
-                      }}
+                      disabled
+                     value={sendData?.monthly_profit}
                       variant="outlined"
                       color="common"
                     />
@@ -3299,14 +3271,12 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
                     </Typography>
                     <Typography>
 
-                      {BankError ? <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText> : null}{' '}
                     </Typography>
                     <RadioGroup
                       aria-labelledby="demo-radio-buttons-group-label"
                       name="radio-buttons-group"
                       value={sendData.children_education_b}
-                      onChange={(e) => {const value = e.target.value;  setSendData({ ...sendData, children_education_b: value }) }}
-
+                     disabled
                     >
                       <div style={{ display: "flex" }}>
                       <FormControlLabel
@@ -3326,14 +3296,12 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
                     </Typography>
                     <Typography>
 
-                      {BankError ? <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText> : null}{' '}
                     </Typography>
                     <RadioGroup
                       aria-labelledby="demo-radio-buttons-group-label"
                       name="radio-buttons-group"
                       value={sendData.health_services_access_b}
-                      onChange={(e) => { const value = e.target.value; setSendData({ ...sendData, health_services_access_b: value }) }}
-
+                      disabled
                     >
                       <div style={{ display: "flex" }}>
                       <FormControlLabel
@@ -3360,8 +3328,7 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
                       aria-labelledby="demo-radio-buttons-group-label"
                       name="radio-buttons-group"
                       value={sendData.taking_credit_b}
-                      onChange={(e) => {const value = e.target.value;  setSendData({ ...sendData, taking_credit_b: value }) }}
-
+                     disbaled
                     >
                       <div style={{ display: "flex" }}>
                       <FormControlLabel
@@ -3381,14 +3348,12 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
                     </Typography>
                     <Typography>
 
-                      {BankError ? <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText> : null}{' '}
                     </Typography>
                     <RadioGroup
                       aria-labelledby="demo-radio-buttons-group-label"
                       name="radio-buttons-group"
                       value={sendData.saving_money_b}
-                      onChange={(e) => {const value = e.target.value;  setSendData({ ...sendData, saving_money_b: value }) }}
-
+                  disbaled
                     >
                       <div style={{ display: "flex" }}>
                       <FormControlLabel
@@ -3408,16 +3373,12 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
         Asset purchase (Yes/No) ಆಸ್ತಿ ಖರೀದಿ (ಹೌದು/ಇಲ್ಲ)
       </Typography>
       <Typography>
-        {BankError ? <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText> : null}{' '}
       </Typography>
       <RadioGroup
         aria-labelledby="demo-radio-buttons-group-label"
         name="radio-buttons-group"
         value={sendData.asset_purchase_b} // Bind the value to "Yes" or "No"
-        onChange={(e) => { 
-          const value = e.target.value; 
-          setSendData({ ...sendData, asset_purchase_b: value });
-        }}
+    disabled
       >
         <div style={{ display: "flex" }}>
           <FormControlLabel
@@ -3439,14 +3400,12 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
                     </Typography>
                     <Typography>
 
-                      {BankError ? <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText> : null}{' '}
                     </Typography>
                     <RadioGroup
                       aria-labelledby="demo-radio-buttons-group-label"
                       name="radio-buttons-group"
                       value={sendData.daily_expenditure_b}
-                      onChange={(e) => {const value = e.target.value;  setSendData({ ...sendData, daily_expenditure_b: value }) }}
-
+                   disabled
                     >
                       <div style={{ display: "flex" }}>
                       <FormControlLabel
@@ -3465,15 +3424,12 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
                      <Typography variant="subtitle2" style={{ color: '#ff7424' }}>Day-to-day running an enterprise (Yes/No)    ದಿನದಿಂದ ದಿನಕ್ಕೆ ಉದ್ಯಮವನ್ನು ನಡೆಸುವುದು (ಹೌದು/ಇಲ್ಲ)
                     </Typography>
                     <Typography>
-
-                      {BankError ? <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText> : null}{' '}
-                    </Typography>
+ </Typography>
                     <RadioGroup
                       aria-labelledby="demo-radio-buttons-group-label"
                       name="radio-buttons-group"
                       value={sendData.operational_management_b}
-                      onChange={(e) => { const value = e.target.value; setSendData({ ...sendData, operational_management_b: value }) }}
-
+                    disabled
                     >
                       <div style={{ display: "flex" }}>
                       <FormControlLabel
@@ -3494,14 +3450,12 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
                     </Typography>
                     <Typography>
 
-                      {BankError ? <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText> : null}{' '}
                     </Typography>
                     <RadioGroup
                       aria-labelledby="demo-radio-buttons-group-label"
                       name="radio-buttons-group"
                       value={sendData.input_procuring_b}
-                      onChange={(e) => { const value = e.target.value; setSendData({ ...sendData, input_procuring_b: value }) }}
-
+                     disabled
                     >
                       <div style={{ display: "flex" }}>
                       <FormControlLabel
@@ -3522,14 +3476,12 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
                     </Typography>
                     <Typography>
 
-                      {BankError ? <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText> : null}{' '}
-                    </Typography>
+                   </Typography>
                     <RadioGroup
                       aria-labelledby="demo-radio-buttons-group-label"
                       name="radio-buttons-group"
                       value={sendData.selling_produce_b}
-                      onChange={(e) => {const value = e.target.value;  setSendData({ ...sendData, selling_produce_b: value }) }}
-
+                    disabled
                     >
                       <div style={{ display: "flex" }}>
                       <FormControlLabel
@@ -3550,14 +3502,12 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
                     </Typography>
                     <Typography>
 
-                      {BankError ? <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText> : null}{' '}
                     </Typography>
                     <RadioGroup
                       aria-labelledby="demo-radio-buttons-group-label"
                       name="radio-buttons-group"
                       value={sendData.gov_scheme_benefit_b}
-                      onChange={(e) => { const value = e.target.value; setSendData({ ...sendData, gov_scheme_benefit_b: value }) }}
-
+                     disabled
                     >
                       <div style={{ display: "flex" }}>
                       <FormControlLabel
@@ -3584,9 +3534,8 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
                     <TextField
                       id="twoquestions"
                       label="Your Answer"
-                      onChange={(e) => {
-                        setSendData({ ...sendData, menstrual_hygiene_env: e?.target?.value });
-                      }}
+                    value={sendData?.menstrual_hygiene_env}
+                    disabled
                       variant="outlined"
                       color="common"
                     />
@@ -3609,19 +3558,7 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
               <Checkbox
                 color="primary"
                 checked={sendData.env_friendly_practices.includes(item.name)}
-                onChange={(e) => {
-                  const isChecked = e.target.checked;
-                  const updatedSelections = isChecked
-                    ? [...sendData.env_friendly_practices, item.name]
-                    : sendData.env_friendly_practices.filter((entry) => entry !== item.name);
-
-                  setSendData({
-                    ...sendData,
-                    env_friendly_practices: updatedSelections,
-                  });
-
-                  console.log(updatedSelections); // To check the updated selections
-                }}
+               disabled
               />
             }
             label={item.name}
@@ -3647,7 +3584,7 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
               <Checkbox
                 color="primary"
                 checked={sendData.menstrual_product_used.includes(item.name)}
-              
+              disabled
               />
             }
             label={item.name}
@@ -3674,7 +3611,7 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
               <Checkbox
                 color="primary"
                 checked={sendData.menstrual_disposal_method.includes(item.name)}
-              
+              disabled
               />
             }
             label={item.name}
@@ -3700,7 +3637,7 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
               <Checkbox
                 color="primary"
                 checked={sendData.cooking_fuel_type.includes(item.name)}
-               
+               disabled
               />
             }
             label={item.name}
