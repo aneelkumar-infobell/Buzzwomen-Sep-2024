@@ -2231,56 +2231,7 @@ const gelathicircleformdata = async () => {
                     </Stack>
                   </CardContent>
                 </Card>
-                <Card style={{ marginTop: 10, borderRadius: 20 }}>
-                  <CardContent>
-                    <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
-                    There has been at least one instance when I took on a task even when other members in the group quit./  
-                    ಗುಂಪಿನಲ್ಲಿರುವ ಇತರ ಸದಸ್ಯರು ತ್ಯಜಿಸಿದಾಗಲೂ ನಾನು ಕೆಲಸವನ್ನು ತೆಗೆದುಕೊಂಡಾಗ ಕನಿಷ್ಠ ಒಂದು ನಿದರ್ಶನವಿದೆ.
-                    </Typography>
-                 
-                    <FormControl fullWidth>
-        <Select
-          labelId="one-instance-label"
-          id="one-instance"
-           variant="standard"
-          value={sendData.persisted_when_others_quit}
-          onChange={(e) => {
-            setSendData({
-              ...sendData,
-              persisted_when_others_quit: e.target.value, // Update state on selection
-            })}} // Inline function to handle change
-          label="Your Answer"
-        >
-          <MenuItem value="Yes">Yes</MenuItem>
-          <MenuItem value="No">No</MenuItem>
-        </Select>
-      </FormControl>
-                  </CardContent>
-                </Card>
-
-                {(sendData?.persisted_when_others_quit === "Yes")?
-                
-                <Card style={{ marginTop: 10, borderRadius: 20 }}>
-                <CardContent>
-                  <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
-                  Can you narrate that instance /
-                  ಆ ನಿದರ್ಶನವನ್ನು ಹೇಳಬಲ್ಲಿರಾ
-                  </Typography>
-                  <Stack mt={2} mb={2}>
-                    <TextField
-                      id="twoquestions"
-                      label="Your Answer"
-                      onChange={(e) => {
-                        setSendData({ ...sendData, narrate_instance: e?.target?.value });
-                      }}
-                      variant="outlined"
-                      color="common"
-                    />
-                  </Stack>
-                </CardContent>
-              </Card>
-              :
-              null}
+             
              
                 <Card style={{ marginTop: 10, borderRadius: 20 }}>
                   <CardContent>
@@ -2342,6 +2293,56 @@ const gelathicircleformdata = async () => {
               :
               null}
              
+             <Card style={{ marginTop: 10, borderRadius: 20 }}>
+                  <CardContent>
+                    <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+                    There has been at least one instance when I took on a task even when other members in the group quit./  
+                    ಗುಂಪಿನಲ್ಲಿರುವ ಇತರ ಸದಸ್ಯರು ತ್ಯಜಿಸಿದಾಗಲೂ ನಾನು ಕೆಲಸವನ್ನು ತೆಗೆದುಕೊಂಡಾಗ ಕನಿಷ್ಠ ಒಂದು ನಿದರ್ಶನವಿದೆ.
+                    </Typography>
+                 
+                    <FormControl fullWidth>
+        <Select
+          labelId="one-instance-label"
+          id="one-instance"
+           variant="standard"
+          value={sendData.persisted_when_others_quit}
+          onChange={(e) => {
+            setSendData({
+              ...sendData,
+              persisted_when_others_quit: e.target.value, // Update state on selection
+            })}} // Inline function to handle change
+          label="Your Answer"
+        >
+          <MenuItem value="Yes">Yes</MenuItem>
+          <MenuItem value="No">No</MenuItem>
+        </Select>
+      </FormControl>
+                  </CardContent>
+                </Card>
+
+                {(sendData?.persisted_when_others_quit === "Yes")?
+                
+                <Card style={{ marginTop: 10, borderRadius: 20 }}>
+                <CardContent>
+                  <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+                  Can you narrate that instance /
+                  ಆ ನಿದರ್ಶನವನ್ನು ಹೇಳಬಲ್ಲಿರಾ
+                  </Typography>
+                  <Stack mt={2} mb={2}>
+                    <TextField
+                      id="twoquestions"
+                      label="Your Answer"
+                      onChange={(e) => {
+                        setSendData({ ...sendData, narrate_instance: e?.target?.value });
+                      }}
+                      variant="outlined"
+                      color="common"
+                    />
+                  </Stack>
+                </CardContent>
+              </Card>
+              :
+              null}
                 <Card style={{ marginTop: 10, borderRadius: 20 }}>
                   <CardContent>
                  
@@ -2367,6 +2368,7 @@ const gelathicircleformdata = async () => {
                 </Card>
                 <Card style={{ marginTop: 10, borderRadius: 20 }}>
   <CardContent>
+ 
     <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
       How did you react when you were faced with a challenging situation /
       ನೀವು ಸವಾಲಿನ ಪರಿಸ್ಥಿತಿಯನ್ನು ಎದುರಿಸಿದಾಗ ನೀವು ಹೇಗೆ ಪ್ರತಿಕ್ರಿಯಿಸಿದ್ದೀರಿ

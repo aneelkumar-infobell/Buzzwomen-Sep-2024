@@ -1465,46 +1465,7 @@ console.log(sendData ,"sendData")
                     </Stack>
                   </CardContent>
                 </Card>
-                <Card style={{ marginTop: 10, borderRadius: 20 }}>
-                  <CardContent>
-                    <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
-                    There has been at least one instance when I took on a task even when other members in the group quit./  
-                    ಗುಂಪಿನಲ್ಲಿರುವ ಇತರ ಸದಸ್ಯರು ತ್ಯಜಿಸಿದಾಗಲೂ ನಾನು ಕೆಲಸವನ್ನು ತೆಗೆದುಕೊಂಡಾಗ ಕನಿಷ್ಠ ಒಂದು ನಿದರ್ಶನವಿದೆ.
-                    </Typography>
-                    <Stack mt={2} mb={2}>
-                      <TextField
-                        id="twoquestions"
-                        label="Your Answer"
-                        value={sendData?.persisted_when_others_quit}
-                        variant="outlined"
-                        color="common"
-                        disabled
-                      />
-                    </Stack>
-                  </CardContent>
-                </Card>
-                {(sendData?.persisted_when_others_quit === "Yes")?
                 
-                <Card style={{ marginTop: 10, borderRadius: 20 }}>
-                <CardContent>
-                  <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
-                  Can you narrate that instance /
-                  ಆ ನಿದರ್ಶನವನ್ನು ಹೇಳಬಲ್ಲಿರಾ
-                  </Typography>
-                  <Stack mt={2} mb={2}>
-                    <TextField
-                      id="twoquestions"
-                      label="Your Answer"
-                     disabled
-                     value={sendData?.narrate_instance}
-                      variant="outlined"
-                      color="common"
-                    />
-                  </Stack>
-                </CardContent>
-              </Card>
-              :
-              null}
                   <Card style={{ marginTop: 10, borderRadius: 20 }}>
                   <CardContent>
                     <Typography variant="subtitle2" style={{ color: '#ff7424', textAlign: 'center'  }}>
@@ -1574,6 +1535,46 @@ console.log(sendData ,"sendData")
                    value={
                     sendData?.narrate_instance2
                    }
+                      variant="outlined"
+                      color="common"
+                    />
+                  </Stack>
+                </CardContent>
+              </Card>
+              :
+              null}
+              <Card style={{ marginTop: 10, borderRadius: 20 }}>
+                  <CardContent>
+                    <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+                    There has been at least one instance when I took on a task even when other members in the group quit./  
+                    ಗುಂಪಿನಲ್ಲಿರುವ ಇತರ ಸದಸ್ಯರು ತ್ಯಜಿಸಿದಾಗಲೂ ನಾನು ಕೆಲಸವನ್ನು ತೆಗೆದುಕೊಂಡಾಗ ಕನಿಷ್ಠ ಒಂದು ನಿದರ್ಶನವಿದೆ.
+                    </Typography>
+                    <Stack mt={2} mb={2}>
+                      <TextField
+                        id="twoquestions"
+                        label="Your Answer"
+                        value={sendData?.persisted_when_others_quit}
+                        variant="outlined"
+                        color="common"
+                        disabled
+                      />
+                    </Stack>
+                  </CardContent>
+                </Card>
+                {(sendData?.persisted_when_others_quit === "Yes")?
+                
+                <Card style={{ marginTop: 10, borderRadius: 20 }}>
+                <CardContent>
+                  <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+                  Can you narrate that instance /
+                  ಆ ನಿದರ್ಶನವನ್ನು ಹೇಳಬಲ್ಲಿರಾ
+                  </Typography>
+                  <Stack mt={2} mb={2}>
+                    <TextField
+                      id="twoquestions"
+                      label="Your Answer"
+                     disabled
+                     value={sendData?.narrate_instance}
                       variant="outlined"
                       color="common"
                     />
