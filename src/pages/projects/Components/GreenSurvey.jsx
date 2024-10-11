@@ -614,7 +614,6 @@ export default function GreenSurvey(props) {
                     label="Green Motivator name"
                     kannadaLabel="ಹಸಿರು ಪ್ರೇರಕಿಯ ಹೆಸರು"
                     required
-                    type="email"
                     name="name_of_the_surveyor"
                     onChange={handleInputChange}
                     value={sendData?.name_of_the_surveyor}
