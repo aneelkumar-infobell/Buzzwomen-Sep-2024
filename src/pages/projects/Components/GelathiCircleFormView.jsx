@@ -1153,29 +1153,7 @@ console.log(sendData ,"sendData")
                     </Stack>
                   </CardContent>
                 </Card>
-                <Card style={{ marginTop: 10, borderRadius: 20 }}>
-                  <CardContent>
-                    <Stack mt={2}>
-                      <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
-                      Have you prepared a list of goals that you want to achieve as a Gelathi? (Yes/No)
-                      /ನೀವು ಗೆಳತಿಯಾಗಿ ಸಾಧಿಸಲು ಬಯಸುವ ಗುರಿಗಳ ಪಟ್ಟಿಯನ್ನು ನೀವು ಸಿದ್ಧಪಡಿಸಿದ್ದೀರಾ? (ಹೌದು/ಇಲ್ಲ)
-                    
-                      </Typography>
-                     
-                    </Stack>
-                    <Stack mt={2} mb={2}>
-                      <TextField
-                        id="Email"
-                        disabled
-                        label="Your Answer"
-                        
-                        value={sendData?.goals_achieve_as_gelathi}
-                        variant="outlined"
-                        color="common"
-                      />
-                    </Stack>
-                  </CardContent>
-                </Card>
+                
                 <Card style={{ marginTop: 10, borderRadius: 20 }}>
                   <CardContent>
                     <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
@@ -1212,19 +1190,10 @@ console.log(sendData ,"sendData")
                 </Card>
                 <Card style={{ marginTop: 10, borderRadius: 20 }}>
                   <CardContent>
-                    <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+                    <Typography variant="subtitle2" style={{ color: '#ff7424',textAlign: 'center' }}>
                     Community/ಸಮುದಾಯ 
                     </Typography>
-                    <Stack mt={2} mb={2}>
-                      <TextField
-                        id="twoquestions"
-                        label="Your Answer"
-                        value={sendData?.community}
-                        variant="outlined"
-                        color="common"
-                        disabled
-                      />
-                    </Stack>
+                   
                   </CardContent>
                 </Card>
 
@@ -1852,7 +1821,7 @@ console.log(sendData ,"sendData")
                      
                       </Typography>
                     
-                    </Stack>\
+                    </Stack>
                     <Stack mt={2} mb={2}>
                       <TextField
                         id="twoquestions"
@@ -1879,6 +1848,7 @@ console.log(sendData ,"sendData")
                       <TextField
                         id="twoquestions"
                         label="Your Answer"
+                        disabled
                           value={sendData?.feedback_from_community_members}
                         variant="outlined"
                         color="common"
@@ -1895,6 +1865,7 @@ console.log(sendData ,"sendData")
                     </Typography>
                     <Stack mt={2} mb={2}>
                       <TextField
+                      disabled
                         id="twoquestions"
                         label="Your Answer"
                         value={sendData?.goals_as_gelathi}
@@ -1918,6 +1889,7 @@ console.log(sendData ,"sendData")
                       <TextField
                         id="twoquestions"
                         label="Your Answer"
+                        disabled
                           value={sendData?.willing_to_take_part_local_elections}
                         variant="outlined"
                         color="common"
