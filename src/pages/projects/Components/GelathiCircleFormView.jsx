@@ -1218,7 +1218,8 @@ console.log(sendData ,"sendData")
                 <Card style={{ marginTop: 10, borderRadius: 20 }}>
                   <CardContent>
                     <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
-                    On a day when there is a scheduled community meeting, do you feel   
+                    On a day when there is a scheduled community meeting, what do you feel?
+                    ನಿಗದಿತ ಸಮುದಾಯ ಸಭೆ ಇರುವ ದಿನದಂದು, ನಿಮಗೆ ಅನಿಸುತ್ತದೆಯೇ  
                     </Typography>
                     <Stack mt={2} mb={2}>
                       <TextField
@@ -1572,19 +1573,10 @@ console.log(sendData ,"sendData")
                 </Card>
                 <Card style={{ marginTop: 10, borderRadius: 20 }}>
                   <CardContent>
-                    <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+                    <Typography variant="subtitle2" style={{ color: '#ff7424', textAlign: 'center' }}>
                     Conflict Management/ಸಂಘರ್ಷ ನಿರ್ವಹಣೆ
                     </Typography>
-                    <Stack mt={2} mb={2}>
-                      <TextField
-                        id="twoquestions"
-                        label="Your Answer"
-                        value={sendData?.conflict_management}
-                        variant="outlined"
-                        color="common"
-                        disabled
-                      />
-                    </Stack>
+                
                   </CardContent>
                 </Card>
                 
@@ -1612,19 +1604,10 @@ console.log(sendData ,"sendData")
                 </Card>
                 <Card style={{ marginTop: 10, borderRadius: 20 }}>
                   <CardContent>
-                    <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+                    <Typography variant="subtitle2" style={{ color: '#ff7424',textAlign: 'center' }}>
                     Sense of sisterhood/ಸಹೋದರಿಯ ಭಾವ
                     </Typography>
-                    <Stack mt={2} mb={2}>
-                      <TextField
-                        id="twoquestions"
-                        label="Your Answer"
-                        value={sendData?.sense_of_sisterhood}
-                        variant="outlined"
-                        color="common"
-                        disabled
-                      />
-                    </Stack>
+                 
                   </CardContent>
                 </Card>
               
