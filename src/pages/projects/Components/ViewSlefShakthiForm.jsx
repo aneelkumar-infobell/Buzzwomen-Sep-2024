@@ -3007,7 +3007,7 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
                              </Typography>
                              <Typography>
              
-                               {BankError ? <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText> : null}{' '}
+                           
                              </Typography>
                              <RadioGroup
                                aria-labelledby="demo-radio-buttons-group-label"
@@ -3320,7 +3320,7 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
                     </Typography>
                     <Typography>
 
-                      {BankError ? <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText> : null}{' '}
+                   
                     </Typography>
                     <RadioGroup
                       aria-labelledby="demo-radio-buttons-group-label"
