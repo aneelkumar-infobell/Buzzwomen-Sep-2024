@@ -1153,29 +1153,7 @@ console.log(sendData ,"sendData")
                     </Stack>
                   </CardContent>
                 </Card>
-                <Card style={{ marginTop: 10, borderRadius: 20 }}>
-                  <CardContent>
-                    <Stack mt={2}>
-                      <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
-                      Have you prepared a list of goals that you want to achieve as a Gelathi? (Yes/No)
-                      /ನೀವು ಗೆಳತಿಯಾಗಿ ಸಾಧಿಸಲು ಬಯಸುವ ಗುರಿಗಳ ಪಟ್ಟಿಯನ್ನು ನೀವು ಸಿದ್ಧಪಡಿಸಿದ್ದೀರಾ? (ಹೌದು/ಇಲ್ಲ)
-                    
-                      </Typography>
-                     
-                    </Stack>
-                    <Stack mt={2} mb={2}>
-                      <TextField
-                        id="Email"
-                        disabled
-                        label="Your Answer"
-                        
-                        value={sendData?.goals_achieve_as_gelathi}
-                        variant="outlined"
-                        color="common"
-                      />
-                    </Stack>
-                  </CardContent>
-                </Card>
+                
                 <Card style={{ marginTop: 10, borderRadius: 20 }}>
                   <CardContent>
                     <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
@@ -1878,7 +1856,25 @@ console.log(sendData ,"sendData")
                     </Stack>
                   </CardContent>
                 </Card>
-             
+                <Card style={{ marginTop: 10, borderRadius: 20 }}>
+                  <CardContent>
+                    <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+                    Have you prepared a list of goals that you want to achieve as a Gelathi?/ 
+                      ನೀವು ಗೆಳತಿಯಾಗಿ ಸಾಧಿಸಲು ಬಯಸುವ ಗುರಿಗಳ ಪಟ್ಟಿಯನ್ನು ಸಿದ್ಧಪಡಿಸಿದ್ದೀರಾ?
+                      
+                    </Typography>
+                    <Stack mt={2} mb={2}>
+                      <TextField
+                      disabled
+                        id="twoquestions"
+                        label="Your Answer"
+                        value={sendData?.goals_as_gelathi}
+                        variant="outlined"
+                        color="common"
+                      />
+                    </Stack>
+                  </CardContent>
+                </Card>
                 <Card style={{ marginTop: 10, borderRadius: 20 }}>
                   <CardContent>
                     <Stack mt={2}>
