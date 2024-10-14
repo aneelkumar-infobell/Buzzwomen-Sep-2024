@@ -934,7 +934,7 @@ console.log(sendData ,"sendData")
                         label="What is the average monthly income of your enterprise? (Rs)
 ನಿಮ್ಮ ಉದ್ಯಮದ ಸರಾಸರಿ ಮಾಸಿಕ ಆದಾಯ ಎಷ್ಟು? (ರೂ)"
                         type="number"
-                        required
+                        
                         placeholder="Your Answer"
                         onChange={handleInputChange}
                         value={sendData.average_monthly_income_enterprise}
@@ -1247,7 +1247,7 @@ console.log(sendData ,"sendData")
                         label="During the last 1 year, have you worked on your own account or in a business enterprise belonging to you for example, trader, shopkeeper, tailoring, etc. at least for two hours in any day?
 ಕಳೆದ 1 ವರ್ಷದಲ್ಲಿ, ನೀವು ನಿಮ್ಮ ಸ್ವಂತ ಖಾತೆಯಲ್ಲಿ ಅಥವಾ ನಿಮಗೆ ಸೇರಿದ ವ್ಯಾಪಾರ ಉದ್ಯಮದಲ್ಲಿ ಉದಾಹರಣೆಗೆ, ವ್ಯಾಪಾರಿ, ಅಂಗಡಿಯವನು, ಟೈಲರಿಂಗ್, ಇತ್ಯಾದಿ. ಯಾವುದೇ ದಿನದಲ್ಲಿ ಕನಿಷ್ಠ ಎರಡು ಗಂಟೆಗಳ ಕಾಲ ಕೆಲಸ ಮಾಡಿದ್ದೀರಾ?"
                         type="text"
-                        required
+                        
                         placeholder="Your Answer"
                         onChange={handleInputChange}
                         value={sendData.own_account_work}
@@ -1291,7 +1291,7 @@ console.log(sendData ,"sendData")
                         label="How much monthly income would you like to ideally earn?
 ನೀವು ಆದರ್ಶಪ್ರಾಯವಾಗಿ ಎಷ್ಟು ಮಾಸಿಕ ಆದಾಯವನ್ನು ಗಳಿಸಲು ಬಯಸುತ್ತೀರಿ?"
                         type="number"
-                        required
+                        
                         placeholder="Your Answer"
                         onChange={handleInputChange}
                         value={sendData.monthly_income}
