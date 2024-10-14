@@ -85,9 +85,9 @@ export default function Vyaparprogram({ itm, changeState, componentreloadmethod 
   const [open, setOpen] = React.useState(false);
   const [successMessage, setsuccessMessage] = useState(false);
   const [vyaapar, setVyaapar] = useState('');
-
+console.log(itm ,"itm")
   const [sendData, setSendData] = useState({
-    participant_id: itm?.id,
+    participant_id:parseInt(itm?.gelathi_id) ,
     gf_id: '',
     when_was_survey_done: '',
     name_of_the_vyapari: '',
@@ -207,7 +207,7 @@ export default function Vyaparprogram({ itm, changeState, componentreloadmethod 
     money_management: '',
     do_bookkeeping: '',
     loan_exists: '',
-    savings_available: 0,
+    savings_available: '',
     loan_startup: '',
   });
 
@@ -266,7 +266,7 @@ export default function Vyaparprogram({ itm, changeState, componentreloadmethod 
   };
 
   const vyaparformdata = (async) => {
-    console.log({ sendData });
+    console.log( sendData  ,"sednign data" );
     if (isOnline() && networkAccess()) {
       if (localStorage.getItem('vyapar')) {
         saveDataLocally('vyapar', sendData);
@@ -282,7 +282,7 @@ export default function Vyaparprogram({ itm, changeState, componentreloadmethod 
       sendData.monthly_income = parseInt(sendData.monthly_income);
       sendData.number_of_beehives_participated = parseInt(sendData.number_of_beehives_participated);
       sendData.number_of_people_in_the_household = parseInt(sendData.number_of_people_in_the_household);
-      sendData.participant_id = parseInt(itm.id);
+      sendData.participant_id = parseInt(itm.gelathi_id);
       var config = {
         method: 'post',
         url: baseURL + 'addVyaparBaselineSurvey',
@@ -358,7 +358,9 @@ export default function Vyaparprogram({ itm, changeState, componentreloadmethod 
     }, delay);
   });
   const handleInputChange = (event) => {
+    
     const { name, value } = event.target;
+    console.log(name  ,value ,"name value ")
     setSendData((prevData) => ({
       ...prevData,
       [name]: value,
@@ -461,7 +463,7 @@ export default function Vyaparprogram({ itm, changeState, componentreloadmethod 
         // console.log(error);
       });
   };
-
+console.log(sendData ,"sendData")
   return (
     <div>
       {successMessage && (
@@ -577,7 +579,7 @@ export default function Vyaparprogram({ itm, changeState, componentreloadmethod 
                 )}
               </IconButton>
               <Typography sx={{ ml: 2, flex: 1, color: 'white' }} variant="h6" component="div">
-                Buzz Vyapar Program Baselines
+                Buzz Vyapar Program Baselines working
               </Typography>
               <Button edge="end" color="inherit" type="submit" onClick={() => {}} style={{ color: 'white' }}>
                 {isOnline() ? <Iconify icon="material-symbols:save" width={30} height={30} /> : 'save'}
@@ -1257,7 +1259,7 @@ export default function Vyaparprogram({ itm, changeState, componentreloadmethod 
                         name="idea_status"
                         label="Do you have a business idea you want to work on?
 ನೀವು ಕೆಲಸ ಮಾಡಲು ಬಯಸುವ ವ್ಯಾಪಾರ ಕಲ್ಪನೆಯನ್ನು ನೀವು ಹೊಂದಿದ್ದೀರಾ?"
-                        required
+                        
                         onChange={handleInputChange}
                         value={sendData?.idea_status}
                         options={yesOrNo}
@@ -1267,7 +1269,7 @@ export default function Vyaparprogram({ itm, changeState, componentreloadmethod 
                         id="idea_start"
                         name="idea_start"
                         label="Since when have you had the idea of starting business ? ವ್ಯಾಪಾರ ಆರಂಭಿಸುವ ಯೋಚನೆ ಯಾವಾಗಿನಿಂದ ಬಂತು?"
-                        required
+                        
                         onChange={handleInputChange}
                         value={sendData?.idea_start}
                         options={whenhaveyouhadtheideaofstartingbusiness}
@@ -1277,7 +1279,7 @@ export default function Vyaparprogram({ itm, changeState, componentreloadmethod 
                         id="idea_category"
                         name="idea_category"
                         label="What category does your business idea fall in? ನಿಮ್ಮ ವ್ಯಾಪಾರ ಕಲ್ಪನೆಯು ಯಾವ ವರ್ಗಕ್ಕೆ ಸೇರುತ್ತದೆ?"
-                        required
+                        
                         onChange={handleInputChange}
                         value={sendData?.idea_category}
                         options={Whatcategorydoesyourbusinessideafallin}
@@ -1300,7 +1302,7 @@ export default function Vyaparprogram({ itm, changeState, componentreloadmethod 
                         name="money_management"
                         label="Do you like to manage money and keep track of incomes and expenses?
 ನೀವು ಹಣವನ್ನು ನಿರ್ವಹಿಸಲು ಹಾಗೂ ಆದಾಯ ಮತ್ತು ವೆಚ್ಚಗಳನ್ನು ಟ್ರ್ಯಾಕ್ ಮಾಡಲು ಇಷ್ಟಪಡುತ್ತೀರಾ?"
-                        required
+                        
                         onChange={handleInputChange}
                         value={sendData?.money_management}
                         options={yesOrNo}
@@ -1311,7 +1313,7 @@ export default function Vyaparprogram({ itm, changeState, componentreloadmethod 
                         name="do_bookkeeping"
                         label="Do you practice book keeping?
 ನೀವು ಪುಸ್ತಕ ನಿರ್ವಹಣೆ ಮಾಡುವ ಅಭ್ಯಾಸ ಇದೆಯೇ?"
-                        required
+                    
                         onChange={handleInputChange}
                         value={sendData?.do_bookkeeping}
                         options={yesOrNo}
@@ -1321,8 +1323,8 @@ export default function Vyaparprogram({ itm, changeState, componentreloadmethod 
                         id="loan_exists"
                         name="loan_exists"
                         label="Do you have any existing loan in your name?
-ನಿಮ್ಮ ಹೆಸರಿನಲ್ಲಿ ಯಾವುದಾದರೂ ಸಾಲ ಅಸ್ತಿತ್ವದಲ್ಲಿದೆಯೇ ?"
-                        required
+                        ನಿಮ್ಮ ಹೆಸರಿನಲ್ಲಿ ಯಾವುದಾದರೂ ಸಾಲ ಅಸ್ತಿತ್ವದಲ್ಲಿದೆಯೇ ?"
+                        
                         onChange={handleInputChange}
                         value={sendData?.loan_exists}
                         options={yesOrNo}
@@ -1332,8 +1334,8 @@ export default function Vyaparprogram({ itm, changeState, componentreloadmethod 
                         id="savings_available"
                         name="savings_available"
                         label="Do you currently have personal savings that you could invest into a new enterprise now?
-ನೀವು ಈಗ ಹೊಸ ಉದ್ಯಮದಲ್ಲಿ ಹೂಡಿಕೆ ಮಾಡಲು ,ಪ್ರಸ್ತುತ ವೈಯಕ್ತಿಕ ಉಳಿತಾಯವನ್ನು ಹೊಂದಿದ್ದೀರಾ?"
-                        required
+                        ನೀವು ಈಗ ಹೊಸ ಉದ್ಯಮದಲ್ಲಿ ಹೂಡಿಕೆ ಮಾಡಲು ,ಪ್ರಸ್ತುತ ವೈಯಕ್ತಿಕ ಉಳಿತಾಯವನ್ನು ಹೊಂದಿದ್ದೀರಾ?"
+                        
                         onChange={handleInputChange}
                         value={sendData?.savings_available}
                         options={yesOrNo}
@@ -1344,7 +1346,7 @@ export default function Vyaparprogram({ itm, changeState, componentreloadmethod 
                         name="loan_startup"
                         label="Are you willing to take a loan to start a new business?
 ನೀವು ಹೊಸ ವ್ಯಾಪಾರವನ್ನು ಪ್ರಾರಂಭಿಸಲು ಸಾಲವನ್ನು ತೆಗೆದುಕೊಳ್ಳಲು ಸಿದ್ಧರಿದ್ದೀರಾ?"
-                        required
+                        
                         onChange={handleInputChange}
                         value={sendData?.loan_startup}
                         options={yesOrNo}
