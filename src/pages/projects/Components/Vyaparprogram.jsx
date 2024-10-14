@@ -1172,7 +1172,7 @@ console.log(sendData ,"sendData")
                         id="what_are_the_strengths_of_your_business"
                         name="what_are_the_strengths_of_your_business"
                         label="State one strength of your business ನಿಮ್ಮ ವ್ಯಾಪಾರದ ಒಂದು ಬಲವನ್ನು ತಿಳಿಸಿ"
-                        type="number"
+                        type="text"
                         required
                         placeholder="Your Answer"
                         onChange={handleInputChange}
@@ -1183,7 +1183,7 @@ console.log(sendData ,"sendData")
                         id="what_are_the_weaknesses_of_your_business"
                         name="what_are_the_weaknesses_of_your_business"
                         label="State one weakness of the business ವ್ಯಾಪಾರದ ಒಂದು ದೌರ್ಬಲ್ಯವನ್ನು ತಿಳಿಸಿ"
-                        type="number"
+                         type="text"
                         required
                         placeholder="Your Answer"
                         onChange={handleInputChange}
@@ -1194,7 +1194,7 @@ console.log(sendData ,"sendData")
                         id="core_opportunity"
                         name="core_opportunity"
                         label="State one opportunity for your business ನಿಮ್ಮ ವ್ಯಾಪಾರದ ಒಂದು ಅವಕಾಶವನ್ನು ತಿಳಿಸಿ"
-                        type="number"
+                        type="text"
                         required
                         placeholder="Your Answer"
                         onChange={handleInputChange}
@@ -1205,7 +1205,7 @@ console.log(sendData ,"sendData")
                         id="core_threat"
                         name="core_threat"
                         label="State one threat for your business ನಿಮ್ಮ ವ್ಯಾಪಾರಕ್ಕೆ ಒಂದು ಬೆದರಿಕೆಯನ್ನು ತಿಳಿಸಿ"
-                        type="number"
+                      type="text"
                         required
                         placeholder="Your Answer"
                         onChange={handleInputChange}
@@ -1216,7 +1216,7 @@ console.log(sendData ,"sendData")
                         id="target_customer"
                         name="target_customer"
                         label="Who is your target customer? Describe ನಿಮ್ಮ ಗುರಿಯಲ್ಲಿರುವ ಗ್ರಾಹಕ ಯಾರು? ವಿವರಿಸಿ"
-                        type="number"
+                    type="text"
                         required
                         placeholder="Your Answer"
                         onChange={handleInputChange}
