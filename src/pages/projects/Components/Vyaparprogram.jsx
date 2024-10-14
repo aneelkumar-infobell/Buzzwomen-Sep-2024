@@ -837,7 +837,7 @@ console.log(sendData ,"sendData")
                     name="reason_for_not_having_smartphone"
                     label="If no , Reason for not having a smartphone
 ಇಲ್ಲದಿದ್ದರೆ, ಸ್ಮಾರ್ಟ್ ಫೋನ್ ಇಲ್ಲದಿರುವುದಕ್ಕೆ ಕಾರಣ"
-                    type="number"
+                    type="text"
                     required
                     placeholder="Your Answer"
                     onChange={handleInputChange}
@@ -903,7 +903,7 @@ console.log(sendData ,"sendData")
                       <Typography
                         style={{ color: '#ff7424', textAlign: 'center', paddingBottom: '20px', fontSize: '20px' }}
                       >
-                        I run an enteprise currently/ I used to run an enterprise ask these ನಾನು ಪ್ರಸ್ತುತ ಉದ್ಯಮವನ್ನು
+                        I run an enterprise currently/ I used to run an enterprise ask these ನಾನು ಪ್ರಸ್ತುತ ಉದ್ಯಮವನ್ನು
                         ನಡೆಸುತ್ತಿದ್ದೇನೆ/ ನಾನು ಉದ್ಯಮವನ್ನು ನಡೆಸುತ್ತಿದ್ದೆ ಎಂಬ ಉತ್ತರವು ಇವುಗಳನ್ನು ಕೇಳಿ
                       </Typography>
                       <SelectInput
@@ -1246,7 +1246,7 @@ console.log(sendData ,"sendData")
                         name="own_account_work"
                         label="During the last 1 year, have you worked on your own account or in a business enterprise belonging to you for example, trader, shopkeeper, tailoring, etc. at least for two hours in any day?
 ಕಳೆದ 1 ವರ್ಷದಲ್ಲಿ, ನೀವು ನಿಮ್ಮ ಸ್ವಂತ ಖಾತೆಯಲ್ಲಿ ಅಥವಾ ನಿಮಗೆ ಸೇರಿದ ವ್ಯಾಪಾರ ಉದ್ಯಮದಲ್ಲಿ ಉದಾಹರಣೆಗೆ, ವ್ಯಾಪಾರಿ, ಅಂಗಡಿಯವನು, ಟೈಲರಿಂಗ್, ಇತ್ಯಾದಿ. ಯಾವುದೇ ದಿನದಲ್ಲಿ ಕನಿಷ್ಠ ಎರಡು ಗಂಟೆಗಳ ಕಾಲ ಕೆಲಸ ಮಾಡಿದ್ದೀರಾ?"
-                        type="number"
+                        type="text"
                         required
                         placeholder="Your Answer"
                         onChange={handleInputChange}
