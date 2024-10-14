@@ -268,9 +268,9 @@ console.log(itm ,"itm")
   const vyaparformdata = (async) => {
     console.log( sendData  ,"sednign data" );
     if (isOnline() && networkAccess()) {
-      if (localStorage.getItem('vyapar')) {
-        saveDataLocally('vyapar', sendData);
-      }
+      // if (localStorage.getItem('vyapar')) {
+      //   saveDataLocally('vyapar', sendData);
+      // }
       sendData.age = parseInt(sendData.age);
       sendData.amount_invested_when_the_business_started = parseInt(sendData.amount_invested_when_the_business_started);
       sendData.average_monthly_income_enterprise = parseInt(sendData.average_monthly_income_enterprise);
