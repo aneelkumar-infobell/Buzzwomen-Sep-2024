@@ -89,7 +89,7 @@ func GetGreenBaselineSurvey(w http.ResponseWriter, r *http.Request, db *sql.DB) 
   COALESCE(house, '') AS house,
   COALESCE(roof, '') AS roof,
   COALESCE(ration_card, '') AS ration_card,
-  COALESCE(cast, '') AS cast,
+  COALESCE(cast, 0) AS cast,
   COALESCE(mother_tongue, '') AS mother_tongue,
   COALESCE(religion, '') AS religion,
   COALESCE(age, 0) AS age,
@@ -265,6 +265,29 @@ func GetGreenBaselineSurvey(w http.ResponseWriter, r *http.Request, db *sql.DB) 
 			fmt.Println("err268", err)
 			json.NewEncoder(w).Encode(map[string]interface{}{"code": http.StatusInternalServerError, "message": "Database Scan Error", "success": false, "error": err.Error()})
 			return
+		}
+		if queryData.Cast != 0 {
+			fmt.Println("caste", queryData.Cast)
+			checkStatement := "SELECT name  FROM caste  WHERE id = ?"
+
+			var cast_name string
+
+			err = db.QueryRow(checkStatement, queryData.Cast).Scan(&cast_name)
+
+			if err != nil {
+
+				w.WriteHeader(http.StatusInternalServerError)
+
+				log.Println("Error checking caste_name:", err)
+
+				json.NewEncoder(w).Encode(map[string]interface{}{"Message": "Internal Server Error", "Status Code": "500 ", "API": "get green form"})
+
+				return
+
+			}
+			queryData.CasteName = cast_name
+		} else {
+			queryData.CasteName = ""
 		}
 		fmt.Println("entering 269")
 		queryData.NaturalResources = strings.Split(naturalResources, ",")

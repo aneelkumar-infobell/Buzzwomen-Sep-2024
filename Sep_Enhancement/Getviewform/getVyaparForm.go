@@ -444,6 +444,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"strings"
 )
@@ -524,7 +525,7 @@ func GetVyaparBaselineSurvey(w http.ResponseWriter, r *http.Request, db *sql.DB)
 		TotalHouseholdMembers               int      `json:"total_household_members"`
 		House                               string   `json:"house"`
 		RationCard                          string   `json:"ration_card"`
-		Cast                                string   `json:"cast"`
+		Cast                                int      `json:"cast"`
 		DOB                                 string   `json:"dob"`
 		Education                           string   `json:"education"`
 		PrimaryOccupationHousehold          string   `json:"primary_occupation_household"`
@@ -578,6 +579,7 @@ func GetVyaparBaselineSurvey(w http.ResponseWriter, r *http.Request, db *sql.DB)
 		LoanStartup             string  `json:"loan_startup"`
 		TypeOfEnterpriseRunning string  `json:"type_of_enterprise_running"`
 		MonthlyHouseholdIncome  string  `json:"monthly_household_income"`
+		CasteName               string  `json:"caste_name"`
 	}
 
 	w.Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization,application/json,Token")
@@ -672,7 +674,7 @@ func GetVyaparBaselineSurvey(w http.ResponseWriter, r *http.Request, db *sql.DB)
     COALESCE(total_household_members, 0) AS total_household_members,
     COALESCE(house, '') AS house,
     COALESCE(ration_card, '') AS ration_card,
-    COALESCE(cast, '') AS cast,
+    COALESCE(cast, 0) AS cast,
     COALESCE(dob, '') AS dob,
     COALESCE(education, '') AS education,
     COALESCE(primary_occupation_household, '') AS primary_occupation_household,
@@ -876,6 +878,35 @@ func GetVyaparBaselineSurvey(w http.ResponseWriter, r *http.Request, db *sql.DB)
 			fmt.Println("err", err)
 			json.NewEncoder(w).Encode(map[string]interface{}{"code": http.StatusInternalServerError, "message": "Database Scan Error", "success": false, "error": err.Error()})
 			return
+		}
+		if b.Cast != 0 {
+
+			fmt.Println("caste", b.Cast)
+
+			checkStatement := "SELECT name  FROM caste  WHERE id = ?"
+
+			var cast_name string
+
+			err = db.QueryRow(checkStatement, b.Cast).Scan(&cast_name)
+
+			if err != nil {
+
+				w.WriteHeader(http.StatusInternalServerError)
+
+				log.Println("Error checking caste_name:", err)
+
+				json.NewEncoder(w).Encode(map[string]interface{}{"Message": "Internal Server Error", "Status Code": "500 ", "API": "get green form"})
+
+				return
+
+			}
+
+			b.CasteName = cast_name
+
+		} else {
+
+			b.CasteName = ""
+
 		}
 		var firstName, lastName string
 		query := fmt.Sprintf("SELECT first_name,last_name  FROM employee WHERE id  = %d", b.GfID)

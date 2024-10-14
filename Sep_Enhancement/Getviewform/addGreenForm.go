@@ -58,7 +58,7 @@ type GreenBaselineSurvey struct {
 	House                                              string   `json:"house"`
 	Roof                                               string   `json:"roof"`
 	RationCard                                         string   `json:"ration_card"`
-	Cast                                               string   `json:"cast"`
+	Cast                                               int      `json:"cast"`
 	MotherTongue                                       string   `json:"mother_tongue"`
 	Religion                                           string   `json:"religion"`
 	Age                                                int      `json:"age"`
@@ -116,6 +116,7 @@ type GreenBaselineSurvey struct {
 	WasteCategoriesProduced                            string   `json:"waste_categories_produced"`
 	AccessToDailyLivingProducts                        string   `json:"access_to_daily_living_products"`
 	LocallyProducedProductsConsumed                    string   `json:"locally_produced_products_consumed"`
+	CasteName                                          string   `json:"caste_name"`
 }
 
 func AddGreensurvey(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
@@ -143,7 +144,7 @@ func AddGreensurvey(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 		return
 	}
 
-	checkStatement := "SELECT COUNT(*) FROM GreenBaselineSurvey WHERE participantid = ?"
+	checkStatement := "SELECT COUNT(*) FROM GreenBaselineSurvey WHERE partcipantId = ?"
 	var count int
 	err = DB.QueryRow(checkStatement, queryData.ParticipantID).Scan(&count)
 	if err != nil {

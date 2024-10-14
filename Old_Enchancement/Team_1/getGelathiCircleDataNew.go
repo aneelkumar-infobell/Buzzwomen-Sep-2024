@@ -216,6 +216,7 @@ func GetGelathiCircleDataNew(w http.ResponseWriter, r *http.Request, DB *sql.DB)
 		circle.Gelathis = append(circle.Gelathis, gelathis...)
 		var count int
 		// Add survey checks
+
 		for i := range gelathis {
 			// SpoorthiBaselineQuestionnaire check
 
