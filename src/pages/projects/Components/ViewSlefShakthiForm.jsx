@@ -22,7 +22,7 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
     const [sendData, setSendData] = useState(
         {
             "firstName": "",
-
+            "caste_name":"",
             "id": participantId,
             "taluk": "",
             "migration_profile": "",
@@ -1584,7 +1584,7 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
                                                                 id="twoquestions"
                                                                 label="Your Answer"
                                                                 type="text"
-                                                                value={sendData?.caste}
+                                                                value={sendData?.caste_name}
                                                                 variant="outlined"
                                                                 color="common"
                                                                 disabled
