@@ -214,13 +214,11 @@ func GetGelathiCircleDataNew(w http.ResponseWriter, r *http.Request, DB *sql.DB)
 		}
 		fmt.Println("gelathis", gelathis)
 		circle.Gelathis = append(circle.Gelathis, gelathis...)
-
-		// Add survey checks
 		var count int
+		// Add survey checks
 		for i := range gelathis {
 			// SpoorthiBaselineQuestionnaire check
 
-			fmt.Println("circle.Gelathis[i].GelathiID", circle.Gelathis[i].GelathiID)
 			err = DB.QueryRow("SELECT COUNT(*) FROM SpoorthiBaselineQuestionnaire WHERE partcipantId = ?", circle.Gelathis[i].GelathiID).Scan(&count)
 			if err != nil {
 				log.Println("Failed to execute query:", err)
