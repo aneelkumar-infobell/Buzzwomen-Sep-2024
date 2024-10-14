@@ -1466,29 +1466,6 @@ console.log(sendData ,"sendData")
                     </Stack>
                   </CardContent>
                 </Card>
-             
-                <Card style={{ marginTop: 10, borderRadius: 20 }}>
-                  <CardContent>
-                    <Stack mt={2}>
-                      <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
-                      When I get a task to complete, I am usually excited to find a solution/ nervous  
-                      ನಾನು ಕೆಲಸವನ್ನು ಪೂರ್ಣಗೊಳಿಸಲು ಬಂದಾಗ, ನಾನು ಸಾಮಾನ್ಯವಾಗಿ ಪರಿಹಾರವನ್ನು ಹುಡುಕಲು ಉತ್ಸುಕನಾಗಿದ್ದೇನೆ / ಉದ್ವಿಗ್ನ
-                     
-                      </Typography>
-                    
-                    </Stack>
-                    <Stack mt={2} mb={2}>
-                      <TextField
-                        id="twoquestions"
-                        label="Your Answer"
-                          value={sendData?.task_response}
-                        variant="outlined"
-                        color="common"
-                        disabled
-                      />
-                    </Stack>
-                  </CardContent>
-                </Card>
                 {(sendData?.goal_persistence_instance === "Yes")?
                 
                 <Card style={{ marginTop: 10, borderRadius: 20 }}>
@@ -1513,6 +1490,29 @@ console.log(sendData ,"sendData")
               </Card>
               :
               null}
+                <Card style={{ marginTop: 10, borderRadius: 20 }}>
+                  <CardContent>
+                    <Stack mt={2}>
+                      <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+                      When I get a task to complete, I am usually excited to find a solution/ nervous  
+                      ನಾನು ಕೆಲಸವನ್ನು ಪೂರ್ಣಗೊಳಿಸಲು ಬಂದಾಗ, ನಾನು ಸಾಮಾನ್ಯವಾಗಿ ಪರಿಹಾರವನ್ನು ಹುಡುಕಲು ಉತ್ಸುಕನಾಗಿದ್ದೇನೆ / ಉದ್ವಿಗ್ನ
+                     
+                      </Typography>
+                    
+                    </Stack>
+                    <Stack mt={2} mb={2}>
+                      <TextField
+                        id="twoquestions"
+                        label="Your Answer"
+                          value={sendData?.task_response}
+                        variant="outlined"
+                        color="common"
+                        disabled
+                      />
+                    </Stack>
+                  </CardContent>
+                </Card>
+             
               <Card style={{ marginTop: 10, borderRadius: 20 }}>
                   <CardContent>
                     <Typography variant="subtitle2" style={{ color: '#ff7424' }}>

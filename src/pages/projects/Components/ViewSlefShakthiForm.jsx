@@ -21,9 +21,10 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
     const participantId = participantData?.participant_id ? parseInt(participantData?.participant_id, 10) : null; // Ensure participantId is valid or null
     const [sendData, setSendData] = useState(
         {
+            "firstName": "",
 
             "id": participantId,
-
+            "taluk": "",
             "migration_profile": "",
             "household_migration_last_year": "",
             "migrant_sends_remittance": "",
@@ -233,7 +234,7 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
         Occupation();
     }, [])
 
-
+    const [reload, setREload] = useState(false)
     const Occupation = () => {
         const data = {
             "participantId": participantId
@@ -251,6 +252,7 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
             .then(function (response) {
                 console.log(response.data.data[0], "response")
                 setSendData(response.data.data[0])
+                setREload(!reload)
             })
             .catch(function (error) {
                 // console.log(error);
@@ -258,7 +260,11 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
 
     }
 
+    useEffect(() => {
+        console.log("useEffect calling ", sendData.firstName)
+    }, [reload])
 
+    console.log(sendData, "sendData")
 
     useEffect(() => {
         if (participantId) {
@@ -728,7 +734,7 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
                                                                     label="Your Answer"
                                                                     variant="outlined"
                                                                     value={sendData?.loanSources}
-                                                                   
+
                                                                 />
                                                             </Stack>
                                                         </CardContent>
@@ -1343,17 +1349,17 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
                                             </CardContent>
                                         </Card>
                                         <Card style={{ marginTop: 10, borderRadius: 20 }}>
-                                        <CardContent>
-                                        <Stack id="create-poa-stack" direction={'row'}>
-                                        <Typography variant="subtitle2" style={{ color: '#ff7424' }}>Suggested Gelathi</Typography><br />
-                                            <Switch id="switch-suggested-gelathi" value={sendData?.gelathiRecomm}
+                                            <CardContent>
+                                                <Stack id="create-poa-stack" direction={'row'}>
+                                                    <Typography variant="subtitle2" style={{ color: '#ff7424' }}>Suggested Gelathi</Typography><br />
+                                                    <Switch id="switch-suggested-gelathi" value={sendData?.gelathiRecomm}
 
-                                                disabled
-                                           
+                                                        disabled
 
-                                            />
-                                        </Stack>
-                                        </CardContent>
+
+                                                    />
+                                                </Stack>
+                                            </CardContent>
                                         </Card>
 
                                     </>
@@ -1390,9 +1396,9 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
                                                             <TextField
                                                                 id="twoquestions"
                                                                 label="Your Answer"
-                                                                type="number"
-                                                                value={sendData.GelathiId}
                                                                 disabled
+                                                                value={sendData.firstName}
+
                                                                 variant="outlined"
                                                                 color="common"
                                                             />
@@ -1408,7 +1414,7 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
                                                             <TextField
                                                                 id="twoquestions"
                                                                 label="Your Answer"
-                                                                type="number"
+                                                                type="text"
                                                                 disabled
                                                                 value={sendData.district}
 
@@ -1427,8 +1433,7 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
                                                             <TextField
                                                                 id="twoquestions"
                                                                 label="Your Answer"
-                                                                type="number"
-                                                                value={sendData?.taluk}
+                                                                value={sendData.taluk}
                                                                 disabled
                                                                 variant="outlined"
                                                                 color="common"
@@ -1462,7 +1467,7 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
                                                             <TextField
                                                                 id="skillsresources"
                                                                 label="Your Answer"
-                                                                disbaled
+                                                                disabled
                                                                 value={sendData.village_name}
                                                                 variant="outlined"
                                                                 color="common"
@@ -1480,10 +1485,10 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
                                                         </Typography>
                                                         <Stack mt={2} mb={2}>
                                                             <TextField
-                                                                type="number"
+                                                                type="text"
                                                                 id="skillsresources"
                                                                 label="Your Answer"
-                                                                disbaled
+                                                                disabled
                                                                 value={sendData.total_adults_no_of_member_household}
                                                                 variant="outlined"
                                                                 color="common"
@@ -1499,11 +1504,11 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
                                                         </Typography>
                                                         <Stack mt={2} mb={2}>
                                                             <TextField
-                                                                type="number"
+                                                                type="text"
                                                                 id="skillsresources"
                                                                 label="Your Answer"
-                                                                disbaled
-                                                                value={sendData?.total_adults_no_of_member_household}
+                                                                disabled
+                                                                value={sendData?.numOfChildren}
                                                                 variant="outlined"
                                                                 color="common"
                                                             />
@@ -1519,7 +1524,7 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
                                                             <TextField
                                                                 id="twoquestions"
                                                                 label="Your Answer"
-                                                                type="number"
+                                                                type="text"
                                                                 value={sendData?.house}
                                                                 disabled
                                                                 variant="outlined"
@@ -1539,7 +1544,7 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
                                                             <TextField
                                                                 id="twoquestions"
                                                                 label="Your Answer"
-                                                                type="number"
+                                                                type="text"
                                                                 value={sendData?.roof}
                                                                 disabled
                                                                 variant="outlined"
@@ -1560,7 +1565,7 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
                                                             <TextField
                                                                 id="twoquestions"
                                                                 label="Your Answer"
-                                                                type="number"
+                                                                type="text"
                                                                 value={sendData?.ration_card}
                                                                 disabled
                                                                 variant="outlined"
@@ -1578,8 +1583,8 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
                                                             <TextField
                                                                 id="twoquestions"
                                                                 label="Your Answer"
-                                                                type="number"
-                                                                value={sendData?.cast_category}
+                                                                type="text"
+                                                                value={sendData?.caste}
                                                                 variant="outlined"
                                                                 color="common"
                                                                 disabled
@@ -1598,7 +1603,7 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
                                                                 id="grampanchayath"
                                                                 label="Your Answer"
                                                                 disabled
-                                                                value={sendData?.sub_cast}
+                                                                value={sendData?.sub_cast_name}
                                                                 variant="outlined"
                                                                 color="common"
                                                             />
@@ -1614,7 +1619,7 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
                                                             <TextField
                                                                 id="twoquestions"
                                                                 label="Your Answer"
-                                                                type="number"
+                                                                type="text"
                                                                 value={sendData?.religion}
                                                                 disabled
                                                                 variant="outlined"
@@ -1630,7 +1635,7 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
                                                         </Typography>
                                                         <Stack mt={2} mb={2}>
                                                             <TextField
-                                                                type="number"
+                                                                type="text"
                                                                 id="twoquestions"
                                                                 label="Your Answer"
                                                                 value={sendData?.age}
@@ -1651,8 +1656,8 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
                                                             <TextField
                                                                 id="twoquestions"
                                                                 label="Your Answer"
-                                                                type="number"
-                                                                value={sendData?.material_status}
+                                                                type="text"
+                                                                value={sendData?.marital_status}
                                                                 disabled
                                                                 variant="outlined"
                                                                 color="common"
@@ -1671,7 +1676,7 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
                                                             <TextField
                                                                 id="twoquestions"
                                                                 label="Your Answer"
-                                                                type="number"
+                                                                type="text"
                                                                 value={sendData?.education}
                                                                 disabled
                                                                 variant="outlined"
@@ -1693,7 +1698,7 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
                                                             <TextField
                                                                 id="twoquestions"
                                                                 label="Your Answer"
-                                                                type="number"
+                                                                type="text"
                                                                 value={sendData?.primary_occupation_of_the_household}
                                                                 disabled
                                                                 variant="outlined"
@@ -1713,7 +1718,7 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
                                                             <TextField
                                                                 id="twoquestions"
                                                                 label="Your Answer"
-                                                                type="number"
+                                                                type="text"
                                                                 disabled
                                                                 value={sendData?.secondary_occupation_of_the_household}
                                                                 variant="outlined"
@@ -1732,7 +1737,7 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
                                                             <TextField
                                                                 id="twoquestions"
                                                                 label="Your Answer"
-                                                                type="number" value={sendData?.womens_occupation}
+                                                                type="text" value={sendData?.womens_occupation}
                                                                 variant="outlined"
                                                                 color="common"
                                                                 disabled
@@ -1750,7 +1755,7 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
                                                             <TextField
                                                                 id="Email"
                                                                 disabled
-                                                                type="number"
+                                                                type="text"
                                                                 label="Your answer"
                                                                 value={sendData?.monthly_women_income}
                                                                 variant="outlined"
@@ -1769,7 +1774,7 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
                                                             <TextField
                                                                 id="twoquestions"
                                                                 label="Your Answer"
-                                                                type="number"
+                                                                type="text"
                                                                 value={sendData?.source_of_this_income}
                                                                 disabled
                                                                 variant="outlined"
@@ -1792,8 +1797,8 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
                                                                 id="Email"
                                                                 disabled
                                                                 label="Your answer"
-                                                                type="number"
-                                                                value={sendData.monthly_household_expenditure}
+                                                                type="text"
+                                                                value={sendData.householdUse}
                                                                 variant="outlined"
                                                                 color="common"
                                                             />
@@ -1813,9 +1818,9 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
                                                             <TextField
                                                                 id="Email"
                                                                 disabled
-                                                                type="number"
+                                                                type="text"
                                                                 label="Your answer"
-                                                                value={sendData.monthly_household_income}
+                                                                value={sendData.income}
 
                                                                 variant="outlined"
                                                                 color="common"
@@ -1834,7 +1839,7 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
                                                             <RadioGroup
                                                                 aria-labelledby="demo-radio-buttons-group-label"
                                                                 name="radio-buttons-group"
-                                                              
+
                                                                 disabled
                                                                 value={sendData.sole_earner_family}
                                                             >
@@ -1842,11 +1847,13 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
                                                                     <FormControlLabel
                                                                         value="No"
                                                                         control={<Radio style={{ color: "#595959" }} />}
+                                                                        disabled
                                                                         label="No"
                                                                     />
                                                                     <FormControlLabel
                                                                         value="Yes"
                                                                         control={<Radio style={{ color: "#595959" }} />}
+                                                                        disabled
                                                                         label="Yes" />
                                                                 </div>
                                                             </RadioGroup>
@@ -1894,11 +1901,13 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
                                                             <FormControlLabel
                                                                 value="No"
                                                                 control={<Radio style={{ color: "#595959" }} />}
+                                                                disabled
                                                                 label="No"
                                                             />
                                                             <FormControlLabel
                                                                 value="Yes"
                                                                 control={<Radio style={{ color: "#595959" }} />}
+                                                                disabled
                                                                 label="Yes" />
                                                         </div>
                                                     </RadioGroup>
@@ -1926,11 +1935,13 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
                                                             <FormControlLabel
                                                                 value="No"
                                                                 control={<Radio style={{ color: "#595959" }} />}
+                                                                disabled
                                                                 label="No"
                                                             />
                                                             <FormControlLabel
                                                                 value="Yes"
                                                                 control={<Radio style={{ color: "#595959" }} />}
+                                                                disabled
                                                                 label="Yes" />
                                                         </div>
                                                     </RadioGroup>
@@ -1968,7 +1979,7 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
                                         <Card mt={1} style={{ marginTop: 10, borderRadius: 20 }}>
                                             <CardContent>
                                                 <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
-                                                    Which of the following would you record as a bookkeeping entry? <br />
+                                                    Which of the following would you record as a book keeping entry? <br />
                                                     ಕೆಳಗಿನವುಗಳಲ್ಲಿ ಯಾವುದನ್ನು ನೀವು ಬುಕ್‌ಕೀಪಿಂಗ್ ನಮೂದು ಎಂದು ರೆಕಾರ್ಡ್ ಮಾಡುತ್ತೀರಿ?
                                                 </Typography>
                                                 <Stack mt={2} mb={2}>
@@ -2030,7 +2041,7 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
                                                         label="Your Answer"
                                                         value={sendData.annual_interest_rate}
                                                         disabled
-                                                        type="number"
+                                                        type="text"
 
                                                         variant="outlined"
                                                         color="common"
@@ -2049,7 +2060,7 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
                                                         label="Your Answer"
                                                         value={sendData.interest_payment_due}
 
-                                                        type="number"
+                                                        type="text"
                                                         disabled
                                                         variant="outlined"
                                                         color="common"
@@ -2070,7 +2081,7 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
                                                         label="Your Answer"
                                                         value={sendData.profit_made}
 
-                                                        type="number"
+                                                        type="text"
                                                         disabled
                                                         variant="outlined"
                                                         color="common"
@@ -2096,11 +2107,13 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
                                                             <FormControlLabel
                                                                 value="No"
                                                                 control={<Radio style={{ color: "#595959" }} />}
+                                                                disabled
                                                                 label="No"
                                                             />
                                                             <FormControlLabel
                                                                 value="Yes"
                                                                 control={<Radio style={{ color: "#595959" }} />}
+                                                                disabled
                                                                 label="Yes" />
                                                         </div>
                                                     </RadioGroup>
@@ -2124,11 +2137,13 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
                                                             <FormControlLabel
                                                                 value="No"
                                                                 control={<Radio style={{ color: "#595959" }} />}
+                                                                disabled
                                                                 label="No"
                                                             />
                                                             <FormControlLabel
                                                                 value="Yes"
                                                                 control={<Radio style={{ color: "#595959" }} />}
+                                                                disabled
                                                                 label="Yes" />
                                                         </div>
                                                     </RadioGroup>
@@ -2178,7 +2193,7 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
                                                                     <Checkbox
                                                                         color="primary"
                                                                         checked={sendData.money_decision_maker.includes(item.name)}
-                                                                       disabled
+                                                                        disabled
                                                                     />
                                                                 }
                                                                 label={item.name}
@@ -2200,19 +2215,24 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
                                                         aria-labelledby="demo-radio-buttons-group-label"
                                                         name="radio-buttons-group"
                                                         disabled
-                                                         value={sendData.monthly_expense_plan}
+                                                        value={sendData.monthly_expense_plan}
                                                     >
                                                         <div style={{ display: "flex" }}>
                                                             <FormControlLabel
                                                                 value="No"
                                                                 control={<Radio style={{ color: "#595959" }} />}
+                                                                disabled
                                                                 label="No"
+                                                                disabled
                                                             />
                                                             <FormControlLabel
                                                                 value="Yes"
                                                                 control={<Radio style={{ color: "#595959" }} />}
-                                                                label="Yes" />
-                                                            <FormControlLabel value="Don't know" control={<Radio style={{ color: "#595959" }} />} label="Don't know" />
+                                                                disabled
+                                                                label="Yes"
+                                                                disabled />
+                                                            <FormControlLabel value="Don't know" control={<Radio style={{ color: "#595959" }} />}
+                                                                disabled label="Don't know" />
                                                         </div>
                                                     </RadioGroup>
                                                 </Stack>
@@ -2231,7 +2251,7 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
                                                         label="Your Answer"
                                                         value={sendData.monthly_expense_amount}
 
-                                                        type="number"
+                                                        type="text"
                                                         disabled
                                                         variant="outlined"
                                                         color="common"
@@ -2257,11 +2277,13 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
                                                             <FormControlLabel
                                                                 value="No"
                                                                 control={<Radio style={{ color: "#595959" }} />}
+                                                                disabled
                                                                 label="No"
                                                             />
                                                             <FormControlLabel
                                                                 value="Yes"
                                                                 control={<Radio style={{ color: "#595959" }} />}
+                                                                disabled
                                                                 label="Yes" />
                                                         </div>
                                                     </RadioGroup>
@@ -2290,7 +2312,7 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
                                                         label="Your Answer"
                                                         value={sendData.individual_savings}
 
-                                                        type="number"
+                                                        type="text"
 
                                                         disabled
                                                         variant="outlined"
@@ -2312,7 +2334,7 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
                                                         label="Your Answer"
                                                         value={sendData.monthly_savings_individual}
 
-                                                        type="number"
+                                                        type="text"
                                                         disabled
                                                         variant="outlined"
                                                         color="common"
@@ -2333,7 +2355,7 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
                                                         label="Your Answer"
                                                         value={sendData.annual_savings_household}
 
-                                                        type="number"
+                                                        type="text"
                                                         disabled
                                                         variant="outlined"
                                                         color="common"
@@ -2361,11 +2383,13 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
                                                             <FormControlLabel
                                                                 value="No"
                                                                 control={<Radio style={{ color: "#595959" }} />}
+                                                                disabled
                                                                 label="No"
                                                             />
                                                             <FormControlLabel
                                                                 value="Yes"
                                                                 control={<Radio style={{ color: "#595959" }} />}
+                                                                disabled
                                                                 label="Yes" />
                                                         </div>
                                                     </RadioGroup>
@@ -2391,11 +2415,13 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
                                                             <FormControlLabel
                                                                 value="No"
                                                                 control={<Radio style={{ color: "#595959" }} />}
+                                                                disabled
                                                                 label="No"
                                                             />
                                                             <FormControlLabel
                                                                 value="Yes"
                                                                 control={<Radio style={{ color: "#595959" }} />}
+                                                                disabled
                                                                 label="Yes" />
                                                         </div>
                                                     </RadioGroup>
@@ -2441,7 +2467,7 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
                                                         label="Your Answer"
                                                         value={sendData.amount_borrowed}
 
-                                                        type="number"
+                                                        type="text"
                                                         disabled
                                                         variant="outlined"
                                                         color="common"
@@ -2512,7 +2538,7 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
 
                                                         value={sendData.rate_of_interest}
 
-                                                        type="number"
+                                                        type="text"
                                                         disabled
                                                         variant="outlined"
                                                         color="common"
@@ -2539,14 +2565,17 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
                                                             <FormControlLabel
                                                                 value="No"
                                                                 control={<Radio style={{ color: "#595959" }} />}
+                                                                disabled
                                                                 label="No"
                                                             />
                                                             <FormControlLabel
                                                                 value="Yes"
                                                                 control={<Radio style={{ color: "#595959" }} />}
+                                                                disabled
                                                                 label="Yes" />
 
-                                                            <FormControlLabel value={1} control={<Radio style={{ color: "#595959" }} />} label="Don't Know" />
+                                                            <FormControlLabel value={1} control={<Radio style={{ color: "#595959" }} />}
+                                                                disabled label="Don't Know" />
                                                         </div>
                                                     </RadioGroup>
                                                 </Stack>
@@ -2577,11 +2606,13 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
                                                             <FormControlLabel
                                                                 value="No"
                                                                 control={<Radio style={{ color: "#595959" }} />}
+                                                                disabled
                                                                 label="No"
                                                             />
                                                             <FormControlLabel
                                                                 value="Yes"
                                                                 control={<Radio style={{ color: "#595959" }} />}
+                                                                disabled
                                                                 label="Yes" />
 
                                                         </div>
@@ -2605,11 +2636,13 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
                                                             <FormControlLabel
                                                                 value="No"
                                                                 control={<Radio style={{ color: "#595959" }} />}
+                                                                disabled
                                                                 label="No"
                                                             />
                                                             <FormControlLabel
                                                                 value="Yes"
                                                                 control={<Radio style={{ color: "#595959" }} />}
+                                                                disabled
                                                                 label="Yes" />
 
                                                         </div>
@@ -2636,11 +2669,13 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
                                                             <FormControlLabel
                                                                 value="No"
                                                                 control={<Radio style={{ color: "#595959" }} />}
+                                                                disabled
                                                                 label="No"
                                                             />
                                                             <FormControlLabel
                                                                 value="Yes"
                                                                 control={<Radio style={{ color: "#595959" }} />}
+                                                                disabled
                                                                 label="Yes" />
 
                                                         </div>
@@ -2668,11 +2703,13 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
                                                             <FormControlLabel
                                                                 value="No"
                                                                 control={<Radio style={{ color: "#595959" }} />}
+                                                                disabled
                                                                 label="No"
                                                             />
                                                             <FormControlLabel
                                                                 value="Yes"
                                                                 control={<Radio style={{ color: "#595959" }} />}
+                                                                disabled
                                                                 label="Yes" />
 
                                                         </div>
@@ -2699,11 +2736,13 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
                                                             <FormControlLabel
                                                                 value="No"
                                                                 control={<Radio style={{ color: "#595959" }} />}
+                                                                disabled
                                                                 label="No"
                                                             />
                                                             <FormControlLabel
                                                                 value="Yes"
                                                                 control={<Radio style={{ color: "#595959" }} />}
+                                                                disabled
                                                                 label="Yes" />
 
                                                         </div>
@@ -2730,11 +2769,13 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
                                                             <FormControlLabel
                                                                 value="No"
                                                                 control={<Radio style={{ color: "#595959" }} />}
+                                                                disabled
                                                                 label="No"
                                                             />
                                                             <FormControlLabel
                                                                 value="Yes"
                                                                 control={<Radio style={{ color: "#595959" }} />}
+                                                                disabled
                                                                 label="Yes" />
 
                                                         </div>
@@ -2764,11 +2805,13 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
                                                             <FormControlLabel
                                                                 value="No"
                                                                 control={<Radio style={{ color: "#595959" }} />}
+                                                                disabled
                                                                 label="No"
                                                             />
                                                             <FormControlLabel
                                                                 value="Yes"
                                                                 control={<Radio style={{ color: "#595959" }} />}
+                                                                disabled
                                                                 label="Yes" />
 
                                                         </div>
@@ -2798,11 +2841,13 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
                                                             <FormControlLabel
                                                                 value="No"
                                                                 control={<Radio style={{ color: "#595959" }} />}
+                                                                disabled
                                                                 label="No"
                                                             />
                                                             <FormControlLabel
                                                                 value="Yes"
                                                                 control={<Radio style={{ color: "#595959" }} />}
+                                                                disabled
                                                                 label="Yes" />
 
                                                         </div>
@@ -2832,11 +2877,13 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
                                                             <FormControlLabel
                                                                 value="No"
                                                                 control={<Radio style={{ color: "#595959" }} />}
+                                                                disabled
                                                                 label="No"
                                                             />
                                                             <FormControlLabel
                                                                 value="Yes"
                                                                 control={<Radio style={{ color: "#595959" }} />}
+                                                                disabled
                                                                 label="Yes" />
                                                         </div>
                                                     </RadioGroup>
@@ -2872,19 +2919,10 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
 
                                         <Card style={{ marginTop: 10, borderRadius: 20 }}>
                                             <CardContent>
-                                                <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+                                                <Typography variant="subtitle2" style={{ color: '#ff7424', textAlign: "center" }}>
                                                     Goals/ಗುರಿಗಳು
                                                 </Typography>
-                                                <Stack mt={2} mb={2}>
-                                                    <TextField
-                                                        id="twoquestions"
-                                                        label="Your Answer"
-                                                        value={sendData.goals}
-                                                        disabled
-                                                        variant="outlined"
-                                                        color="common"
-                                                    />
-                                                </Stack>
+
                                             </CardContent>
                                         </Card>
                                         <Card style={{ marginTop: 10, borderRadius: 20 }}>
@@ -2910,11 +2948,13 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
                                                             <FormControlLabel
                                                                 value="No"
                                                                 control={<Radio style={{ color: "#595959" }} />}
+                                                                disabled
                                                                 label="No"
                                                             />
                                                             <FormControlLabel
                                                                 value="Yes"
                                                                 control={<Radio style={{ color: "#595959" }} />}
+                                                                disabled
                                                                 label="Yes" />
                                                         </div>
                                                     </RadioGroup>
@@ -2924,8 +2964,8 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
                                         <Card style={{ marginTop: 10, borderRadius: 20 }}>
                                             <CardContent>
                                                 <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
-                                                    Could you share a short-term goal that you have set for yourself? ………………………………………
-                                                    ನೀವು  ನಿಮಗಾಗಿ  ಹೊಂದಿಸಿರುವ ಅಲ್ಪಾವಧಿಯ ಗುರಿಯನ್ನು ನೀವು ಹಂಚಿಕೊಳ್ಳಬಹುದೇ? ……………………………………………
+                                                    Could you share a short-term goal that you have set for yourself?
+                                                    ನೀವು  ನಿಮಗಾಗಿ  ಹೊಂದಿಸಿರುವ ಅಲ್ಪಾವಧಿಯ ಗುರಿಯನ್ನು ನೀವು ಹಂಚಿಕೊಳ್ಳಬಹುದೇ?
                                                 </Typography>
                                                 <Stack mt={2} mb={2}>
                                                     <TextField
@@ -2987,250 +3027,255 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
                                                             <FormControlLabel
                                                                 value="No"
                                                                 control={<Radio style={{ color: "#595959" }} />}
+                                                                disabled
+
                                                                 label="No"
                                                             />
                                                             <FormControlLabel
                                                                 value="Yes"
                                                                 control={<Radio style={{ color: "#595959" }} />}
+                                                                disabled
                                                                 label="Yes" />
                                                         </div>
                                                     </RadioGroup>
                                                 </Stack>
                                             </CardContent>
                                         </Card>
-                                        {(sendData?.family_business =="No")?
-               <Card mt={1} style={{ marginTop: 10, borderRadius: 20 }}>
-               <CardContent>
-                           <Stack mt={1}>
-                              <Typography variant="subtitle2" style={{ color: '#ff7424' }}>If no, would you want to start an enterprise of your own?
-                               ಇಲ್ಲದಿದ್ದರೆ, ನಿಮ್ಮದೇ ಆದ ಉದ್ಯಮವನ್ನು ಪ್ರಾರಂಭಿಸಲು ನೀವು ಬಯಸುವಿರಾ?
-                             </Typography>
-                             <Typography>
-             
-                           
-                             </Typography>
-                             <RadioGroup
-                               aria-labelledby="demo-radio-buttons-group-label"
-                               name="radio-buttons-group"
-                               disabled
-                               value={sendData.want_to_start_enterprise}
-                              
-                             >
-                               <div style={{ display: "flex" }}>
-                               <FormControlLabel
-                         value="No"
-                         control={<Radio style={{ color: "#595959" }} />}
-                         label="No"
-                       />
-                       <FormControlLabel
-                         value="Yes"
-                         control={<Radio style={{ color: "#595959" }} />}
-                         label="Yes"/>
-                               </div>
-                             </RadioGroup>
-                           </Stack>
-                           </CardContent>
-                           </Card>
-                           :
-                           null
-            }
-             
-             {
-(sendData?.family_business =="Yes")?
-<>
-<Card mt={1} style={{ marginTop: 10, borderRadius: 20 }}>
-  
-  <CardContent>
-    <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
-      What is the type of the enterprise? <br />
-      ಉದ್ಯಮದ ಪ್ರಕಾರ ಯಾವುದು?
-    </Typography>
-    <Stack mt={2} mb={2}>
-      <FormGroup>
-        {businessTypes.map((item) => (
-          <FormControlLabel
-            key={item.id}
-            control={
-              <Checkbox
-                color="primary"
-                checked={sendData.enterprise_type.includes(item.name)}
-               disabled
-              />
-            }
-            label={item.name}
-          />
-        ))}
-      </FormGroup>
-    </Stack>
-  </CardContent>
-</Card>
-<>
-
-              
-<Card style={{ marginTop: 10, borderRadius: 20 }}>
-                <CardContent>
-                  <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
-                    How many people are employed in the enterprise (paid workers) ………………..
-                    ಎಂಟರ್‌ಪ್ರೈಸ್‌ನಲ್ಲಿ ಎಷ್ಟು ಜನರು ಕೆಲಸ ಮಾಡುತ್ತಿದ್ದಾರೆ (ಪಾವತಿಸಿದ ಕೆಲಸಗಾರರು) …………………….
-                  </Typography>
-                  <Stack mt={2} mb={2}>
-                    <TextField
-                      id="twoquestions"
-                      label="Your Answer"
-                      type="number"
-                     disabled
-                      variant="outlined"
-                      color="common"
-                      value={sendData?.num_employees_paid}
-                    />
-                  </Stack>
-                </CardContent>
-              </Card>
-              <Card mt={1} style={{ marginTop: 10, borderRadius: 20 }}>
-                <CardContent>
-                  <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
-                    What is the nature of your individual involvement in the enterprise/business?
-                    ಉದ್ಯಮ/ವ್ಯವಹಾರದಲ್ಲಿ ನಿಮ್ಮ ವೈಯಕ್ತಿಕ ಒಳಗೊಳ್ಳುವಿಕೆಯ ಸ್ವರೂಪವೇನು?
+                                        {(sendData?.family_business == "No") ?
+                                            <Card mt={1} style={{ marginTop: 10, borderRadius: 20 }}>
+                                                <CardContent>
+                                                    <Stack mt={1}>
+                                                        <Typography variant="subtitle2" style={{ color: '#ff7424' }}>If no, would you want to start an enterprise of your own?
+                                                            ಇಲ್ಲದಿದ್ದರೆ, ನಿಮ್ಮದೇ ಆದ ಉದ್ಯಮವನ್ನು ಪ್ರಾರಂಭಿಸಲು ನೀವು ಬಯಸುವಿರಾ?
+                                                        </Typography>
+                                                        <Typography>
 
 
-                  
-                    <Card style={{ marginTop: 10, borderRadius: 20 }}>
-                      <CardContent>
-                        <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
-                          Do you work along with other paid workers in the enterprise?
-                          ನಿಮ್ಮ ಉದ್ಯಮದ ಜೊತೆ ದಿನಗೂಲಿ ನೌಕರರ ಜೊತೆ ಕಾರ್ಯ ನಿರ್ವಹಿಸುತ್ತಿದ್ಧೀರ?
+                                                        </Typography>
+                                                        <RadioGroup
+                                                            aria-labelledby="demo-radio-buttons-group-label"
+                                                            name="radio-buttons-group"
+                                                            disabled
+                                                            value={sendData.want_to_start_enterprise}
 
-                        </Typography>
-                        <Stack mt={2} mb={2}>
-                          <TextField
-                            id="twoquestions"
-                            label="Your Answer"
-                          value={sendData?.collaborate_with_workers_c}
-                            variant="outlined"
-                            color="common"
-                          />
-                        </Stack>
-                      </CardContent>
-                    </Card>
-                    <Card style={{ marginTop: 10, borderRadius: 20 }}>
-                      <CardContent>
-                        <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
-                          Are you responsible for managing the daily affairs of the enterprise?
-                          ನೀವು ಉದ್ಯಮದ  ದೈನಂದಿನ ವ್ಯವಹಾರಗಳನ್ನು ನಿರ್ವಹಿಸಲು  ಜವಾಬ್ದಾರರಾಗಿದ್ದೀರಾ?
-                        </Typography>
-                        <Stack mt={2} mb={2}>
-                          <TextField
-                            id="twoquestions"
-                            label="Your Answer"
-                            value={sendData?.daily_affairs_management_c}
-                           disabled
-                            variant="outlined"
-                            color="common"
-                          />
-                        </Stack>
-                      </CardContent>
-                    </Card>
-                    <Card style={{ marginTop: 10, borderRadius: 20 }}>
-                      <CardContent>
-                        <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
-                          Do you take important financial decisions?
-                          ನೀವು ಪ್ರಮುಖ ಹಣಕಾಸಿನ ನಿರ್ಧಾರಗಳನ್ನು ತೆಗೆದುಕೊಳ್ಳುತ್ತೀರಾ?
+                                                        >
+                                                            <div style={{ display: "flex" }}>
+                                                                <FormControlLabel
+                                                                    value="No"
+                                                                    control={<Radio style={{ color: "#595959" }} />}
+                                                                    disabled
+                                                                    label="No"
+                                                                />
+                                                                <FormControlLabel
+                                                                    value="Yes"
+                                                                    control={<Radio style={{ color: "#595959" }} />}
+                                                                    disabled
+                                                                    label="Yes" />
+                                                            </div>
+                                                        </RadioGroup>
+                                                    </Stack>
+                                                </CardContent>
+                                            </Card>
+                                            :
+                                            null
+                                        }
 
-                        </Typography>
-                        <Stack mt={2} mb={2}>
-                          <TextField
-                            id="twoquestions"
-                            label="Your Answer"
-                           value={sendData?.financial_decision_maker_c}
-                            variant="outlined"
-                            color="common"
-                          />
-                        </Stack>
-                      </CardContent>
-                    </Card>
-                    <Card style={{ marginTop: 10, borderRadius: 20 }}>
-                      <CardContent>
-                        <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+                                        {
+                                            (sendData?.family_business == "Yes") ?
+                                                <>
+                                                    <Card mt={1} style={{ marginTop: 10, borderRadius: 20 }}>
 
-                          Do you maintain a daily book of accounts?
-                          ನೀವು ದೈನಂದಿನ ಹಣಕಾಸಿನ ಖಾತೆಗಳ ಪುಸ್ತಕವನ್ನು ನಿರ್ವಹಿಸುತ್ತೀರಾ?
-                        </Typography>
-                        <Stack mt={2} mb={2}>
-                          <TextField
-                            id="twoquestions"
-                            label="Your Answer"
-                            disabled
-                          value={sendData?.daily_accounts_book_c}
-                            variant="outlined"
-                            color="common"
-                          />
-                        </Stack>
-                      </CardContent>
-                    </Card>
-                  </Typography>
+                                                        <CardContent>
+                                                            <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+                                                                What is the type of the enterprise? <br />
+                                                                ಉದ್ಯಮದ ಪ್ರಕಾರ ಯಾವುದು?
+                                                            </Typography>
+                                                            <Stack mt={2} mb={2}>
+                                                                <FormGroup>
+                                                                    {businessTypes.map((item) => (
+                                                                        <FormControlLabel
+                                                                            key={item.id}
+                                                                            control={
+                                                                                <Checkbox
+                                                                                    color="primary"
+                                                                                    checked={sendData.enterprise_type.includes(item.name)}
+                                                                                    disabled
+                                                                                />
+                                                                            }
+                                                                            label={item.name}
+                                                                        />
+                                                                    ))}
+                                                                </FormGroup>
+                                                            </Stack>
+                                                        </CardContent>
+                                                    </Card>
+                                                    <>
 
-                </CardContent>
-              </Card>
-              <Card style={{ marginTop: 10, borderRadius: 20 }}>
-                <CardContent>
-                  <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
-                    What is the monthly income of the enterprise?  ಉದ್ಯಮದ ಮಾಸಿಕ ಆದಾಯ ಎಷ್ಟು?
-                  </Typography>
-                  <Stack mt={2} mb={2}>
-                    <TextField
-                      id="twoquestions"
-                      label="Your Answer"
-                      type="number"
-                    disabled
-                    value={sendData?.enterprise_monthly_income}
-                      variant="outlined"
-                      color="common"
-                    />
-                  </Stack>
-                </CardContent>
-              </Card>
-              <Card mt={1} style={{ marginTop: 10, borderRadius: 20 }}>
-  <CardContent>
-              <Stack mt={1}>
-                <Typography variant="subtitle2" style={{ color: '#ff7424' }}>  Is the enterprise currently making profits?  ಉದ್ಯಮವು ಪ್ರಸ್ತುತ ಲಾಭ ಗಳಿಸುತ್ತಿದೆಯೇ?
-                 
 
-                </Typography>
-                <Select
-            value={sendData.enterprise_is_profitable}
-           disabled
-               variant="standard"
-            style={{ marginTop: 10 }}
-          >
-            <MenuItem value="">
-            
-            </MenuItem>
-            <MenuItem value="Yes">Yes</MenuItem>
-            <MenuItem value="No">No</MenuItem>
-          </Select>
-              
-              </Stack>
-              </CardContent>
-              </Card>
-              <Card style={{ marginTop: 10, borderRadius: 20 }}>
-                <CardContent>
-                  <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
-                    What is your profit per month?  ತಿಂಗಳಿಗೆ ನಿಮ್ಮ ಲಾಭ ಎಷ್ಟು?
-                  </Typography>
-                  <Stack mt={2} mb={2}>
-                    <TextField
-                      id="twoquestions"
-                      label="Your Answer"
-                      type="number"
-                      disabled
-                     value={sendData?.monthly_profit}
-                      variant="outlined"
-                      color="common"
-                    />
-                  </Stack>
-                </CardContent>
-              </Card>
-              {/* <Card style={{ marginTop: 10, borderRadius: 20 }}>
+                                                        <Card style={{ marginTop: 10, borderRadius: 20 }}>
+                                                            <CardContent>
+                                                                <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+                                                                    How many people are employed in the enterprise (paid workers) ………………..
+                                                                    ಎಂಟರ್‌ಪ್ರೈಸ್‌ನಲ್ಲಿ ಎಷ್ಟು ಜನರು ಕೆಲಸ ಮಾಡುತ್ತಿದ್ದಾರೆ (ಪಾವತಿಸಿದ ಕೆಲಸಗಾರರು) …………………….
+                                                                </Typography>
+                                                                <Stack mt={2} mb={2}>
+                                                                    <TextField
+                                                                        id="twoquestions"
+                                                                        label="Your Answer"
+                                                                        type="text"
+                                                                        disabled
+                                                                        variant="outlined"
+                                                                        color="common"
+                                                                        value={sendData?.num_employees_paid}
+                                                                    />
+                                                                </Stack>
+                                                            </CardContent>
+                                                        </Card>
+                                                        <Card mt={1} style={{ marginTop: 10, borderRadius: 20 }}>
+                                                            <CardContent>
+                                                                <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+                                                                    What is the nature of your individual involvement in the enterprise/business?
+                                                                    ಉದ್ಯಮ/ವ್ಯವಹಾರದಲ್ಲಿ ನಿಮ್ಮ ವೈಯಕ್ತಿಕ ಒಳಗೊಳ್ಳುವಿಕೆಯ ಸ್ವರೂಪವೇನು?
+
+
+
+                                                                    <Card style={{ marginTop: 10, borderRadius: 20 }}>
+                                                                        <CardContent>
+                                                                            <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+                                                                                Do you work along with other paid workers in the enterprise?
+                                                                                ನಿಮ್ಮ ಉದ್ಯಮದ ಜೊತೆ ದಿನಗೂಲಿ ನೌಕರರ ಜೊತೆ ಕಾರ್ಯ ನಿರ್ವಹಿಸುತ್ತಿದ್ಧೀರ?
+
+                                                                            </Typography>
+                                                                            <Stack mt={2} mb={2}>
+                                                                                <TextField
+                                                                                    id="twoquestions"
+                                                                                    label="Your Answer"
+                                                                                    value={sendData?.collaborate_with_workers_c}
+                                                                                    variant="outlined"
+                                                                                    color="common"
+                                                                                />
+                                                                            </Stack>
+                                                                        </CardContent>
+                                                                    </Card>
+                                                                    <Card style={{ marginTop: 10, borderRadius: 20 }}>
+                                                                        <CardContent>
+                                                                            <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+                                                                                Are you responsible for managing the daily affairs of the enterprise?
+                                                                                ನೀವು ಉದ್ಯಮದ  ದೈನಂದಿನ ವ್ಯವಹಾರಗಳನ್ನು ನಿರ್ವಹಿಸಲು  ಜವಾಬ್ದಾರರಾಗಿದ್ದೀರಾ?
+                                                                            </Typography>
+                                                                            <Stack mt={2} mb={2}>
+                                                                                <TextField
+                                                                                    id="twoquestions"
+                                                                                    label="Your Answer"
+                                                                                    value={sendData?.daily_affairs_management_c}
+                                                                                    disabled
+                                                                                    variant="outlined"
+                                                                                    color="common"
+                                                                                />
+                                                                            </Stack>
+                                                                        </CardContent>
+                                                                    </Card>
+                                                                    <Card style={{ marginTop: 10, borderRadius: 20 }}>
+                                                                        <CardContent>
+                                                                            <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+                                                                                Do you take important financial decisions?
+                                                                                ನೀವು ಪ್ರಮುಖ ಹಣಕಾಸಿನ ನಿರ್ಧಾರಗಳನ್ನು ತೆಗೆದುಕೊಳ್ಳುತ್ತೀರಾ?
+
+                                                                            </Typography>
+                                                                            <Stack mt={2} mb={2}>
+                                                                                <TextField
+                                                                                    id="twoquestions"
+                                                                                    label="Your Answer"
+                                                                                    value={sendData?.financial_decision_maker_c}
+                                                                                    variant="outlined"
+                                                                                    color="common"
+                                                                                />
+                                                                            </Stack>
+                                                                        </CardContent>
+                                                                    </Card>
+                                                                    <Card style={{ marginTop: 10, borderRadius: 20 }}>
+                                                                        <CardContent>
+                                                                            <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+
+                                                                                Do you maintain a daily book of accounts?
+                                                                                ನೀವು ದೈನಂದಿನ ಹಣಕಾಸಿನ ಖಾತೆಗಳ ಪುಸ್ತಕವನ್ನು ನಿರ್ವಹಿಸುತ್ತೀರಾ?
+                                                                            </Typography>
+                                                                            <Stack mt={2} mb={2}>
+                                                                                <TextField
+                                                                                    id="twoquestions"
+                                                                                    label="Your Answer"
+                                                                                    disabled
+                                                                                    value={sendData?.daily_accounts_book_c}
+                                                                                    variant="outlined"
+                                                                                    color="common"
+                                                                                />
+                                                                            </Stack>
+                                                                        </CardContent>
+                                                                    </Card>
+                                                                </Typography>
+
+                                                            </CardContent>
+                                                        </Card>
+                                                        <Card style={{ marginTop: 10, borderRadius: 20 }}>
+                                                            <CardContent>
+                                                                <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+                                                                    What is the monthly income of the enterprise?  ಉದ್ಯಮದ ಮಾಸಿಕ ಆದಾಯ ಎಷ್ಟು?
+                                                                </Typography>
+                                                                <Stack mt={2} mb={2}>
+                                                                    <TextField
+                                                                        id="twoquestions"
+                                                                        label="Your Answer"
+                                                                        type="text"
+                                                                        disabled
+                                                                        value={sendData?.enterprise_monthly_income}
+                                                                        variant="outlined"
+                                                                        color="common"
+                                                                    />
+                                                                </Stack>
+                                                            </CardContent>
+                                                        </Card>
+                                                        <Card mt={1} style={{ marginTop: 10, borderRadius: 20 }}>
+                                                            <CardContent>
+                                                                <Stack mt={1}>
+                                                                    <Typography variant="subtitle2" style={{ color: '#ff7424' }}>  Is the enterprise currently making profits?  ಉದ್ಯಮವು ಪ್ರಸ್ತುತ ಲಾಭ ಗಳಿಸುತ್ತಿದೆಯೇ?
+
+
+                                                                    </Typography>
+                                                                    <Select
+                                                                        value={sendData.enterprise_is_profitable}
+                                                                        disabled
+                                                                        variant="standard"
+                                                                        style={{ marginTop: 10 }}
+                                                                    >
+                                                                        <MenuItem value="">
+
+                                                                        </MenuItem>
+                                                                        <MenuItem value="Yes">Yes</MenuItem>
+                                                                        <MenuItem value="No">No</MenuItem>
+                                                                    </Select>
+
+                                                                </Stack>
+                                                            </CardContent>
+                                                        </Card>
+                                                        <Card style={{ marginTop: 10, borderRadius: 20 }}>
+                                                            <CardContent>
+                                                                <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+                                                                    What is your profit per month?  ತಿಂಗಳಿಗೆ ನಿಮ್ಮ ಲಾಭ ಎಷ್ಟು?
+                                                                </Typography>
+                                                                <Stack mt={2} mb={2}>
+                                                                    <TextField
+                                                                        id="twoquestions"
+                                                                        label="Your Answer"
+                                                                        type="text"
+                                                                        disabled
+                                                                        value={sendData?.monthly_profit}
+                                                                        variant="outlined"
+                                                                        color="common"
+                                                                    />
+                                                                </Stack>
+                                                            </CardContent>
+                                                        </Card>
+                                                        {/* <Card style={{ marginTop: 10, borderRadius: 20 }}>
                 <CardContent>
                   <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
                     Do you want start an enterprise of your own?  ನಿಮ್ಮ ಸ್ವಂತ ಉದ್ಯಮವನ್ನು ಪ್ರಾರಂಭಿಸಲು ನೀವು ಬಯಸುವಿರಾ?
@@ -3246,409 +3291,429 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
                   </Stack>
                 </CardContent>
               </Card> */}
-             
-              </>
 
-</>
-:null
-             }
+                                                    </>
+
+                                                </>
+                                                : null
+                                        }
 
 
-             {
+                                        {
 
-(sendData?.want_to_start_enterprise =="No")?
+                                            (sendData?.want_to_start_enterprise == "No") ?
 
-<>
-<Card style={{ marginTop: 10, borderRadius: 20 }}>
-                <CardContent>
-                  <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
-                    Do you have a say in making decisions on:  ನಿರ್ಧಾರಗಳನ್ನು ತೆಗೆದುಕೊಳ್ಳುವಲ್ಲಿ ನಿಮ್ಮ ಅಭಿಪ್ರಾಯವಿದೆಯೇ:
-                  </Typography>
-                  <Stack mt={1}>
-                     <Typography variant="subtitle2" style={{ color: '#ff7424' }}>Education of children (Yes/No)  ಮಕ್ಕಳ ಶಿಕ್ಷಣ (ಹೌದು/ಇಲ್ಲ)
-                    </Typography>
-                    <Typography>
+                                                <>
+                                                    <Card style={{ marginTop: 10, borderRadius: 20 }}>
+                                                        <CardContent>
+                                                            <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+                                                                Do you have a say in making decisions on:  ನಿರ್ಧಾರಗಳನ್ನು ತೆಗೆದುಕೊಳ್ಳುವಲ್ಲಿ ನಿಮ್ಮ ಅಭಿಪ್ರಾಯವಿದೆಯೇ:
+                                                            </Typography>
+                                                            <Stack mt={1}>
+                                                                <Typography variant="subtitle2" style={{ color: '#ff7424' }}>Education of children (Yes/No)  ಮಕ್ಕಳ ಶಿಕ್ಷಣ (ಹೌದು/ಇಲ್ಲ)
+                                                                </Typography>
+                                                                <Typography>
 
-                    </Typography>
-                    <RadioGroup
-                      aria-labelledby="demo-radio-buttons-group-label"
-                      name="radio-buttons-group"
-                      value={sendData.children_education_b}
-                     disabled
-                    >
-                      <div style={{ display: "flex" }}>
-                      <FormControlLabel
-            value="No"
-            control={<Radio style={{ color: "#595959" }} />}
-            label="No"
-          />
-          <FormControlLabel
-            value="Yes"
-            control={<Radio style={{ color: "#595959" }} />}
-            label="Yes"/>
-                      </div>
-                    </RadioGroup>
-                  </Stack>
-                  <Stack mt={1}>
-                     <Typography variant="subtitle2" style={{ color: '#ff7424' }}>Access to health services (Yes/No)   ಆರೋಗ್ಯ ಸೇವೆಗಳಿಗೆ ಪ್ರವೇಶ (ಹೌದು/ಇಲ್ಲ)
-                    </Typography>
-                    <Typography>
+                                                                </Typography>
+                                                                <RadioGroup
+                                                                    aria-labelledby="demo-radio-buttons-group-label"
+                                                                    name="radio-buttons-group"
+                                                                    value={sendData.children_education_b}
+                                                                    disabled
+                                                                >
+                                                                    <div style={{ display: "flex" }}>
+                                                                        <FormControlLabel
+                                                                            value="No"
+                                                                            control={<Radio style={{ color: "#595959" }} />}
+                                                                            disabled
+                                                                            label="No"
+                                                                        />
+                                                                        <FormControlLabel
+                                                                            value="Yes"
+                                                                            control={<Radio style={{ color: "#595959" }} />}
+                                                                            disabled
+                                                                            label="Yes" />
+                                                                    </div>
+                                                                </RadioGroup>
+                                                            </Stack>
+                                                            <Stack mt={1}>
+                                                                <Typography variant="subtitle2" style={{ color: '#ff7424' }}>Access to health services (Yes/No)   ಆರೋಗ್ಯ ಸೇವೆಗಳಿಗೆ ಪ್ರವೇಶ (ಹೌದು/ಇಲ್ಲ)
+                                                                </Typography>
+                                                                <Typography>
 
-                    </Typography>
-                    <RadioGroup
-                      aria-labelledby="demo-radio-buttons-group-label"
-                      name="radio-buttons-group"
-                      value={sendData.health_services_access_b}
-                      disabled
-                    >
-                      <div style={{ display: "flex" }}>
-                      <FormControlLabel
-            value="No"
-            control={<Radio style={{ color: "#595959" }} />}
-            label="No"
-          />
-          <FormControlLabel
-            value="Yes"
-            control={<Radio style={{ color: "#595959" }} />}
-            label="Yes"/>
-                      </div>
-                    </RadioGroup>
-                  </Stack>
-                  <Stack mt={1}>
-                     <Typography variant="subtitle2" style={{ color: '#ff7424' }}>Taking credit (Yes/No)     ಸಾಲ ತೆಗೆದುಕೊಳ್ಳುವುದು (ಹೌದು/ಇಲ್ಲ)
+                                                                </Typography>
+                                                                <RadioGroup
+                                                                    aria-labelledby="demo-radio-buttons-group-label"
+                                                                    name="radio-buttons-group"
+                                                                    value={sendData.health_services_access_b}
+                                                                    disabled
+                                                                >
+                                                                    <div style={{ display: "flex" }}>
+                                                                        <FormControlLabel
+                                                                            value="No"
+                                                                            control={<Radio style={{ color: "#595959" }} />}
+                                                                            disabled
+                                                                            label="No"
+                                                                        />
+                                                                        <FormControlLabel
+                                                                            value="Yes"
+                                                                            control={<Radio style={{ color: "#595959" }} />}
+                                                                            disabled
+                                                                            label="Yes" />
+                                                                    </div>
+                                                                </RadioGroup>
+                                                            </Stack>
+                                                            <Stack mt={1}>
+                                                                <Typography variant="subtitle2" style={{ color: '#ff7424' }}>Taking credit (Yes/No)     ಸಾಲ ತೆಗೆದುಕೊಳ್ಳುವುದು (ಹೌದು/ಇಲ್ಲ)
 
-                    </Typography>
-                    <Typography>
+                                                                </Typography>
+                                                                <Typography>
 
-                   
-                    </Typography>
-                    <RadioGroup
-                      aria-labelledby="demo-radio-buttons-group-label"
-                      name="radio-buttons-group"
-                      value={sendData.taking_credit_b}
-                     disbaled
-                    >
-                      <div style={{ display: "flex" }}>
-                      <FormControlLabel
-            value="No"
-            control={<Radio style={{ color: "#595959" }} />}
-            label="No"
-          />
-          <FormControlLabel
-            value="Yes"
-            control={<Radio style={{ color: "#595959" }} />}
-            label="Yes"/>
-                      </div>
-                    </RadioGroup>
-                  </Stack>
-                  <Stack mt={1}>
-                     <Typography variant="subtitle2" style={{ color: '#ff7424' }}>Saving money (Yes/No)   ಹಣ ಉಳಿತಾಯ (ಹೌದು/ಇಲ್ಲ)
-                    </Typography>
-                    <Typography>
 
-                    </Typography>
-                    <RadioGroup
-                      aria-labelledby="demo-radio-buttons-group-label"
-                      name="radio-buttons-group"
-                      value={sendData.saving_money_b}
-                  disbaled
-                    >
-                      <div style={{ display: "flex" }}>
-                      <FormControlLabel
-            value="No"
-            control={<Radio style={{ color: "#595959" }} />}
-            label="No"
-          />
-          <FormControlLabel
-            value="Yes"
-            control={<Radio style={{ color: "#595959" }} />}
-            label="Yes"/>
-                      </div>
-                    </RadioGroup>
-                  </Stack>
-                  <Stack mt={1}>
-      <Typography style={{ fontWeight: 500 }}>
-        Asset purchase (Yes/No) ಆಸ್ತಿ ಖರೀದಿ (ಹೌದು/ಇಲ್ಲ)
-      </Typography>
-      <Typography>
-      </Typography>
-      <RadioGroup
-        aria-labelledby="demo-radio-buttons-group-label"
-        name="radio-buttons-group"
-        value={sendData.asset_purchase_b} // Bind the value to "Yes" or "No"
-    disabled
-      >
-        <div style={{ display: "flex" }}>
-          <FormControlLabel
-            value="No"
-            control={<Radio style={{ color: "#595959" }} />}
-            label="No"
-          />
-          <FormControlLabel
-            value="Yes"
-            control={<Radio style={{ color: "#595959" }} />}
-            label="Yes"
-          />
-        </div>
-      </RadioGroup>
-    </Stack>
-                  <Stack mt={1}>
-                     <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
-                      Day-to-day expenditure (Yes/No)    ದಿನನಿತ್ಯದ ಖರ್ಚು (ಹೌದು/ಇಲ್ಲ)
-                    </Typography>
-                    <Typography>
+                                                                </Typography>
+                                                                <RadioGroup
+                                                                    aria-labelledby="demo-radio-buttons-group-label"
+                                                                    name="radio-buttons-group"
+                                                                    value={sendData.taking_credit_b}
+                                                                    disabled
+                                                                >
+                                                                    <div style={{ display: "flex" }}>
+                                                                        <FormControlLabel
+                                                                            value="No"
+                                                                            control={<Radio style={{ color: "#595959" }} />}
+                                                                            disabled
+                                                                            label="No"
+                                                                        />
+                                                                        <FormControlLabel
+                                                                            value="Yes"
+                                                                            control={<Radio style={{ color: "#595959" }} />}
+                                                                            disabled
+                                                                            label="Yes" />
+                                                                    </div>
+                                                                </RadioGroup>
+                                                            </Stack>
+                                                            <Stack mt={1}>
+                                                                <Typography variant="subtitle2" style={{ color: '#ff7424' }}>Saving money (Yes/No)   ಹಣ ಉಳಿತಾಯ (ಹೌದು/ಇಲ್ಲ)
+                                                                </Typography>
+                                                                <Typography>
 
-                    </Typography>
-                    <RadioGroup
-                      aria-labelledby="demo-radio-buttons-group-label"
-                      name="radio-buttons-group"
-                      value={sendData.daily_expenditure_b}
-                   disabled
-                    >
-                      <div style={{ display: "flex" }}>
-                      <FormControlLabel
-            value="No"
-            control={<Radio style={{ color: "#595959" }} />}
-            label="No"
-          />
-          <FormControlLabel
-            value="Yes"
-            control={<Radio style={{ color: "#595959" }} />}
-            label="Yes"/>
-                      </div>
-                    </RadioGroup>
-                  </Stack>
-                  <Stack mt={1}>
-                     <Typography variant="subtitle2" style={{ color: '#ff7424' }}>Day-to-day running an enterprise (Yes/No)    ದಿನದಿಂದ ದಿನಕ್ಕೆ ಉದ್ಯಮವನ್ನು ನಡೆಸುವುದು (ಹೌದು/ಇಲ್ಲ)
-                    </Typography>
-                    <Typography>
- </Typography>
-                    <RadioGroup
-                      aria-labelledby="demo-radio-buttons-group-label"
-                      name="radio-buttons-group"
-                      value={sendData.operational_management_b}
-                    disabled
-                    >
-                      <div style={{ display: "flex" }}>
-                      <FormControlLabel
-            value="No"
-            control={<Radio style={{ color: "#595959" }} />}
-            label="No"
-          />
-          <FormControlLabel
-            value="Yes"
-            control={<Radio style={{ color: "#595959" }} />}
-            label="Yes"/>
-                      </div>
-                    </RadioGroup>
-                  </Stack>
-                  <Stack mt={1}>
-                     <Typography variant="subtitle2" style={{ color: '#ff7424' }}>Procuring inputs for livelihood activity (Yes/No)
-                      ಜೀವನೋಪಾಯದ ಚಟುವಟಿಕೆಗಾಗಿ ಒಳಹರಿವು (ಹೌದು/ಇಲ್ಲ)
-                    </Typography>
-                    <Typography>
+                                                                </Typography>
+                                                                <RadioGroup
+                                                                    aria-labelledby="demo-radio-buttons-group-label"
+                                                                    name="radio-buttons-group"
+                                                                    value={sendData.saving_money_b}
+                                                                    disabled
+                                                                >
+                                                                    <div style={{ display: "flex" }}>
+                                                                        <FormControlLabel
+                                                                            value="No"
+                                                                            control={<Radio style={{ color: "#595959" }} />}
+                                                                            disabled
+                                                                            label="No"
+                                                                        />
+                                                                        <FormControlLabel
+                                                                            value="Yes"
+                                                                            control={<Radio style={{ color: "#595959" }} />}
+                                                                            disabled
+                                                                            label="Yes" />
+                                                                    </div>
+                                                                </RadioGroup>
+                                                            </Stack>
+                                                            <Stack mt={1}>
+                                                                <Typography style={{ fontWeight: 500 }}>
+                                                                    Asset purchase (Yes/No) ಆಸ್ತಿ ಖರೀದಿ (ಹೌದು/ಇಲ್ಲ)
+                                                                </Typography>
+                                                                <Typography>
+                                                                </Typography>
+                                                                <RadioGroup
+                                                                    aria-labelledby="demo-radio-buttons-group-label"
+                                                                    name="radio-buttons-group"
+                                                                    value={sendData.asset_purchase_b} // Bind the value to "Yes" or "No"
+                                                                    disabled
+                                                                >
+                                                                    <div style={{ display: "flex" }}>
+                                                                        <FormControlLabel
+                                                                            value="No"
+                                                                            control={<Radio style={{ color: "#595959" }} />}
+                                                                            disabled
+                                                                            label="No"
+                                                                        />
+                                                                        <FormControlLabel
+                                                                            value="Yes"
+                                                                            control={<Radio style={{ color: "#595959" }} />}
+                                                                            disabled
+                                                                            label="Yes"
+                                                                        />
+                                                                    </div>
+                                                                </RadioGroup>
+                                                            </Stack>
+                                                            <Stack mt={1}>
+                                                                <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+                                                                    Day-to-day expenditure (Yes/No)    ದಿನನಿತ್ಯದ ಖರ್ಚು (ಹೌದು/ಇಲ್ಲ)
+                                                                </Typography>
+                                                                <Typography>
 
-                    </Typography>
-                    <RadioGroup
-                      aria-labelledby="demo-radio-buttons-group-label"
-                      name="radio-buttons-group"
-                      value={sendData.input_procuring_b}
-                     disabled
-                    >
-                      <div style={{ display: "flex" }}>
-                      <FormControlLabel
-            value="No"
-            control={<Radio style={{ color: "#595959" }} />}
-            label="No"
-          />
-          <FormControlLabel
-            value="Yes"
-            control={<Radio style={{ color: "#595959" }} />}
-            label="Yes"/>
-                      </div>
-                    </RadioGroup>
-                  </Stack>
-                  <Stack mt={1}>
-                     <Typography variant="subtitle2" style={{ color: '#ff7424' }}>Selling produce from livelihood activity (Yes/No)
-                      ಜೀವನೋಪಾಯದ ಚಟುವಟಿಕೆಯಿಂದ ಉತ್ಪನ್ನಗಳನ್ನು ಮಾರಾಟ ಮಾಡುವುದು (ಹೌದು/ಇಲ್ಲ)
-                    </Typography>
-                    <Typography>
+                                                                </Typography>
+                                                                <RadioGroup
+                                                                    aria-labelledby="demo-radio-buttons-group-label"
+                                                                    name="radio-buttons-group"
+                                                                    value={sendData.daily_expenditure_b}
+                                                                    disabled
+                                                                >
+                                                                    <div style={{ display: "flex" }}>
+                                                                        <FormControlLabel
+                                                                            value="No"
+                                                                            control={<Radio style={{ color: "#595959" }} />}
+                                                                            disabled
+                                                                            label="No"
+                                                                        />
+                                                                        <FormControlLabel
+                                                                            value="Yes"
+                                                                            control={<Radio style={{ color: "#595959" }} />}
+                                                                            disabled
+                                                                            label="Yes" />
+                                                                    </div>
+                                                                </RadioGroup>
+                                                            </Stack>
+                                                            <Stack mt={1}>
+                                                                <Typography variant="subtitle2" style={{ color: '#ff7424' }}>Day-to-day running an enterprise (Yes/No)    ದಿನದಿಂದ ದಿನಕ್ಕೆ ಉದ್ಯಮವನ್ನು ನಡೆಸುವುದು (ಹೌದು/ಇಲ್ಲ)
+                                                                </Typography>
+                                                                <Typography>
+                                                                </Typography>
+                                                                <RadioGroup
+                                                                    aria-labelledby="demo-radio-buttons-group-label"
+                                                                    name="radio-buttons-group"
+                                                                    value={sendData.operational_management_b}
+                                                                    disabled
+                                                                >
+                                                                    <div style={{ display: "flex" }}>
+                                                                        <FormControlLabel
+                                                                            value="No"
+                                                                            control={<Radio style={{ color: "#595959" }} />}
+                                                                            disabled
+                                                                            label="No"
+                                                                        />
+                                                                        <FormControlLabel
+                                                                            value="Yes"
+                                                                            control={<Radio style={{ color: "#595959" }} />}
+                                                                            disabled
+                                                                            label="Yes" />
+                                                                    </div>
+                                                                </RadioGroup>
+                                                            </Stack>
+                                                            <Stack mt={1}>
+                                                                <Typography variant="subtitle2" style={{ color: '#ff7424' }}>Procuring inputs for livelihood activity (Yes/No)
+                                                                    ಜೀವನೋಪಾಯದ ಚಟುವಟಿಕೆಗಾಗಿ ಒಳಹರಿವು (ಹೌದು/ಇಲ್ಲ)
+                                                                </Typography>
+                                                                <Typography>
 
-                   </Typography>
-                    <RadioGroup
-                      aria-labelledby="demo-radio-buttons-group-label"
-                      name="radio-buttons-group"
-                      value={sendData.selling_produce_b}
-                    disabled
-                    >
-                      <div style={{ display: "flex" }}>
-                      <FormControlLabel
-            value="No"
-            control={<Radio style={{ color: "#595959" }} />}
-            label="No"
-          />
-          <FormControlLabel
-            value="Yes"
-            control={<Radio style={{ color: "#595959" }} />}
-            label="Yes"/>
-                      </div>
-                    </RadioGroup>
-                  </Stack>
-                  <Stack mt={1}>
-                     <Typography variant="subtitle2" style={{ color: '#ff7424' }}>Taking benefit of government schemes (Yes/No)
-                      ಸರ್ಕಾರಿ ಯೋಜನೆಗಳ ಲಾಭವನ್ನು ಪಡೆದುಕೊಳ್ಳುವುದು (ಹೌದು/ಇಲ್ಲ)
-                    </Typography>
-                    <Typography>
+                                                                </Typography>
+                                                                <RadioGroup
+                                                                    aria-labelledby="demo-radio-buttons-group-label"
+                                                                    name="radio-buttons-group"
+                                                                    value={sendData.input_procuring_b}
+                                                                    disabled
+                                                                >
+                                                                    <div style={{ display: "flex" }}>
+                                                                        <FormControlLabel
+                                                                            value="No"
+                                                                            control={<Radio style={{ color: "#595959" }} />}
+                                                                            disabled
+                                                                            label="No"
+                                                                        />
+                                                                        <FormControlLabel
+                                                                            value="Yes"
+                                                                            control={<Radio style={{ color: "#595959" }} />}
+                                                                            disabled
+                                                                            label="Yes" />
+                                                                    </div>
+                                                                </RadioGroup>
+                                                            </Stack>
+                                                            <Stack mt={1}>
+                                                                <Typography variant="subtitle2" style={{ color: '#ff7424' }}>Selling produce from livelihood activity (Yes/No)
+                                                                    ಜೀವನೋಪಾಯದ ಚಟುವಟಿಕೆಯಿಂದ ಉತ್ಪನ್ನಗಳನ್ನು ಮಾರಾಟ ಮಾಡುವುದು (ಹೌದು/ಇಲ್ಲ)
+                                                                </Typography>
+                                                                <Typography>
 
-                    </Typography>
-                    <RadioGroup
-                      aria-labelledby="demo-radio-buttons-group-label"
-                      name="radio-buttons-group"
-                      value={sendData.gov_scheme_benefit_b}
-                     disabled
-                    >
-                      <div style={{ display: "flex" }}>
-                      <FormControlLabel
-            value="No"
-            control={<Radio style={{ color: "#595959" }} />}
-            label="No"
-          />
-          <FormControlLabel
-            value="Yes"
-            control={<Radio style={{ color: "#595959" }} />}
-            label="Yes"/>
-                      </div>
-                    </RadioGroup>
-                  </Stack>
-                </CardContent>
-              </Card>
-              <Card style={{ marginTop: 10, borderRadius: 20 }}>
-                <CardContent>
-                  <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+                                                                </Typography>
+                                                                <RadioGroup
+                                                                    aria-labelledby="demo-radio-buttons-group-label"
+                                                                    name="radio-buttons-group"
+                                                                    value={sendData.selling_produce_b}
+                                                                    disabled
+                                                                >
+                                                                    <div style={{ display: "flex" }}>
+                                                                        <FormControlLabel
+                                                                            value="No"
+                                                                            control={<Radio style={{ color: "#595959" }} />}
+                                                                            disabled
+                                                                            label="No"
+                                                                        />
+                                                                        <FormControlLabel
+                                                                            value="Yes"
+                                                                            control={<Radio style={{ color: "#595959" }} />}
+                                                                            disabled
+                                                                            label="Yes" />
+                                                                    </div>
+                                                                </RadioGroup>
+                                                            </Stack>
+                                                            <Stack mt={1}>
+                                                                <Typography variant="subtitle2" style={{ color: '#ff7424' }}>Taking benefit of government schemes (Yes/No)
+                                                                    ಸರ್ಕಾರಿ ಯೋಜನೆಗಳ ಲಾಭವನ್ನು ಪಡೆದುಕೊಳ್ಳುವುದು (ಹೌದು/ಇಲ್ಲ)
+                                                                </Typography>
+                                                                <Typography>
 
-                    Menstrual Hygiene and Environment  ಮುಟ್ಟಿನ ನೈರ್ಮಲ್ಯ ಮತ್ತು ಪರಿಸರ
-                  </Typography>
-                  <Stack mt={2} mb={2}>
-                    <TextField
-                      id="twoquestions"
-                      label="Your Answer"
-                    value={sendData?.menstrual_hygiene_env}
-                    disabled
-                      variant="outlined"
-                      color="common"
-                    />
-                  </Stack>
-                </CardContent>
-              </Card>
-            
-<Card mt={1} style={{ marginTop: 10, borderRadius: 20 }}>
-  <CardContent>
-    <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
-      According to you, state whether the following practices are environment friendly or not? <br />
-      ನಿಮ್ಮ ಪ್ರಕಾರ, ಈ ಕೆಳಗಿನ ಅಭ್ಯಾಸಗಳು ಪರಿಸರ ಸ್ನೇಹಿ ಅಥವಾ ಇಲ್ಲವೇ ಎಂಬುದನ್ನು ತಿಳಿಸಿ?
-    </Typography>
-    <Stack mt={2} mb={2}>
-      <FormGroup>
-        {environmentalPractices.map((item) => (
-          <FormControlLabel
-            key={item.id}
-            control={
-              <Checkbox
-                color="primary"
-                checked={sendData.env_friendly_practices.includes(item.name)}
-               disabled
-              />
-            }
-            label={item.name}
-          />
-        ))}
-      </FormGroup>
-    </Stack>
-  </CardContent>
-</Card>
+                                                                </Typography>
+                                                                <RadioGroup
+                                                                    aria-labelledby="demo-radio-buttons-group-label"
+                                                                    name="radio-buttons-group"
+                                                                    value={sendData.gov_scheme_benefit_b}
+                                                                    disabled
+                                                                >
+                                                                    <div style={{ display: "flex" }}>
+                                                                        <FormControlLabel
+                                                                            value="No"
+                                                                            control={<Radio style={{ color: "#595959" }} />}
+                                                                            disabled
+                                                                            label="No"
+                                                                        />
+                                                                        <FormControlLabel
+                                                                            value="Yes"
+                                                                            control={<Radio style={{ color: "#595959" }} />}
+                                                                            disabled
+                                                                            label="Yes" />
+                                                                    </div>
+                                                                </RadioGroup>
+                                                            </Stack>
+                                                        </CardContent>
+                                                    </Card>
+                                                    <Card style={{ marginTop: 10, borderRadius: 20 }}>
+                                                        <CardContent>
+                                                            <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
 
-<Card mt={1} style={{ marginTop: 10, borderRadius: 20 }}>
-  <CardContent>
-    <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
-      What menstrual product do you use? <br />
-      ನೀವು ಯಾವ ಮುಟ್ಟಿನ ಉತ್ಪನ್ನವನ್ನು ಬಳಸುತ್ತೀರಿ?
-    </Typography>
-    <Stack mt={2} mb={2}>
-      <FormGroup>
-        {hygieneProducts.map((item) => (
-          <FormControlLabel
-            key={item.id}
-            control={
-              <Checkbox
-                color="primary"
-                checked={sendData.menstrual_product_used.includes(item.name)}
-              disabled
-              />
-            }
-            label={item.name}
-          />
-        ))}
-      </FormGroup>
-    </Stack>
-  </CardContent>
-</Card>
+                                                                Menstrual Hygiene and Environment  ಮುಟ್ಟಿನ ನೈರ್ಮಲ್ಯ ಮತ್ತು ಪರಿಸರ
+                                                            </Typography>
+                                                            <Stack mt={2} mb={2}>
+                                                                <TextField
+                                                                    id="twoquestions"
+                                                                    label="Your Answer"
+                                                                    value={sendData?.menstrual_hygiene_env}
+                                                                    disabled
+                                                                    variant="outlined"
+                                                                    color="common"
+                                                                />
+                                                            </Stack>
+                                                        </CardContent>
+                                                    </Card>
 
-          
-<Card mt={1} style={{ marginTop: 10, borderRadius: 20 }}>
-  <CardContent>
-    <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
-      How do you dispose of your menstrual product? <br />
-      ನೀವು ನಿಮ್ಮ ಮುಟ್ಟಿನ ಉತ್ಪನ್ನವನ್ನು ಹೇಗೆ ವಿಲೇವಾರಿ ಮಾಡುತ್ತೀರಿ?
-    </Typography>
-    <Stack mt={2} mb={2}>
-      <FormGroup>
-        {actions.map((item) => (
-          <FormControlLabel
-            key={item.id}
-            control={
-              <Checkbox
-                color="primary"
-                checked={sendData.menstrual_disposal_method.includes(item.name)}
-              disabled
-              />
-            }
-            label={item.name}
-          />
-        ))}
-      </FormGroup>
-    </Stack>
-  </CardContent>
-</Card>
-            
-<Card mt={1} style={{ marginTop: 10, borderRadius: 20 }}>
-  <CardContent>
-    <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
-      What cooking fuel do you use at home? <br />
-      ನೀವು ಮನೆಯಲ್ಲಿ ಯಾವ ಅಡುಗೆ ಇಂಧನವನ್ನು ಬಳಸುತ್ತೀರಿ?
-    </Typography>
-    <Stack mt={2} mb={2}>
-      <FormGroup>
-        {cookingMethods.map((item) => (
-          <FormControlLabel
-            key={item.id}
-            control={
-              <Checkbox
-                color="primary"
-                checked={sendData.cooking_fuel_type.includes(item.name)}
-               disabled
-              />
-            }
-            label={item.name}
-          />
-        ))}
-      </FormGroup>
-    </Stack>
-  </CardContent>
-</Card>
-</>
-:
-null
-             }
+                                                    <Card mt={1} style={{ marginTop: 10, borderRadius: 20 }}>
+                                                        <CardContent>
+                                                            <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+                                                                According to you, state whether the following practices are environment friendly or not? <br />
+                                                                ನಿಮ್ಮ ಪ್ರಕಾರ, ಈ ಕೆಳಗಿನ ಅಭ್ಯಾಸಗಳು ಪರಿಸರ ಸ್ನೇಹಿ ಅಥವಾ ಇಲ್ಲವೇ ಎಂಬುದನ್ನು ತಿಳಿಸಿ?
+                                                            </Typography>
+                                                            <Stack mt={2} mb={2}>
+                                                                <FormGroup>
+                                                                    {environmentalPractices.map((item) => (
+                                                                        <FormControlLabel
+                                                                            key={item.id}
+                                                                            control={
+                                                                                <Checkbox
+                                                                                    color="primary"
+                                                                                    checked={sendData.env_friendly_practices.includes(item.name)}
+                                                                                    disabled
+                                                                                />
+                                                                            }
+                                                                            label={item.name}
+                                                                        />
+                                                                    ))}
+                                                                </FormGroup>
+                                                            </Stack>
+                                                        </CardContent>
+                                                    </Card>
+
+                                                    <Card mt={1} style={{ marginTop: 10, borderRadius: 20 }}>
+                                                        <CardContent>
+                                                            <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+                                                                What menstrual product do you use? <br />
+                                                                ನೀವು ಯಾವ ಮುಟ್ಟಿನ ಉತ್ಪನ್ನವನ್ನು ಬಳಸುತ್ತೀರಿ?
+                                                            </Typography>
+                                                            <Stack mt={2} mb={2}>
+                                                                <FormGroup>
+                                                                    {hygieneProducts.map((item) => (
+                                                                        <FormControlLabel
+                                                                            key={item.id}
+                                                                            control={
+                                                                                <Checkbox
+                                                                                    color="primary"
+                                                                                    checked={sendData.menstrual_product_used.includes(item.name)}
+                                                                                    disabled
+                                                                                />
+                                                                            }
+                                                                            label={item.name}
+                                                                        />
+                                                                    ))}
+                                                                </FormGroup>
+                                                            </Stack>
+                                                        </CardContent>
+                                                    </Card>
+
+
+                                                    <Card mt={1} style={{ marginTop: 10, borderRadius: 20 }}>
+                                                        <CardContent>
+                                                            <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+                                                                How do you dispose of your menstrual product? <br />
+                                                                ನೀವು ನಿಮ್ಮ ಮುಟ್ಟಿನ ಉತ್ಪನ್ನವನ್ನು ಹೇಗೆ ವಿಲೇವಾರಿ ಮಾಡುತ್ತೀರಿ?
+                                                            </Typography>
+                                                            <Stack mt={2} mb={2}>
+                                                                <FormGroup>
+                                                                    {actions.map((item) => (
+                                                                        <FormControlLabel
+                                                                            key={item.id}
+                                                                            control={
+                                                                                <Checkbox
+                                                                                    color="primary"
+                                                                                    checked={sendData.menstrual_disposal_method.includes(item.name)}
+                                                                                    disabled
+                                                                                />
+                                                                            }
+                                                                            label={item.name}
+                                                                        />
+                                                                    ))}
+                                                                </FormGroup>
+                                                            </Stack>
+                                                        </CardContent>
+                                                    </Card>
+
+                                                    <Card mt={1} style={{ marginTop: 10, borderRadius: 20 }}>
+                                                        <CardContent>
+                                                            <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+                                                                What cooking fuel do you use at home? <br />
+                                                                ನೀವು ಮನೆಯಲ್ಲಿ ಯಾವ ಅಡುಗೆ ಇಂಧನವನ್ನು ಬಳಸುತ್ತೀರಿ?
+                                                            </Typography>
+                                                            <Stack mt={2} mb={2}>
+                                                                <FormGroup>
+                                                                    {cookingMethods.map((item) => (
+                                                                        <FormControlLabel
+                                                                            key={item.id}
+                                                                            control={
+                                                                                <Checkbox
+                                                                                    color="primary"
+                                                                                    checked={sendData.cooking_fuel_type.includes(item.name)}
+                                                                                    disabled
+                                                                                />
+                                                                            }
+                                                                            label={item.name}
+                                                                        />
+                                                                    ))}
+                                                                </FormGroup>
+                                                            </Stack>
+                                                        </CardContent>
+                                                    </Card>
+                                                </>
+                                                :
+                                                null
+                                        }
                                     </>}
                         </DialogContentText></DialogContent>
                 </form>
