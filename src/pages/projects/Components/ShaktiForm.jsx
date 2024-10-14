@@ -357,6 +357,7 @@ const secondaryIncomeOptions = [
     SetsharelearningError(false);
   };
   const [sendData, setSendData] = React.useState({
+    "firstName":"",
     "id": itm.participantId,
     "district": "",
     "taluk": "",
@@ -400,6 +401,7 @@ console.log(sendData , "senDatasenData" )
    var data ={}
     data = JSON.stringify({
     "id": parseInt(itm?.participant_id),
+    "firstName":sendData.firstName,
     "district": sendData.distric_namet,
     "taluk": sendData.taluk_name,
     "gram_panchayat": sendData.gram_panchayat,
@@ -575,6 +577,7 @@ console.log(data ,"data")
     data = JSON.stringify({
       "id": parseInt(itm?.participant_id),
       "district": sendData.distric_namet,
+      "firstName":sendData.firstName,
       "taluk": sendData.taluk_name,
       "gram_panchayat": sendData.gram_panchayat,
       "village_name": sendData.village_name,
@@ -976,19 +979,18 @@ const educationd = async =>{
                     <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
                     Respondent’s name/ಪ್ರತಿಕ್ರಿಯಿಸಿದವರ ಹೆಸರು*
                     </Typography>
+                  
                     <Stack mt={2} mb={2}>
-                      <Select
-                        color="common"
-                        label="Choose Gelathi Facilitator"
-                        variant="standard"
+                      <TextField
+                        id="grampanchayath"
+                        label="Your Answer"
                         required
-                        onChange={(e) => setSendData({ ...sendData, GelathiId: e?.target?.value })}
-                        value={sendData?.GelathiId}
-                      >
-                        {vyaapar?.list?.map((itm) => {
-                          return <MenuItem value={itm?.id}>{itm?.first_name}</MenuItem>;
-                        })}
-                      </Select>
+                        onChange={(e) => {
+                          setSendData({ ...sendData, firstName: e?.target?.value });
+                        }}
+                        variant="outlined"
+                        color="common"
+                      />
                     </Stack>
                   </CardContent>
                 </Card>
