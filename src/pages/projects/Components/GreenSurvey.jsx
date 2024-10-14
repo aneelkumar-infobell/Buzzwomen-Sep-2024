@@ -232,7 +232,7 @@ export default function GreenSurvey(props) {
       sendData.adult_members = parseInt(sendData.adult_members);
       sendData.age = parseInt(sendData.age);
       sendData.children_members = parseInt(sendData.children_members);
-      sendData.participantId = parseInt(sendData.participantId);
+      sendData.participantId =JSON.stringify(sendData.participantId) ;
       var config = {
         method: 'post',
         url: baseURL + 'addGreensurvey',
