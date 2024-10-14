@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"strings"
 
@@ -50,7 +51,7 @@ type ParticipantData struct {
 	TotalChildrenNoOfMemberHousehold                int      `json:"total_children_no_of_member_household"`
 	House                                           string   `json:"house"`
 	RationCard                                      string   `json:"ration_card"`
-	CastCategory                                    string   `json:"cast_category"`
+	Cast                                            int      `json:"cast_category"`
 	MotherTongue                                    string   `json:"mother_tongue"`
 	Religion                                        string   `json:"religion"`
 	Age                                             int      `json:"age"`
@@ -103,6 +104,7 @@ type ParticipantData struct {
 	MonthlyHouseExpend                              int      `json:"monthly_house_expend"`
 	MonthlyHouseIncome                              int      `json:"monthly_house_income"`
 	NarrateInstance2                                string   `json:"narrate_instance2"`
+	CasteName                                       string   `json:"caste_name"`
 }
 
 // var data []Querydata
@@ -168,7 +170,7 @@ func GetBuzzSpoorthiProgramBaseline(w http.ResponseWriter, r *http.Request, db *
         COALESCE(total_childern_no_of_member_household, 0) AS total_childern_no_of_member_household,
         COALESCE(house, '') AS house,
         COALESCE(ration_card, '') AS ration_card,
-        COALESCE(cast_category, '') AS cast_category,
+        COALESCE(cast_category, 0) AS cast_category,
         COALESCE(mother_tongue, '') AS mother_tongue,
         COALESCE(religion, '') AS religion,
         COALESCE(age, 0) AS age,
@@ -277,7 +279,7 @@ COALESCE(narrate_instance2, '') AS monthly_house_income
 			&queryData.TotalChildrenNoOfMemberHousehold,
 			&queryData.House,
 			&queryData.RationCard,
-			&queryData.CastCategory,
+			&queryData.Cast,
 			&queryData.MotherTongue,
 			&queryData.Religion,
 			&queryData.Age,
@@ -331,6 +333,36 @@ COALESCE(narrate_instance2, '') AS monthly_house_income
 			&queryData.MonthlyHouseIncome,
 			&queryData.NarrateInstance2,
 		)
+
+		if queryData.Cast != 0 {
+
+			fmt.Println("caste", queryData.Cast)
+
+			checkStatement := "SELECT name  FROM caste  WHERE id = ?"
+
+			var cast_name string
+
+			err = db.QueryRow(checkStatement, queryData.Cast).Scan(&cast_name)
+
+			if err != nil {
+
+				w.WriteHeader(http.StatusInternalServerError)
+
+				log.Println("Error checking caste_name:", err)
+
+				json.NewEncoder(w).Encode(map[string]interface{}{"Message": "Internal Server Error", "Status Code": "500 ", "API": "get green form"})
+
+				return
+
+			}
+
+			queryData.CasteName = cast_name
+
+		} else {
+
+			queryData.CasteName = ""
+
+		}
 		queryData.LeadershipSkillsReasonYes = strings.Split(leadershipSkillsReasonYes, ",")
 		queryData.LeadershipSkillsReasonNo = strings.Split(leadershipSkillsReasonNo, ",")
 		queryData.DealWithAngrySituation = strings.Split(dealWithAngrySituation, ",")
