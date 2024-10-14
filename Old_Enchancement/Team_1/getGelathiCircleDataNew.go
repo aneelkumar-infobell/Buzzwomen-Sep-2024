@@ -22,14 +22,14 @@ type Circle struct {
 }
 
 type Gelathi struct {
-	GelathiID      int    `json:"gelathi_id"`
-	FirstName      string `json:"firstName"`
-	VillageName    string `json:"villagename"`
-	Flag           int    `json:"flag"`
-	TBID           int    `json:"tb_id"`
-	IsSurvey       bool   `json:"is_survey"`
-	IsGreenSurvey  bool   `json:"is_green_survey"`
-	IsVyaparSurvey bool   `json:"is_vyapar_survey"`
+	GelathiID        int    `json:"gelathi_id"`
+	FirstName        string `json:"firstName"`
+	VillageName      string `json:"villagename"`
+	Flag             int    `json:"flag"`
+	TBID             int    `json:"tb_id"`
+	IsSurvey         bool   `json:"is_survey"`
+	IsGreenSurvey    bool   `json:"is_green_survey"`
+	IsVyaparSurvey   bool   `json:"is_vyapar_survey"`
 	IsNagarikaSurvey bool   `json:"is_nagarika_survey"`
 }
 
@@ -164,12 +164,12 @@ func GetGelathiCircleDataNew(w http.ResponseWriter, r *http.Request, DB *sql.DB)
 		fields := "tr_pat.id as gelathi_id, tr_pat.firstName, SUBSTRING_INDEX(tbl_poa.name, '_', 1) as villagename, tr_pat.tb_id, IF((SELECT id FROM gelathi_circle gelath_cr WHERE gelath_cr.gelathi_id = tr_pat.id LIMIT 1), 1, 0) as flag"
 
 		enrolledQuery := fmt.Sprintf(`
-    SELECT %s 
-    FROM training_participants tr_pat 
-    LEFT JOIN tbl_poa ON tr_pat.tb_id = tbl_poa.id 
-    LEFT JOIN gelathi_circle gl_cr ON tr_pat.id = gl_cr.gelathi_id AND gl_cr.gelathi_id != tr_pat.id 
-    WHERE tr_pat.project_id = %s AND tr_pat.enroll = '1' AND tr_pat.tb_id IN (%s) AND tr_pat.id NOT IN (SELECT gelathi_id FROM gelathi_circle) 
-    GROUP BY tr_pat.id 
+    SELECT %s
+    FROM training_participants tr_pat
+    LEFT JOIN tbl_poa ON tr_pat.tb_id = tbl_poa.id
+    LEFT JOIN gelathi_circle gl_cr ON tr_pat.id = gl_cr.gelathi_id AND gl_cr.gelathi_id != tr_pat.id
+    WHERE tr_pat.project_id = %s AND tr_pat.enroll = '1' AND tr_pat.tb_id IN (%s) AND tr_pat.id NOT IN (SELECT gelathi_id FROM gelathi_circle)
+    GROUP BY tr_pat.id
     ORDER BY tr_pat.firstName
 `, fields, projectID, trainingBatchIds)
 		enrolledRows, err := DB.Query(enrolledQuery)
@@ -210,14 +210,16 @@ func GetGelathiCircleDataNew(w http.ResponseWriter, r *http.Request, DB *sql.DB)
 				TBID:        int(tbID.Int64),
 			}
 			gelathis = append(gelathis, gelathi)
-		}
 
+		}
+		fmt.Println("gelathis", gelathis)
 		circle.Gelathis = append(circle.Gelathis, gelathis...)
-var count int
+		var count int
 		// Add survey checks
+
 		for i := range gelathis {
 			// SpoorthiBaselineQuestionnaire check
-			
+
 			err = DB.QueryRow("SELECT COUNT(*) FROM SpoorthiBaselineQuestionnaire WHERE partcipantId = ?", circle.Gelathis[i].GelathiID).Scan(&count)
 			if err != nil {
 				log.Println("Failed to execute query:", err)
@@ -229,6 +231,7 @@ var count int
 				})
 				return
 			}
+
 			if count > 0 {
 				gelathis[i].IsSurvey = true
 			} else {
@@ -247,6 +250,7 @@ var count int
 				})
 				return
 			}
+
 			if count > 0 {
 				gelathis[i].IsGreenSurvey = true
 			} else {
@@ -265,6 +269,7 @@ var count int
 				})
 				return
 			}
+
 			if count > 0 {
 				gelathis[i].IsVyaparSurvey = true
 			} else {

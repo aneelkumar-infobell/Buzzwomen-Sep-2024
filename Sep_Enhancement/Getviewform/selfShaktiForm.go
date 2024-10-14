@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"strings"
 )
@@ -189,6 +190,7 @@ type TrainingParticipant struct {
 	DailyAffairsManagementC           string   `json:"daily_affairs_management_c"`
 	FinancialDecisionMakerC           string   `json:"financial_decision_maker_c"`
 	DailyAccountsBookC                string   `json:"daily_accounts_book_c"`
+	CasteName                         string   `json:"caste_name"`
 }
 
 func GetSelfShaktiBaselineSurvey(w http.ResponseWriter, r *http.Request, db *sql.DB) {
@@ -226,7 +228,7 @@ func GetSelfShaktiBaselineSurvey(w http.ResponseWriter, r *http.Request, db *sql
     COALESCE(occupation, '') AS occupation,
     COALESCE(husbandOccupation, '') AS husbandOccupation,
     COALESCE(saving_goal, '') AS saving_goal,
-    COALESCE(caste, '') AS caste,
+    COALESCE(caste, 0) AS caste,
     COALESCE(numOfChildren, '') AS numOfChildren,
     COALESCE(income, '') AS income,
     COALESCE(savings, '') AS savings,
@@ -591,7 +593,35 @@ FROM
 			&participant.FinancialDecisionMakerC,
 			&participant.DailyAccountsBookC,
 		)
+		if participant.Caste != 0 {
 
+			fmt.Println("caste", participant.Caste)
+
+			checkStatement := "SELECT name  FROM caste  WHERE id = ?"
+
+			var cast_name string
+
+			err = db.QueryRow(checkStatement, participant.Caste).Scan(&cast_name)
+
+			if err != nil {
+
+				w.WriteHeader(http.StatusInternalServerError)
+
+				log.Println("Error checking caste_name:", err)
+
+				json.NewEncoder(w).Encode(map[string]interface{}{"Message": "Internal Server Error", "Status Code": "500 ", "API": "get green form"})
+
+				return
+
+			}
+
+			participant.CasteName = cast_name
+
+		} else {
+
+			participant.CasteName = ""
+
+		}
 		if err != nil {
 			json.NewEncoder(w).Encode(map[string]interface{}{"code": http.StatusInternalServerError, "message": "Database Scan Error", "success": false, "error": err.Error()})
 			return
