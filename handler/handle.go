@@ -558,7 +558,7 @@ func HandleFunc() {
 	}))
 	// -------------------Endpoint for adding data to QAF--------------------------------
 	apiRouter.Handle("/getProjectData", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
-		t3.GetProjectData(w, r, db)
+		p.GetProjectDataNew(w, r, db)
 	}))
 	// -------------------Endpoint for adding Bus--------------------------------
 	apiRouter.Handle("/createBus", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
