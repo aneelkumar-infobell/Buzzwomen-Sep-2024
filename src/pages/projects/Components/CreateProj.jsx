@@ -329,13 +329,20 @@ const mainShowBussHandler = ()=>{
   // Function to fetch funder list when modal opens
   const handleOpenFunderModal = async () => {
     setOpenFunderModal(true);
-    const funders = await FunderApi({ selectDATA: 1, apikey }); // Adjust `selectDATA` based on your needs
+    const funders = await FunderApi({ selectDATA: 1, apikey , old: "old" }); // Adjust `selectDATA` based on your needs
     if (funders) {
       setFunderList(funders);
     }
   };
 
-  const handleCloseFunderModal = () => setOpenFunderModal(false);
+  const handleCloseFunderModal = () =>{
+    console.log("responseresponseresponse")
+    setOpenFunderModal(false);
+    setCreatePro(false)
+    handleClose()
+  }
+    
+ 
   const handleFunderChange = (event) => {
     setSelectedFunder(event.target.value);
     ContactlessOutlined.log(event.target.value )
@@ -359,10 +366,13 @@ const mainShowBussHandler = ()=>{
 
       console.log(response.data.code,"responseresponseresponse") 
      if(response.data.code == 200) {
+      console.log("responseresponseresponseresponseresponseresponse")
         // On success, call the getprojectData API
         await projData();
-        // Close the modal after both API calls are successful
         handleCloseFunderModal();
+        handleClose()
+        // Close the modal after both API calls are successful
+       
       } else {
         console.error("Failed to assign new funder.");
       }
