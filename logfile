@@ -84,3 +84,7 @@
 2024/10/07 15:51:19 Error 1146 (42S02): Table 'bdms_staff.buzzvyaparprogrambaseline' doesn't exist
 2024/10/07 15:53:58 Error checking participant ID: Error 1146 (42S02): Table 'bdms_staff.buzzVyaparProgramBaseline' doesn't exist
 2024/10/07 15:54:52 Error 1146 (42S02): Table 'bdms_staff.buzzvyaparprogrambaseline' doesn't exist
+2024/10/15 14:26:37 json: cannot unmarshal number into Go struct field GreenBaselineSurvey.participantId of type string
+2024/10/15 14:27:13 json: cannot unmarshal string into Go struct field GreenBaselineSurvey.cast of type int
+2024/10/15 14:27:41 Participant ID already present
+2024/10/15 14:27:51 Recorded sucessfully
