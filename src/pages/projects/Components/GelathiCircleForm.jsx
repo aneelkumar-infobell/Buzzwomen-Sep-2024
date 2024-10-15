@@ -82,6 +82,7 @@ export default function GelathiCircleForm({
   const [conflicts, setConflicts] = React.useState('');
   const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
   const [village, setVillage] = useState([]);
+  const [caste,setCaste] = useState([]);
   const [sendData, setSendData] = useState(
     {
       "partcipantId": "",
@@ -277,12 +278,7 @@ const leadershipOptions = [
     { id: 4, name: "Antyodaya/ಅಂತ್ಯೋದಯ"}
   ]
 
-  const casteOptions = [
-    { id: 1, name: "ST/ಪರಿಶಿಷ್ಟ ಜಾತಿ" },
-    { id: 2, name: "SC/ಪರಿಶಿಷ್ಟ ಪಂಗಡ" },
-    { id: 3, name: "OBC/ಹಿಂದುಳಿದ ವರ್ಗ" },
-    { id: 4, name: "Others/ಇತರೆ" }
-  ];
+ 
   const religiousOptions = [
     { id: 1, name: "Hindu/ಹಿಂದೂ" },
     { id: 2, name: "Muslim/ಮುಸ್ಲಿಂ" },
@@ -383,17 +379,7 @@ const getDistrict = async (district) => {
       // console.log(error);
     });
 }
-  const handleChangeSelect = (event) => {
-    setAge(event.target.value);
-  };
-  // const sessionValue = (event) => {
-  //   setSelectedValue(event.target.value);
-  //   setSessionValueError(false);
-  // };
-  // const skillsoption = (event) => {
-  //   setSkillValue(event.target.value);
-  //   setSkillError(false);
-  // };
+
   const paravalue = (event) => {
     setListenpara(event.target.value);
     setListenParaError(false);
@@ -588,7 +574,7 @@ const gelathicircleformdata = async () => {
       "total_children_no_of_member_household": sendData.total_children_no_of_member_household,
       "house": sendData.house_name,
       "ration_card": sendData.ration_card_name,
-      "cast_category": sendData.cast_category_name,
+      "cast_category":  sendData.cast_category,
       "mother_tongue": sendData.mother_tongue,
       "religion": sendData.religion_name,
       "age": sendData.age,
@@ -711,9 +697,7 @@ const gelathicircleformdata = async () => {
     }, delay);
   })
 
-  useEffect(()=>{
-    getDistrict()
-  },[])
+
   const villageList = async(i) => {
     var data = JSON.stringify({
       "taluk_id":parseInt(i),
@@ -736,6 +720,28 @@ const gelathicircleformdata = async () => {
         // console.log(error);
       });
   }
+  const casted = async =>{
+    var config = {
+      method: 'post',
+    maxBodyLength: Infinity,
+      url: baseURL + 'getCaste',
+      headers: { 
+        'Authorization': `${apikey}`
+      }
+    };
+    
+      axios(config)
+      .then(function (response) {
+        setCaste(response.data?.data)
+      })
+      .catch(function (error) {
+        // console.log(error);
+      });
+  }
+  useEffect(()=>{
+    getDistrict()
+    casted()
+  },[])
   return (
     <div>
       <Stack style={{ flexDirection: 'row', float: 'right' }} mb={2}>
@@ -1236,14 +1242,14 @@ const gelathicircleformdata = async () => {
         variant="standard"
         required
         onChange={(e) => {
-          const selectedOption = casteOptions.find(option => option.id === e.target.value);
+          const selectedOption = caste.find(option => option.id === e.target.value);
          setSendData({ ...sendData, cast_category: selectedOption.id, cast_category_name: selectedOption?.name  });
       
          console.log(selectedOption); }}
         value={sendData?.cast_category}
       >
         {/* Map the houseOptions to the dropdown */}
-        {casteOptions.map((itm) => (
+        {caste.map((itm) => (
           <MenuItem key={itm.id} value={itm.id}>
             {itm.name}
           </MenuItem>

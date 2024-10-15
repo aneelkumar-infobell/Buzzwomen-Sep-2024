@@ -3137,7 +3137,25 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
                                                                     What is the nature of your individual involvement in the enterprise/business?
                                                                     ಉದ್ಯಮ/ವ್ಯವಹಾರದಲ್ಲಿ ನಿಮ್ಮ ವೈಯಕ್ತಿಕ ಒಳಗೊಳ್ಳುವಿಕೆಯ ಸ್ವರೂಪವೇನು?
 
+                                                                    <Card style={{ marginTop: 10, borderRadius: 20 }}>
+                      <CardContent>
+                        <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+                        Are you named officially as one of the owners of the enterprise?
+                        ನಿಮ್ಮ ಹೆಸರನ್ನು  ಯಾವುದಾದರೂ ಉದ್ಯಮದಲ್ಲಿ ಗುರುತಿಸಿ ಕೊಂಡಿದ್ದೀರಾ?
 
+                        </Typography>
+                        <Stack mt={2} mb={2}>
+                          <TextField
+                          disabled
+                            id="twoquestions"
+                            label="Your Answer"
+                         value={sendData?.financial_goals_set_c}
+                            variant="outlined"
+                            color="common"
+                          />
+                        </Stack>
+                      </CardContent>
+                    </Card>
 
                                                                     <Card style={{ marginTop: 10, borderRadius: 20 }}>
                                                                         <CardContent>
