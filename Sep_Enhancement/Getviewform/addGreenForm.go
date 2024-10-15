@@ -125,9 +125,9 @@ func AddGreensurvey(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 	w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
 	file, err := os.OpenFile("./logfile", os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0644)
 	if err != nil {
-		log.Println("nagarika", err)
+		log.Println("", err)
 		w.WriteHeader(http.StatusBadRequest)
-		json.NewEncoder(w).Encode(map[string]interface{}{"Message": err, "Status Code": "400 ", "API": "Addnagarika"})
+		json.NewEncoder(w).Encode(map[string]interface{}{"Message": err, "Status Code": "400 ", "API": "AddGreen"})
 		return
 	}
 
@@ -140,7 +140,7 @@ func AddGreensurvey(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 		fmt.Println("errrr", err1)
 		log.Println(err1)
 		w.WriteHeader(http.StatusBadRequest)
-		json.NewEncoder(w).Encode(map[string]string{"Message": "Invalid Input Syntax", "Status Code": "400 ", "API": "Addnagarika"})
+		json.NewEncoder(w).Encode(map[string]string{"Message": "Invalid Input Syntax", "Status Code": "400 ", "API": "AddGreen"})
 		return
 	}
 
@@ -151,13 +151,13 @@ func AddGreensurvey(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 		fmt.Println("errr", err)
 		w.WriteHeader(http.StatusInternalServerError)
 		log.Println("Error checking participant ID:", err)
-		json.NewEncoder(w).Encode(map[string]interface{}{"Message": "Internal Server Error", "Status Code": "500 ", "API": "Addnagarika"})
+		json.NewEncoder(w).Encode(map[string]interface{}{"Message": "Internal Server Error", "Status Code": "500 ", "API": "AddGreen"})
 		return
 	}
 	if count > 0 {
 		w.WriteHeader(http.StatusBadRequest)
 		log.Println("Participant ID already present")
-		json.NewEncoder(w).Encode(map[string]interface{}{"Message": "Participant ID already present", "Status Code": "400 ", "API": "Addnagarika"})
+		json.NewEncoder(w).Encode(map[string]interface{}{"Message": "Participant ID already present", "Status Code": "400 ", "API": "AddGreen"})
 		return
 	}
 
@@ -332,7 +332,7 @@ func AddGreensurvey(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 			fmt.Println("err", err)
 			w.WriteHeader(http.StatusBadRequest)
 			log.Println(err)
-			json.NewEncoder(w).Encode(map[string]interface{}{"Message": "Invalid input syntax for IP ", "Status Code": "400 ", "Error": err, "API": "Addnagarika"})
+			json.NewEncoder(w).Encode(map[string]interface{}{"Message": "Invalid input syntax for IP ", "Status Code": "400 ", "Error": err, "API": "AddGreen"})
 			return
 		}
 
