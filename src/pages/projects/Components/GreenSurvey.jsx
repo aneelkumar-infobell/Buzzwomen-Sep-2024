@@ -137,7 +137,7 @@ export default function GreenSurvey(props) {
     house: '',
     roof: '',
     ration_card: '',
-    cast: '',
+    cast: 0,
     mother_tongue: '',
     religion: '',
     age: '',
@@ -232,7 +232,8 @@ export default function GreenSurvey(props) {
       sendData.adult_members = parseInt(sendData.adult_members);
       sendData.age = parseInt(sendData.age);
       sendData.children_members = parseInt(sendData.children_members);
-      sendData.participantId =JSON.stringify(sendData.participantId) ;
+      sendData.participantId = sendData.participantId.toString();
+      sendData.cast = parseInt(sendData.cast);
       var config = {
         method: 'post',
         url: baseURL + 'addGreensurvey',
@@ -326,6 +327,7 @@ export default function GreenSurvey(props) {
   const [village, setVillage] = useState([]);
   useEffect(() => {
     getState();
+    casted();
   }, []);
   const getState = async (id) => {
     var data = JSON.stringify({
@@ -390,6 +392,25 @@ export default function GreenSurvey(props) {
     axios(config)
       .then(function (response) {
         setVillage(response.data.list);
+      })
+      .catch(function (error) {
+        // console.log(error);
+      });
+  };
+  const [cast, setCaste] = useState([]);
+  const casted = (async) => {
+    var config = {
+      method: 'post',
+      maxBodyLength: Infinity,
+      url: baseURL + 'getCaste',
+      headers: {
+        Authorization: `${apikey}`,
+      },
+    };
+
+    axios(config)
+      .then(function (response) {
+        setCaste(response.data?.data);
       })
       .catch(function (error) {
         // console.log(error);
@@ -720,7 +741,7 @@ export default function GreenSurvey(props) {
                     required
                     onChange={handleInputChange}
                     value={sendData?.cast}
-                    options={casteCategory}
+                    options={cast}
                   />
                   <SelectInput
                     id="mother_tongue"

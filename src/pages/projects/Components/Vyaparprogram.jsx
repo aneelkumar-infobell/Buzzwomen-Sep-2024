@@ -85,9 +85,9 @@ export default function Vyaparprogram({ itm, changeState, componentreloadmethod 
   const [open, setOpen] = React.useState(false);
   const [successMessage, setsuccessMessage] = useState(false);
   const [vyaapar, setVyaapar] = useState('');
-console.log(itm ,"itm")
+  console.log(itm, 'itm');
   const [sendData, setSendData] = useState({
-    participant_id:parseInt(itm?.gelathi_id) ,
+    participant_id: parseInt(itm?.gelathi_id),
     gf_id: '',
     when_was_survey_done: '',
     name_of_the_vyapari: '',
@@ -157,7 +157,7 @@ console.log(itm ,"itm")
     total_household_members: 0,
     house: '',
     ration_card: '',
-    cast: '',
+    cast: 0,
     dob: '',
     education: '',
     primary_occupation_household: '',
@@ -266,7 +266,7 @@ console.log(itm ,"itm")
   };
 
   const vyaparformdata = (async) => {
-    console.log( sendData  ,"sednign data" );
+    console.log(sendData, 'sednign data');
     if (isOnline() && networkAccess()) {
       // if (localStorage.getItem('vyapar')) {
       //   saveDataLocally('vyapar', sendData);
@@ -283,6 +283,7 @@ console.log(itm ,"itm")
       sendData.number_of_beehives_participated = parseInt(sendData.number_of_beehives_participated);
       sendData.number_of_people_in_the_household = parseInt(sendData.number_of_people_in_the_household);
       sendData.participant_id = parseInt(itm.gelathi_id);
+      sendData.cast = sendData.cast.toString();
       var config = {
         method: 'post',
         url: baseURL + 'addVyaparBaselineSurvey',
@@ -358,9 +359,8 @@ console.log(itm ,"itm")
     }, delay);
   });
   const handleInputChange = (event) => {
-    
     const { name, value } = event.target;
-    console.log(name  ,value ,"name value ")
+    console.log(name, value, 'name value ');
     setSendData((prevData) => ({
       ...prevData,
       [name]: value,
@@ -394,6 +394,7 @@ console.log(itm ,"itm")
   const [village, setVillage] = useState([]);
   useEffect(() => {
     getState();
+    casted();
   }, []);
   const getState = async (id) => {
     var data = JSON.stringify({
@@ -463,7 +464,25 @@ console.log(itm ,"itm")
         // console.log(error);
       });
   };
-console.log(sendData ,"sendData")
+  const [cast, setCaste] = useState([]);
+  const casted = (async) => {
+    var config = {
+      method: 'post',
+      maxBodyLength: Infinity,
+      url: baseURL + 'getCaste',
+      headers: {
+        Authorization: `${apikey}`,
+      },
+    };
+
+    axios(config)
+      .then(function (response) {
+        setCaste(response.data?.data);
+      })
+      .catch(function (error) {
+        // console.log(error);
+      });
+  };
   return (
     <div>
       {successMessage && (
@@ -716,7 +735,7 @@ console.log(sendData ,"sendData")
                     required
                     onChange={handleInputChange}
                     value={sendData?.cast}
-                    options={casteCategory}
+                    options={cast}
                   />
                   <TextInput
                     id="age"
@@ -929,17 +948,18 @@ console.log(sendData ,"sendData")
                         options={Areyourunningtheenterpriseonyourown}
                       />
                       <TextInput
+                        card={false}
                         id="average_monthly_income_enterprise"
                         name="average_monthly_income_enterprise"
                         label="What is the average monthly income of your enterprise? (Rs)
 ನಿಮ್ಮ ಉದ್ಯಮದ ಸರಾಸರಿ ಮಾಸಿಕ ಆದಾಯ ಎಷ್ಟು? (ರೂ)"
                         type="number"
-                        
                         placeholder="Your Answer"
                         onChange={handleInputChange}
                         value={sendData.average_monthly_income_enterprise}
                       />
                       <TextInput
+                        card={false}
                         id="average_monthly_profit_enterprise"
                         name="average_monthly_profit_enterprise"
                         label="What is the average monthly profit of your enterprise? (Rs)
@@ -951,6 +971,7 @@ console.log(sendData ,"sendData")
                         value={sendData.average_monthly_profit_enterprise}
                       />
                       <TextInput
+                        card={false}
                         id="desired_monthly_income"
                         name="desired_monthly_income"
                         label="How much monthly income would you like to ideally earn?
@@ -962,6 +983,7 @@ console.log(sendData ,"sendData")
                         value={sendData.desired_monthly_income}
                       />
                       <TextInput
+                        card={false}
                         id="amount_invested_when_the_business_started"
                         name="amount_invested_when_the_business_started"
                         label="Amount invested when the business started (approximately if they know)
@@ -1183,7 +1205,7 @@ console.log(sendData ,"sendData")
                         id="what_are_the_weaknesses_of_your_business"
                         name="what_are_the_weaknesses_of_your_business"
                         label="State one weakness of the business ವ್ಯಾಪಾರದ ಒಂದು ದೌರ್ಬಲ್ಯವನ್ನು ತಿಳಿಸಿ"
-                         type="text"
+                        type="text"
                         required
                         placeholder="Your Answer"
                         onChange={handleInputChange}
@@ -1205,7 +1227,7 @@ console.log(sendData ,"sendData")
                         id="core_threat"
                         name="core_threat"
                         label="State one threat for your business ನಿಮ್ಮ ವ್ಯಾಪಾರಕ್ಕೆ ಒಂದು ಬೆದರಿಕೆಯನ್ನು ತಿಳಿಸಿ"
-                      type="text"
+                        type="text"
                         required
                         placeholder="Your Answer"
                         onChange={handleInputChange}
@@ -1216,7 +1238,7 @@ console.log(sendData ,"sendData")
                         id="target_customer"
                         name="target_customer"
                         label="Who is your target customer? Describe ನಿಮ್ಮ ಗುರಿಯಲ್ಲಿರುವ ಗ್ರಾಹಕ ಯಾರು? ವಿವರಿಸಿ"
-                    type="text"
+                        type="text"
                         required
                         placeholder="Your Answer"
                         onChange={handleInputChange}
@@ -1247,7 +1269,6 @@ console.log(sendData ,"sendData")
                         label="During the last 1 year, have you worked on your own account or in a business enterprise belonging to you for example, trader, shopkeeper, tailoring, etc. at least for two hours in any day?
 ಕಳೆದ 1 ವರ್ಷದಲ್ಲಿ, ನೀವು ನಿಮ್ಮ ಸ್ವಂತ ಖಾತೆಯಲ್ಲಿ ಅಥವಾ ನಿಮಗೆ ಸೇರಿದ ವ್ಯಾಪಾರ ಉದ್ಯಮದಲ್ಲಿ ಉದಾಹರಣೆಗೆ, ವ್ಯಾಪಾರಿ, ಅಂಗಡಿಯವನು, ಟೈಲರಿಂಗ್, ಇತ್ಯಾದಿ. ಯಾವುದೇ ದಿನದಲ್ಲಿ ಕನಿಷ್ಠ ಎರಡು ಗಂಟೆಗಳ ಕಾಲ ಕೆಲಸ ಮಾಡಿದ್ದೀರಾ?"
                         type="text"
-                        
                         placeholder="Your Answer"
                         onChange={handleInputChange}
                         value={sendData.own_account_work}
@@ -1259,7 +1280,6 @@ console.log(sendData ,"sendData")
                         name="idea_status"
                         label="Do you have a business idea you want to work on?
 ನೀವು ಕೆಲಸ ಮಾಡಲು ಬಯಸುವ ವ್ಯಾಪಾರ ಕಲ್ಪನೆಯನ್ನು ನೀವು ಹೊಂದಿದ್ದೀರಾ?"
-                        
                         onChange={handleInputChange}
                         value={sendData?.idea_status}
                         options={yesOrNo}
@@ -1269,7 +1289,6 @@ console.log(sendData ,"sendData")
                         id="idea_start"
                         name="idea_start"
                         label="Since when have you had the idea of starting business ? ವ್ಯಾಪಾರ ಆರಂಭಿಸುವ ಯೋಚನೆ ಯಾವಾಗಿನಿಂದ ಬಂತು?"
-                        
                         onChange={handleInputChange}
                         value={sendData?.idea_start}
                         options={whenhaveyouhadtheideaofstartingbusiness}
@@ -1279,7 +1298,6 @@ console.log(sendData ,"sendData")
                         id="idea_category"
                         name="idea_category"
                         label="What category does your business idea fall in? ನಿಮ್ಮ ವ್ಯಾಪಾರ ಕಲ್ಪನೆಯು ಯಾವ ವರ್ಗಕ್ಕೆ ಸೇರುತ್ತದೆ?"
-                        
                         onChange={handleInputChange}
                         value={sendData?.idea_category}
                         options={Whatcategorydoesyourbusinessideafallin}
@@ -1291,7 +1309,6 @@ console.log(sendData ,"sendData")
                         label="How much monthly income would you like to ideally earn?
 ನೀವು ಆದರ್ಶಪ್ರಾಯವಾಗಿ ಎಷ್ಟು ಮಾಸಿಕ ಆದಾಯವನ್ನು ಗಳಿಸಲು ಬಯಸುತ್ತೀರಿ?"
                         type="number"
-                        
                         placeholder="Your Answer"
                         onChange={handleInputChange}
                         value={sendData.monthly_income}
@@ -1302,7 +1319,6 @@ console.log(sendData ,"sendData")
                         name="money_management"
                         label="Do you like to manage money and keep track of incomes and expenses?
 ನೀವು ಹಣವನ್ನು ನಿರ್ವಹಿಸಲು ಹಾಗೂ ಆದಾಯ ಮತ್ತು ವೆಚ್ಚಗಳನ್ನು ಟ್ರ್ಯಾಕ್ ಮಾಡಲು ಇಷ್ಟಪಡುತ್ತೀರಾ?"
-                        
                         onChange={handleInputChange}
                         value={sendData?.money_management}
                         options={yesOrNo}
@@ -1313,7 +1329,6 @@ console.log(sendData ,"sendData")
                         name="do_bookkeeping"
                         label="Do you practice book keeping?
 ನೀವು ಪುಸ್ತಕ ನಿರ್ವಹಣೆ ಮಾಡುವ ಅಭ್ಯಾಸ ಇದೆಯೇ?"
-                    
                         onChange={handleInputChange}
                         value={sendData?.do_bookkeeping}
                         options={yesOrNo}
@@ -1324,7 +1339,6 @@ console.log(sendData ,"sendData")
                         name="loan_exists"
                         label="Do you have any existing loan in your name?
                         ನಿಮ್ಮ ಹೆಸರಿನಲ್ಲಿ ಯಾವುದಾದರೂ ಸಾಲ ಅಸ್ತಿತ್ವದಲ್ಲಿದೆಯೇ ?"
-                        
                         onChange={handleInputChange}
                         value={sendData?.loan_exists}
                         options={yesOrNo}
@@ -1335,7 +1349,6 @@ console.log(sendData ,"sendData")
                         name="savings_available"
                         label="Do you currently have personal savings that you could invest into a new enterprise now?
                         ನೀವು ಈಗ ಹೊಸ ಉದ್ಯಮದಲ್ಲಿ ಹೂಡಿಕೆ ಮಾಡಲು ,ಪ್ರಸ್ತುತ ವೈಯಕ್ತಿಕ ಉಳಿತಾಯವನ್ನು ಹೊಂದಿದ್ದೀರಾ?"
-                        
                         onChange={handleInputChange}
                         value={sendData?.savings_available}
                         options={yesOrNo}
@@ -1346,7 +1359,6 @@ console.log(sendData ,"sendData")
                         name="loan_startup"
                         label="Are you willing to take a loan to start a new business?
 ನೀವು ಹೊಸ ವ್ಯಾಪಾರವನ್ನು ಪ್ರಾರಂಭಿಸಲು ಸಾಲವನ್ನು ತೆಗೆದುಕೊಳ್ಳಲು ಸಿದ್ಧರಿದ್ದೀರಾ?"
-                        
                         onChange={handleInputChange}
                         value={sendData?.loan_startup}
                         options={yesOrNo}
