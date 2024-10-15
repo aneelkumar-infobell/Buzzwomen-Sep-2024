@@ -900,7 +900,7 @@ console.log(sendData ,"sendData")
                         disabled
                         label="Your Answer"
                       
-                        value={sendData?.cast_category}
+                        value={sendData?.caste_name}
                         variant="outlined"
                         color="common"
                       />

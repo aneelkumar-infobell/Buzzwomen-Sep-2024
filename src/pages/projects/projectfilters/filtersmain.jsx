@@ -15,6 +15,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/lab';
 import Funders from 'src/pages/Filters/Funders';
 import FuderList from 'src/pages/Filters/FuderList';
+import FunderApi from 'src/pages/Filters/components/FunderApi';
 Filtersmain.propTypes = {
     isOpenFilter: PropTypes.bool,
     onOpenFilter: PropTypes.func,
@@ -31,7 +32,7 @@ let userDetails = sessionStorage?.getItem('userDetails')
 userDetails = JSON.parse(userDetails)
     console.log(type ,"typetype" ,date , endDate ,dateValue ,endDateValue )
     const filterPermissions = {
-      Funder: [{ id: 47, roles: ['1', '3', '12', '4'] }],
+      Funder: [{ id: 47, roles: ['1', '3', '12', '4','6'] }],
       GelathiProgram: [{id:45,roles:['1','3','4','6','12','13']},{ id: 47, roles: ['1', '3', '12', '4'] },{id:2,roles:['1','3','4','6','12','13']},{id:1,roles:['1','3','4','6','12','13']},{id:3,roles:['1','3','4','6','12','13']},
       { id: 22, roles: ['1','3','4','6','12','13']}, { id: 23, roles: ['1','3','4','6','12','13']},{id:46,roles:['13','4','3','1','12']},
       {id:4,roles:['1','12','13','6','3']},{id:5,roles:['1','3','4','6','12','13']},{id:6,roles:['13','4','3','1','12','6']}, 
@@ -97,10 +98,15 @@ userDetails = JSON.parse(userDetails)
       setCalOpen(false)
     }
     const setData = (value) => {
+
       setSelectData(value)
       if(value==46){
         shakti();
         onCloseFilter();
+      }
+      if(value==47){
+        console.log(value,"Valuesssssssssss")
+       
       }
       if(value==45 ){
         gelathiPrograme();
@@ -112,7 +118,7 @@ userDetails = JSON.parse(userDetails)
        || filtersHeaders[value]=='SPM2' || filtersHeaders[value]=='SPM3' ||filtersHeaders[value]=='SPM3'|| filtersHeaders[value]=='SPM4' || filtersHeaders[value]=='SPM5' 
        || filtersHeaders[value]=='GPS' || filtersHeaders[value]=='GPM1' || filtersHeaders[value]=='GPM2' || filtersHeaders[value]=='GPM3' || filtersHeaders[value]=='GPM4'
        || filtersHeaders[value]=='GPM5' || filtersHeaders[value]=='VPS' || filtersHeaders[value]=='VPM1'|| filtersHeaders[value]=='VPM2' || filtersHeaders[value]=='VPM3'
-       || filtersHeaders[value]=='VPM4' || filtersHeaders[value]=='VPM5' || filtersHeaders[value]=='Funder') {
+       || filtersHeaders[value]=='VPM4' || filtersHeaders[value]=='VPM5') {
         user(1, { id: value, type: filtersHeaders[value] });
         onCloseFilter()
       }
@@ -221,7 +227,7 @@ sx={{margin:5}}
             {
             type != 'people' && <div>
           {
-                selectDATA == 2 && <Grid>
+                selectDATA == 47 && <Grid>
                   <FuderList type={type} date={date} endDate={endDate} dateValue={dateValue} endDateValue={endDateValue} getData={getDataForFUnder} selectDATA={selectDATA} />
                 </Grid>
               }
