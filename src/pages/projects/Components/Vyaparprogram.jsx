@@ -180,7 +180,7 @@ export default function Vyaparprogram({ itm, changeState, componentreloadmethod 
     investment_source: '',
     years_in_operation: 0,
     has_hired_employees: '',
-    number_of_paid_workers: 0,
+    number_of_paid_workers: '0',
     reason_for_doing_business: '',
     entrepreneurial_aspirations: [],
     maintain_daily_financial_books: '',
@@ -284,6 +284,7 @@ export default function Vyaparprogram({ itm, changeState, componentreloadmethod 
       sendData.number_of_people_in_the_household = parseInt(sendData.number_of_people_in_the_household);
       sendData.participant_id = parseInt(itm.gelathi_id);
       sendData.cast = sendData.cast.toString();
+      sendData.number_of_paid_workers = sendData.number_of_paid_workers.toString();
       var config = {
         method: 'post',
         url: baseURL + 'addVyaparBaselineSurvey',
