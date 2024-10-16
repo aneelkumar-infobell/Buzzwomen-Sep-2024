@@ -195,7 +195,7 @@ export default function gelathiCirclesList() {
         </>
       )}
       <Card>
-        <CardContent style={{ fontWeight: 700 }}>Project Name : {data1.project_name}</CardContent>{' '}
+        <CardContent style={{ fontWeight: 700 }}>Project Name  : {data1.project_name}</CardContent>{' '}
       </Card>
       <br />
       <Typography style={{ fontWeight: 500, marginLeft: 2 }}>Circles : ({count})</Typography>
