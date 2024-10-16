@@ -2596,8 +2596,7 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
 </Typography>
                     <Typography>
 
-                      {BankError ? <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText> : null}{' '}
-                    </Typography>
+                   </Typography>
                     <RadioGroup
                       aria-labelledby="demo-radio-buttons-group-label"
                       name="radio-buttons-group"
@@ -3072,7 +3071,7 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
                                                 </Stack>
                                             </CardContent>
                                         </Card>
-                                        {(sendData?.family_business == "No") ?
+                                        {(sendData?.family_business ==="No") ?
                                             <Card mt={1} style={{ marginTop: 10, borderRadius: 20 }}>
                                                 <CardContent>
                                                     <Stack mt={1}>
@@ -3112,7 +3111,7 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
                                         }
 
                                         {
-                                            (sendData?.family_business == "Yes") ?
+                                            (sendData?.family_business ==="Yes") ?
                                                 <>
                                                     <Card mt={1} style={{ marginTop: 10, borderRadius: 20 }}>
 
@@ -3352,7 +3351,7 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
 
                                         {
 
-                                            (sendData?.want_to_start_enterprise == "No") ?
+                                            (sendData?.want_to_start_enterprise ==="No") ?
 
                                                 <>
                                                     <Card style={{ marginTop: 10, borderRadius: 20 }}>

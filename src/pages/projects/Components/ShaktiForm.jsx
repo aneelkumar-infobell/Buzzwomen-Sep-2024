@@ -357,7 +357,7 @@ const secondaryIncomeOptions = [
     SetsharelearningError(false);
   };
   const [sendData, setSendData] = React.useState({
-    "firstName":"",
+    "firstName":itm?.participant_name,
     "id": itm.participantId,
     "district": "",
     "taluk": "",
@@ -984,10 +984,9 @@ const educationd = async =>{
                       <TextField
                         id="grampanchayath"
                         label="Your Answer"
-                        required
-                        onChange={(e) => {
-                          setSendData({ ...sendData, firstName: e?.target?.value });
-                        }}
+                      disabled
+                      
+                        value={sendData?.firstName}
                         variant="outlined"
                         color="common"
                       />

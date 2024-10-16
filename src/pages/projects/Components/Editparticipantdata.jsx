@@ -1361,7 +1361,7 @@ console.log(participantId); // This will be undefined if participantdata is unde
                     <RadioGroup
                       aria-labelledby="demo-radio-buttons-group-label"
                       name="radio-buttons-group"
-                      value={sendData.borrowed_from_lender_a}
+                      value={sendData.withdraw_savings_a}
                       onChange={(e) => {const value = e.target.value;  setSendData({ ...sendData, withdraw_savings_a: value }) }}
 
                     >
