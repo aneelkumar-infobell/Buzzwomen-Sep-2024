@@ -103,7 +103,7 @@ export default function ShaktiDialog({ shown, setShown, batch ,reloadfuncton ,ha
               <CloseIcon />
             </IconButton>
             <Typography sx={{ ml: 2, flex: 1,color:"white" }} variant="h6" component="div">
-              Self Shakti 
+              Self Shakti  working
             </Typography>
             <AddParticipants batch={batch} checkData={checkData} reloadFUnction={reloadfuncton} handleCloseDilog={handleCloseDilog}/>
           </Toolbar>

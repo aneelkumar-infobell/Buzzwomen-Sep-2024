@@ -684,15 +684,15 @@ const [openbusChecklist,setOpenBusChecklist] = useState(false);
                   ) : null}
 
 {/* Enroll Nagarika part  */}
-{userDetails == 1 ||
+{/* {userDetails == 1 ||
                   userDetails == 4 ||
                   userDetails == 3 ||
                   userDetails == 13 ||
                   userDetails == 6 ||
                   userDetails == 12 ? (
                     <br />
-                  ) : null}
-{userDetails == 1 ||
+                  ) : null} */}
+{/* {userDetails == 1 ||
                   userDetails == 4 ||
                   userDetails == 3 ||
                   userDetails == 13 ||
@@ -721,7 +721,7 @@ const [openbusChecklist,setOpenBusChecklist] = useState(false);
                         <span style={{ width: '200px' }}>Enrolled Nagarika</span>
                       </Button>
                     </Link>
-                  ) : null}
+                  ) : null} */}
 
                   {userDetails == 1 ||
                   userDetails == 6 ||
@@ -1100,7 +1100,7 @@ const [openbusChecklist,setOpenBusChecklist] = useState(false);
 
 
  {/* Nagarika menu item start */}
- <MenuItem>
+ {/* <MenuItem>
                       <Button variant="secondary" style={styles.buttonStyle}
                       id="basic-button"
                       aria-controls={open4 ? 'basic-menu' : undefined}
@@ -1181,7 +1181,7 @@ const [openbusChecklist,setOpenBusChecklist] = useState(false);
                         </Link>
                         </MenuItem>
                       
-                    </Menu>
+                    </Menu> */}
  {/* Nagarika menu item end  */}
                     
                     </Menu></> : null}
