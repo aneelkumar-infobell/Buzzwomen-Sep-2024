@@ -459,7 +459,7 @@ What is the status of your enterprise? ನಿಮ್ಮ ಉದ್ಯಮದ ಸ್
           />
 
           {sendData.enterprise_status ===
-          'Yes, I run an enterprise currently ಹೌದು, ನಾನು ಪ್ರಸ್ತುತ ಎಂಟರ್‌ಪ್ರೈಸ್ ನಡೆಸುತ್ತಿದ್ದೇನೆ' ? (
+          'Yes, I run an enterprise currently ಹೌದು ನಾನು ಪ್ರಸ್ತುತ ಎಂಟರ್‌ಪ್ರೈಸ್ ನಡೆಸುತ್ತಿದ್ದೇನೆ' ? (
             <>
               <TextInput
                 //doubt
