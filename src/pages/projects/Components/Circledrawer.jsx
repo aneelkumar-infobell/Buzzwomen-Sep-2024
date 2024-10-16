@@ -41,12 +41,14 @@ Circledrawer.propTypes = {
   onCloseFilter: PropTypes.func,
 };
 export default function Circledrawer({ isOpenFilter,head , onOpenFilter, onCloseFilter, clcikData, data1, id }) {
+  console.log(head ,"heading inside ")
     const { apikey } = useAuth();
   const [scheduleData, setScheduleData] = useState('');
   var [searchData, setSearchData] = useState('');
   var [search, setSearch] = useState('');
   var [selected, setSelected] = useState(null);
   const { state } = useLocation();
+  console.log(state ,"statestatestatestate")
   const [sendData, setSendData] = React.useState({
     project_id: '',
     circle_name: '',
@@ -182,8 +184,16 @@ export default function Circledrawer({ isOpenFilter,head , onOpenFilter, onClose
       : state?.head == '_VPM4'
       ? '20'
       : state?.head == '_VPM5'
-      ? '21'
-      : head == "CM" ? "1": null ,
+      ? '21':
+      state?.head == '_NPS'
+      ? "22" : state?.head == '_NPM1'
+      ? "23" : state?.head == '_NPM2'
+      ? "24" : state?.head == '_NPM3'
+      ? "25" : state?.head == '_NPM4'
+      ? "26" : state?.head == '_NPM5'
+      ? "27" : state?.head == '_NPM6'
+      ? "28" :
+       head == "CM" ? "1":null  ,
         
      
     });

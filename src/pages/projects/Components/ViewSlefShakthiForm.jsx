@@ -2590,6 +2590,37 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
 
                                                 </Typography>
                                                 <Stack mt={1}>
+                     <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+                     Draw money out of savings (Yes/No)
+ಉಳಿತಾಯದಿಂದ ಹಣವನ್ನು ಡ್ರಾ ಮಾಡಿ (ಹೌದು / ಇಲ್ಲ)
+</Typography>
+                    <Typography>
+
+                      {BankError ? <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText> : null}{' '}
+                    </Typography>
+                    <RadioGroup
+                      aria-labelledby="demo-radio-buttons-group-label"
+                      name="radio-buttons-group"
+                      value={sendData.withdraw_savings_a}
+                    
+                    >
+                      <div style={{ display: "flex" }}>
+                      <FormControlLabel
+                      disabled
+            value="No"
+            control={<Radio style={{ color: "#595959" }} />}
+            label="No"
+          />
+          <FormControlLabel
+            value="Yes"
+            disabled
+            control={<Radio style={{ color: "#595959" }} />}
+            label="Yes"/>
+
+                      </div>
+                    </RadioGroup>
+                  </Stack>
+                                                <Stack mt={1}>
                                                     <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
                                                         Borrowed money from money lender (Yes/No)
                                                         ಸಾಲಗಾರರಿಂದ ಹಣವನ್ನು ಎರವಲು ಪಡೆಯಲಾಗಿದೆ  (ಹೌದು / ಇಲ್ಲ)</Typography>
@@ -3168,6 +3199,7 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
                                                                                 <TextField
                                                                                     id="twoquestions"
                                                                                     label="Your Answer"
+                                                                                    disabled
                                                                                     value={sendData?.collaborate_with_workers_c}
                                                                                     variant="outlined"
                                                                                     color="common"
@@ -3204,6 +3236,7 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
                                                                                 <TextField
                                                                                     id="twoquestions"
                                                                                     label="Your Answer"
+                                                                                    disabled
                                                                                     value={sendData?.financial_decision_maker_c}
                                                                                     variant="outlined"
                                                                                     color="common"

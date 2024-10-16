@@ -49,6 +49,7 @@ function Project(props) {
   const [anchorE3, setAnchorE3] = React.useState(null);
   const [anchorE4, setAnchorE4] = React.useState(null);
   const [anchorE5, setAnchorE5] = React.useState(null);
+  const [anchorE6, setAnchorE6] = React.useState(null);
   const [circlemeeting, setCirclemeeting] = React.useState(null);
   
   const open = Boolean(anchorEl);
@@ -57,6 +58,7 @@ function Project(props) {
   const open3 = Boolean(anchorE3);
   const open4 = Boolean(anchorE4);
   const open5 = Boolean(anchorE5);
+  const open6 = Boolean(anchorE6);
  ;
   const [expanded, setExpanded] = React.useState(false);
   const [edit, setEdit] = useState(false);
@@ -84,6 +86,9 @@ function Project(props) {
   const vyaparHandleClick= (event) => {
     setAnchorE4(event.currentTarget);
   };
+  const nagarikaHandleClick= (event) => {
+    setAnchorE6(event.currentTarget);
+  };
   const villageVisitHandleClick= (event) => {
     setAnchorE5(event.currentTarget);
   };
@@ -98,6 +103,9 @@ function Project(props) {
   };
   const vyaparHandleClose = () => {
     setAnchorE4(null);
+  };
+  const nagarikaHandleClose = () => {
+    setAnchorE6(null);
   };
   const villageVisitHandleClose = () => {
     setAnchorE5(null);
@@ -674,6 +682,47 @@ const [openbusChecklist,setOpenBusChecklist] = useState(false);
                       </Button>
                     </Link>
                   ) : null}
+
+{/* Enroll Nagarika part  */}
+{userDetails == 1 ||
+                  userDetails == 4 ||
+                  userDetails == 3 ||
+                  userDetails == 13 ||
+                  userDetails == 6 ||
+                  userDetails == 12 ? (
+                    <br />
+                  ) : null}
+{userDetails == 1 ||
+                  userDetails == 4 ||
+                  userDetails == 3 ||
+                  userDetails == 13 ||
+                  userDetails == 6 ||
+                  userDetails == 12 ? (
+                    
+                    <Link
+                      to="/dashboard/projects/enrolledNagarika"
+                      state={{ id: data1?.project_id }}
+                      style={styles.linkStyle}
+                    >
+                      <Button
+                        variant="secondary"
+                        style={{ ...styles.buttonStyle, color: 'orange' }}
+                        startIcon={
+                          <IconButton>
+                            <Iconify style={{ color: 'orange' }} icon="mdi:user-add" />
+                          </IconButton>
+                        }
+                        endIcon={
+                          <IconButton>
+                            <Iconify style={{ color: 'orange' }} icon="material-symbols:add" />
+                          </IconButton>
+                        }
+                      >
+                        <span style={{ width: '200px' }}>Enrolled Nagarika</span>
+                      </Button>
+                    </Link>
+                  ) : null}
+
                   {userDetails == 1 ||
                   userDetails == 6 ||
                   userDetails == 4 ||
@@ -806,7 +855,7 @@ const [openbusChecklist,setOpenBusChecklist] = useState(false);
                       endIcon={<KeyboardArrowDownIcon />}
                       startIcon={<IconButton> <Iconify style={{ color: "black" }} icon="guidance:meeting-point" /></IconButton>}
                     >
-                      <span style={{ width: "210px" }} > Circle Meeting</span>
+                      <span style={{ width: "210px" }} > Circle Meeting working</span>
                     </Button>
                   </span>
                     <Menu
@@ -1001,7 +1050,7 @@ const [openbusChecklist,setOpenBusChecklist] = useState(false);
                         <Link to="/dashboard/projects/ProjectWiseGelathiCircle" state={{ id: data1?.project_id , title: "Vyapar Survey CM", head:"_VPS"}} style={styles.linkStyle}><Button variant="secondary" style={styles.buttonStyle}
                           endIcon={<IconButton> <Iconify style={{ color: "#6d7c89" }} icon="material-symbols:add" /> </IconButton>}
                           startIcon={<IconButton> <Iconify style={{ color: "black" }} icon="ic:baseline-home" /> </IconButton>}>
-                          <span style={{ width: "200px" }}> Survey</span>
+                          <span style={{ width: "200px" }}> Survey </span>
                         </Button>
                         </Link></MenuItem>
                      
@@ -1047,6 +1096,93 @@ const [openbusChecklist,setOpenBusChecklist] = useState(false);
                       
                     </Menu>
  {/* vyapar menu item end  */}
+
+
+
+ {/* Nagarika menu item start */}
+ <MenuItem>
+                      <Button variant="secondary" style={styles.buttonStyle}
+                      id="basic-button"
+                      aria-controls={open4 ? 'basic-menu' : undefined}
+                      aria-haspopup="true"
+                      aria-expanded={open4 ? 'true' : undefined}
+                      onClick={nagarikaHandleClick}
+                      endIcon={<KeyboardArrowDownIcon />}
+                      startIcon={<IconButton> <Iconify style={{ color: "black" }} icon="guidance:meeting-point" /></IconButton>}
+                    >
+                      <span style={{ width: "210px" }} > Nagarika</span>
+                    </Button>
+                      </MenuItem>
+                      <Menu
+                      anchorEl={anchorE6}
+                      open={open6}
+                      onClose={nagarikaHandleClose}
+                      MenuListProps={{
+                        'aria-labelledby': 'basic-button',
+                      }}
+                      style={{ justifyContent: 'flex-end' }}
+                    >
+                   <IconButton onClick={nagarikaHandleClose} > <Iconify style={{ color: "black" ,margingLeft:"10px"}} icon="material-symbols:close-rounded"  /></IconButton>
+                      
+                    
+                      <MenuItem>
+                        <Link to="/dashboard/projects/ProjectWiseGelathiCircle" state={{ id: data1?.project_id , title: "Nagarika Survey CM", head:"_NPS"}} style={styles.linkStyle}><Button variant="secondary" style={styles.buttonStyle}
+                          endIcon={<IconButton> <Iconify style={{ color: "#6d7c89" }} icon="material-symbols:add" /> </IconButton>}
+                          startIcon={<IconButton> <Iconify style={{ color: "black" }} icon="ic:baseline-home" /> </IconButton>}>
+                          <span style={{ width: "200px" }}> Survey </span>
+                        </Button>
+                        </Link></MenuItem>
+                     
+                      <MenuItem>
+                        <Link to="/dashboard/projects/ProjectWiseGelathiCircle" state={{ id: data1?.project_id , title: "Module 1 CM" , head:"_NPM1"}} style={styles.linkStyle}><Button variant="secondary" style={styles.buttonStyle}
+                          endIcon={<IconButton> <Iconify style={{ color: "#6d7c89" }} icon="material-symbols:add" /> </IconButton>}
+                          startIcon={<IconButton> <Iconify style={{ color: "black" }} icon="ic:baseline-home" /> </IconButton>}>
+                          <span style={{ width: "200px" }}> Module 1</span>
+                        </Button>
+                        </Link></MenuItem>
+                        <MenuItem>
+                        <Link to="/dashboard/projects/ProjectWiseGelathiCircle" state={{ id: data1?.project_id , title: "Module 2 CM", head:"_NPM2"}} style={styles.linkStyle}><Button variant="secondary" style={styles.buttonStyle}
+                          endIcon={<IconButton> <Iconify style={{ color: "#6d7c89" }} icon="material-symbols:add" /> </IconButton>}
+                          startIcon={<IconButton> <Iconify style={{ color: "black" }} icon="ic:baseline-home" /> </IconButton>}>
+                          <span style={{ width: "200px" }}> Module 2</span>
+                        </Button>
+                        </Link>
+                        </MenuItem>
+                        <MenuItem>
+                        <Link to="/dashboard/projects/ProjectWiseGelathiCircle" state={{ id: data1?.project_id , title: "Module 3 CM", head:"_NPM3"}} style={styles.linkStyle}><Button variant="secondary" style={styles.buttonStyle}
+                          endIcon={<IconButton> <Iconify style={{ color: "#6d7c89" }} icon="material-symbols:add" /> </IconButton>}
+                          startIcon={<IconButton> <Iconify style={{ color: "black" }} icon="ic:baseline-home" /> </IconButton>}>
+                          <span style={{ width: "200px" }}> Module 3</span>
+                        </Button>
+                        </Link>
+                        </MenuItem>
+                        <MenuItem>
+                        <Link to="/dashboard/projects/ProjectWiseGelathiCircle" state={{ id: data1?.project_id , title: "Module 4 CM", head:"_NPM4"}} style={styles.linkStyle}><Button variant="secondary" style={styles.buttonStyle}
+                          endIcon={<IconButton> <Iconify style={{ color: "#6d7c89" }} icon="material-symbols:add" /> </IconButton>}
+                          startIcon={<IconButton> <Iconify style={{ color: "black" }} icon="ic:baseline-home" /> </IconButton>}>
+                          <span style={{ width: "200px" }}> Module 4</span>
+                        </Button>
+                        </Link>
+                        </MenuItem>
+                        <MenuItem>
+                        <Link to="/dashboard/projects/ProjectWiseGelathiCircle" state={{ id: data1?.project_id , title: "Module 5 CM", head:"_NPM5"}} style={styles.linkStyle}><Button variant="secondary" style={styles.buttonStyle}
+                          endIcon={<IconButton> <Iconify style={{ color: "#6d7c89" }} icon="material-symbols:add" /> </IconButton>}
+                          startIcon={<IconButton> <Iconify style={{ color: "black" }} icon="ic:baseline-home" /> </IconButton>}>
+                          <span style={{ width: "200px" }}> Module 5</span>
+                        </Button>
+                        </Link>
+                        </MenuItem>
+                        <MenuItem>
+                        <Link to="/dashboard/projects/ProjectWiseGelathiCircle" state={{ id: data1?.project_id , title: "Module 6 CM", head:"_NPM6"}} style={styles.linkStyle}><Button variant="secondary" style={styles.buttonStyle}
+                          endIcon={<IconButton> <Iconify style={{ color: "#6d7c89" }} icon="material-symbols:add" /> </IconButton>}
+                          startIcon={<IconButton> <Iconify style={{ color: "black" }} icon="ic:baseline-home" /> </IconButton>}>
+                          <span style={{ width: "200px" }}> Module 6</span>
+                        </Button>
+                        </Link>
+                        </MenuItem>
+                      
+                    </Menu>
+ {/* Nagarika menu item end  */}
                     
                     </Menu></> : null}
                       {/* gelati menu end */}

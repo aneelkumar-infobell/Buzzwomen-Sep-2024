@@ -50,6 +50,7 @@ import FUnderSSDashboard from './pages/projects/FunderDashBoard/FUnderSSDashboar
 import FunderGelathiDashboard from './pages/projects/FunderDashBoard/FunderGelathiDashboard';
 import Page404 from './pages/Page404';
 import SeniorTrainerMaterialStocklist from './pages/SeniorTrainerMaterialStocklist';
+import EnrolledNagarika from './pages/projects/EnrolledNagarika';
 // import BusCheckList from './pages/projects/SeniorTrainerBuschecklist';
 
 // ----------------------------------------------------------------------
@@ -67,6 +68,7 @@ export default function Router() {
         { path:  "assignbatches",element:<AssignBatches/>},
         { path: "assigntargets",element:<AssignTargets/>},
         { path: "enrolledGelathi", element: <EnrolledGelathi /> },
+        { path: "enrolledNagarika", element: <EnrolledNagarika /> },
         { path: "enrolledGreenMotivators", element: <EnrolledGreenMotivators /> },
         { path: "enrolledVyaapar", element: <EnrolledVyaapar /> },
         { path: "gelathiCirlces", element: <GelathiCirces /> },

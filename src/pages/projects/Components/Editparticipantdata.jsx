@@ -1348,6 +1348,37 @@ console.log(participantId); // This will be undefined if participantdata is unde
 
 
                   </Typography>
+
+                  <Stack mt={1}>
+                     <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
+                     Draw money out of savings (Yes/No)
+ಉಳಿತಾಯದಿಂದ ಹಣವನ್ನು ಡ್ರಾ ಮಾಡಿ (ಹೌದು / ಇಲ್ಲ)
+</Typography>
+                    <Typography>
+
+                      {BankError ? <FormHelperText style={{ color: 'red' }}>{helperText}</FormHelperText> : null}{' '}
+                    </Typography>
+                    <RadioGroup
+                      aria-labelledby="demo-radio-buttons-group-label"
+                      name="radio-buttons-group"
+                      value={sendData.borrowed_from_lender_a}
+                      onChange={(e) => {const value = e.target.value;  setSendData({ ...sendData, withdraw_savings_a: value }) }}
+
+                    >
+                      <div style={{ display: "flex" }}>
+                      <FormControlLabel
+            value="No"
+            control={<Radio style={{ color: "#595959" }} />}
+            label="No"
+          />
+          <FormControlLabel
+            value="Yes"
+            control={<Radio style={{ color: "#595959" }} />}
+            label="Yes"/>
+
+                      </div>
+                    </RadioGroup>
+                  </Stack>
                   <Stack mt={1}>
                      <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
                       Borrowed money from money lender (Yes/No)
