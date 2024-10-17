@@ -12,6 +12,7 @@ import (
 
 type GFResponse struct {
 	ID                           string         `json:"id"`
+	GflIdd                       int            `json:"gfl_id"`
 	GFSessionName                string         `json:"gf_session_name"`
 	TbID                         string         `json:"tb_id"`
 	PlanDate                     string         `json:"plan_date"`
@@ -102,10 +103,10 @@ func GetGFSessionData1(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 		condition = fmt.Sprintf(" and gf_sess.user_id = %v", user_id)
 	}
 	//id := request["gf_session_id"].(string)
-
+	fmt.Println("changes")
 	sessionID := request["gf_session_id"].(string)
 
-	fields := (` gf_sess.id, gf_sess.name AS gf_session_name, gf_sess.tb_id, IFNUll(gf_sess.date, '') AS plan_date, prj.id AS project_id, UPPER(prj.projectName) AS projectName, IFNULL(part.partnerName, '') AS partnerName, IFNULL(tr_bat.name, '') AS training_batch_name, IFNULL(tr_bat.contact_person, '') AS contact_person, IFNULL(tr_bat.contact_number, '') AS contact_number,
+	fields := (`gf_sess.id, gf_sess.name AS gf_session_name, gf_sess.tb_id, IFNUll(gf_sess.date, '') AS plan_date, prj.id AS project_id, prj.gfl_id as gfl_id, UPPER(prj.projectName) AS projectName, IFNULL(part.partnerName, '') AS partnerName, IFNULL(tr_bat.name, '') AS training_batch_name, IFNULL(tr_bat.contact_person, '') AS contact_person, IFNULL(tr_bat.contact_number, '') AS contact_number,
     gf_sess.session_type AS type, IF(gf_sess.check_in IS NOT NULL, 1, 0) as check_in, IF(gf_sess.check_out IS NOT NULL, 1, 0) as check_out, IFNUll(gf_sess.participants,''), 
 	CASE 
 	WHEN gf_sess.session_type = 1 THEN 'Circle Metting' WHEN gf_sess.session_type = 2 THEN 'Village Visit'  WHEN gf_sess.session_type = '3' THEN 'Beehive Visit'  
@@ -123,6 +124,8 @@ func GetGFSessionData1(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
         LEFT JOIN tbl_poa AS tr_bat ON gf_sess.tb_id = tr_bat.tb_id
         JOIN employee AS emp ON gf_sess.user_id = emp.id
         WHERE gf_sess.id = %s AND gf_sess.type = 2 %s`, fields, sessionID, condition)
+
+	fmt.Println("queryy", query)
 
 	stmt, err := DB.Prepare(query)
 	if err != nil {
@@ -144,6 +147,7 @@ func GetGFSessionData1(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 		&sessionData.TbID,
 		&sessionData.PlanDate,
 		&sessionData.ProjectID,
+		&sessionData.GflIdd,
 		&sessionData.ProjectName,
 		&sessionData.PartnerName,
 		&sessionData.TrainingBatchName,
