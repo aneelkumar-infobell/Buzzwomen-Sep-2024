@@ -2142,6 +2142,13 @@ console.log(participantId); // This will be undefined if participantdata is unde
 <>
 <Card style={{ marginTop: 10, borderRadius: 20 }}>
                 <CardContent>
+                  <Typography variant="subtitle2" style={{ color: '#ff7424',textAlign:"center" }}>
+                  Decision Making  ತೀರ್ಮಾನ ಮಾಡುವಿಕೆ
+                  </Typography>
+                  </CardContent>
+                  </Card>
+<Card style={{ marginTop: 10, borderRadius: 20 }}>
+                <CardContent>
                   <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
                     Do you have a say in making decisions on:  ನಿರ್ಧಾರಗಳನ್ನು ತೆಗೆದುಕೊಳ್ಳುವಲ್ಲಿ ನಿಮ್ಮ ಅಭಿಪ್ರಾಯವಿದೆಯೇ:
                   </Typography>

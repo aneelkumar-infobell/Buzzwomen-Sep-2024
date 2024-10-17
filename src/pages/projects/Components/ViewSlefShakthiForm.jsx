@@ -3354,6 +3354,13 @@ export default function ViewSlefShakthiForm({ editSession, setEditsession, Train
                                             (sendData?.want_to_start_enterprise ==="No") ?
 
                                                 <>
+                                                <Card style={{ marginTop: 10, borderRadius: 20 }}>
+                <CardContent>
+                  <Typography variant="subtitle2" style={{ color: '#ff7424',textAlign:"center" }}>
+                  Decision Making  ತೀರ್ಮಾನ ಮಾಡುವಿಕೆ
+                  </Typography>
+                  </CardContent>
+                  </Card>
                                                     <Card style={{ marginTop: 10, borderRadius: 20 }}>
                                                         <CardContent>
                                                             <Typography variant="subtitle2" style={{ color: '#ff7424' }}>
