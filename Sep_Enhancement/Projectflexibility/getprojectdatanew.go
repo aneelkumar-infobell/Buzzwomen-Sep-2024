@@ -415,19 +415,13 @@ func GetProjectDataNew(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 		}
 
 		//var fnam, fid string
-		currentfunder := `SELECT f.funderName,f.funderID FROM bdms_staff.multiple_funder mf join funder f on f.funderID=mf.funderid where mf.projectid=? and mf.active_flag=0`
-		fmt.Println("request.Project_id", request.Project_id)
+		currentfunder := `SELECT COALESCE(f.funderName, '') AS funderName,COALESCE(f.funderID, '') AS funderID FROM bdms_staff.multiple_funder mf join funder f on f.funderID=mf.funderid where mf.projectid=? and mf.active_flag=0`
+
+		fmt.Println("request.Project_id", request.Project_id, currentfunder)
 		err2 := DB.QueryRow(currentfunder, request.Project_id).Scan(&view.CurrentFundername, &view.CurrentFunderid)
 		if err2 != nil {
 			fmt.Println(err2, "newfunder")
-			w.WriteHeader(http.StatusBadRequest)
-			json.NewEncoder(w).Encode(map[string]interface{}{
-				"code":    http.StatusBadRequest,
-				"message": "Failed to scan current funder",
-				"success": false,
-				"error":   err,
-			})
-			return
+
 		}
 
 		if request.Role_id == "5" {
