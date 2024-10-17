@@ -103,7 +103,7 @@ func GetGFSessionData1(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 		condition = fmt.Sprintf(" and gf_sess.user_id = %v", user_id)
 	}
 	//id := request["gf_session_id"].(string)
-
+	fmt.Println("changes")
 	sessionID := request["gf_session_id"].(string)
 
 	fields := (`gf_sess.id, gf_sess.name AS gf_session_name, gf_sess.tb_id, IFNUll(gf_sess.date, '') AS plan_date, prj.id AS project_id, prj.gfl_id as gfl_id, UPPER(prj.projectName) AS projectName, IFNULL(part.partnerName, '') AS partnerName, IFNULL(tr_bat.name, '') AS training_batch_name, IFNULL(tr_bat.contact_person, '') AS contact_person, IFNULL(tr_bat.contact_number, '') AS contact_number,
