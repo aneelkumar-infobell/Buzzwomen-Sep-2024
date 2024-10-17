@@ -331,9 +331,9 @@ func HandleFunc() {
 
 	//---------------------Get Gf sessions -----------------------------------------
 
-	apiRouter.Handle("/getGFSessionData1", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
+	apiRouter.HandleFunc("/getGFSessionData1", func(w http.ResponseWriter, r *http.Request) {
 		t1.GetGFSessionData1(w, r, db)
-	}))
+	})
 
 	//---------------------Get Green Motivators-----------------------------------------
 
