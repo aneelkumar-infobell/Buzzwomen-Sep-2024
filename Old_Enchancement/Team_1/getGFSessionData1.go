@@ -164,6 +164,7 @@ func GetGFSessionData1(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 		&sessionData.UserID,
 		&sessionData.GFName,
 	)
+	fmt.Println("hhh", sessionData.GflIdd)
 	if err != nil {
 
 		if err == sql.ErrNoRows {
@@ -462,6 +463,7 @@ func GetGFSessionData1(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 		EnrollParticipantContactNum:  sessionData.EnrollParticipantContactNum,
 		EnrollParticipantVillageName: sessionData.EnrollParticipantVillageName,
 		Photos:                       photos,
+		GflIdd:                       sessionData.GflIdd,
 	}
 
 	jsonResponse, err := json.Marshal(response)
