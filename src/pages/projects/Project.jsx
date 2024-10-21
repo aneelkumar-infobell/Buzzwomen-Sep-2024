@@ -855,7 +855,7 @@ const [openbusChecklist,setOpenBusChecklist] = useState(false);
                       endIcon={<KeyboardArrowDownIcon />}
                       startIcon={<IconButton> <Iconify style={{ color: "black" }} icon="guidance:meeting-point" /></IconButton>}
                     >
-                      <span style={{ width: "210px" }} > Circle Meeting working</span>
+                      <span style={{ width: "210px" }} > Circle Meeting </span>
                     </Button>
                   </span>
                     <Menu

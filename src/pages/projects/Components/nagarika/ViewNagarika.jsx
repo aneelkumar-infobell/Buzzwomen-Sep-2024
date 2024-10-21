@@ -39,6 +39,7 @@ import { useEffect } from 'react';
 import { baseURL } from 'src/utils/api';
 import { useAuth } from 'src/AuthContext';
 import axios from 'axios';
+import { Which_of_the_following_statements_do_you_agree_with } from './NagarikaSurveyOption';
 const ViewNagarika = ({ sendData, handleInputChange, handleResources }) => {
   const { apikey } = useAuth();
   const [district, setDistrict] = useState([]);

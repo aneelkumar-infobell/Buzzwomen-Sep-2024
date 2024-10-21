@@ -85,6 +85,13 @@ export default function ChooseGelathi( {data1,circle}) {
      
     }
   }
+  if(state.head == "_NPS"){
+    if (isApiSubscribed) {
+    
+      enrolledNagarika()
+     
+    }
+  }
      return () => {
        isApiSubscribed = false;
      };
@@ -177,6 +184,34 @@ var config = {
         // console.log(error);
       });
 }
+
+const enrolledNagarika = async =>{
+  var userDetails = JSON.parse(sessionStorage?.getItem('userDetails'))
+var role = JSON.parse(sessionStorage?.getItem('userDetails'))?.role
+var idvalue = JSON.parse(sessionStorage?.getItem('userDetails'))?.id;
+var data = JSON.stringify({
+"search": search,
+"project_id": state?.id,
+"emp_id": idvalue,
+"role_id": role
+});
+var config = {
+method: 'post',
+url: baseURL+'getenrollnagarikagelathi  ',
+headers: {
+  'Content-Type': 'application/json',
+  'Authorization': `${apikey}`
+},
+data : data
+};
+    axios(config)
+    .then(function (response) {
+      setenrolled(response.data)
+    })
+    .catch(function (error) {
+      // console.log(error);
+    });
+}
 const changeText = (e) => {
   setSearchData(e?.target?.value)
   searchFunction(e?.target?.value)
@@ -220,7 +255,7 @@ const changeText = (e) => {
               <CloseIcon />
             </IconButton>
             <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div" color='inherit'>
-             Gelathis  
+             Gelathis 
             </Typography>
              
             
