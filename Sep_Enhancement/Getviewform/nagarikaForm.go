@@ -37,8 +37,8 @@ func GetNagarikaProgramQuestionnaire(w http.ResponseWriter, r *http.Request, db 
 
 	query := fmt.Sprintf(`SELECT 
     id,
-    COALESCE(participantid, '') AS participant_id,
-    COALESCE(gelathi_id, '') AS gelathi_id,
+    COALESCE(partcipantId, '') AS participant_id,
+    COALESCE(GelathiId, '') AS gelathi_id,
     COALESCE(entrydate, '') AS entry_date,
     COALESCE(profile_of_the_women, '') AS profile_of_the_women,
     COALESCE(unique_identification_number_given_after_completion_of_ss, '') AS unique_identification_number_given_after_completion_of_ss,
@@ -105,7 +105,7 @@ func GetNagarikaProgramQuestionnaire(w http.ResponseWriter, r *http.Request, db 
     COALESCE(what_are_your_most_imp_sources_for_information_about_government, '') AS what_are_your_most_imp_sources_for_information_about_government,
     COALESCE(which_of_the_following_statements_do_you_agree_with, '') AS which_of_the_following_statements_do_you_agree_with
     FROM nagarikaprogramquestionnaire
-    WHERE participantid = '%s'`, req.PartcipantID)
+    WHERE partcipantId = '%s'`, req.PartcipantID)
 
 	rows, err := db.Query(query)
 	fmt.Println("printing", query)
@@ -201,5 +201,5 @@ func GetNagarikaProgramQuestionnaire(w http.ResponseWriter, r *http.Request, db 
 	}
 
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(map[string]interface{}{"data": response, "success": true, "message": "BuzzSpoorthiProgramBaseline"})
+	json.NewEncoder(w).Encode(map[string]interface{}{"data": response, "success": true, "message": "NagarikaProgram"})
 }
