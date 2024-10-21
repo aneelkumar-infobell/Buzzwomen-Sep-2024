@@ -11,6 +11,7 @@ import GreenSurvey from './GreenSurvey';
 import Vyaparprogram from './Vyaparprogram';
 import { oldbaseURL, baseURL } from 'src/utils/api';
 import { useAuth } from 'src/AuthContext';
+import NagarikaForm from './NagarikaForm';
 GelathiCircleDrawer.propTypes = {
   isOpenFilter: PropTypes.bool,
   onOpenFilter: PropTypes.func,
@@ -485,7 +486,7 @@ return (
                                   // if we want to see filed form means need to call another component so that time we can use this kind of methods to call instead of rendering inside the map
                                 }}
                               >
-                                <Vyaparprogram itm={itm} changeState={gelathiDrawerReloder} />
+                                <NagarikaForm itm={itm} changeState={gelathiDrawerReloder} />
                               </button>
                             ) : (
                               <></>
