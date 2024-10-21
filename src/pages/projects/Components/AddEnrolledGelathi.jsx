@@ -147,7 +147,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
             <CloseIcon />
           </IconButton>
           <Typography sx={{ ml: 2, flex: 1, color: "inherit" }} variant="h6" component="div" >
-            Enrolled Gelathis
+            Enrolled Gelathis 
           </Typography>
         </Toolbar>
  

@@ -677,7 +677,7 @@ session.length <=0 ?
                   </>
                 );
               })}
-              {session?.type == 4 || session?.type == 10 || session?.type == 16 ? (
+              {session?.type == 4 || session?.type == 10 || session?.type == 16   || session?.type == 22? (
                 userId == 6 || userId == 13 ? (
                   <Stack style={{ flexDirection: 'row' }} mb={2}>
                     <Button
@@ -720,7 +720,7 @@ session.length <=0 ?
                   (userId == 13 || userId == 6)) ? null : (
                     <>
                   <AddEnrollGelathi session={session} reloadmethod={reloadFunction} />
-                 >
+                 
                   </>
                 )
               ) : null}
