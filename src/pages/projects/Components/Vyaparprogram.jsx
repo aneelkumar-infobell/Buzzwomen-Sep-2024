@@ -599,7 +599,7 @@ export default function Vyaparprogram({ itm, changeState, componentreloadmethod 
                 )}
               </IconButton>
               <Typography sx={{ ml: 2, flex: 1, color: 'white' }} variant="h6" component="div">
-                Buzz Vyapar Program Baselines working
+                Buzz Vyapar Program Baselines 
               </Typography>
               <Button edge="end" color="inherit" type="submit" onClick={() => {}} style={{ color: 'white' }}>
                 {isOnline() ? <Iconify icon="material-symbols:save" width={30} height={30} /> : 'save'}

@@ -167,7 +167,7 @@ export default function ProjectWiseGelathiCircle() {
         ) : null}
         {roleid == 6 || roleid == 13 ? 
         <>
-{state.head =="_SPS" || state.head == '_VPS' || state.head == '_GPS' ?
+{state.head =="_SPS" || state.head == '_VPS' || state.head == '_GPS' || state.head == '_NPS'?
 <ChooseGelathi data1={data1} circle={circle} title={state.title} api={state} />: null
 }
         </>

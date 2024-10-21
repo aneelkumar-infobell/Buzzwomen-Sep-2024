@@ -73,6 +73,7 @@ import {
   top_3_problems_in_your_village,
   What_do_you_do_in_Gram_Sabha,
   What_is_the_total_budget_spend_in_your_panchayat,
+  Which_of_the_following_statements_do_you_agree_with,
   Why_dont_you_attend_Gram_sabha,
   yesNoDontKnow,
   yesOrNo,
