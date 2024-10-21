@@ -42,18 +42,18 @@ export default function EnrolledNagarika() {
     search = e;
     setSearch(search);
     setSelected({ name: e, type: 'Search' });
-    enrolledVyaapar();
+    enrolledNagarika();
   };
   const handleDelete = () => {
     setSelected(null);
     search = '';
     setSearch(search);
-    enrolledVyaapar();
+    enrolledNagarika();
   };
   useEffect(() => {
     let isApiSubscribed = true;
     if (isApiSubscribed) {
-      enrolledVyaapar();
+      enrolledNagarika();
     }
     return () => {
       isApiSubscribed = false;
@@ -75,14 +75,15 @@ export default function EnrolledNagarika() {
   const handleclose = () => {
     setFilter(false);
   };
-  const enrolledVyaapar = async (id, i, g) => {
+  const enrolledNagarika = async (id, i, g) => {
+    console.log(id, i, g ,"id, i, g" , "getData")
     var role = JSON.parse(sessionStorage?.getItem('userDetails'))?.role;
     var idvalue = JSON.parse(sessionStorage?.getItem('userDetails'))?.id;
     var data = JSON.stringify({
-      search: search,
+      // search: search,
       project_id: state?.id,
       emp_id: idvalue,
-      gelathi_id: id?.emp_id ? id?.emp_id : '',
+      gelathi_id: id?.emp_id ? id?.emp_id : id,
       start_date : '',
       end_date: ""
     });
@@ -138,6 +139,8 @@ export default function EnrolledNagarika() {
     };
     axios(config)
       .then(function (response) {
+        console.log(response.data.list.gfl_id,"gelathi id response")
+        enrolledNagarika(response.data.list.gfl_id)
         setData1(response.data.list);
       })
       .catch(function (error) {
@@ -145,11 +148,13 @@ export default function EnrolledNagarika() {
       });
   };
   const getData = (itm, i) => {
+    console.log()
     setSelected({ itm, type: 'Field Associates' });
     const data = i === 6 ? { gelathi_id: itm?.id } : i === 1 ? { partner_id: itm?.id } : { project_id: itm?.id };
-    enrolledVyaapar(itm, i);
+    enrolledNagarika(itm, i);
     setFilterData(data);
     handleclose();
+    console.log(data ,itm , i  ,"getData")
   };
   const role = JSON.parse(sessionStorage?.getItem('userDetails'))?.role;
   const removevyapar = async (itm) => {
@@ -172,7 +177,7 @@ export default function EnrolledNagarika() {
       axios(config)
         .then(function (response) {
           setremove(response.data);
-          enrolledVyaapar();
+          enrolledNagarika();
         })
         .catch(function (error) {
           // console.log(error);

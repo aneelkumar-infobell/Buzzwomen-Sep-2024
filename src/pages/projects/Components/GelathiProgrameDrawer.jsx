@@ -46,6 +46,7 @@ import { oldbaseURL,baseURL } from 'src/utils/api';
 import GelathiCircleDrawer from './GelathiCircleDrawer';
 import { isError } from 'lodash';
 import { useAuth } from 'src/AuthContext';
+import AddEnrolledNagarika from './AddEnrolledNagarika';
 // import ShaktiDialog from '../projects/Components/ShaktiDialog'
 // ----------------------------------------------------------------------
 const ExpandMore = styled((props) => {
@@ -500,7 +501,7 @@ session.length <=0 ?
                       </>
                   ) : null}
                   <Typography variant="body1" gutterBottom>
-                    Trainer Name &nbsp;:&nbsp;
+                    Trainer Name working &nbsp;:&nbsp;
                     {session?.trainer_name}
                   </Typography>
                   <Typography variant="body1" gutterBottom>
@@ -717,7 +718,10 @@ session.length <=0 ?
                 session?.gf_session_name?.split('_')[1].slice(0, 2) == 'BV' ||
                 (session?.gf_session_name?.split('_')[1].slice(0, 2) == 'CM' &&
                   (userId == 13 || userId == 6)) ? null : (
+                    <>
                   <AddEnrollGelathi session={session} reloadmethod={reloadFunction} />
+                 >
+                  </>
                 )
               ) : null}
               {session?.check_in != '0' && userId == 6 && session?.type==2  ? (
@@ -742,6 +746,20 @@ session.length <=0 ?
               ) 
             
               : null}
+
+{(session?.check_in != '0' && userId == 6 && session?.type==2 ) ?
+             
+             
+             (
+               session?.gf_session_name?.split('_')[1].slice(0, 2) == 'BV' ||
+               (session?.gf_session_name?.split('_')[1].slice(0, 2) == 'CM' &&
+                 (userId == 13 || userId == 6)) ? null : (
+                 <AddEnrolledNagarika session={session} reloadmethod={reloadFunction} />
+               )
+               
+             ) 
+           
+             : null}
            
               <Stack style={{ flexDirection: 'row' }} mb={2}>
                 <Button
