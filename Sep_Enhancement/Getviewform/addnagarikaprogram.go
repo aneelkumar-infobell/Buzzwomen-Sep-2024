@@ -106,7 +106,7 @@ func Addnagarikasurvey(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 		return
 	}
 
-	checkStatement := "SELECT COUNT(*) FROM nagarikaprogramquestionnaire WHERE participantid = ?"
+	checkStatement := "SELECT COUNT(*) FROM nagarikaprogramquestionnaire WHERE partcipantId = ?"
 	var count int
 	err = DB.QueryRow(checkStatement, a.ParticipantID).Scan(&count)
 	if err != nil {
@@ -138,8 +138,8 @@ func Addnagarikasurvey(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 	if a.ParticipantID != "" && a.GelathiID != "" {
 		sql := `
 		INSERT INTO nagarikaprogramquestionnaire (
-    participantid,
-    gelathi_id,
+    partcipantId,
+    GelathiId,
     entrydate,
     profile_of_the_women,
     unique_identification_number_given_after_completion_of_ss,
