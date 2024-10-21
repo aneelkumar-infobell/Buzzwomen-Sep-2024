@@ -97,7 +97,7 @@ export const currentEconomicActivity = [
 ];
 
 export const secondaryOccupationHousehold = [
-  { id: 1, name: '1. Crop cultivator  ಕೃಷಿಕ' },
+  { id: 1, name: 'Crop cultivator  ಕೃಷಿಕ' },
   { id: 2, name: 'Livestock farming  ಜಾನುವಾರು ಸಾಕಣೆ' },
   { id: 3, name: 'Farm wage worker  ಕೃಷಿ ಕೂಲಿ ಕಾರ್ಮಿಕ' },
   {

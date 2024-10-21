@@ -250,6 +250,8 @@ export default function enrolledVyaaparList() {
         </div>
       ) : vyaapar?.list !== null ? (
         vyaapar?.list?.map((itm) => {
+          console.log({ role }, 'anas');
+
           return (
             <Card style={styles.card1}>
               <div>
@@ -265,8 +267,18 @@ export default function enrolledVyaaparList() {
                 {role == 4 || role == 12 || role == 3 || role == 1 ? (
                   itm?.is_survey ? (
                     <GetVyaparProgram itm={itm} />
-                  ) : (
+                  ) : role == 6 || role == 13 ? (
                     <Vyaparprogram itm={itm} changeState={changeState} />
+                  ) : (
+                    <IconButton style={{ float: 'right' }}>
+                      <Iconify
+                        icon="charm:notes-tick"
+                        width={20}
+                        height={20}
+                        color="orange"
+                        onClick={() => alert('Not yet filled')}
+                      />
+                    </IconButton>
                   )
                 ) : null}
               </div>

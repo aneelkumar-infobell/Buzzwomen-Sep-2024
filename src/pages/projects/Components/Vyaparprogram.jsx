@@ -85,9 +85,9 @@ export default function Vyaparprogram({ itm, changeState, componentreloadmethod 
   const [open, setOpen] = React.useState(false);
   const [successMessage, setsuccessMessage] = useState(false);
   const [vyaapar, setVyaapar] = useState('');
-console.log(itm ,"itm")
+  console.log(itm, 'itm');
   const [sendData, setSendData] = useState({
-    participant_id:parseInt(itm?.gelathi_id) ,
+    participant_id: parseInt(itm?.gelathi_id),
     gf_id: '',
     when_was_survey_done: '',
     name_of_the_vyapari: '',
@@ -157,7 +157,7 @@ console.log(itm ,"itm")
     total_household_members: 0,
     house: '',
     ration_card: '',
-    cast: '',
+    cast: 0,
     dob: '',
     education: '',
     primary_occupation_household: '',
@@ -180,7 +180,7 @@ console.log(itm ,"itm")
     investment_source: '',
     years_in_operation: 0,
     has_hired_employees: '',
-    number_of_paid_workers: 0,
+    number_of_paid_workers: '0',
     reason_for_doing_business: '',
     entrepreneurial_aspirations: [],
     maintain_daily_financial_books: '',
@@ -266,7 +266,7 @@ console.log(itm ,"itm")
   };
 
   const vyaparformdata = (async) => {
-    console.log( sendData  ,"sednign data" );
+    console.log(sendData, 'sednign data');
     if (isOnline() && networkAccess()) {
       // if (localStorage.getItem('vyapar')) {
       //   saveDataLocally('vyapar', sendData);
@@ -283,6 +283,8 @@ console.log(itm ,"itm")
       sendData.number_of_beehives_participated = parseInt(sendData.number_of_beehives_participated);
       sendData.number_of_people_in_the_household = parseInt(sendData.number_of_people_in_the_household);
       sendData.participant_id = parseInt(itm.gelathi_id);
+      sendData.cast = sendData.cast.toString();
+      sendData.number_of_paid_workers = sendData.number_of_paid_workers.toString();
       var config = {
         method: 'post',
         url: baseURL + 'addVyaparBaselineSurvey',
@@ -358,9 +360,8 @@ console.log(itm ,"itm")
     }, delay);
   });
   const handleInputChange = (event) => {
-    
     const { name, value } = event.target;
-    console.log(name  ,value ,"name value ")
+    console.log(name, value, 'name value ');
     setSendData((prevData) => ({
       ...prevData,
       [name]: value,
@@ -394,6 +395,7 @@ console.log(itm ,"itm")
   const [village, setVillage] = useState([]);
   useEffect(() => {
     getState();
+    casted();
   }, []);
   const getState = async (id) => {
     var data = JSON.stringify({
@@ -463,7 +465,25 @@ console.log(itm ,"itm")
         // console.log(error);
       });
   };
-console.log(sendData ,"sendData")
+  const [cast, setCaste] = useState([]);
+  const casted = (async) => {
+    var config = {
+      method: 'post',
+      maxBodyLength: Infinity,
+      url: baseURL + 'getCaste',
+      headers: {
+        Authorization: `${apikey}`,
+      },
+    };
+
+    axios(config)
+      .then(function (response) {
+        setCaste(response.data?.data);
+      })
+      .catch(function (error) {
+        // console.log(error);
+      });
+  };
   return (
     <div>
       {successMessage && (
@@ -716,7 +736,7 @@ console.log(sendData ,"sendData")
                     required
                     onChange={handleInputChange}
                     value={sendData?.cast}
-                    options={casteCategory}
+                    options={cast}
                   />
                   <TextInput
                     id="age"
@@ -912,7 +932,10 @@ console.log(sendData ,"sendData")
                         name="type_of_enterprise_running"
                         label="What kind of enterprise do you run?
 ನೀವು ಯಾವ ರೀತಿಯ ಉದ್ಯಮವನ್ನು ನಡೆಸುತ್ತೀರಿ?"
-                        required
+                        required={
+                          sendData?.enterprise_status ===
+                          'Yes, I run an enterprise currently ಹೌದು ನಾನು ಪ್ರಸ್ತುತ ಎಂಟರ್‌ಪ್ರೈಸ್ ನಡೆಸುತ್ತಿದ್ದೇನೆ'
+                        }
                         onChange={handleInputChange}
                         value={sendData?.type_of_enterprise_running}
                         options={Whatkindofenterprisedoyourun}
@@ -923,51 +946,70 @@ console.log(sendData ,"sendData")
                         name="run_enterprise_independently"
                         label="Are you running the enterprise on your own?
 ನೀವು ಸ್ವಂತವಾಗಿ ಉದ್ಯಮವನ್ನು ನಡೆಸುತ್ತಿದ್ದೀರಾ?"
-                        required
+                        required={
+                          sendData?.enterprise_status ===
+                          'Yes, I run an enterprise currently ಹೌದು ನಾನು ಪ್ರಸ್ತುತ ಎಂಟರ್‌ಪ್ರೈಸ್ ನಡೆಸುತ್ತಿದ್ದೇನೆ'
+                        }
                         onChange={handleInputChange}
                         value={sendData?.run_enterprise_independently}
                         options={Areyourunningtheenterpriseonyourown}
                       />
                       <TextInput
+                        card={false}
                         id="average_monthly_income_enterprise"
                         name="average_monthly_income_enterprise"
                         label="What is the average monthly income of your enterprise? (Rs)
 ನಿಮ್ಮ ಉದ್ಯಮದ ಸರಾಸರಿ ಮಾಸಿಕ ಆದಾಯ ಎಷ್ಟು? (ರೂ)"
                         type="number"
-                        
                         placeholder="Your Answer"
                         onChange={handleInputChange}
                         value={sendData.average_monthly_income_enterprise}
+                        required={
+                          sendData?.enterprise_status ===
+                          'Yes, I run an enterprise currently ಹೌದು ನಾನು ಪ್ರಸ್ತುತ ಎಂಟರ್‌ಪ್ರೈಸ್ ನಡೆಸುತ್ತಿದ್ದೇನೆ'
+                        }
                       />
                       <TextInput
+                        card={false}
                         id="average_monthly_profit_enterprise"
                         name="average_monthly_profit_enterprise"
                         label="What is the average monthly profit of your enterprise? (Rs)
 ನಿಮ್ಮ ಉದ್ಯಮದ ಸರಾಸರಿ ಮಾಸಿಕ ಲಾಭ ಎಷ್ಟು? (ರೂ)"
                         type="number"
-                        required
+                        required={
+                          sendData?.enterprise_status ===
+                          'Yes, I run an enterprise currently ಹೌದು ನಾನು ಪ್ರಸ್ತುತ ಎಂಟರ್‌ಪ್ರೈಸ್ ನಡೆಸುತ್ತಿದ್ದೇನೆ'
+                        }
                         placeholder="Your Answer"
                         onChange={handleInputChange}
                         value={sendData.average_monthly_profit_enterprise}
                       />
                       <TextInput
+                        card={false}
                         id="desired_monthly_income"
                         name="desired_monthly_income"
                         label="How much monthly income would you like to ideally earn?
 ನೀವು ಆದರ್ಶಪ್ರಾಯವಾಗಿ ಎಷ್ಟು ಮಾಸಿಕ ಆದಾಯವನ್ನುಗಳಿಸಲು ಬಯಸುತ್ತೀರಿ?"
                         type="number"
-                        required
+                        required={
+                          sendData?.enterprise_status ===
+                          'Yes, I run an enterprise currently ಹೌದು ನಾನು ಪ್ರಸ್ತುತ ಎಂಟರ್‌ಪ್ರೈಸ್ ನಡೆಸುತ್ತಿದ್ದೇನೆ'
+                        }
                         placeholder="Your Answer"
                         onChange={handleInputChange}
                         value={sendData.desired_monthly_income}
                       />
                       <TextInput
+                        card={false}
                         id="amount_invested_when_the_business_started"
                         name="amount_invested_when_the_business_started"
                         label="Amount invested when the business started (approximately if they know)
 ವ್ಯಾಪಾರ ಪ್ರಾರಂಭವಾದಾಗ ಹೂಡಿಕೆ ಮಾಡಿದ ಮೊತ್ತ (ಅಂದಾಜು ಅವರು ತಿಳಿದಿದ್ದರೆ)"
                         type="number"
-                        required
+                        required={
+                          sendData?.enterprise_status ===
+                          'Yes, I run an enterprise currently ಹೌದು ನಾನು ಪ್ರಸ್ತುತ ಎಂಟರ್‌ಪ್ರೈಸ್ ನಡೆಸುತ್ತಿದ್ದೇನೆ'
+                        }
                         placeholder="Your Answer"
                         onChange={handleInputChange}
                         value={sendData.amount_invested_when_the_business_started}
@@ -978,7 +1020,10 @@ console.log(sendData ,"sendData")
                         name="investment_source"
                         label="Where did you get the investment to start your business?
 ನಿಮ್ಮ ವ್ಯಾಪಾರವನ್ನು ಪ್ರಾರಂಭಿಸಲು ನೀವು ಹೂಡಿಕೆಯನ್ನು ಎಲ್ಲಿ ಪಡೆದುಕೊಂಡಿದ್ದೀರಿ?"
-                        required
+                        required={
+                          sendData?.enterprise_status ===
+                          'Yes, I run an enterprise currently ಹೌದು ನಾನು ಪ್ರಸ್ತುತ ಎಂಟರ್‌ಪ್ರೈಸ್ ನಡೆಸುತ್ತಿದ್ದೇನೆ'
+                        }
                         onChange={handleInputChange}
                         value={sendData?.investment_source}
                         options={Wheredidyougettheinvestmenttostartyourbusiness}
@@ -989,7 +1034,10 @@ console.log(sendData ,"sendData")
                         name="number_of_years_the_business_has_been_operating"
                         label="Number of years the business has been operating
 ಎಷ್ಟು ವರ್ಷದಿಂದ ವ್ಯಾಪಾರವನ್ನು ನಿರ್ವಹಿಸುತಿದ್ಧಿರ"
-                        required
+                        required={
+                          sendData?.enterprise_status ===
+                          'Yes, I run an enterprise currently ಹೌದು ನಾನು ಪ್ರಸ್ತುತ ಎಂಟರ್‌ಪ್ರೈಸ್ ನಡೆಸುತ್ತಿದ್ದೇನೆ'
+                        }
                         onChange={handleInputChange}
                         value={sendData?.number_of_years_the_business_has_been_operating}
                         options={Numberofyearsthebusinesshasbeenoperating}
@@ -1000,7 +1048,10 @@ console.log(sendData ,"sendData")
                         name="has_hired_employees"
                         label="If you are currently running a business, do you have employees you have hired?
 ನೀವು ಪ್ರಸ್ತುತ ವ್ಯಾಪಾರವನ್ನು ನಡೆಸುತ್ತಿದ್ದರೆ,ವ್ಯಾಪಾರ ನಿರ್ವಹಣೆ ಮಾಡಲು ನೌಕರರನ್ನು ಹೊಂದಿದ್ಧೀರ?"
-                        required
+                        required={
+                          sendData?.enterprise_status ===
+                          'Yes, I run an enterprise currently ಹೌದು ನಾನು ಪ್ರಸ್ತುತ ಎಂಟರ್‌ಪ್ರೈಸ್ ನಡೆಸುತ್ತಿದ್ದೇನೆ'
+                        }
                         onChange={handleInputChange}
                         value={sendData?.has_hired_employees}
                         options={yesOrNo}
@@ -1011,7 +1062,10 @@ console.log(sendData ,"sendData")
                         name="number_of_paid_workers"
                         label="How many paid workers do you have?
 ನಿಮ್ಮಲ್ಲಿ ಎಷ್ಟು ಸಂಬಳದ ಕೆಲಸಗಾರರಿದ್ದಾರೆ?"
-                        required
+                        required={
+                          sendData?.enterprise_status ===
+                          'Yes, I run an enterprise currently ಹೌದು ನಾನು ಪ್ರಸ್ತುತ ಎಂಟರ್‌ಪ್ರೈಸ್ ನಡೆಸುತ್ತಿದ್ದೇನೆ'
+                        }
                         onChange={handleInputChange}
                         value={sendData?.number_of_paid_workers}
                         options={Howmanypaidworkersdoyouhave}
@@ -1022,7 +1076,10 @@ console.log(sendData ,"sendData")
                         name="why_do_you_do_business"
                         label="Why do you do business?
 ನೀವು ಯಾಕೆ ವ್ಯಾಪಾರ ಮಾಡುತ್ತೀರಿ?"
-                        required
+                        required={
+                          sendData?.enterprise_status ===
+                          'Yes, I run an enterprise currently ಹೌದು ನಾನು ಪ್ರಸ್ತುತ ಎಂಟರ್‌ಪ್ರೈಸ್ ನಡೆಸುತ್ತಿದ್ದೇನೆ'
+                        }
                         onChange={handleInputChange}
                         value={sendData?.why_do_you_do_business}
                         options={Whydoyoudobusiness}
@@ -1032,7 +1089,10 @@ console.log(sendData ,"sendData")
                         label="What are your aspirations as an entrepreneur?
 ಉದ್ಯಮಿಯಾಗಿ ನಿಮ್ಮ ಆಕಾಂಕ್ಷೆಗಳೇನು?"
                         name="entrepreneurial_aspirations"
-                        required
+                        required={
+                          sendData?.enterprise_status ===
+                          'Yes, I run an enterprise currently ಹೌದು ನಾನು ಪ್ರಸ್ತುತ ಎಂಟರ್‌ಪ್ರೈಸ್ ನಡೆಸುತ್ತಿದ್ದೇನೆ'
+                        }
                         handleResources={handleResources}
                         options={Whatareyouraspirationsasanentrepreneur}
                       />
@@ -1042,7 +1102,10 @@ console.log(sendData ,"sendData")
                         name="maintain_daily_financial_books"
                         label="Do you maintain daily financial books post training ?
 ತರಬೇತಿಯ ನಂತರ ನೀವು ದೈನಂದಿನ ಹಣಕಾಸು ಪುಸ್ತಕಗಳನ್ನು ನಿರ್ವಹಿಸುತ್ತೀರಾ?"
-                        required
+                        required={
+                          sendData?.enterprise_status ===
+                          'Yes, I run an enterprise currently ಹೌದು ನಾನು ಪ್ರಸ್ತುತ ಎಂಟರ್‌ಪ್ರೈಸ್ ನಡೆಸುತ್ತಿದ್ದೇನೆ'
+                        }
                         onChange={handleInputChange}
                         value={sendData?.maintain_daily_financial_books}
                         options={yesOrNo}
@@ -1053,7 +1116,10 @@ console.log(sendData ,"sendData")
                         name="frequency_of_recording_financial_books"
                         label="If yes,How often do you write these records?
 ಹೌದು ಎಂದಾದರೆ, ಈ ದಾಖಲೆಗಳನ್ನು ನೀವು ಎಷ್ಟು ಬಾರಿ ಬರೆಯುತ್ತೀರಿ?"
-                        required
+                        required={
+                          sendData?.enterprise_status ===
+                          'Yes, I run an enterprise currently ಹೌದು ನಾನು ಪ್ರಸ್ತುತ ಎಂಟರ್‌ಪ್ರೈಸ್ ನಡೆಸುತ್ತಿದ್ದೇನೆ'
+                        }
                         onChange={handleInputChange}
                         value={sendData?.frequency_of_recording_financial_books}
                         options={Howoftendoyouwritetheserecords}
@@ -1063,7 +1129,10 @@ console.log(sendData ,"sendData")
                         label="How do you keep these accounts?
 ಈ ಖಾತೆಗಳನ್ನು ನೀವು ಹೇಗೆ ಇಟ್ಟುಕೊಳ್ಳುತ್ತೀರಿ?"
                         name="method_of_keeping_accounts"
-                        required
+                        required={
+                          sendData?.enterprise_status ===
+                          'Yes, I run an enterprise currently ಹೌದು ನಾನು ಪ್ರಸ್ತುತ ಎಂಟರ್‌ಪ್ರೈಸ್ ನಡೆಸುತ್ತಿದ್ದೇನೆ'
+                        }
                         handleResources={handleResources}
                         options={Howdoyoukeeptheseaccounts}
                       />
@@ -1073,7 +1142,10 @@ console.log(sendData ,"sendData")
                         name="reason_for_not_bookkeeping"
                         label="If not, what is the reason for not bookkeeping?
 ಇಲ್ಲದಿದ್ದರೆ, ಪುಸ್ತಕ ನಿರ್ವಹಣೆ ಮಾಡದಿರಲು ಕಾರಣವೇನು?"
-                        required
+                        required={
+                          sendData?.enterprise_status ===
+                          'Yes, I run an enterprise currently ಹೌದು ನಾನು ಪ್ರಸ್ತುತ ಎಂಟರ್‌ಪ್ರೈಸ್ ನಡೆಸುತ್ತಿದ್ದೇನೆ'
+                        }
                         onChange={handleInputChange}
                         value={sendData?.reason_for_not_bookkeeping}
                         options={whatisthereasonfornotbookkeeping}
@@ -1084,7 +1156,10 @@ console.log(sendData ,"sendData")
                         name="do_you_have_a_business_plan_to_reach_that_goal"
                         label="Do you have a business goal/ plan?
 ನೀವು ವ್ಯಾಪಾರದ ಗುರಿ/ಯೋಜನೆಯನ್ನು ಹೊಂದಿದ್ದೀರಾ?"
-                        required
+                        required={
+                          sendData?.enterprise_status ===
+                          'Yes, I run an enterprise currently ಹೌದು ನಾನು ಪ್ರಸ್ತುತ ಎಂಟರ್‌ಪ್ರೈಸ್ ನಡೆಸುತ್ತಿದ್ದೇನೆ'
+                        }
                         onChange={handleInputChange}
                         value={sendData?.do_you_have_a_business_plan_to_reach_that_goal}
                         options={yesOrNo}
@@ -1095,7 +1170,10 @@ console.log(sendData ,"sendData")
                         name="maintain_detailed_business_plan"
                         label="Do you maintain a detailed business plan for your business ?
 ನಿಮ್ಮ ವ್ಯಾಪಾರಕ್ಕಾಗಿ ನೀವು ವಿವರವಾದ ವ್ಯಾಪಾರ ಯೋಜನೆಯನ್ನು ನಿರ್ವಹಿಸುತ್ತೀರಾ?"
-                        required
+                        required={
+                          sendData?.enterprise_status ===
+                          'Yes, I run an enterprise currently ಹೌದು ನಾನು ಪ್ರಸ್ತುತ ಎಂಟರ್‌ಪ್ರೈಸ್ ನಡೆಸುತ್ತಿದ್ದೇನೆ'
+                        }
                         onChange={handleInputChange}
                         value={sendData?.maintain_detailed_business_plan}
                         options={yesOrNo}
@@ -1107,7 +1185,10 @@ console.log(sendData ,"sendData")
                         label="What is your short term goal for your business?
 ನಿಮ್ಮ ವ್ಯಾಪಾರಕ್ಕಾಗಿ ನಿಮ್ಮ ಅಲ್ಪಾವಧಿಯ ಗುರಿ ಏನು?"
                         type="number"
-                        required
+                        required={
+                          sendData?.enterprise_status ===
+                          'Yes, I run an enterprise currently ಹೌದು ನಾನು ಪ್ರಸ್ತುತ ಎಂಟರ್‌ಪ್ರೈಸ್ ನಡೆಸುತ್ತಿದ್ದೇನೆ'
+                        }
                         placeholder="Your Answer"
                         onChange={handleInputChange}
                         value={sendData.short_term_goal}
@@ -1118,7 +1199,10 @@ console.log(sendData ,"sendData")
                         name="loan_taken"
                         label="Have you taken any loans for business?
 ನೀವು ವ್ಯಾಪಾರಕ್ಕಾಗಿ ಯಾವುದಾದರೂ ಸಾಲವನ್ನು ತೆಗೆದುಕೊಂಡಿದ್ದೀರಾ?"
-                        required
+                        required={
+                          sendData?.enterprise_status ===
+                          'Yes, I run an enterprise currently ಹೌದು ನಾನು ಪ್ರಸ್ತುತ ಎಂಟರ್‌ಪ್ರೈಸ್ ನಡೆಸುತ್ತಿದ್ದೇನೆ'
+                        }
                         onChange={handleInputChange}
                         value={sendData?.loan_taken}
                         options={yesOrNo}
@@ -1129,7 +1213,10 @@ console.log(sendData ,"sendData")
                         name="loan_source"
                         label="If yes, From where have you taken it? What is the interest rate?
 ಹೌದು ಎಂದಾದರೆ, ನೀವು ಸಾಲವನ್ನು ಎಲ್ಲಿಂದ ತೆಗೆದುಕೊಂಡಿದ್ದೀರಿ? ಬಡ್ಡಿ ದರ ಎಷ್ಟು?"
-                        required
+                        required={
+                          sendData?.enterprise_status ===
+                          'Yes, I run an enterprise currently ಹೌದು ನಾನು ಪ್ರಸ್ತುತ ಎಂಟರ್‌ಪ್ರೈಸ್ ನಡೆಸುತ್ತಿದ್ದೇನೆ'
+                        }
                         onChange={handleInputChange}
                         value={sendData?.loan_source}
                         options={Fromwherehaveyoutakenit}
@@ -1140,7 +1227,10 @@ console.log(sendData ,"sendData")
                         name="interest_rate"
                         label="What is the interest rate? ಬಡ್ಡಿ ದರ ಎಷ್ಟು?"
                         type="number"
-                        required
+                        required={
+                          sendData?.enterprise_status ===
+                          'Yes, I run an enterprise currently ಹೌದು ನಾನು ಪ್ರಸ್ತುತ ಎಂಟರ್‌ಪ್ರೈಸ್ ನಡೆಸುತ್ತಿದ್ದೇನೆ'
+                        }
                         placeholder="Your Answer"
                         onChange={handleInputChange}
                         value={sendData.interest_rate}
@@ -1151,7 +1241,10 @@ console.log(sendData ,"sendData")
                         name="loan_purpose"
                         label="If yes,what is the purpose of bank loans
 ಹೌದು ಎಂದಾದರೆ, ಬ್ಯಾಂಕ್ ಸಾಲದ ಉದ್ದೇಶವೇನು"
-                        required
+                        required={
+                          sendData?.enterprise_status ===
+                          'Yes, I run an enterprise currently ಹೌದು ನಾನು ಪ್ರಸ್ತುತ ಎಂಟರ್‌ಪ್ರೈಸ್ ನಡೆಸುತ್ತಿದ್ದೇನೆ'
+                        }
                         onChange={handleInputChange}
                         value={sendData?.loan_purpose}
                         options={whatisthepurposeofbankloans}
@@ -1162,7 +1255,10 @@ console.log(sendData ,"sendData")
                         name="run_growth_challenges"
                         label="What are your challenges in running and growing your business ?
 ನಿಮ್ಮ ವ್ಯಾಪಾರವನ್ನು ನಡೆಸುವಲ್ಲಿ ಮತ್ತು ಬೆಳೆಸುವಲ್ಲಿ ನಿಮ್ಮ ಸವಾಲುಗಳೇನು?"
-                        required
+                        required={
+                          sendData?.enterprise_status ===
+                          'Yes, I run an enterprise currently ಹೌದು ನಾನು ಪ್ರಸ್ತುತ ಎಂಟರ್‌ಪ್ರೈಸ್ ನಡೆಸುತ್ತಿದ್ದೇನೆ'
+                        }
                         onChange={handleInputChange}
                         value={sendData?.run_growth_challenges}
                         options={challengesinrunningandgrowingyourbusiness}
@@ -1173,7 +1269,10 @@ console.log(sendData ,"sendData")
                         name="what_are_the_strengths_of_your_business"
                         label="State one strength of your business ನಿಮ್ಮ ವ್ಯಾಪಾರದ ಒಂದು ಬಲವನ್ನು ತಿಳಿಸಿ"
                         type="text"
-                        required
+                        required={
+                          sendData?.enterprise_status ===
+                          'Yes, I run an enterprise currently ಹೌದು ನಾನು ಪ್ರಸ್ತುತ ಎಂಟರ್‌ಪ್ರೈಸ್ ನಡೆಸುತ್ತಿದ್ದೇನೆ'
+                        }
                         placeholder="Your Answer"
                         onChange={handleInputChange}
                         value={sendData.what_are_the_strengths_of_your_business}
@@ -1183,8 +1282,11 @@ console.log(sendData ,"sendData")
                         id="what_are_the_weaknesses_of_your_business"
                         name="what_are_the_weaknesses_of_your_business"
                         label="State one weakness of the business ವ್ಯಾಪಾರದ ಒಂದು ದೌರ್ಬಲ್ಯವನ್ನು ತಿಳಿಸಿ"
-                         type="text"
-                        required
+                        type="text"
+                        required={
+                          sendData?.enterprise_status ===
+                          'Yes, I run an enterprise currently ಹೌದು ನಾನು ಪ್ರಸ್ತುತ ಎಂಟರ್‌ಪ್ರೈಸ್ ನಡೆಸುತ್ತಿದ್ದೇನೆ'
+                        }
                         placeholder="Your Answer"
                         onChange={handleInputChange}
                         value={sendData.what_are_the_weaknesses_of_your_business}
@@ -1195,7 +1297,10 @@ console.log(sendData ,"sendData")
                         name="core_opportunity"
                         label="State one opportunity for your business ನಿಮ್ಮ ವ್ಯಾಪಾರದ ಒಂದು ಅವಕಾಶವನ್ನು ತಿಳಿಸಿ"
                         type="text"
-                        required
+                        required={
+                          sendData?.enterprise_status ===
+                          'Yes, I run an enterprise currently ಹೌದು ನಾನು ಪ್ರಸ್ತುತ ಎಂಟರ್‌ಪ್ರೈಸ್ ನಡೆಸುತ್ತಿದ್ದೇನೆ'
+                        }
                         placeholder="Your Answer"
                         onChange={handleInputChange}
                         value={sendData.core_opportunity}
@@ -1205,8 +1310,11 @@ console.log(sendData ,"sendData")
                         id="core_threat"
                         name="core_threat"
                         label="State one threat for your business ನಿಮ್ಮ ವ್ಯಾಪಾರಕ್ಕೆ ಒಂದು ಬೆದರಿಕೆಯನ್ನು ತಿಳಿಸಿ"
-                      type="text"
-                        required
+                        type="text"
+                        required={
+                          sendData?.enterprise_status ===
+                          'Yes, I run an enterprise currently ಹೌದು ನಾನು ಪ್ರಸ್ತುತ ಎಂಟರ್‌ಪ್ರೈಸ್ ನಡೆಸುತ್ತಿದ್ದೇನೆ'
+                        }
                         placeholder="Your Answer"
                         onChange={handleInputChange}
                         value={sendData.core_threat}
@@ -1216,8 +1324,11 @@ console.log(sendData ,"sendData")
                         id="target_customer"
                         name="target_customer"
                         label="Who is your target customer? Describe ನಿಮ್ಮ ಗುರಿಯಲ್ಲಿರುವ ಗ್ರಾಹಕ ಯಾರು? ವಿವರಿಸಿ"
-                    type="text"
-                        required
+                        type="text"
+                        required={
+                          sendData?.enterprise_status ===
+                          'Yes, I run an enterprise currently ಹೌದು ನಾನು ಪ್ರಸ್ತುತ ಎಂಟರ್‌ಪ್ರೈಸ್ ನಡೆಸುತ್ತಿದ್ದೇನೆ'
+                        }
                         placeholder="Your Answer"
                         onChange={handleInputChange}
                         value={sendData.target_customer}
@@ -1247,10 +1358,13 @@ console.log(sendData ,"sendData")
                         label="During the last 1 year, have you worked on your own account or in a business enterprise belonging to you for example, trader, shopkeeper, tailoring, etc. at least for two hours in any day?
 ಕಳೆದ 1 ವರ್ಷದಲ್ಲಿ, ನೀವು ನಿಮ್ಮ ಸ್ವಂತ ಖಾತೆಯಲ್ಲಿ ಅಥವಾ ನಿಮಗೆ ಸೇರಿದ ವ್ಯಾಪಾರ ಉದ್ಯಮದಲ್ಲಿ ಉದಾಹರಣೆಗೆ, ವ್ಯಾಪಾರಿ, ಅಂಗಡಿಯವನು, ಟೈಲರಿಂಗ್, ಇತ್ಯಾದಿ. ಯಾವುದೇ ದಿನದಲ್ಲಿ ಕನಿಷ್ಠ ಎರಡು ಗಂಟೆಗಳ ಕಾಲ ಕೆಲಸ ಮಾಡಿದ್ದೀರಾ?"
                         type="text"
-                        
                         placeholder="Your Answer"
                         onChange={handleInputChange}
                         value={sendData.own_account_work}
+                        required={
+                          sendData?.enterprise_status ===
+                          'I am planning to start an enterprise soon ನಾನು ಶೀಘ್ರದಲ್ಲೇ ಉದ್ಯಮವನ್ನು ಪ್ರಾರಂಭಿಸಲು ಯೋಜಿಸುತ್ತಿದ್ದೇನೆ'
+                        }
                       />
 
                       <SelectInput
@@ -1259,30 +1373,39 @@ console.log(sendData ,"sendData")
                         name="idea_status"
                         label="Do you have a business idea you want to work on?
 ನೀವು ಕೆಲಸ ಮಾಡಲು ಬಯಸುವ ವ್ಯಾಪಾರ ಕಲ್ಪನೆಯನ್ನು ನೀವು ಹೊಂದಿದ್ದೀರಾ?"
-                        
                         onChange={handleInputChange}
                         value={sendData?.idea_status}
                         options={yesOrNo}
+                        required={
+                          sendData?.enterprise_status ===
+                          'I am planning to start an enterprise soon ನಾನು ಶೀಘ್ರದಲ್ಲೇ ಉದ್ಯಮವನ್ನು ಪ್ರಾರಂಭಿಸಲು ಯೋಜಿಸುತ್ತಿದ್ದೇನೆ'
+                        }
                       />
                       <SelectInput
                         card={false}
                         id="idea_start"
                         name="idea_start"
                         label="Since when have you had the idea of starting business ? ವ್ಯಾಪಾರ ಆರಂಭಿಸುವ ಯೋಚನೆ ಯಾವಾಗಿನಿಂದ ಬಂತು?"
-                        
                         onChange={handleInputChange}
                         value={sendData?.idea_start}
                         options={whenhaveyouhadtheideaofstartingbusiness}
+                        required={
+                          sendData?.enterprise_status ===
+                          'I am planning to start an enterprise soon ನಾನು ಶೀಘ್ರದಲ್ಲೇ ಉದ್ಯಮವನ್ನು ಪ್ರಾರಂಭಿಸಲು ಯೋಜಿಸುತ್ತಿದ್ದೇನೆ'
+                        }
                       />
                       <SelectInput
                         card={false}
                         id="idea_category"
                         name="idea_category"
                         label="What category does your business idea fall in? ನಿಮ್ಮ ವ್ಯಾಪಾರ ಕಲ್ಪನೆಯು ಯಾವ ವರ್ಗಕ್ಕೆ ಸೇರುತ್ತದೆ?"
-                        
                         onChange={handleInputChange}
                         value={sendData?.idea_category}
                         options={Whatcategorydoesyourbusinessideafallin}
+                        required={
+                          sendData?.enterprise_status ===
+                          'I am planning to start an enterprise soon ನಾನು ಶೀಘ್ರದಲ್ಲೇ ಉದ್ಯಮವನ್ನು ಪ್ರಾರಂಭಿಸಲು ಯೋಜಿಸುತ್ತಿದ್ದೇನೆ'
+                        }
                       />
                       <TextInput
                         card={false}
@@ -1291,10 +1414,13 @@ console.log(sendData ,"sendData")
                         label="How much monthly income would you like to ideally earn?
 ನೀವು ಆದರ್ಶಪ್ರಾಯವಾಗಿ ಎಷ್ಟು ಮಾಸಿಕ ಆದಾಯವನ್ನು ಗಳಿಸಲು ಬಯಸುತ್ತೀರಿ?"
                         type="number"
-                        
                         placeholder="Your Answer"
                         onChange={handleInputChange}
                         value={sendData.monthly_income}
+                        required={
+                          sendData?.enterprise_status ===
+                          'I am planning to start an enterprise soon ನಾನು ಶೀಘ್ರದಲ್ಲೇ ಉದ್ಯಮವನ್ನು ಪ್ರಾರಂಭಿಸಲು ಯೋಜಿಸುತ್ತಿದ್ದೇನೆ'
+                        }
                       />
                       <SelectInput
                         card={false}
@@ -1302,10 +1428,13 @@ console.log(sendData ,"sendData")
                         name="money_management"
                         label="Do you like to manage money and keep track of incomes and expenses?
 ನೀವು ಹಣವನ್ನು ನಿರ್ವಹಿಸಲು ಹಾಗೂ ಆದಾಯ ಮತ್ತು ವೆಚ್ಚಗಳನ್ನು ಟ್ರ್ಯಾಕ್ ಮಾಡಲು ಇಷ್ಟಪಡುತ್ತೀರಾ?"
-                        
                         onChange={handleInputChange}
                         value={sendData?.money_management}
                         options={yesOrNo}
+                        required={
+                          sendData?.enterprise_status ===
+                          'I am planning to start an enterprise soon ನಾನು ಶೀಘ್ರದಲ್ಲೇ ಉದ್ಯಮವನ್ನು ಪ್ರಾರಂಭಿಸಲು ಯೋಜಿಸುತ್ತಿದ್ದೇನೆ'
+                        }
                       />
                       <SelectInput
                         card={false}
@@ -1313,10 +1442,13 @@ console.log(sendData ,"sendData")
                         name="do_bookkeeping"
                         label="Do you practice book keeping?
 ನೀವು ಪುಸ್ತಕ ನಿರ್ವಹಣೆ ಮಾಡುವ ಅಭ್ಯಾಸ ಇದೆಯೇ?"
-                    
                         onChange={handleInputChange}
                         value={sendData?.do_bookkeeping}
                         options={yesOrNo}
+                        required={
+                          sendData?.enterprise_status ===
+                          'I am planning to start an enterprise soon ನಾನು ಶೀಘ್ರದಲ್ಲೇ ಉದ್ಯಮವನ್ನು ಪ್ರಾರಂಭಿಸಲು ಯೋಜಿಸುತ್ತಿದ್ದೇನೆ'
+                        }
                       />
                       <SelectInput
                         card={false}
@@ -1324,10 +1456,13 @@ console.log(sendData ,"sendData")
                         name="loan_exists"
                         label="Do you have any existing loan in your name?
                         ನಿಮ್ಮ ಹೆಸರಿನಲ್ಲಿ ಯಾವುದಾದರೂ ಸಾಲ ಅಸ್ತಿತ್ವದಲ್ಲಿದೆಯೇ ?"
-                        
                         onChange={handleInputChange}
                         value={sendData?.loan_exists}
                         options={yesOrNo}
+                        required={
+                          sendData?.enterprise_status ===
+                          'I am planning to start an enterprise soon ನಾನು ಶೀಘ್ರದಲ್ಲೇ ಉದ್ಯಮವನ್ನು ಪ್ರಾರಂಭಿಸಲು ಯೋಜಿಸುತ್ತಿದ್ದೇನೆ'
+                        }
                       />
                       <SelectInput
                         card={false}
@@ -1335,10 +1470,13 @@ console.log(sendData ,"sendData")
                         name="savings_available"
                         label="Do you currently have personal savings that you could invest into a new enterprise now?
                         ನೀವು ಈಗ ಹೊಸ ಉದ್ಯಮದಲ್ಲಿ ಹೂಡಿಕೆ ಮಾಡಲು ,ಪ್ರಸ್ತುತ ವೈಯಕ್ತಿಕ ಉಳಿತಾಯವನ್ನು ಹೊಂದಿದ್ದೀರಾ?"
-                        
                         onChange={handleInputChange}
                         value={sendData?.savings_available}
                         options={yesOrNo}
+                        required={
+                          sendData?.enterprise_status ===
+                          'I am planning to start an enterprise soon ನಾನು ಶೀಘ್ರದಲ್ಲೇ ಉದ್ಯಮವನ್ನು ಪ್ರಾರಂಭಿಸಲು ಯೋಜಿಸುತ್ತಿದ್ದೇನೆ'
+                        }
                       />
                       <SelectInput
                         card={false}
@@ -1346,10 +1484,13 @@ console.log(sendData ,"sendData")
                         name="loan_startup"
                         label="Are you willing to take a loan to start a new business?
 ನೀವು ಹೊಸ ವ್ಯಾಪಾರವನ್ನು ಪ್ರಾರಂಭಿಸಲು ಸಾಲವನ್ನು ತೆಗೆದುಕೊಳ್ಳಲು ಸಿದ್ಧರಿದ್ದೀರಾ?"
-                        
                         onChange={handleInputChange}
                         value={sendData?.loan_startup}
                         options={yesOrNo}
+                        required={
+                          sendData?.enterprise_status ===
+                          'I am planning to start an enterprise soon ನಾನು ಶೀಘ್ರದಲ್ಲೇ ಉದ್ಯಮವನ್ನು ಪ್ರಾರಂಭಿಸಲು ಯೋಜಿಸುತ್ತಿದ್ದೇನೆ'
+                        }
                       />
                     </CardContent>
                   </Card>

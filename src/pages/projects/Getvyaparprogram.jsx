@@ -262,7 +262,7 @@ useEffect(() => {
                             <Iconify icon="material-symbols:arrow-back-rounded" />
                         </IconButton>
                         <Typography sx={{ ml: 2, flex: 1,color:"white" }} variant="h6" component="div"   >
-          Buzz Vyapar Program Baseline 
+          Buzz Vyapar Program Baseline
           </Typography>
        
          
@@ -360,6 +360,7 @@ useEffect(() => {
                   
                 </CardContent>
               </Card>
+             
                 
               <Card style={{ marginTop: 20,  borderRadius: 20 }}>
                 <CardContent>

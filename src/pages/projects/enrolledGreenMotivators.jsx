@@ -294,8 +294,18 @@ export default function enrolledGreenMotivatorsList() {
                         <IconButton style={{ float: 'right', right: 30 }}>
                           <ViewGreenSurvey itm={itm} changeState={changeState} />
                         </IconButton>
-                      ) : (
+                      ) : role == 6 || role == 13 ? (
                         <GreenSurvey itm={itm} changeState={changeState} />
+                      ) : (
+                        <IconButton style={{ float: 'right', right: 30 }}>
+                          <Iconify
+                            icon="charm:notes-tick"
+                            width={20}
+                            height={20}
+                            color="orange"
+                            onClick={() => alert('Not yet filled')}
+                          />
+                        </IconButton>
                       )
                     ) : null}
                     {/* <GreenSurvey itm={itm} changeState={changeState}/> */}
