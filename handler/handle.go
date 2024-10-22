@@ -93,7 +93,7 @@ func HandleFunc() {
 	db := dbs.Connect()
 
 	router := mux.NewRouter()
-	apiPrefix := "/appGo"
+	apiPrefix := "/appGoTest"
 	apiRouter := router.PathPrefix(apiPrefix).Subrouter()
 	fmt.Println("creating")
 	corsHandler := cors.AllowAll()
@@ -116,7 +116,7 @@ func HandleFunc() {
 		sep.Addnagarikasurvey(w, r, db)
 	}))
 	//---------------------------Get Gelathi List----------------------------------
-	apiRouter.HandleFunc("/getSpoorthiForm", (func(w http.ResponseWriter, r *http.Request) {
+	apiRouter.Handle("/getSpoorthiForm", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		sep.GetBuzzSpoorthiProgramBaseline(w, r, db)
 	}))
 	apiRouter.Handle("/creatProjectFunder", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
@@ -142,9 +142,9 @@ func HandleFunc() {
 		sep.GetNagarikaProgramQuestionnaire(w, r, db)
 	}))
 
-	apiRouter.HandleFunc("/addGreensurvey", func(w http.ResponseWriter, r *http.Request) {
+	apiRouter.Handle("/addGreensurvey", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		sep.AddGreensurvey(w, r, db)
-	})
+	}))
 
 	apiRouter.Handle("/addQualityAssessmentForm", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		q.AddQualityAssessmentForm(w, r, db)
@@ -258,7 +258,7 @@ func HandleFunc() {
 	apiRouter.Handle("/gelathifilter", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		sppf.SPCounts(w, r, db)
 	}))
-	apiRouter.HandleFunc("/npfilter", (func(w http.ResponseWriter, r *http.Request) {
+	apiRouter.Handle("/npfilter", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		npp.NPCounts(w, r, db)
 	}))
 
@@ -289,7 +289,7 @@ func HandleFunc() {
 		sp.GelathiProgramDashboard1(w, r, db)
 	}))
 
-	apiRouter.HandleFunc("/npprogramDashboard", (func(w http.ResponseWriter, r *http.Request) {
+	apiRouter.Handle("/npprogramDashboard", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		np.NagarikaProgramDashboard(w, r, db)
 	}))
 
@@ -331,9 +331,9 @@ func HandleFunc() {
 
 	//---------------------Get Gf sessions -----------------------------------------
 
-	apiRouter.HandleFunc("/getGFSessionData1", func(w http.ResponseWriter, r *http.Request) {
+	apiRouter.Handle("/getGFSessionData1", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		t1.GetGFSessionData1(w, r, db)
-	})
+	}))
 
 	//---------------------Get Green Motivators-----------------------------------------
 
@@ -418,7 +418,7 @@ func HandleFunc() {
 		p.CreateGFSessions(w, r, db)
 	}))
 
-	apiRouter.HandleFunc("/getGFSessionsNew", (func(w http.ResponseWriter, r *http.Request) {
+	apiRouter.Handle("/getGFSessionsNew", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		p.GetGFSessionsNew1(w, r, db)
 	}))
 
@@ -429,9 +429,9 @@ func HandleFunc() {
 	apiRouter.Handle("/addSurveyData", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		t2.AddSurveydata(w, r, db)
 	}))
-	apiRouter.HandleFunc("/addselfshakti", func(w http.ResponseWriter, r *http.Request) {
+	apiRouter.Handle("/addselfshakti", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		sep.AddSelfshaktiday1day2data(w, r, db)
-	})
+	}))
 	//-------------------Endpoint for adding data to QAF---------------------------------------
 	apiRouter.Handle("/getBuses", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		t2.GetBuses(w, r, db)
@@ -755,7 +755,7 @@ func HandleFunc() {
 		t5.UpdateTa(w, r, db)
 	}))
 	//---------------------AddSpoorthiBaselineQuestionnaire----------------------------------
-	apiRouter.HandleFunc("/addSpoorthiBaselineQuestionnaire", (func(w http.ResponseWriter, r *http.Request) {
+	apiRouter.Handle("/addSpoorthiBaselineQuestionnaire", isAuthorized(func(w http.ResponseWriter, r *http.Request) {
 		t5.AddSpoorthiBaselineQuestionnaire(w, r, db)
 	}))
 	//---------------------AddGreenBaselineSurvey----------------------------------

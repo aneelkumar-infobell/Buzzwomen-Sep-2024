@@ -266,6 +266,10 @@ func GetGreenBaselineSurvey(w http.ResponseWriter, r *http.Request, db *sql.DB) 
 			json.NewEncoder(w).Encode(map[string]interface{}{"code": http.StatusInternalServerError, "message": "Database Scan Error", "success": false, "error": err.Error()})
 			return
 		}
+
+		//==========================================================
+
+		//=========================================================
 		if queryData.Cast != 0 {
 			fmt.Println("caste", queryData.Cast)
 			checkStatement := "SELECT name  FROM caste  WHERE id = ?"

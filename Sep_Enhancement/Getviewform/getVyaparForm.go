@@ -908,6 +908,7 @@ func GetVyaparBaselineSurvey(w http.ResponseWriter, r *http.Request, db *sql.DB)
 			b.CasteName = ""
 
 		}
+
 		var firstName, lastName string
 		query := fmt.Sprintf("SELECT first_name,last_name  FROM employee WHERE id  = %d", b.GfID)
 		rows, err := db.Query(query)

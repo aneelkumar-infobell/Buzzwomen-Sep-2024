@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"strings"
 )
 
 type GetNagarikaProgramQuestionnaire1 struct {
@@ -32,7 +33,7 @@ func GetNagarikaProgramQuestionnaire(w http.ResponseWriter, r *http.Request, db 
 		json.NewEncoder(w).Encode(map[string]interface{}{"code": http.StatusBadRequest, "message": "Failed to unmarshal", "success": false, "error": err.Error()})
 		return
 	}
-	fmt.Println("inside")
+
 	//var query string
 
 	query := fmt.Sprintf(`SELECT 
@@ -44,8 +45,8 @@ func GetNagarikaProgramQuestionnaire(w http.ResponseWriter, r *http.Request, db 
     COALESCE(unique_identification_number_given_after_completion_of_ss, '') AS unique_identification_number_given_after_completion_of_ss,
     COALESCE(surveyors_name, '') AS surveyors_name,
     COALESCE(respondents_name, '') AS respondents_name,
-    COALESCE(district_taluk, '') AS district_taluk,
-    COALESCE(if_tumkur, '') AS if_tumkur,
+    COALESCE(district, '') AS district,
+    COALESCE(taluk, '') AS taluk,
     COALESCE(if_kolar, '') AS if_kolar,
     COALESCE(gram_panchayat, '') AS gram_panchayat,
     COALESCE(village_name, '') AS village_name,
@@ -108,24 +109,23 @@ func GetNagarikaProgramQuestionnaire(w http.ResponseWriter, r *http.Request, db 
     WHERE partcipantId = '%s'`, req.PartcipantID)
 
 	rows, err := db.Query(query)
-	fmt.Println("printing", query)
 
 	if err != nil {
 		json.NewEncoder(w).Encode(map[string]interface{}{"code": http.StatusInternalServerError, "message": "Database Query Error", "success": false, "error": err.Error()})
 		return
 	}
 	defer rows.Close()
-	fmt.Println("inside1")
 
 	var response []NagarikaProgramQuestionnaire
-
+	var ptid, ptname, gfid, gfname string
+	var top3, top4, top5, top6, top7 string
+	var npq NagarikaProgramQuestionnaire
 	for rows.Next() {
-		var npq NagarikaProgramQuestionnaire
 
 		err := rows.Scan(
 			&npq.Id,
-			&npq.ParticipantID,
-			&npq.GelathiID,
+			&ptid,
+			&gfid,
 			&npq.EntryDate,
 			&npq.ProfileOfTheWomen,
 			&npq.UniqueIdentificationNumberGivenAfterCompletionOfSS,
@@ -164,7 +164,7 @@ func GetNagarikaProgramQuestionnaire(w http.ResponseWriter, r *http.Request, db 
 			&npq.IfYouWereNotSuccessfulInApplyingForTheSchemeWhyNot,
 			&npq.WillCooperateWithYourVillagePeopleToGetFacilityPutup,
 			&npq.CommunityEngagement,
-			&npq.CanYouIdentifyTop3ProblemsInYourVillage,
+			&top3,
 			&npq.DoYouThinkYouCanHelpSolveTheseProblems,
 			&npq.IfYesHowDoYouThinkYouCanHelpSolveTheseProblems,
 			&npq.IfNoWhyDoYouThinkYouCannotHelpSolveTheseProblems,
@@ -175,7 +175,7 @@ func GetNagarikaProgramQuestionnaire(w http.ResponseWriter, r *http.Request, db 
 			&npq.DoYouAttendGramSabhaRegularly,
 			&npq.WhenWasTheLastTimeYouAttendedGramSabha,
 			&npq.HowDoYouKnowWhenGramSabhaIsBeingOrganized,
-			&npq.WhatDoYouDoInGramSabha,
+			&top4,
 			&npq.WhyDontYouAttendGramSabha,
 			&npq.DoYouKnowWhoYourPanchayatMembersAre,
 			&npq.HowOftenDoYouApproachThemForResolvingAnIssue,
@@ -187,15 +187,41 @@ func GetNagarikaProgramQuestionnaire(w http.ResponseWriter, r *http.Request, db 
 			&npq.HowFrequentlyDoYouDiscussPoliticsWithPeople,
 			&npq.IfNeverWhyDontYouDiscussPolitics,
 			&npq.DidYouTryToGetPeopleTogetherToSolveProblemInCommunity,
-			&npq.CanYouGoToThesePlacesWithoutPermissionFromFamilyMember,
-			&npq.CanYouGoToThesePlacesAlone,
-			&npq.WhatAreYourMostImpSourcesForInformationAboutGovernment,
+			&top5,
+			&top6,
+			&top7,
 			&npq.WhichOfTheFollowingStatementsDoYouAgreeWith,
 		)
+
+		npq.CanYouIdentifyTop3ProblemsInYourVillage = strings.Split(top3, ",")
+		npq.WhatDoYouDoInGramSabha = strings.Split(top4, ",")
+		npq.CanYouGoToThesePlacesWithoutPermissionFromFamilyMember = strings.Split(top5, ",")
+		npq.CanYouGoToThesePlacesAlone = strings.Split(top6, ",")
+		npq.WhatAreYourMostImpSourcesForInformationAboutGovernment = strings.Split(top7, ",")
 		if err != nil {
+			fmt.Println("err196", err)
 			json.NewEncoder(w).Encode(map[string]interface{}{"code": http.StatusInternalServerError, "message": "Database Scan Error", "success": false, "error": err.Error()})
 			return
 		}
+
+		//=====================================================
+		err1 := db.QueryRow("SELECT concat(first_name,' ',last_name) AS full_name FROM bdms_staff.employee WHERE id = ?", gfid).Scan(&gfname)
+		if err1 != nil {
+			fmt.Println("err192986", err1)
+			json.NewEncoder(w).Encode(map[string]interface{}{"code": http.StatusInternalServerError, "message": "Database Scan Error in fetching gf name", "success": false, "error": err1.Error()})
+			return
+		}
+
+		err2 := db.QueryRow("SELECT firstName FROM bdms_staff.training_participants where id = ?", ptid).Scan(&ptname)
+		if err2 != nil {
+			fmt.Println("err192uy986", err2)
+			json.NewEncoder(w).Encode(map[string]interface{}{"code": http.StatusInternalServerError, "message": "Database Scan Error in fetching participant  name", "success": false, "error": err2.Error()})
+			return
+		}
+		//response = append(response, queryData)
+		npq.GelathiID = gfname
+		npq.ParticipantID = ptname
+		//=========================================================
 
 		response = append(response, npq)
 	}
