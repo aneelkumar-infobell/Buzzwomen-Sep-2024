@@ -87,9 +87,8 @@ export default function NagarikaForm({ itm, changeState, componentreloadmethod }
   const [open, setOpen] = React.useState(false);
   const [successMessage, setsuccessMessage] = useState(false);
   const [vyaapar, setVyaapar] = useState('');
-  console.log(itm, 'itm');
   const [sendData, setSendData] = useState({
-    participant_id: parseInt(itm?.gelathi_id),
+    participant_id: itm?.gelathi_id,
     gelathi_id: '',
     profile_of_the_women: '',
     unique_identification_number_given_after_completion_of_ss: '',
@@ -170,19 +169,19 @@ export default function NagarikaForm({ itm, changeState, componentreloadmethod }
   }, []);
 
   const saveDataLocally = (key, data) => {
-    const existingData = localStorage.getItem('vyapar');
+    const existingData = localStorage.getItem('nagarika');
     const parsedData = existingData ? JSON.parse(existingData) : [];
     const newData = { ...data }; // Replace with your own data object
     parsedData.push(newData);
     const updatedData = JSON.stringify(parsedData);
-    localStorage.setItem('vyapar', updatedData);
+    localStorage.setItem('nagarika', updatedData);
     // componentreloadmethod();
   };
   // Get data from local
   const [isFormPresentLocally, setIsFormPresentLocally] = useState(false);
-  const localStorageData = localStorage.getItem('vyapar');
+  const localStorageData = localStorage.getItem('nagarika');
   useEffect(() => {
-    const existingData = localStorage.getItem('vyapar');
+    const existingData = localStorage.getItem('nagarika');
     const parsedData = existingData ? JSON.parse(existingData) : [];
     if (parsedData?.length) {
       parsedData.map((item) => {
@@ -193,9 +192,9 @@ export default function NagarikaForm({ itm, changeState, componentreloadmethod }
       });
     }
   }, []);
-  const data1 = localStorage.getItem('vyapar');
+  const data1 = localStorage.getItem('nagarika');
   const getDataLocally = (key) => {
-    const data = localStorage.getItem('vyapar');
+    const data = localStorage.getItem('nagarika');
     return data ? JSON.parse(data) : null;
   };
   const isOnline = () => {
@@ -214,6 +213,7 @@ export default function NagarikaForm({ itm, changeState, componentreloadmethod }
   const vyaparformdata = (async) => {
     console.log(sendData, 'sednign data');
     if (isOnline() && networkAccess()) {
+      sendData.participant_id = sendData.participant_id.toString();
       var config = {
         method: 'post',
         url: baseURL + 'addnagarikaprogram',
@@ -229,7 +229,7 @@ export default function NagarikaForm({ itm, changeState, componentreloadmethod }
           // props?.changeState();
           // props?.mainDrawerReload();
           changeState();
-          localStorage.removeItem('vyapar');
+          localStorage.removeItem('nagarika');
           Swal.fire({
             icon: 'success',
             title: 'Success',
@@ -242,7 +242,7 @@ export default function NagarikaForm({ itm, changeState, componentreloadmethod }
         .catch(function (error) {
           console.log(sendData, 'responseeeegreen', error);
           console.log('responseeeeVypar', error?.response?.data?.Message);
-          saveDataLocally('vyapar', sendData);
+          saveDataLocally('nagarika', sendData);
           // props?.mainDrawerReload();
           changeState();
           Swal.fire({
@@ -290,7 +290,6 @@ export default function NagarikaForm({ itm, changeState, componentreloadmethod }
   });
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    console.log(name, value, 'name value ');
     setSendData((prevData) => ({
       ...prevData,
       [name]: value,
@@ -544,6 +543,16 @@ export default function NagarikaForm({ itm, changeState, componentreloadmethod }
             <Grid>
               <Card>
                 <CardContent>
+                  <SelectInput
+                    id="gelathi_id"
+                    name="gelathi_id"
+                    label="Field associate Name "
+                    kannadaLabel="ಕ್ಷೇತ್ರದ ಸಹವರ್ತಿ ಹೆಸರು"
+                    required
+                    onChange={handleInputChange}
+                    value={sendData?.gelathi_id}
+                    options={vyaapar}
+                  />
                   <TextInput
                     id="profile_of_the_women"
                     placeholder="Your Answer"
