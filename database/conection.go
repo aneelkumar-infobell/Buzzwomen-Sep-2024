@@ -35,6 +35,7 @@ func Connect() *sql.DB {
 	if err != nil {
 		log.Fatal(err)
 	}
+
 	fmt.Println("Connected to MySQL database!")
 	// Periodically check the number of connections and restart if it exceeds the maximum
 	go func() {
