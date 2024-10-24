@@ -28,7 +28,7 @@ import {
   Why_dont_you_attend_Gram_sabha,
   yesNoDontKnow,
   yesOrNo,
-} from './nagarika/NagarikaSurveyOption';
+} from './NagarikaSurveyOption';
 import TextInput from 'src/components/TextInput';
 import SelectInput from 'src/components/SelectInput';
 import MultipleChoice from 'src/components/MultipleChoice';
@@ -39,7 +39,6 @@ import { useEffect } from 'react';
 import { baseURL } from 'src/utils/api';
 import { useAuth } from 'src/AuthContext';
 import axios from 'axios';
-import { Which_of_the_following_statements_do_you_agree_with } from './NagarikaSurveyOption';
 const ViewNagarika = ({ sendData, handleInputChange, handleResources }) => {
   const { apikey } = useAuth();
   const [district, setDistrict] = useState([]);
@@ -129,6 +128,7 @@ const ViewNagarika = ({ sendData, handleInputChange, handleResources }) => {
             name="profile_of_the_women"
             onChange={handleInputChange}
             value={sendData?.profile_of_the_women}
+            
           />
           <TextInput
             id="surveyors_name"
