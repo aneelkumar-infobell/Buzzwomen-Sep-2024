@@ -3,6 +3,7 @@ package Projectflexibility
 import (
 	"database/sql"
 	"encoding/json"
+	"fmt"
 	"net/http"
 )
 
@@ -59,6 +60,7 @@ func AllAttendence(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 
 	rows, err := DB.Query(str)
 	if err != nil {
+
 		w.WriteHeader(http.StatusBadRequest)
 		json.NewEncoder(w).Encode(map[string]interface{}{"Message": err, "Status Code": "400 Bad Request"})
 		return
@@ -71,6 +73,7 @@ func AllAttendence(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 
 		err := rows.Scan(&partcipantId)
 		if err != nil {
+			fmt.Println("err17878", err)
 			w.WriteHeader(http.StatusBadRequest)
 			json.NewEncoder(w).Encode(map[string]interface{}{"Message": err, "Status Code": "400 Bad Request"})
 			return
@@ -91,10 +94,11 @@ func AllAttendence(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 	//end
 
 	// ================ grren =========
-	str1 := "select partcipantId from GreenBaselineSurvey"
+	str1 := "select COALESCE(partcipantId,0) from GreenBaselineSurvey"
 
 	rows1, err := DB.Query(str1)
 	if err != nil {
+
 		w.WriteHeader(http.StatusBadRequest)
 		json.NewEncoder(w).Encode(map[string]interface{}{"Message": err, "Status Code": "400 Bad Request"})
 		return
@@ -107,8 +111,9 @@ func AllAttendence(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 
 		err := rows1.Scan(&partcipantId1)
 		if err != nil {
+
 			w.WriteHeader(http.StatusBadRequest)
-			json.NewEncoder(w).Encode(map[string]interface{}{"Message": err, "Status Code": "400 Bad Request"})
+			json.NewEncoder(w).Encode(map[string]interface{}{"Message": err.Error(), "Status Code": "400 Bad Request"})
 			return
 		}
 
@@ -131,8 +136,9 @@ func AllAttendence(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 
 	rows2, err := DB.Query(str2)
 	if err != nil {
+
 		w.WriteHeader(http.StatusBadRequest)
-		json.NewEncoder(w).Encode(map[string]interface{}{"Message": err, "Status Code": "400 Bad Request"})
+		json.NewEncoder(w).Encode(map[string]interface{}{"Message": err.Error(), "Status Code": "400 Bad Request"})
 		return
 	}
 	defer rows2.Close()
@@ -143,8 +149,9 @@ func AllAttendence(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 
 		err := rows2.Scan(&partcipantId2)
 		if err != nil {
+
 			w.WriteHeader(http.StatusBadRequest)
-			json.NewEncoder(w).Encode(map[string]interface{}{"Message": err, "Status Code": "400 Bad Request"})
+			json.NewEncoder(w).Encode(map[string]interface{}{"Message": err.Error(), "Status Code": "400 Bad Request"})
 			return
 		}
 
@@ -160,6 +167,42 @@ func AllAttendence(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 		}
 	}
 	//end
+
+	// =================================== Nagarika ===============================
+	str3 := "select partcipantId from nagarikaprogramquestionnaire"
+
+	rows3, err := DB.Query(str3)
+	if err != nil {
+
+		w.WriteHeader(http.StatusBadRequest)
+		json.NewEncoder(w).Encode(map[string]interface{}{"Message": err.Error(), "Status Code": "400 Bad Request"})
+		return
+	}
+	defer rows3.Close()
+	var partcipantId3 int
+	var result3 []int // creating slice
+
+	for rows3.Next() {
+
+		err := rows3.Scan(&partcipantId3)
+		if err != nil {
+
+			w.WriteHeader(http.StatusBadRequest)
+			json.NewEncoder(w).Encode(map[string]interface{}{"Message": err.Error(), "Status Code": "400 Bad Request"})
+			return
+		}
+
+		result3 = append(result3, partcipantId3)
+
+	}
+
+	founder2 := false
+	for _, r := range result3 {
+		if r == p.PartcipantId {
+			founder2 = true
+			break
+		}
+	}
 
 	// ================================== spoorthi attendance ==============================
 	switch {
@@ -179,7 +222,7 @@ func AllAttendence(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 
 		_, err := DB.Exec("UPDATE SpoorthiBaselineQuestionnaire sp , gelathi_circle gel_circle left join training_participants tr_part ON gel_circle.gelathi_id = tr_part.id SET sp.module2=1,sp.M2f=? where sp.partcipantId=? and gel_circle.circle_id =?;", ffid, p.PartcipantId, p.Circle_id)
 		if err != nil {
-			json.NewEncoder(w).Encode(map[string]interface{}{"Message": err, "Status Code": "400 Bad Request"})
+			json.NewEncoder(w).Encode(map[string]interface{}{"Message": err.Error(), "Status Code": "400 Bad Request"})
 		}
 
 		json.NewEncoder(w).Encode(map[string]interface{}{"Message": "Attendance added successfully for Spoorthi Module2"})
@@ -327,9 +370,12 @@ func AllAttendence(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 
 		//  =============================== nagarika program attendance ==========================================
 	case p.Type == 23:
-		if found {
+
+		if founder2 {
+
 			_, err := DB.Exec("UPDATE nagarikaprogramquestionnaire sp , gelathi_circle gel_circle left join training_participants tr_part ON gel_circle.gelathi_id = tr_part.id SET sp.module1=1,sp.M1f=? where sp.partcipantId=? and gel_circle.circle_id =?;", ffid, p.PartcipantId, p.Circle_id)
 			if err != nil {
+
 				w.WriteHeader(http.StatusBadRequest)
 			}
 			json.NewEncoder(w).Encode(map[string]interface{}{"Message": "Attendance added successfully for Nagarika Module1"})
