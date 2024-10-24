@@ -10,6 +10,8 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 export default function AddAttendance({ shown, setShown, batch }) {
+
+  console.log( shown, setShown, batch ,"itm data ")
   const { apikey } = useAuth();
   const [openFilter, setOpenFilter] = useState(false);
   const [clcikData, setClickData] = useState();
@@ -19,17 +21,20 @@ export default function AddAttendance({ shown, setShown, batch }) {
     checkbox.checked = false;
     alert('Please Check In First ');
   };
+  console.log(addValue ,"itm data ")
   const addAttendance = (itm) => {
     var data = addValue?.includes(itm?.participant_id)
       ? JSON.stringify({
           PartcipantId: parseInt(itm?.participant_id),
           circle_id: parseInt(batch?.circle_id),
           Type: parseInt(batch.type),
+          projectid:parseInt(batch.project_id)
         })
       : JSON.stringify({
           PartcipantId: parseInt(itm?.participant_id),
           circle_id: parseInt(batch?.circle_id),
           Type: parseInt(batch.type),
+          projectid:parseInt(batch.project_id)
         });
     var config = {
       method: 'post',
@@ -55,6 +60,7 @@ export default function AddAttendance({ shown, setShown, batch }) {
       });
   };
   const addAttendance1 = async (itm) => {
+    console.log(itm ,"itm data ")
     var data = addValue?.includes(itm?.participant_id)
       ? JSON.stringify({
           flag: 1,
@@ -111,6 +117,7 @@ export default function AddAttendance({ shown, setShown, batch }) {
     setOpen(false);
   }; 
   const choseAddAttendanceApi = (itm) => {
+    console.log(itm , "itm data ")
     if (batch?.type == 2 || batch?.type == 3) {
       addAttendance1(itm);
     } else {
@@ -126,7 +133,7 @@ export default function AddAttendance({ shown, setShown, batch }) {
               <CloseIcon />
             </IconButton>
             <Typography sx={{ ml: 2, flex: 1, color: 'white' }} variant="h6" component="div">
-              Participants List
+              Participants List working
             </Typography>
           </Toolbar>
         </AppBar>
