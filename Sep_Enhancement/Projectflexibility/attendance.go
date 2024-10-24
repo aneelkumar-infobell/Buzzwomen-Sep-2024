@@ -56,7 +56,7 @@ func AllAttendence(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 	//========================================================================================
 
 	// extra for not filling spoorthi form
-	str := "select partcipantId from SpoorthiBaselineQuestionnaire"
+	str := "select COALESCE(partcipantId,0) from SpoorthiBaselineQuestionnaire"
 
 	rows, err := DB.Query(str)
 	if err != nil {
@@ -132,7 +132,7 @@ func AllAttendence(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 
 	// vyapar
 	// ================ grren =========
-	str2 := "select partcipantId from BuzzVyaparProgramBaseline"
+	str2 := "select COALESCE(partcipantId,0) from BuzzVyaparProgramBaseline"
 
 	rows2, err := DB.Query(str2)
 	if err != nil {
@@ -169,7 +169,7 @@ func AllAttendence(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 	//end
 
 	// =================================== Nagarika ===============================
-	str3 := "select partcipantId from nagarikaprogramquestionnaire"
+	str3 := "select COALESCE(partcipantId,0) from nagarikaprogramquestionnaire"
 
 	rows3, err := DB.Query(str3)
 	if err != nil {
