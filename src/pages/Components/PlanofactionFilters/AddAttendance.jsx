@@ -133,7 +133,7 @@ export default function AddAttendance({ shown, setShown, batch }) {
               <CloseIcon />
             </IconButton>
             <Typography sx={{ ml: 2, flex: 1, color: 'white' }} variant="h6" component="div">
-              Participants List working
+              Participants List 
             </Typography>
           </Toolbar>
         </AppBar>
@@ -287,9 +287,64 @@ export default function AddAttendance({ shown, setShown, batch }) {
                               }}
                             />
                           ) :
+                          batch?.type == 23 && itm?.module1 == 1 ? (
+                            <Checkbox
+                              disabled
+                              checked
+                              onClick={() => {
+                                alert(' Attendance  Is Already Marked.  ');
+                              }}
+                            />
+                          ):
+                          batch?.type == 24 && itm?.module2 == 1 ? (
+                            <Checkbox
+                              disabled
+                              checked
+                              onClick={() => {
+                                alert(' Attendance  Is Already Marked.  ');
+                              }}
+                            />
+                          ):
+                          batch?.type == 25 && itm?.module3 == 1 ? (
+                            <Checkbox
+                              disabled
+                              checked
+                              onClick={() => {
+                                alert(' Attendance  Is Already Marked.  ');
+                              }}
+                            />
+                          ):
+                          batch?.type == 26 && itm?.module4 == 1 ? (
+                            <Checkbox
+                              disabled
+                              checked
+                              onClick={() => {
+                                alert(' Attendance  Is Already Marked.  ');
+                              }}
+                            />
+                          ):
+                          batch?.type == 27 && itm?.module5 == 1 ? (
+                            <Checkbox
+                              disabled
+                              checked
+                              onClick={() => {
+                                alert(' Attendance  Is Already Marked.  ');
+                              }}
+                            />
+                          ):
+                          batch?.type == 28 && itm?.module6 == 1 ? (
+                            <Checkbox
+                              disabled
+                              checked
+                              onClick={() => {
+                                alert(' Attendance  Is Already Marked.  ');
+                              }}
+                            />
+                          ):
                           batch?.type ==  1 ? (
                             null
                           ):
+
                           (
                             <Checkbox
                               onClick={() => {
