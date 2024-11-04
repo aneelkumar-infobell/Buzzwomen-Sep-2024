@@ -66,6 +66,7 @@ type Participant struct {
 	Module3         string `json:"module3"`
 	Module4         string `json:"module4"`
 	Module5         string `json:"module5"`
+	Module6         string `json:"module6"`
 }
 
 type SessionPhoto struct {
@@ -169,6 +170,7 @@ func GetGFSessionData1(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 	if err != nil {
 
 		if err == sql.ErrNoRows {
+			fmt.Println("er173", err)
 			// response.Message = "Not Found"
 			// response.Code = 404
 			// json.NewEncoder(w).Encode(response)
@@ -189,7 +191,7 @@ func GetGFSessionData1(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 
 	err = DB.QueryRow(trainerQuery).Scan(&trainerName)
 	if err != nil && err != sql.ErrNoRows {
-
+		fmt.Println("err193", err)
 		response.Message = "Database Error"
 		response.Code = 500
 		response.ErrorMessage = err
@@ -267,25 +269,25 @@ func GetGFSessionData1(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 		queryParticipant = fmt.Sprintf("SELECT %s FROM BuzzVyaparProgramBaseline s join gelathi_circle ge on ge.gelathi_id=s.partcipantId join training_participants tr_part on s.partcipantId=tr_part.id where ge.circle_id= %s   GROUP BY partcipantId", fields, sessionData.CircleID)
 
 	} else if sessionData.Type == "22" {
-		fields := fmt.Sprintf("distinct(tr_part.id) as participant_id, IFNULL(tr_part.firstName, '') as participant_name, tr_part.gelathiRecomm, tr_part.enroll,COALESCE(tr_part.nagarikaenrollment,0), IF(tr_part.gelathiRecomm = '1', 'Suggested', '') as gelathi_status, IFNULL((SELECT count(1) From participant_attendance WHERE tbl_poa_id = %s AND participant_id = tr_part.id LIMIT 1), 0) as is_attended, COALESCE(module1,''),COALESCE(module2,''),COALESCE(module3,''),COALESCE(module4,''),COALESCE(module5,'')", sessionData.ID)
+		fields := fmt.Sprintf("distinct(tr_part.id) as participant_id, IFNULL(tr_part.firstName, '') as participant_name, tr_part.gelathiRecomm, tr_part.enroll,COALESCE(tr_part.nagarikaenrollment,0), IF(tr_part.gelathiRecomm = '1', 'Suggested', '') as gelathi_status, IFNULL((SELECT count(1) From participant_attendance WHERE tbl_poa_id = %s AND participant_id = tr_part.id LIMIT 1), 0) as is_attended, COALESCE(module1,''),COALESCE(module2,''),COALESCE(module3,''),COALESCE(module4,''),COALESCE(module5,''),COALESCE(module6,'')", sessionData.ID)
 		queryParticipant = fmt.Sprintf("SELECT %s FROM nagarikaprogramquestionnaire s join gelathi_circle ge on ge.gelathi_id=s.partcipantId join training_participants tr_part on s.partcipantId=tr_part.id where ge.circle_id= %s   GROUP BY partcipantId", fields, sessionData.CircleID)
 	} else if sessionData.Type == "23" {
-		fields := fmt.Sprintf("distinct(tr_part.id) as participant_id, IFNULL(tr_part.firstName, '') as participant_name, tr_part.gelathiRecomm, tr_part.enroll,COALESCE(tr_part.nagarikaenrollment,0), IF(tr_part.gelathiRecomm = '1', 'Suggested', '') as gelathi_status, IFNULL((SELECT count(1) From participant_attendance WHERE tbl_poa_id = %s AND participant_id = tr_part.id LIMIT 1), 0) as is_attended ,COALESCE(module1,''),COALESCE(module2,''),COALESCE(module3,''),COALESCE(module4,''),COALESCE(module5,'')", sessionData.ID)
+		fields := fmt.Sprintf("distinct(tr_part.id) as participant_id, IFNULL(tr_part.firstName, '') as participant_name, tr_part.gelathiRecomm, tr_part.enroll,COALESCE(tr_part.nagarikaenrollment,0), IF(tr_part.gelathiRecomm = '1', 'Suggested', '') as gelathi_status, IFNULL((SELECT count(1) From participant_attendance WHERE tbl_poa_id = %s AND participant_id = tr_part.id LIMIT 1), 0) as is_attended ,COALESCE(module1,''),COALESCE(module2,''),COALESCE(module3,''),COALESCE(module4,''),COALESCE(module5,''),COALESCE(module6,'')", sessionData.ID)
 		queryParticipant = fmt.Sprintf("SELECT %s FROM nagarikaprogramquestionnaire s join gelathi_circle ge on ge.gelathi_id=s.partcipantId join training_participants tr_part on s.partcipantId=tr_part.id where ge.circle_id= %s   GROUP BY partcipantId", fields, sessionData.CircleID)
 	} else if sessionData.Type == "24" {
-		fields := fmt.Sprintf("distinct(tr_part.id)as participant_id, IFNULL(tr_part.firstName, '') as participant_name, tr_part.gelathiRecomm, tr_part.enroll,COALESCE(tr_part.nagarikaenrollment,0), IF(tr_part.gelathiRecomm = '1', 'Suggested', '') as gelathi_status, IFNULL((SELECT count(1) From participant_attendance WHERE tbl_poa_id = %s AND participant_id = tr_part.id LIMIT 1), 0) as is_attended ,COALESCE(module1,''),COALESCE(module2,''),COALESCE(module3,''),COALESCE(module4,''),COALESCE(module5,'')", sessionData.ID)
+		fields := fmt.Sprintf("distinct(tr_part.id)as participant_id, IFNULL(tr_part.firstName, '') as participant_name, tr_part.gelathiRecomm, tr_part.enroll,COALESCE(tr_part.nagarikaenrollment,0), IF(tr_part.gelathiRecomm = '1', 'Suggested', '') as gelathi_status, IFNULL((SELECT count(1) From participant_attendance WHERE tbl_poa_id = %s AND participant_id = tr_part.id LIMIT 1), 0) as is_attended ,COALESCE(module1,''),COALESCE(module2,''),COALESCE(module3,''),COALESCE(module4,''),COALESCE(module5,''),COALESCE(module6,'')", sessionData.ID)
 		queryParticipant = fmt.Sprintf("SELECT %s FROM nagarikaprogramquestionnaire s join gelathi_circle ge on ge.gelathi_id=s.partcipantId join training_participants tr_part on s.partcipantId=tr_part.id where ge.circle_id= %s   GROUP BY partcipantId", fields, sessionData.CircleID)
 	} else if sessionData.Type == "25" {
-		fields := fmt.Sprintf("distinct(tr_part.id) as participant_id, IFNULL(tr_part.firstName, '') as participant_name, tr_part.gelathiRecomm, tr_part.enroll,COALESCE(tr_part.nagarikaenrollment,0), IF(tr_part.gelathiRecomm = '1', 'Suggested', '') as gelathi_status, IFNULL((SELECT count(1) From participant_attendance WHERE tbl_poa_id = %s AND participant_id = tr_part.id LIMIT 1), 0) as is_attended , COALESCE(module1,''),COALESCE(module2,''),COALESCE(module3,''),COALESCE(module4,''),COALESCE(module5,'')", sessionData.ID)
+		fields := fmt.Sprintf("distinct(tr_part.id) as participant_id, IFNULL(tr_part.firstName, '') as participant_name, tr_part.gelathiRecomm, tr_part.enroll,COALESCE(tr_part.nagarikaenrollment,0), IF(tr_part.gelathiRecomm = '1', 'Suggested', '') as gelathi_status, IFNULL((SELECT count(1) From participant_attendance WHERE tbl_poa_id = %s AND participant_id = tr_part.id LIMIT 1), 0) as is_attended , COALESCE(module1,''),COALESCE(module2,''),COALESCE(module3,''),COALESCE(module4,''),COALESCE(module5,''),COALESCE(module6,'')", sessionData.ID)
 		queryParticipant = fmt.Sprintf("SELECT %s FROM nagarikaprogramquestionnaire s join gelathi_circle ge on ge.gelathi_id=s.partcipantId join training_participants tr_part on s.partcipantId=tr_part.id where ge.circle_id= %s   GROUP BY partcipantId", fields, sessionData.CircleID)
 	} else if sessionData.Type == "26" {
-		fields := fmt.Sprintf("distinct(tr_part.id) as participant_id, IFNULL(tr_part.firstName, '') as participant_name, tr_part.gelathiRecomm, tr_part.enroll,COALESCE(tr_part.nagarikaenrollment,0), IF(tr_part.gelathiRecomm = '1', 'Suggested', '') as gelathi_status, IFNULL((SELECT count(1) From participant_attendance WHERE tbl_poa_id = %s AND participant_id = tr_part.id LIMIT 1), 0) as is_attended ,COALESCE(module1,''),COALESCE(module2,''),COALESCE(module3,''),COALESCE(module4,''),COALESCE(module5,'') ", sessionData.ID)
+		fields := fmt.Sprintf("distinct(tr_part.id) as participant_id, IFNULL(tr_part.firstName, '') as participant_name, tr_part.gelathiRecomm, tr_part.enroll,COALESCE(tr_part.nagarikaenrollment,0), IF(tr_part.gelathiRecomm = '1', 'Suggested', '') as gelathi_status, IFNULL((SELECT count(1) From participant_attendance WHERE tbl_poa_id = %s AND participant_id = tr_part.id LIMIT 1), 0) as is_attended ,COALESCE(module1,''),COALESCE(module2,''),COALESCE(module3,''),COALESCE(module4,''),COALESCE(module5,''),COALESCE(module6,'') ", sessionData.ID)
 		queryParticipant = fmt.Sprintf("SELECT %s FROM nagarikaprogramquestionnaire s join gelathi_circle ge on ge.gelathi_id=s.partcipantId join training_participants tr_part on s.partcipantId=tr_part.id where ge.circle_id= %s   GROUP BY partcipantId", fields, sessionData.CircleID)
 	} else if sessionData.Type == "27" {
-		fields := fmt.Sprintf("distinct(tr_part.id) as participant_id, IFNULL(tr_part.firstName, '') as participant_name, tr_part.gelathiRecomm, tr_part.enroll,COALESCE(tr_part.nagarikaenrollment,0), IF(tr_part.gelathiRecomm = '1', 'Suggested', '') as gelathi_status, IFNULL((SELECT count(1) From participant_attendance WHERE tbl_poa_id = %s AND participant_id = tr_part.id LIMIT 1), 0) as is_attended ,COALESCE(module1,''),COALESCE(module2,''),COALESCE(module3,''),COALESCE(module4,''),COALESCE(module5,'') ", sessionData.ID)
+		fields := fmt.Sprintf("distinct(tr_part.id) as participant_id, IFNULL(tr_part.firstName, '') as participant_name, tr_part.gelathiRecomm, tr_part.enroll,COALESCE(tr_part.nagarikaenrollment,0), IF(tr_part.gelathiRecomm = '1', 'Suggested', '') as gelathi_status, IFNULL((SELECT count(1) From participant_attendance WHERE tbl_poa_id = %s AND participant_id = tr_part.id LIMIT 1), 0) as is_attended ,COALESCE(module1,''),COALESCE(module2,''),COALESCE(module3,''),COALESCE(module4,''),COALESCE(module5,''),COALESCE(module6,'')", sessionData.ID)
 		queryParticipant = fmt.Sprintf("SELECT %s FROM nagarikaprogramquestionnaire s join gelathi_circle ge on ge.gelathi_id=s.partcipantId join training_participants tr_part on s.partcipantId=tr_part.id where ge.circle_id= %s   GROUP BY partcipantId", fields, sessionData.CircleID)
 	} else if sessionData.Type == "28" {
-		fields := fmt.Sprintf("distinct(tr_part.id) as participant_id, IFNULL(tr_part.firstName, '') as participant_name, tr_part.gelathiRecomm, tr_part.enroll,COALESCE(tr_part.nagarikaenrollment,0), IF(tr_part.gelathiRecomm = '1', 'Suggested', '') as gelathi_status, IFNULL((SELECT count(1) From participant_attendance WHERE tbl_poa_id = %s AND participant_id = tr_part.id LIMIT 1), 0) as is_attended ,COALESCE(module1,''),COALESCE(module2,''),COALESCE(module3,''),COALESCE(module4,''),COALESCE(module5,'') ", sessionData.ID)
+		fields := fmt.Sprintf("distinct(tr_part.id) as participant_id, IFNULL(tr_part.firstName, '') as participant_name, tr_part.gelathiRecomm, tr_part.enroll,COALESCE(tr_part.nagarikaenrollment,0), IF(tr_part.gelathiRecomm = '1', 'Suggested', '') as gelathi_status, IFNULL((SELECT count(1) From participant_attendance WHERE tbl_poa_id = %s AND participant_id = tr_part.id LIMIT 1), 0) as is_attended ,COALESCE(module1,''),COALESCE(module2,''),COALESCE(module3,''),COALESCE(module4,''),COALESCE(module5,''),COALESCE(module6,'')", sessionData.ID)
 		queryParticipant = fmt.Sprintf("SELECT %s FROM nagarikaprogramquestionnaire s join gelathi_circle ge on ge.gelathi_id=s.partcipantId join training_participants tr_part on s.partcipantId=tr_part.id where ge.circle_id= %s   GROUP BY partcipantId", fields, sessionData.CircleID)
 
 	} else {
@@ -357,6 +359,9 @@ func GetGFSessionData1(w http.ResponseWriter, r *http.Request, DB *sql.DB) {
 				values[i] = &participant.Module4
 			case "COALESCE(module5,'')":
 				values[i] = &participant.Module5
+			case "COALESCE(module6,'')":
+				values[i] = &participant.Module6
+
 			default:
 				// Ignore other columns or handle them as needed
 				values[i] = new(interface{})
