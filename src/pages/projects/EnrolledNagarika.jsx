@@ -85,7 +85,7 @@ export default function EnrolledNagarika() {
       // search: search,
       project_id: state?.id,
       emp_id: idvalue,
-      gelathi_id: id?.emp_id ? id?.emp_id : id,
+      // gelathi_id: id?.emp_id ? id?.emp_id : id,
       start_date : '',
       end_date: ""
     });
@@ -186,6 +186,16 @@ export default function EnrolledNagarika() {
         });
     }
   };
+
+  // useEffect(() => {
+  //   let isApiSubscribed = true;
+  //   if (isApiSubscribed && !vyaapar) {  // Only call if vyaapar data is empty
+  //     enrolledNagarika();
+  //   }
+  //   return () => {
+  //     isApiSubscribed = false;
+  //   };
+  // }, []);  // Empty dependency array for single call
   return (
     <Container>
       {' '}
