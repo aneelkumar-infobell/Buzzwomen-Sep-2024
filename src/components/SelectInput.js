@@ -40,6 +40,7 @@ const SelectInput = ({
             data-id={option[optionValueKey]}
             key={option[optionValueKey]}
             value={name === 'gf_id' || name === 'cast' || name === 'gelathi_id' ? option['id'] : option[optionLabelKey]}
+            style={{ whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}
           >
             {option[optionLabelKey]}
           </MenuItem>
