@@ -584,7 +584,7 @@ useEffect(()=>{
                     &nbsp;{session?.gf_session_name}
                   </Typography>
                   <Typography variant="body1" gutterBottom>
-                    Plan Day:&nbsp;{session?.plan_date}
+                    Plan Day working:&nbsp;{session?.plan_date}
                   </Typography>
 
                   {session?.type == 1 ||

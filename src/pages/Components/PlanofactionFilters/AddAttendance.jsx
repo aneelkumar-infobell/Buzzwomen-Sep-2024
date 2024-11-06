@@ -124,6 +124,7 @@ export default function AddAttendance({ shown, setShown, batch }) {
       addAttendance(itm);
     }
   };
+  console.log( batch?.check_out ," batch?.check_out")
   return (
     <div>
       <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>
@@ -148,6 +149,7 @@ export default function AddAttendance({ shown, setShown, batch }) {
             :
             
             batch?.all_participants?.map((itm) => {
+              console.log(  itm?.module5  ,"  itm?.module5 ")
               return (
                 <Stack style={{ top: 100 }}>
                   <Card
@@ -287,7 +289,7 @@ export default function AddAttendance({ shown, setShown, batch }) {
                               }}
                             />
                           ) :
-                          batch?.type == 23 && itm?.module1 == 1 ? (
+                          batch?.type == 23 && itm?.module1 == 1   ? (
                             <Checkbox
                               disabled
                               checked
@@ -296,7 +298,7 @@ export default function AddAttendance({ shown, setShown, batch }) {
                               }}
                             />
                           ):
-                          batch?.type == 24 && itm?.module2 == 1 ? (
+                          batch?.type == 24 && itm?.module2 == 1  ? (
                             <Checkbox
                               disabled
                               checked
@@ -305,7 +307,7 @@ export default function AddAttendance({ shown, setShown, batch }) {
                               }}
                             />
                           ):
-                          batch?.type == 25 && itm?.module3 == 1 ? (
+                          batch?.type == 25 && itm?.module3 == 1  ? (
                             <Checkbox
                               disabled
                               checked
@@ -344,6 +346,48 @@ export default function AddAttendance({ shown, setShown, batch }) {
                           batch?.type ==  1 ? (
                             null
                           ):
+                          batch?.check_out == 1 &&   itm?.module1 == 0 ?
+                          <Checkbox
+                           disabled
+                          onClick={() => {
+                             alert(' Attendance  Is Already Marked.  ');
+                           }}
+                         /> :
+                          batch?.check_out == 1 &&   itm?.module2 == 0 ?
+                          <Checkbox
+                           disabled
+                          onClick={() => {
+                             alert(' Attendance  Is Already Marked.  ');
+                           }}
+                         /> :
+                          batch?.check_out == 1 &&   itm?.module3 == 0 ?
+                          <Checkbox
+                           disabled
+                          onClick={() => {
+                             alert(' Attendance  Is Already Marked.  ');
+                           }}
+                         /> :
+                          batch?.check_out == 1 &&   itm?.module4 == 0 ?
+                          <Checkbox
+                           disabled
+                          onClick={() => {
+                             alert(' Attendance  Is Already Marked.  ');
+                           }}
+                         /> :
+                          batch?.check_out == 1 &&   itm?.module5 == 0 ?
+                         <Checkbox
+                          disabled
+                         onClick={() => {
+                            alert(' Attendance  Is Already Marked.  ');
+                          }}
+                        /> :
+                        batch?.check_out == 1 &&   itm?.module6 == 0 ?
+                        <Checkbox
+                         disabled
+                        onClick={() => {
+                           alert(' Attendance  Is Already Marked.  ');
+                         }}
+                       /> :
 
                           (
                             <Checkbox

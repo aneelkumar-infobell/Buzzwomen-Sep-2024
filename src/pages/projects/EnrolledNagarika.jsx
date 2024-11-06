@@ -21,6 +21,7 @@ import GetVyaparProgram from './Getvyaparprogram';
 import Filtersmain from './projectfilters/filtersmain';
 import { baseURL } from 'src/utils/api';
 import { useAuth } from 'src/AuthContext';
+import ViewNagarika from './Components/nagarika/ViewNagarika';
 
 export default function EnrolledNagarika() {
   const { apikey } = useAuth();
@@ -83,7 +84,7 @@ export default function EnrolledNagarika() {
       // search: search,
       project_id: state?.id,
       emp_id: idvalue,
-      gelathi_id: id?.emp_id ? id?.emp_id : id,
+      // gelathi_id: id?.emp_id ? id?.emp_id : id,
       start_date : '',
       end_date: ""
     });
@@ -184,6 +185,16 @@ export default function EnrolledNagarika() {
         });
     }
   };
+
+  // useEffect(() => {
+  //   let isApiSubscribed = true;
+  //   if (isApiSubscribed && !vyaapar) {  // Only call if vyaapar data is empty
+  //     enrolledNagarika();
+  //   }
+  //   return () => {
+  //     isApiSubscribed = false;
+  //   };
+  // }, []);  // Empty dependency array for single call
   return (
     <Container>
       {' '}
@@ -271,7 +282,7 @@ export default function EnrolledNagarika() {
               <div>
                 {role == 4 || role == 12 || role == 3 || role == 1 ? (
                   itm?.is_survey ? (
-                    <GetVyaparProgram itm={itm} />
+                    <ViewNagarika itm={itm} />
                   ) : (
                     <Vyaparprogram itm={itm} changeState={changeState} />
                   )
