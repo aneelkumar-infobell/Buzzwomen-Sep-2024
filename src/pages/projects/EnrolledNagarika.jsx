@@ -22,6 +22,7 @@ import Filtersmain from './projectfilters/filtersmain';
 import { baseURL } from 'src/utils/api';
 import { useAuth } from 'src/AuthContext';
 import ViewNagarika from './Components/nagarika/ViewNagarika';
+import NagarikaForm from './Components/NagarikaForm';
 
 export default function EnrolledNagarika() {
   const { apikey } = useAuth();
@@ -284,7 +285,7 @@ export default function EnrolledNagarika() {
                   itm?.is_survey ? (
                     <ViewNagarika itm={itm} />
                   ) : (
-                    <Vyaparprogram itm={itm} changeState={changeState} />
+                    <NagarikaForm itm={itm} changeState={changeState} />
                   )
                 ) : null}
               </div>

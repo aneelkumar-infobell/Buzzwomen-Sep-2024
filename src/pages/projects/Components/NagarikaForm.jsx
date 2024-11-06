@@ -776,16 +776,15 @@ export default function NagarikaForm({ itm, changeState, componentreloadmethod }
                     value={sendData?.are_you_the_sole_earning_member_of_your_family}
                     options={yesOrNo}
                   />
-                  <TextInput
-                    id="migration_profile"
-                    name="migration_profile"
-                    label="Migration profile   ವಲಸೆ ಪ್ರೊಫೈಲ್"
-                    required
-                    placeholder="Your Answer"
-                    onChange={handleInputChange}
-                    value={sendData.migration_profile}
-                  />
+                
+ <Card style={{ marginTop: 10, borderRadius: 20 }}>
+                                            <CardContent>
+                                                <Typography variant="subtitle2" style={{ color: '#ff7424', textAlign: "center" }}>
+                                                "Migration profile   ವಲಸೆ ಪ್ರೊಫೈಲ್"
+                                                </Typography>
 
+                                            </CardContent>
+                                        </Card>
                   <SelectInput
                     id="has_anyone_in_your_household_migrated_last_1_year_for_work"
                     name="has_anyone_in_your_household_migrated_last_1_year_for_work"
@@ -1086,14 +1085,22 @@ How do you know when the Gram Sabha/Gram Samsad is being organized?
                     value={sendData?.as_a_citizen_i_have_duties_to_make_governance_process_better}
                     options={yesNoDontKnow}
                   />
-                  <TextInput
+                  {/* <TextInput
                     id="mobility_confidence_of_women"
                     name="mobility_confidence_of_women"
                     label="Mobility/ Confidence of the women    ಮಹಿಳೆಯರ ಚಲನಶೀಲತೆ / ವಿಶ್ವಾಸ"
                     required
                     onChange={handleInputChange}
                     value={sendData?.mobility_confidence_of_women}
-                  />
+                  /> */}
+                    <Card style={{ marginTop: 10, borderRadius: 20 }}>
+                                            <CardContent>
+                                                <Typography variant="subtitle2" style={{ color: '#ff7424', textAlign: "center" }}>
+                                                Mobility/ Confidence of the women    ಮಹಿಳೆಯರ ಚಲನಶೀಲತೆ / ವಿಶ್ವಾಸ
+                                                </Typography>
+
+                                            </CardContent>
+                                        </Card>
                   <SelectInput
                     id="how_frequently_do_you_discuss_politics_with_people"
                     name="how_frequently_do_you_discuss_politics_with_people"
