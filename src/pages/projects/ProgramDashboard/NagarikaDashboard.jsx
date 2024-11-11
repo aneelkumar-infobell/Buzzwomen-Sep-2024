@@ -281,8 +281,8 @@ const NagarikaDashboard = () => {
               <Grid item xs={4} sm={8} md={4}>
   
                 <AppWidgetSummary
-                  title="Number of Spoorthi Survey"
-                  total={(summaryData?.summary_sporthisurvey>=0)?summaryData?.summary_sporthisurvey:summaryData?.summary_nospoorthisurvey}
+                  title="Number of Nagarika Survey"
+                  total={(summaryData?.summary_nagarikasurvey>=0)?summaryData?.summary_nagarikasurvey:summaryData?.summary_nagarikasurvey}
                   color="motivator"
   
                 />
@@ -290,8 +290,8 @@ const NagarikaDashboard = () => {
               <Grid item xs={6} sm={8} md={6}>
   
                 <AppWidgetSummary
-                  title="Number of Spoorthi Modules Completed"
-                  total={(summaryData?.summary_Noofsporthicompleted>=0)?summaryData?.summary_Noofsporthicompleted:summaryData?.summary_spoorthimodule}
+                  title="Number of Nagarika Modules Completed"
+                  total={(summaryData?.summary_Noofnagarikacompleted>=0)?summaryData?.summary_Noofnagarikacompleted:summaryData?.summary_Noofnagarikacompleted}
                   color="motivator"
   
                 />
@@ -357,8 +357,8 @@ const NagarikaDashboard = () => {
               <Grid item xs={4} sm={8} md={4}>
   
                 <AppWidgetSummary
-                  title="Number of Spoorthi Survey"
-                  total={(summaryData?.summary_sporthisurvey>=0)?summaryData?.summary_sporthisurvey:summaryData?.summary_nospoorthisurvey}
+                  title="Number of Nagarika Survey"
+                  total={(summaryData?.summary_nagarikasurvey>=0)?summaryData?.summary_nagarikasurvey:summaryData?.summary_nagarikasurvey}
                   color="motivator"
   
                 />
@@ -366,8 +366,8 @@ const NagarikaDashboard = () => {
               <Grid item xs={6} sm={8} md={6}>
   
                 <AppWidgetSummary
-                  title="Number of Spoorthi Modules Completed"
-                  total={(summaryData?.summary_Noofsporthicompleted>=0)?summaryData?.summary_Noofsporthicompleted:summaryData?.summary_spoorthimodule}
+                  title="Number of Nagarika Modules Completed"
+                  total={(summaryData?.summary_Noofnagarikacompleted>=0)?summaryData?.summary_Noofnagarikacompleted:summaryData?.summary_Noofnagarikacompleted}
                   color="motivator"
   
                 />
@@ -492,8 +492,8 @@ const NagarikaDashboard = () => {
             </Grid>
             <Grid item xs={6} sm={6} md={6}>
 <AppWidgetSummary
-  title="Number of Spoorthi Survey"
-  total={(itm?.Noofsporthisurvey>=0)?itm?.Noofsporthisurvey:itm?.noofspoorthisurvey}
+  title="Number of Nagarika Survey"
+  total={(itm?.Noofnagarikasurvey>=0)?itm?.Noofnagarikasurvey:itm?.Noofnagarikasurvey}
   color="info"
   icon = "eos-icons:product-subscriptions-outlined"
 />
@@ -509,7 +509,7 @@ const NagarikaDashboard = () => {
 <Grid item xs={6} sm={6} md={6}>
               <AppWidgetSummary
                 title="Number of Spoorthi Modules Completed"
-                total={(itm?.Noofsporthicompleted>=0)?itm?.Noofsporthicompleted:itm?.noofspoorthimodule}
+                total={(itm?.Noofnagarikacompleted>=0)?itm?.Noofnagarikacompleted:itm?.Noofnagarikacompleted}
                 color="vyapar"
                 icon="eos-icons:product-subscriptions-outlined"
               />
@@ -634,16 +634,16 @@ const NagarikaDashboard = () => {
 </Grid>
 <Grid item xs={6} sm={6} md={6}>
 <AppWidgetSummary
-  title="Number of Spoorthi Survey "
-  total={(itm?.Noofsporthisurvey>=0)?itm?.Noofsporthisurvey:itm?.noofspoorthisurvey}
+  title="Number of Nagarika Survey "
+  total={(itm?.Noofnagarikasurvey>=0)?itm?.Noofnagarikasurvey:itm?.Noofnagarikasurvey}
   color="info"
   icon = "twemoji:women-holding-hands"
 />
 </Grid>
            <Grid item xs={6} sm={6} md={6}>
               <AppWidgetSummary
-                title="Number of Spoorthi Completed"
-                total={(itm?.Noofsporthicompleted>=0)?itm?.Noofsporthicompleted:itm?.noofspoorthimodule}
+                title="Number of Nagarika Completed"
+                total={(itm?.Noofnagarikacompleted>=0)?itm?.Noofnagarikacompleted:itm?.Noofnagarikacompleted}
                 color="vyapar"
                 icon="eos-icons:product-subscriptions-outlined"
               />
