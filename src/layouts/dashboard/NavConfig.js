@@ -100,6 +100,12 @@ const navConfig = {
     icon: getIcon("foundation:torsos-all-female"),
     id: ['0', '1', '2', '3', '4','6','7', '8', '9', '11', '12','13']
   },
+  24: {
+    title: 'Nagarika Program',
+    path: '/dashboard/nagarikaprogramdashboard',
+    icon: getIcon("foundation:torsos-all-female"),
+    id: ['0', '1', '2', '3', '4','6','7', '8', '9', '11', '12','13']
+  },
   17: {
     title: 'Green Program',
     path: '/dashboard/greenprogramdashboard',
@@ -141,7 +147,8 @@ const navConfig = {
     path: '/dashboard/MaterialStockList',
     icon: getIcon('material-symbols:list-alt-outline-sharp'),
     id:['5']
-  }
+  },
+ 
 
 
 };
