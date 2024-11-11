@@ -51,6 +51,7 @@ import FunderGelathiDashboard from './pages/projects/FunderDashBoard/FunderGelat
 import Page404 from './pages/Page404';
 import SeniorTrainerMaterialStocklist from './pages/SeniorTrainerMaterialStocklist';
 import EnrolledNagarika from './pages/projects/EnrolledNagarika';
+import NagarikaDashboard from './pages/projects/ProgramDashboard/NagarikaDashboard';
 // import BusCheckList from './pages/projects/SeniorTrainerBuschecklist';
 
 // ----------------------------------------------------------------------
@@ -125,6 +126,7 @@ export default function Router() {
             { path: 'logout', element: <Logout />, id: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13] },
             { path: 'qualityAssessment',element: <QualityAssurance/>, id:[1,2,3,4,12,13]},
             { path : 'gelathiprogramdashboard' , element: <GelathiProgramDashboard/> , id: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13]},
+            { path : 'nagarikaprogramdashboard' , element: <NagarikaDashboard/> , id: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13]},
             { path : 'greenprogramdashboard' , element: <GreenProgramDashboard/> , id: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13]},
             { path : 'vyaparprogramdashboard' , element: <VyaparProgramDashboard/> , id: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13]},
             {path : 'qualityAssessment/selfsakthi' , element :<SelfSakthiQulityAssurance/> ,id: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13]},
@@ -181,6 +183,10 @@ export default function Router() {
         {
             path : '/dashboard/gelathiprogramdashboard',
             element : <gelathiProgramDashboard />
+        },
+        {
+            path : '/dashboard/nagarikaprogramdashboard',
+            element : <NagarikaDashboard />
         },
         {
             path : '/dashboard/qualityAssurance',
