@@ -290,6 +290,7 @@ export default function NagarikaForm({ itm, changeState, componentreloadmethod }
   });
   const handleInputChange = (event) => {
     const { name, value } = event.target;
+
     setSendData((prevData) => ({
       ...prevData,
       [name]: value,
@@ -543,7 +544,7 @@ export default function NagarikaForm({ itm, changeState, componentreloadmethod }
             <Grid>
               <Card>
                 <CardContent>
-                  <SelectInput
+                  {/* <SelectInput
                     id="gelathi_id"
                     name="gelathi_id"
                     label="Field associate Name "
@@ -552,7 +553,7 @@ export default function NagarikaForm({ itm, changeState, componentreloadmethod }
                     onChange={handleInputChange}
                     value={sendData?.gelathi_id}
                     options={vyaapar}
-                  />
+                  /> */}
                   <TextInput
                     id="profile_of_the_women"
                     placeholder="Your Answer"
@@ -904,7 +905,7 @@ What scheme did you apply for?
                     value={sendData?.will_cooperate_with_your_village_people_to_get_facility_putup}
                     options={likelihoods}
                   />
-                  <TextInput
+                  {/* <TextInput
                     id="community_engagement"
                     name="community_engagement"
                     label="
@@ -912,7 +913,16 @@ Community Engagement    ಸಮುದಾಯ ಸಹಭಾಗಿತ್ವ"
                     required
                     onChange={handleInputChange}
                     value={sendData?.community_engagement}
-                  />
+                  /> */}
+
+<Card style={{ marginTop: 10, borderRadius: 20 }}>
+                                            <CardContent>
+                                                <Typography variant="subtitle2" style={{ color: '#ff7424', textAlign: "center" }}>
+                                                Community Engagement ಸಮುದಾಯ ಸಹಭಾಗಿತ್ವ
+                                                </Typography>
+
+                                            </CardContent>
+                                        </Card>
                   <MultipleChoice
                     id="can_you_identify_top_3_problems_in_your_village"
                     name="can_you_identify_top_3_problems_in_your_village"
@@ -994,7 +1004,7 @@ Community Engagement    ಸಮುದಾಯ ಸಹಭಾಗಿತ್ವ"
                     value={sendData?.do_you_attend_gram_sabha_regularly}
                     options={yesOrNo}
                   />
-                  <SelectInput
+                  {/* <SelectInput
                     id="when_was_the_last_time_you_attended_gram_sabha"
                     name="when_was_the_last_time_you_attended_gram_sabha"
                     label="When was the last time you attended  gram sabha ?
@@ -1003,7 +1013,7 @@ Community Engagement    ಸಮುದಾಯ ಸಹಭಾಗಿತ್ವ"
                     onChange={handleInputChange}
                     value={sendData?.when_was_the_last_time_you_attended_gram_sabha}
                     options={attended_gram_sabha}
-                  />
+                  /> */}
                   <SelectInput
                     id="how_do_you_know_when_gram_sabha_is_being_organized"
                     name="how_do_you_know_when_gram_sabha_is_being_organized"
