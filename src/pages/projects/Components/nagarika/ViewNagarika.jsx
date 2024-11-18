@@ -471,15 +471,14 @@ What scheme did you apply for?
             value={sendData?.will_cooperate_with_your_village_people_to_get_facility_putup}
             options={likelihoods}
           />
-          <TextInput
-            id="community_engagement"
-            name="community_engagement"
-            label="
-Community Engagement    ಸಮುದಾಯ ಸಹಭಾಗಿತ್ವ"
-            disabled
-            onChange={handleInputChange}
-            value={sendData?.community_engagement}
-          />
+          <Card>
+         <CardContent>
+                                                <Typography variant="subtitle2" style={{ color: '#ff7424', textAlign: "center" }}>
+                                                Community Engagement ಸಮುದಾಯ ಸಹಭಾಗಿತ್ವ
+                                                </Typography>
+
+                                            </CardContent>
+                                        </Card>
           <MultipleChoice
             id="can_you_identify_top_3_problems_in_your_village"
             name="can_you_identify_top_3_problems_in_your_village"

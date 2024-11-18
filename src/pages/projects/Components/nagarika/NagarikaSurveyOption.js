@@ -120,43 +120,43 @@ export const Primary_occupations = [
 export const Secondary_occupation = [
   {
     id: 1,
-    name: 'Crop cultivator 1. ಬೆಳೆ ಬೆಳೆಗಾರ',
+    name: '1.Crop cultivator  ಬೆಳೆ ಬೆಳೆಗಾರ',
   },
   {
     id: 2,
-    name: 'Livestock farming 2. ಜಾನುವಾರು ಸಾಕಣೆ',
+    name: '2.Livestock farming ಜಾನುವಾರು ಸಾಕಣೆ',
   },
   {
     id: 3,
-    name: 'Farm wage worker 3. ಕೃಷಿ ಕೂಲಿ ಕಾರ್ಮಿಕ',
+    name: '3.Farm wage worker  ಕೃಷಿ ಕೂಲಿ ಕಾರ್ಮಿಕ',
   },
   {
     id: 4,
-    name: 'Non farm sector wage worker like factory worker, sales girl, domestic worker 4. ಕೃಷಿಯೇತರ ವಲಯ - ಕಾರ್ಖಾನೆಯ ಕೆಲಸಗಾರ, ಮಾರಾಟ ಮಾಡುವ ಹುಡುಗಿ, ಮನೆಕೆಲಸದಂತಹ ಕೃಷಿಯೇತರ ವಲಯದ ಕೂಲಿ ಕೆಲಸಗಾರ',
+    name: '4.Non farm sector wage worker like factory worker, sales girl, domestic worker  ಕೃಷಿಯೇತರ ವಲಯ - ಕಾರ್ಖಾನೆಯ ಕೆಲಸಗಾರ, ಮಾರಾಟ ಮಾಡುವ ಹುಡುಗಿ, ಮನೆಕೆಲಸದಂತಹ ಕೃಷಿಯೇತರ ವಲಯದ ಕೂಲಿ ಕೆಲಸಗಾರ',
   },
   {
     id: 5,
-    name: 'Business/Self employed like tailor, shop owner 5. ವ್ಯಾಪಾರೀ /ಸ್ವಯಂ ಉದ್ಯೋಗಿ - ಟೈಲರ್, ಅಂಗಡಿ ಮಾಲೀಕರು, ವ್ಯಾಪಾರ/ಸ್ವಯಂ ಉದ್ಯೋಗಿ',
+    name: '5.Business/Self employed like tailor, shop owner  ವ್ಯಾಪಾರೀ /ಸ್ವಯಂ ಉದ್ಯೋಗಿ - ಟೈಲರ್, ಅಂಗಡಿ ಮಾಲೀಕರು, ವ್ಯಾಪಾರ/ಸ್ವಯಂ ಉದ್ಯೋಗಿ',
   },
   {
     id: 6,
-    name: 'Government employee 6. ಸರ್ಕಾರಿ ಉದ್ಯೋಗಿ',
+    name: '6.Government employee  ಸರ್ಕಾರಿ ಉದ್ಯೋಗಿ',
   },
   {
     id: 7,
-    name: 'Private company employee 7. ಖಾಸಗಿ ಕಂಪನಿ ಉದ್ಯೋಗಿ',
+    name: '7.Private company employee  ಖಾಸಗಿ ಕಂಪನಿ ಉದ್ಯೋಗಿ',
   },
   {
     id: 8,
-    name: 'Housewife 8. ಗೃಹಿಣಿ',
+    name: '8.Housewife  ಗೃಹಿಣಿ',
   },
   {
     id: 9,
-    name: 'Student 9. ವಿದ್ಯಾರ್ಥಿ',
+    name: '9.Student  ವಿದ್ಯಾರ್ಥಿ',
   },
   {
     id: 10,
-    name: 'Looking for job 10. ಕೆಲಸ ಹುಡುಕುತ್ತಿರುವ',
+    name: '10.Looking for job  ಕೆಲಸ ಹುಡುಕುತ್ತಿರುವ',
   },
 ];
 export const identifications_cards = [

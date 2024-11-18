@@ -22,7 +22,7 @@ const TextInput = ({
     if (type === 'number' && maxLength) {
       newValue = newValue.replace(/\D/g, '');
       newValue = newValue.slice(0, maxLength);
-      newValue = newValue || '0';
+      newValue = newValue || '';
     }
 
     onChange({
